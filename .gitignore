@@ -17,9 +17,8 @@ git-token
 # Temporary directories for WIP
 tmp_*/
 
-# Docs are auto-build. See .github/workflows/gh_pages_doc.yml
-docs
-
 # gt4py/dace caches
 .gt_cache_*
 .dacecache*
+
+knowledgeDB/site
