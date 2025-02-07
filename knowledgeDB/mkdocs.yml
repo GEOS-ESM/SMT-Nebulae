@@ -2,3 +2,15 @@ site_name: SMT Knowledge Base
 site_url: https://geos-esm.github.io/SMT-Nebulae/
 theme:
   name: material
+nav:
+  - Home: index.md
+  - GEOS:
+    - Local build: GEOS/geos_local_build.md
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
