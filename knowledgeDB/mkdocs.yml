@@ -1,0 +1,4 @@
+site_name: SMT Knowledge Base
+site_url: https://geos-esm.github.io/SMT-Nebulae/
+theme:
+  name: material

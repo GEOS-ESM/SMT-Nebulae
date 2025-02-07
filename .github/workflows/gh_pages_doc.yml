@@ -8,32 +8,10 @@ on:
 
 # security: restrict permissions for CI jobs.
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  # Build the documentation and upload the static HTML files as an artifact.
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-
-      # ADJUST THIS: install all dependencies (including pdoc)
-      - run: pip install -e .
-      # ADJUST THIS: build your documentation into docs/.
-      # We use a custom build script for pdoc itself, ideally you just run `pdoc -o docs/ ...` here.
-      - run: pdoc -o docs/ tcn
-
-      - uses: actions/upload-pages-artifact@v2
-        with:
-          path: docs/
-
-  # Deploy the artifact to GitHub pages.
-  # This is a separate job so that only actions/deploy-pages has the necessary permissions.
   deploy:
-    needs: build
     runs-on: ubuntu-latest
     permissions:
       pages: write
@@ -41,6 +19,19 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    defaults:
+      run:
+        working-directory: ./knowledgeDB
     steps:
-      - id: deployment
-        uses: actions/deploy-pages@v2
+      - uses: actions/setup-python@v5
+        with:
+            python-version: 3.x
+      - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+      - uses: actions/cache@v4
+        with:
+          key: mkdocs-material-${{ env.cache_id }}
+          path: .cache
+          restore-keys: |
+            mkdocs-material-
+      - run: pip install mkdocs-material 
+      - run: mkdocs gh-deploy --force
