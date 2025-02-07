@@ -13,12 +13,6 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     defaults:
       run:
         working-directory: ./knowledgeDB
@@ -27,7 +21,7 @@ jobs:
       - name: Configure Git Credentials
         run: |
           git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git config user.email github-actions[bot]@users.noreply.github.com
       - uses: actions/setup-python@v5
         with:
             python-version: 3.x
