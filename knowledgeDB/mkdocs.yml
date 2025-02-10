@@ -6,6 +6,8 @@ nav:
   - Home: index.md
   - GEOS:
     - Local build: GEOS/geos_local_build.md
+  - Numerical regression:
+    - Translate tests: Porting/translate_test.md
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
