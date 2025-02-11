@@ -97,7 +97,8 @@ Config | Install |  Check  |   Package
 +export FC=gfortran-12
 ```
 
-- Install the [prebuild Python binaries](https://www.python.org/downloads/release/python-3117/)
+* Install the [prebuild Python binaries](https://www.python.org/downloads/release/python-3117/)
+
 * No need to download and install UCX libraries, OSU Benchmark, Python, or Boost libraries from the `download.sh` and `build_0_on-node.sh` scripts .  References to these software packages can be commented out in the respective scripts.
 * Modify the setup of Baselibs in `download.sh` as follows by removing commands after the `git clone` command.
 
@@ -110,7 +111,7 @@ git clone --recurse-submodules -b v$DSLSW_BASELIBS_VER https://github.com/GEOS-E
 -sed -i 's/\/zlib \/szlib \/jpeg \/hdf5 \/hdf \/netcdf,\\/\/ \/zlib \/szlib \/jpeg \/hdf5 \/netcdf,\\/g' GNUmakefile
 ```
 
-- Modify the command to configure OpenMPI in `build_0_on-node.sh`
+* Modify the command to configure OpenMPI in `build_0_on-node.sh`
 
 ```diff
 -./configure --prefix=$DSLSW_INSTALL_DIR/ompi \
@@ -143,7 +144,7 @@ cd $DSLSW_BASE/baselibs-$DSLSW_BASELIBS_VER
 make -j6 install ESMF_COMM=openmpi ESMF_COMPILER=gfortranclang prefix=$DSLSW_INSTALL_DIR/baselibs-$DSLSW_BASELIBS_VER/install/Darwin
 ```
 
-- In `build_1_on-login.sh`, remove the reference to `cupy-cuda12x`.
+* In `build_1_on-login.sh`, remove the reference to `cupy-cuda12x`.
 
 ```diff
 -pip install mpi4py cffi cupy-cuda12x
@@ -153,6 +154,7 @@ make -j6 install ESMF_COMM=openmpi ESMF_COMPILER=gfortranclang prefix=$DSLSW_INS
 ### Notes on building Software stack with Linux Kernel v6.8+
 
 Make the following adjustments before running the above pipeline...
+
 * Adjust `basics.sh` as follows
 
 ```diff
@@ -179,7 +181,7 @@ Make the following adjustments before running the above pipeline...
 +export CXX=g++-12
 ```
 
-- Modify the command to configure OpenMPI in `build_0_on-node.sh`
+* Modify the command to configure OpenMPI in `build_0_on-node.sh`
 
 ```diff
 -./configure --prefix=$DSLSW_INSTALL_DIR/ompi \
