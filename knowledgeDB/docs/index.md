@@ -1,4 +1,4 @@
-# ASTG's Softwware Modernization Team: Knowledge DataBase
+# ASTG's Software Modernization Team: Knowledge DataBase
 
 ## Other documentation
 
