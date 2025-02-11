@@ -8,6 +8,13 @@ nav:
     - Local build: GEOS/geos_local_build.md
   - Numerical regression:
     - Translate tests: Porting/translate_test.md
+  - Backend work:
+    - Overview: backend/index.md
+    - GT4Py/DaCe bridge: backend/dace-bridge.md
+    - Repositories:
+      - NDSL: backend/repositories/ndsl.md
+      - GT4Py: backend/repositories/gt4py.md
+      - DaCe: backend/repositories/dace.md
 markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true

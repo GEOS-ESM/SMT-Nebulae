@@ -43,14 +43,6 @@ Collection of scripts to plot various outputs of GEOS and DSL.
 
 Scripts to download and build the software stack used for the GEOS port.
 
-## Documentation
+## Knowledge Database
 
-Full documentation of this code base.
-
-Build with pdoc with:
-
-```python
-pdoc -o ./docs smtn
-```
-
-Documentation is available on [Github Pages](https://geos-esm.github.io/SMT-Nebulae) and will be build automatically at every `main` commit
+Documentation is available on [Github Pages](https://geos-esm.github.io/SMT-Nebulae) and stored in the [Knowledge Database](./knowledgeDB/README.md).
