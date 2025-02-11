@@ -32,3 +32,23 @@ pip install mkdocs-material
 # Run the built-in development server to look at the documentation locally
 mkdocs serve
 ```
+
+## Notes and quirks
+
+The (left sidebar) navigation allows for either one file, e.g.
+
+```yml
+nav:
+  - Home: index.md
+```
+
+or a hierarchy
+
+```yml
+nav:
+  - Backend work:
+    - dace development: backend/dev-dace.md
+    - gt4py development: backend/dev-gt4py.md
+```
+
+without an index file. Attempting to add an index file in hierarchy, will throw an error when building.
