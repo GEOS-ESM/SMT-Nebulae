@@ -1,6 +1,6 @@
 # SMT Knowledge Base
 
-We are the Software Modernization Team (SMT) of [NASA](https://www.nasa.gov/)'s [Advanced Software Technology Group](https://astg.pages.smce.nasa.gov/website/) (ASTG). Welcome to our knowledge base.
+We are the Software Modernization Team (SMT), part of [ASTG](https://astg.pages.smce.nasa.gov/website/), [NASA](https://www.nasa.gov/)'s Advanced Software Technology Group. Welcome to our knowledge base.
 
 This knowledge base serves to document
 

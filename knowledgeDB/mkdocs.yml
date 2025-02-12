@@ -30,6 +30,10 @@ nav:
       - NDSL: backend/repositories/ndsl.md
       - GT4Py: backend/repositories/gt4py.md
       - DaCe: backend/repositories/dace.md
+  - The Code Nebula:
+    - Overview: tcn/index.md
+    - Packages: tcn/packages.md
+    - Results: tcn/results.md
   - Satellite work:
     - Pace: satellite-work/pace.md
 markdown_extensions:

@@ -10,7 +10,7 @@ Below is a quick summary of the tools/packages present in code. More information
 
 ## Knowledge Base
 
-SMT documentation is available on [Github Pages](https://geos-esm.github.io/SMT-Nebulae) and sourced from the [Knowledge Base](./knowledgeDB/README.md).
+SMT documentation is sourced from the [Knowledge Base](./knowledgeDB/README.md) folder and made available on [Github Pages](https://geos-esm.github.io/SMT-Nebulae).
 
 ## `ci`
 
