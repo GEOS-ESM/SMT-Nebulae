@@ -1,4 +1,15 @@
-# ASTG's Software Modernization Team: Knowledge DataBase
+# SMT Knowledge Base
+
+We are the Software Modernization Team (SMT) of [NASA](https://www.nasa.gov/)'s [Advanced Software Technology Group](https://astg.pages.smce.nasa.gov/website/) (ASTG). Welcome to our knowledge base.
+
+This knowledge base serves to document
+
+- results & progress of the [24-26 project](./Project2426/index.md)
+- how to setup a development environment
+- how to work with GEOS
+- notes on porting
+
+and more. Easiest is to use the search function or browsing the navigation on the side.
 
 ## Other documentation
 

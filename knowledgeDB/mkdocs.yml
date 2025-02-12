@@ -2,10 +2,25 @@ site_name: SMT Knowledge Base
 site_url: https://geos-esm.github.io/SMT-Nebulae/
 theme:
   name: material
+  features:
+    - search.suggest
+    - search.highlight
+    - search.share
 nav:
   - Home: index.md
+  - Project 2426:
+    - Overview: Project2426/index.md
+    - Milestone 1: Project2426/milestone1.md
+    - Milestone 2: Project2426/milestone2.md
+    - Milestone 3: Project2426/milestone3.md
+    - Milestone 4: Project2426/milestone4.md
+  - Dev setup:
+    - Tech stack: dev-setup/tech-stack.md
+    - VSCode config: dev-setup/vscode.md
   - GEOS:
-    - Local build: GEOS/geos_local_build.md
+    - Local build: GEOS/local_build.md
+    - Discover: GEOS/discover_build.md
+    - Validation: GEOS/validation_basics.md
   - Numerical regression:
     - Translate tests: Porting/translate_test.md
   - Backend work:
@@ -15,13 +30,22 @@ nav:
       - NDSL: backend/repositories/ndsl.md
       - GT4Py: backend/repositories/gt4py.md
       - DaCe: backend/repositories/dace.md
+  - Satellite work:
+    - Pace: satellite-work/pace.md
 markdown_extensions:
+  - admonition
+  - footnotes
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+      - name: mermaid
+        class: mermaid
+        format: !!python/name:pymdownx.superfences.fence_code_format
 plugins:
   - drawio
+  - search

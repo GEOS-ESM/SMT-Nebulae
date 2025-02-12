@@ -8,6 +8,10 @@ Shortname for the package is `tcn`.
 
 Below is a quick summary of the tools/packages present in code. More information is package-level READMEs.
 
+## Knowledge Base
+
+SMT documentation is available on [Github Pages](https://geos-esm.github.io/SMT-Nebulae) and sourced from the [Knowledge Base](./knowledgeDB/README.md).
+
 ## `ci`
 
 On-premise CI for the GPU ports of GEOS. Includes validation & benchmark workflows.
@@ -29,7 +33,7 @@ Hardware Sampler - software file socket based package to instrument CPU/GPU usag
 
 ## `benchmark`
 
-Collection of scripts to mine GEOS log for relevant timing informations for DSL and Fortran runs.
+Collection of scripts to mine GEOS log for relevant timing information for DSL and Fortran runs.
 
 ## `py_ftn_interface`
 
@@ -42,7 +46,3 @@ Collection of scripts to plot various outputs of GEOS and DSL.
 ## Software stack builder (`sw_stack`)
 
 Scripts to download and build the software stack used for the GEOS port.
-
-## Knowledge Database
-
-Documentation is available on [Github Pages](https://geos-esm.github.io/SMT-Nebulae) and stored in the [Knowledge Database](./knowledgeDB/README.md).

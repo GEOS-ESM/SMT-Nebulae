@@ -1,6 +1,6 @@
-# Knowledge Database
+# Knowledge Base
 
-This folder contains the source of the knowledge database of the Software Modernization Team (SMT) of NASA's Advanced Software Technology Group (ASTG). The online version is deployed to <https://geos-esm.github.io/SMT-Nebulae/>.
+This folder contains the source of SMT's knowledge base. SMT is part of NASA's Advanced Software Technology Group (ASTG). The online version is deployed to <https://geos-esm.github.io/SMT-Nebulae/>.
 
 ## Contributing
 
@@ -26,8 +26,8 @@ A minimalistic local setup could look like this:
 python -m venv .venv
 source .venv/bin/activate
 
-# Install mkdocs-material into that virtual environment
-pip install mkdocs-material
+# Install mkdocs-material and mkdocs-drawio into that virtual environment
+pip install mkdocs-material mkdocs-drawio
 
 # Run the built-in development server to look at the documentation locally
 mkdocs serve
