@@ -29,7 +29,7 @@ The work is divided in 4 6-months milestone. As part of Milestone 1 (M1) the tea
 
 ## Publicly presented results
 
-- [Supercomputing 23](https://github.com/GEOS-ESM/SMT-Nebulae/wiki/2426-results-SC23) (November 2023)
+- [Supercomputing 23](./results/SC23.md) (November 2023)
 
 ## Relevant previous and surrounding work
 

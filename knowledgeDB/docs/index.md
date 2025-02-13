@@ -6,7 +6,7 @@ This knowledge base serves to document
 
 - results & progress of the [24-26 project](./Project2426/index.md)
 - how to setup a development environment
-- how to work with GEOS
+- how to work with [GEOS](https://github.com/GEOS-ESM/GEOSgcm)
 - notes on porting
 
 and more. Easiest is to use the search function or browsing the navigation on the side.

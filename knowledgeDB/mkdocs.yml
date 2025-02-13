@@ -14,6 +14,8 @@ nav:
     - Milestone 2: Project2426/milestone2.md
     - Milestone 3: Project2426/milestone3.md
     - Milestone 4: Project2426/milestone4.md
+    - Results:
+      - Supercomputing 23: Project2426/results/SC23.md
   - Dev setup:
     - Tech stack: dev-setup/tech-stack.md
     - VSCode config: dev-setup/vscode.md

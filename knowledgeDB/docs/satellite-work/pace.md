@@ -1,6 +1,6 @@
 # Pace
 
-Funded by Vulcan and AI2[^1], the Pace model was a pure python model based on the [GT4Py DSL](https://gridtools.github.io/gt4py/latest/index.html) combined with leveraging [DaCe](https://spcl.inf.ethz.ch/Research/DAPP/) for full program optimization. The model is a port combining the FV3 Dynamical Core and the microphysics of NOAA's GFDL. The two papers published on it are:
+Funded by Vulcan and [AI2](https://allenai.org/)[^1], the Pace model was a pure python model based on the [GT4Py DSL](https://gridtools.github.io/gt4py/latest/index.html) combined with leveraging [DaCe](https://spcl.inf.ethz.ch/Research/DAPP/) for full program optimization. The model is a port combining the [FV3](https://www.gfdl.noaa.gov/fv3/) Dynamical Core and the microphysics of [NOAA's GFDL](https://www.gfdl.noaa.gov/). The two papers published on it are:
 
 - Dahm, Johann et al. “Pace v0.2: a Python-based performance-portable atmospheric model.” Geoscientific Model Development (2023): n. pag. [PDF](https://pdfs.semanticscholar.org/595b/3baa094c347b8c624d485811d72d029f5738.pdf)
 - Ben-Nun, Tal et al. “Productive Performance Engineering for Weather and Climate Modeling with Python.” SC22: International Conference for High Performance Computing, Networking, Storage and Analysis (2022): 1-14. [PDF](https://arxiv.org/pdf/2205.04148)
@@ -22,7 +22,7 @@ The 9 days simulation was stable and produced rain as expected. Below is a plot 
 
 ## Benchmark
 
-The 9 days simulation presented above was computed on the 4056 nodes of the Piz Daint supercomputer with 4056 P100 Nvidia GPUs. The throughput was **0.11 SYPD** or **40.15 SDPD**.
+The 9 days simulation presented above was computed on the 4056 nodes of the [Piz Daint supercomputer](https://www.cscs.ch/computers/piz-daint) with 4056 P100 Nvidia GPUs. The throughput was **0.11 SYPD** or **40.15 SDPD**.
 
 More complete figures for benchmarking on smaller runs are shown below.
 
