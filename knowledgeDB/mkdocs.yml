@@ -16,6 +16,8 @@ nav:
     - Milestone 4: Project2426/milestone4.md
     - Results:
       - Supercomputing 23: Project2426/results/SC23.md
+    - Science Targets: Project2426/science-targets.md
+    - HPC Metrics: Project2426/hpc-metrics.md
   - Dev setup:
     - Tech stack: dev-setup/tech-stack.md
     - VSCode config: dev-setup/vscode.md
@@ -77,4 +79,3 @@ plugins:
 watch:
   # reload when the glossary file is updated
   - includes
-  
