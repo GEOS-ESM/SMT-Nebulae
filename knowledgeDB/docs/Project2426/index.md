@@ -25,7 +25,7 @@ Kanban board and full project breakdown [available on Github project](https://gi
 
 Any questions please email: <florian.g.deconinck@nasa.gov>
 
-The work is divided in 4 6-months milestone. As part of Milestone 1 (M1) the team as defined [science targets](./science-targets.md) and [HPC metrics](./hpc-metrics.md) that'll be reviewed for each benchmark.
+The work is divided in 4 6-months milestone. As part of Milestone 1 (M1) the team as defined [science targets](./results/science-targets.md) and [HPC metrics](./results/hpc-metrics.md) that'll be reviewed for each benchmark.
 
 ## Publicly presented results
 

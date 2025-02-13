@@ -18,19 +18,31 @@
 *[AGCM]: Atmospheric General Circulation Model
 *[CCM]: Chemistry-Climate Model
 *[CPU]: Central Processing Unit
+*[CPUs]: Central Processing Units
 *[CTM]:Chemistry-Transport Model
 *[DaCe]: Data-Centric Parallel Programming
 *[DSL]: Domain Specific Language
 *[ESM]: Earth System Modelling
 *[FV3]: Finite-Volume Cubed-Sphere Dynamical Core
 *[GPU]: Graphics Processing Unit
+*[GPUs]: Graphics Processing Unit
+*[GOCART]: Goddard Chemistry Aerosol Radiation and Transport
 *[GT4Py]: GridTools for Python
 *[HPC]: High Performance Computing
 *[GEOS]: Goddard Earth Observing System
+*[GEOS-FP]: GEOS Forward Processing, daily weather forecast product of GMAO
 *[NDSL]: NOAA/NASA Domain Specific Language middleware
 *[OGCM]: Ocean General Circulation Model
 *[pyFV3]: NDSL port of FV3
 
+<!-- GEOS Fortran names -->
+
+*[GF]: Grell-Freitas, convection scheme
+*[UW]: Shallow convection scheme, initially coded by University of Washington
+
 <!-- other -->
 
+*[DA]: Data assimilation
 *[SC]: Supercomputing conference
+*[SDPD]: Simulated days per day, speed measure for climate runs
+*[SYPD]: Simulated years per day, speed measure for climate runs

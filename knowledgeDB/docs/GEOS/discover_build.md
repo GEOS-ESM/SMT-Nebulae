@@ -14,9 +14,9 @@ Versions of all the software in the stack are present in `/discover/nobackup/pro
 ## Build & Run GEOS
 
 - Git clone the root of GEOS then using `mepo`, you clone the rest of the components which pull on the `components.yaml` at the root of `GEOSgcm`
-  - There are two sources for a component: the default and the `develop` source
-  - `v11.5.2` is our baseline GEOS version (or tag), but we have `dsl/develop` branch where needed
-  - We do not use `develop` for `GEOSgcm_App` or `cmake` since those have been setup for OpenACC but are not up-to-date for `v11.5.2`
+    - There are two sources for a component: the default and the `develop` source
+    - `v11.5.2` is our baseline GEOS version (or tag), but we have `dsl/develop` branch where needed
+    - We do not use `develop` for `GEOSgcm_App` or `cmake` since those have been setup for OpenACC but are not up-to-date for `v11.5.2`
 
 ```bash
 git clone -b dsl/develop git@github.com:GEOS-ESM/GEOSgcm.git geos
@@ -27,7 +27,7 @@ mepo develop env GEOSgcm GEOSgcm_GridComp FVdycoreCubed_GridComp pyFV3
 
 - Use CMake to set up the GEOS makefile that uses the SMT stack.
 - Then `make install`. Grab a coffee (or 2)
-  - We override the compiler with their `mpi` counterpart to make sure `libmpi` is pulled properly. CMake should deal with that, but there's some failure floating around.
+    - We override the compiler with their `mpi` counterpart to make sure `libmpi` is pulled properly. CMake should deal with that, but there's some failure floating around.
 
 Single script to execute both cmake & make to install GEOS:
 
