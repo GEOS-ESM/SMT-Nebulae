@@ -6,7 +6,7 @@
 
 - **NDSL**<br/>
   Follow branch `develop` in [main repo](https://github.com/NOAA-GFDL/NDSL).
-- **gt4py**<br/>
+- **GT4Py**<br/>
   Follow branch `int_cast_aboslute_k_debug` on [Tobia's fork](https://github.com/twicki/gt4py/tree/int_cast_aboslute_k_debug), which includes the following experimental features:
     - `debug` backend: plain python backend for quick prototyping of new DSL features
     - absolute index in `K`, e.g. `field.at(K=42)` or `field.at(K=KLCL)` where `KLCL` itself is a field (and we are reading at center)
@@ -18,7 +18,7 @@
     - `THIS_K` references the current K index
 - **DaCe**<br/>
   default one, as configured in by NDSL
-- **Serialbox**<br/>
+- **[Serialbox](https://github.com/GridTools/serialbox)**<br/>
   Follow brach `feature/data_ijkbuff` on [Florian's fork](https://github.com/FlorianDeconinck/serialbox), which includes the following features:
     - `data_buffered` keyword to allow buffer serialization (scalar by scalar) of Fields
     - `data_writeonly` keyword to allow `real, parameter :: X` style constants to be saved by removing the `read` capacity

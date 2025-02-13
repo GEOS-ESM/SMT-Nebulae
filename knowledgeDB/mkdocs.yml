@@ -47,19 +47,34 @@ nav:
   - Satellite work:
     - Pace: satellite-work/pace.md
 markdown_extensions:
+  # simple glossary file
+  - abbr
+  # support for colored notes / warnings / tips / examples
   - admonition
+  # support for footnotes
   - footnotes
+  # support for syntax highlighting
   - pymdownx.highlight:
       anchor_linenums: true
       line_spans: __span
       pygments_lang_class: true
   - pymdownx.inlinehilite
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      auto_append:
+        # hover tooltips for abbreviations (simple glossary)
+        - includes/glossary.md
   - pymdownx.superfences:
       custom_fences:
+      # support for mermaid graphs
       - name: mermaid
         class: mermaid
         format: !!python/name:pymdownx.superfences.fence_code_format
 plugins:
+  # use drawio diagrams as if they were images
   - drawio
+  # add search box to the header, configuration in theme
   - search
+watch:
+  # reload when the glossary file is updated
+  - includes
+  
