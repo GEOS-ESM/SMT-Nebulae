@@ -23,6 +23,9 @@
 *[DaCe]: Data-Centric Parallel Programming
 *[DSL]: Domain Specific Language
 *[ESM]: Earth System Modelling
+*[FLOP]: Floating Point Operation
+*[FLOPS]: Floating Point Operations Per Second
+*[FLOP/s]: Floating Point Operations Per Second
 *[FV3]: Finite-Volume Cubed-Sphere Dynamical Core
 *[GPU]: Graphics Processing Unit
 *[GPUs]: Graphics Processing Unit
@@ -34,6 +37,8 @@
 *[NDSL]: NOAA/NASA Domain Specific Language middleware
 *[OGCM]: Ocean General Circulation Model
 *[pyFV3]: NDSL port of FV3
+*[TPU]: Tensor Processing Unit
+*[TPUs]: Tensor Processing Units
 
 <!-- GEOS Fortran names -->
 

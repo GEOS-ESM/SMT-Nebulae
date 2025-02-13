@@ -11,7 +11,7 @@ In collaboration with the NCCS, we are listing below a range of metrics that sho
     - Compare CPU node with GPU nodes
     - Minimize generation difference for valid comparison
 - Node usage
-    - Chip usage: measure in % of theoretical throughput rather than FLOPs
+    - Chip usage: measure in % of theoretical throughput rather than FLOP/s
     - Chip idle time: important for hybrid work
 - Minimal hardware requirements
     - For developments
