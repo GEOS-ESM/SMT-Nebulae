@@ -33,4 +33,4 @@ The work is divided in 4 6-months milestone. As part of Milestone 1 (M1) the tea
 
 ## Relevant previous and surrounding work
 
-- Validation and benchmark of the [Pace](../satellite-work/pace.md) model, seeding project to the 24-26 project at NASA
+- Validation and benchmark of the [Pace](../satellite-work/pace.md) model, leading to the 24-26 project at [NASA](https://www.nasa.gov/).
