@@ -22,6 +22,7 @@ nav:
     - Tech stack: dev-setup/tech-stack.md
     - VSCode config: dev-setup/vscode.md
   - GEOS:
+    - Overview: GEOS/index.md
     - Local build: GEOS/local_build.md
     - Discover: GEOS/discover_build.md
     - Validation: GEOS/validation_basics.md

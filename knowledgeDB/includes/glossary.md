@@ -7,7 +7,10 @@
 *[EGU]: European Geosciences Union, and in context of conferences, their general assembly
 *[GFDL]: Geophysical Fluid Dynamics Laboratory, part of NOAA
 *[GMAO]: Global Modelling and Assimilation Office
+*[GSFC]: Goddard Space Flight Centre
+*[MSD]: Modelling Systems Division at NOAA
 *[NASA]: National Aeronautics and Space Administration
+*[NCAR]: National Centre for Atmospheric Research
 *[NCCS]: NASA Center for Climate Simulations
 *[NOAA]: National Oceanic and Atmospheric Administration
 *[SMT]: Software Modernization Team, part of ASTG
@@ -19,7 +22,7 @@
 *[CCM]: Chemistry-Climate Model
 *[CPU]: Central Processing Unit
 *[CPUs]: Central Processing Units
-*[CTM]:Chemistry-Transport Model
+*[CTM]: Chemistry-Transport Model
 *[DaCe]: Data-Centric Parallel Programming
 *[DSL]: Domain Specific Language
 *[ESM]: Earth System Modelling
@@ -37,6 +40,8 @@
 *[NDSL]: NOAA/NASA Domain Specific Language middleware
 *[OGCM]: Ocean General Circulation Model
 *[pyFV3]: NDSL port of FV3
+*[pySHiELD]: NDSL port of SHiELD physics schemes
+*[SHiELD]: System for High-resolution prediction of Earth-to-Local Domains
 *[TPU]: Tensor Processing Unit
 *[TPUs]: Tensor Processing Units
 
