@@ -7,7 +7,7 @@ This folder contains the source of SMT's knowledge base. SMT is part of NASA's A
 Contributing to this documentation is straight forward.
 
 1. Add or change files in the [docs/](docs/) folder as necessary.
-2. [Optional] If you have changes the (side) navigation, modify [mkdocs.yml](mkdocs.yml).
+2. [Optional] If you have changes to the (side) navigation, modify [mkdocs.yml](mkdocs.yml).
 3. [Optional] To look at you changes locally, follow our [local setup guide](#local-setup).
 4. Push your changes.
     - Changes can be pushed directly to the `main` branch.
