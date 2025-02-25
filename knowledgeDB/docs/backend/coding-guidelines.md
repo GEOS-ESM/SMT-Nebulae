@@ -6,6 +6,12 @@ This page documents very general coding guidelines as emerged from team discussi
 
     In case you are contributing to downstream repositories such as [GT4Py](./repositories/gt4py.md) or [DaCe](./repositories/dace.md), be sure to comply with their coding guidelines.
 
-## pytest: `xfail` vs. `raises`
+## pytest:  `raises` vs. `xfail` vs. `skip`
 
-In `pytest`, there are two was to expect test failure. You can either decorate the entire test function with the `@pytest.mark.fail` decorator or use the `pytest.raises` context manager within the test function to specify sections that you are expecting to fail. In general, we prefer `pytest.raises` as long as you can narrowly specify which part is expected to fail.
+In short:
+
+- use `pytest.raises` to check that we raise an exception if the user makes a mistake, e.g. to check that for a program with syntax error we raise an exception.
+- use `xfail` to indicate that a test fails, but should be supported, e.g. because we are missing a feature (or missing a feature for a certain backend).
+- use `skip` to indicate that under a certain condition the test doesn't make sense.
+
+That means: `skip` and `pytest.raises` are used in bugfree cases, `xfail`s are the ones that should be fixed. Further reading in the [pytest docs](https://docs.pytest.org/en/7.1.x/how-to/skipping.html).
