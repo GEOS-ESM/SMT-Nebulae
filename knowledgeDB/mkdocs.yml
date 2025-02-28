@@ -57,6 +57,8 @@ markdown_extensions:
   - admonition
   # support for footnotes
   - footnotes
+  # supercharges admonitions by making them collapsible
+  - pymdownx.details
   # support for syntax highlighting
   - pymdownx.highlight:
       anchor_linenums: true
