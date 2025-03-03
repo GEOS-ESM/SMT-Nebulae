@@ -1,5 +1,5 @@
 # Milestone 2
 
-Current TaskBoard as of Feb 18th
+Current TaskBoard as of March 2nd
 
-![](taskboard.drawio)
+![Taskboard](taskboard.drawio)
