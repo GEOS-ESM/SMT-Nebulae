@@ -9,15 +9,15 @@ theme:
 nav:
   - Home: index.md
   - Project 2426:
-    - Overview: Project2426/index.md
-    - Milestone 1: Project2426/milestone1.md
-    - Milestone 2: Project2426/milestone2.md
-    - Milestone 3: Project2426/milestone3.md
-    - Milestone 4: Project2426/milestone4.md
+    - Overview: project2426/index.md
+    - Milestone 1: project2426/milestone1.md
+    - Milestone 2: project2426/milestone2.md
+    - Milestone 3: project2426/milestone3.md
+    - Milestone 4: project2426/milestone4.md
     - Results:
-      - Supercomputing 23: Project2426/results/SC23.md
-      - Science Targets: Project2426/results/science-targets.md
-      - HPC Metrics: Project2426/results/hpc-metrics.md
+      - Supercomputing 23: project2426/results/SC23.md
+      - Science Targets: project2426/results/science-targets.md
+      - HPC Metrics: project2426/results/hpc-metrics.md
   - Dev setup:
     - Tech stack: dev-setup/tech-stack.md
     - VSCode config: dev-setup/vscode.md
@@ -34,11 +34,12 @@ nav:
         - GFDL_1M: GEOS/components/moist/GFDL_1M.md
         - RAS: GEOS/components/moist/RAS.md
         - UW: GEOS/components/moist/UW.md
-  - Numerical regression:
-    - Translate tests: Porting/translate_test.md
+  - Porting:
+    - Translate tests: porting/translate_test.md
   - Backend work:
     - Overview: backend/index.md
     - GT4Py/DaCe bridge: backend/dace-bridge.md
+    - Coding guidelines: backend/coding-guidelines.md
     - Repositories:
       - NDSL: backend/repositories/ndsl.md
       - GT4Py: backend/repositories/gt4py.md
@@ -56,6 +57,8 @@ markdown_extensions:
   - admonition
   # support for footnotes
   - footnotes
+  # supercharges admonitions by making them collapsible
+  - pymdownx.details
   # support for syntax highlighting
   - pymdownx.highlight:
       anchor_linenums: true

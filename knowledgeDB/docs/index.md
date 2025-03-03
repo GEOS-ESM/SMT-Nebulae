@@ -4,7 +4,7 @@ We are the Software Modernization Team (SMT), part of [ASTG](https://astg.pages.
 
 This knowledge base serves to document
 
-- results & progress of the [24-26 project](./Project2426/index.md)
+- results & progress of the [24-26 project](./project2426/index.md)
 - how to setup a development environment
 - how to work with [GEOS](https://github.com/GEOS-ESM/GEOSgcm)
 - notes on porting
