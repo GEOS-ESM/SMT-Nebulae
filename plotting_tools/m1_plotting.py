@@ -4,368 +4,549 @@ import xarray as xr
 import cartopy.crs as ccrs
 import cartopy.feature as cfeature
 from matplotlib import cm
+import re
 
-observed_data = xr.open_dataset("/Users/ckropiew/misc/NDSL_prog_20150421_1800z.nc4")
-reference_data = xr.open_dataset("/Users/ckropiew/misc/F_prog_20150421_1800z.nc4")
-difference = xr.open_dataset("/Users/ckropiew/misc/diff.nc4")
 
-lat = difference["lat"]
-lon = difference["lon"]
+plot_rmse_diagnostics = False
+plot_box_diagnostics = False
+plot_hist_diagnostics = False
+plot_rmse_mixing_ratios = False
+plot_details = False
+directory = "/home/fgdeconi/work/git/smt/results/benchmarks/25/March_microhysics/"
+# backend = "dacegpu"
+# backend_label = "NDSL GPU (dace:gpu)"
+backend = "gtcpukfirst"
+backend_label = "NDSL CPU (gt:cpu_kfirst)"
+benchmark_call = True
 
-temperature_diff = difference["T"]
-u_diff = difference["U"]
-v_diff = difference["V"]
-omega_diff = difference["OMEGA"]
 
-rh_diff = difference["RH"]
+if __name__ == "__main__":
+    observed_median = xr.open_dataset(
+        f"{directory}/{backend}/stock-v11.5.2-1day-GNU-NH-GDATA-RRTMGP-GFDL-GF2020-OPS-c180-L137.geosgcm_prog.20150421_1800z.nc4"
+    )
+    reference_data = xr.open_dataset(
+        f"{directory}/fortran/stock-v11.5.2-1day-GNU-NH-GDATA-RRTMGP-GFDL-GF2020-OPS-c180-L137.geosgcm_prog.20150421_1800z.nc4"
+    )
+    difference = observed_median - reference_data
 
-qi_diff = difference["QI"]
-ql_diff = difference["QL"]
-qv_diff = difference["QV"]
+    lat = difference["lat"]
+    lon = difference["lon"]
 
-levels = difference["lev"].values
+    temperature_diff = difference["T"]
+    u_diff = difference["U"]
+    v_diff = difference["V"]
+    omega_diff = difference["OMEGA"]
 
-# Calc RMSE of differences
-rmse_t_per_level = np.sqrt((temperature_diff**2).mean(dim=("lat", "lon", "time")))
-rmse_u_per_level = np.sqrt((u_diff**2).mean(dim=("lat", "lon", "time")))
-rmse_v_per_level = np.sqrt((v_diff**2).mean(dim=("lat", "lon", "time")))
-rmse_omega_per_level = np.sqrt((omega_diff**2).mean(dim=("lat", "lon", "time")))
-rmse_rh_per_level = np.sqrt((rh_diff**2).mean(dim=("lat", "lon", "time")))
-rmse_qi_per_level = np.sqrt((qi_diff**2).mean(dim=("lat", "lon", "time")))
-rmse_ql_per_level = np.sqrt((ql_diff**2).mean(dim=("lat", "lon", "time")))
-rmse_qv_per_level = np.sqrt((qv_diff**2).mean(dim=("lat", "lon", "time")))
+    rh_diff = difference["RH"]
 
-# Convert to numpy arrays for plotting
-rmse_t_per_level_values = rmse_t_per_level.values
-rmse_u_per_level_values = rmse_u_per_level.values
-rmse_v_per_level_values = rmse_v_per_level.values
-rmse_omega_per_level_values = rmse_omega_per_level.values
-rmse_rh_per_level_values = rmse_rh_per_level.values
-rmse_qi_per_level_values = rmse_qi_per_level.values
-rmse_ql_per_level_values = rmse_ql_per_level.values
-rmse_qv_per_level_values = rmse_qv_per_level.values
+    qi_diff = difference["QI"]
+    ql_diff = difference["QL"]
+    qv_diff = difference["QV"]
 
-makeplot = False
-if makeplot == True:
+    levels = difference["lev"].values
+
+    # Calc RMSE of differences
+    rmse_t_per_level = np.sqrt((temperature_diff**2).mean(dim=("lat", "lon", "time")))
+    rmse_u_per_level = np.sqrt((u_diff**2).mean(dim=("lat", "lon", "time")))
+    rmse_v_per_level = np.sqrt((v_diff**2).mean(dim=("lat", "lon", "time")))
+    rmse_omega_per_level = np.sqrt((omega_diff**2).mean(dim=("lat", "lon", "time")))
+    rmse_rh_per_level = np.sqrt((rh_diff**2).mean(dim=("lat", "lon", "time")))
+    rmse_qi_per_level = np.sqrt((qi_diff**2).mean(dim=("lat", "lon", "time")))
+    rmse_ql_per_level = np.sqrt((ql_diff**2).mean(dim=("lat", "lon", "time")))
+    rmse_qv_per_level = np.sqrt((qv_diff**2).mean(dim=("lat", "lon", "time")))
+
+    # Convert to numpy arrays for plotting
+    rmse_t_per_level_values = rmse_t_per_level.values
+    rmse_u_per_level_values = rmse_u_per_level.values
+    rmse_v_per_level_values = rmse_v_per_level.values
+    rmse_omega_per_level_values = rmse_omega_per_level.values
+    rmse_rh_per_level_values = rmse_rh_per_level.values
+    rmse_qi_per_level_values = rmse_qi_per_level.values
+    rmse_ql_per_level_values = rmse_ql_per_level.values
+    rmse_qv_per_level_values = rmse_qv_per_level.values
+
     # Plot RMSE for Diagnostic Variables
-    plt.figure(figsize=(8, 10), dpi=300)
+    if plot_rmse_diagnostics:
+        plt.figure(figsize=(8, 10), dpi=300)
 
-    # Plot for Temperature
-    plt.subplot(4, 1, 1)
-    plt.plot(rmse_t_per_level_values, levels, marker="o", linestyle="-", color="b")
-    plt.gca().invert_yaxis()
-    plt.xlabel("RMSE (K)")
-    plt.ylabel("Pressure Level (hPa)")
-    plt.title("Temperature (T)")
-    plt.grid(True)
+        # Plot for Temperature
+        plt.subplot(4, 1, 1)
+        plt.plot(rmse_t_per_level_values, levels, marker="o", linestyle="-", color="b")
+        plt.gca().invert_yaxis()
+        plt.xlabel("RMSE (K)")
+        plt.ylabel("Pressure Level (hPa)")
+        plt.title("Temperature (T)")
+        plt.grid(True)
 
-    # Plot for U
-    plt.subplot(4, 1, 2)
-    plt.plot(rmse_u_per_level_values, levels, marker="o", linestyle="-", color="r")
-    plt.gca().invert_yaxis()
-    plt.xlabel("RMSE (m/s)")
-    plt.ylabel("Pressure Level (hPa)")
-    plt.title("Zonal Wind (U)")
-    plt.grid(True)
+        # Plot for U
+        plt.subplot(4, 1, 2)
+        plt.plot(rmse_u_per_level_values, levels, marker="o", linestyle="-", color="r")
+        plt.gca().invert_yaxis()
+        plt.xlabel("RMSE (m/s)")
+        plt.ylabel("Pressure Level (hPa)")
+        plt.title("Zonal Wind (U)")
+        plt.grid(True)
 
-    # Plot for V
-    plt.subplot(4, 1, 3)
-    plt.plot(rmse_v_per_level_values, levels, marker="o", linestyle="-", color="g")
-    plt.gca().invert_yaxis()
-    plt.xlabel("RMSE (m/s)")
-    plt.ylabel("Pressure Level (hPa)")
-    plt.title("Meridional Wind (V)")
-    plt.grid(True)
+        # Plot for V
+        plt.subplot(4, 1, 3)
+        plt.plot(rmse_v_per_level_values, levels, marker="o", linestyle="-", color="g")
+        plt.gca().invert_yaxis()
+        plt.xlabel("RMSE (m/s)")
+        plt.ylabel("Pressure Level (hPa)")
+        plt.title("Meridional Wind (V)")
+        plt.grid(True)
 
-    # Plot for OMEGA
-    plt.subplot(4, 1, 4)
-    plt.plot(
-        rmse_omega_per_level_values, levels, marker="o", linestyle="-", color="purple"
-    )
-    plt.gca().invert_yaxis()
-    plt.xlabel("RMSE (m/s)")
-    plt.ylabel("Pressure Level (hPa)")
-    plt.title("Vertical Motion (Omega)")
-    plt.grid(True)
+        # Plot for OMEGA
+        plt.subplot(4, 1, 4)
+        plt.plot(
+            rmse_omega_per_level_values,
+            levels,
+            marker="o",
+            linestyle="-",
+            color="purple",
+        )
+        plt.gca().invert_yaxis()
+        plt.xlabel("RMSE (m/s)")
+        plt.ylabel("Pressure Level (hPa)")
+        plt.title("Vertical Motion (Omega)")
+        plt.grid(True)
 
-    plt.tight_layout()
-    plt.savefig("RMSE_diffs_TUVW.png")
-    # plt.show()
+        plt.tight_layout()
+        plt.savefig("RMSE_diffs_TUVW.png")
+        # plt.show()
 
-makeplot = False
-if makeplot == True:
     # Plot RMSE for Mixing Ratios
-    plt.figure(figsize=(8, 10), dpi=300)
+    if plot_rmse_mixing_ratios:
+        plt.figure(figsize=(8, 10), dpi=300)
 
-    # Plot for RH
-    plt.subplot(4, 1, 1)
-    plt.plot(rmse_rh_per_level_values, levels, marker="o", linestyle="-", color="b")
-    plt.gca().invert_yaxis()
-    plt.xlabel("RMSE (%)")
-    plt.ylabel("Pressure Level (hPa)")
-    plt.title("Relative Humidity (RH)")
-    plt.grid(True)
+        # Plot for RH
+        plt.subplot(4, 1, 1)
+        plt.plot(rmse_rh_per_level_values, levels, marker="o", linestyle="-", color="b")
+        plt.gca().invert_yaxis()
+        plt.xlabel("RMSE (%)")
+        plt.ylabel("Pressure Level (hPa)")
+        plt.title("Relative Humidity (RH)")
+        plt.grid(True)
 
-    # Plot for QI
-    plt.subplot(4, 1, 2)
-    plt.plot(rmse_qi_per_level_values, levels, marker="o", linestyle="-", color="r")
-    plt.gca().invert_yaxis()
-    plt.xlabel("RMSE (kg/kg)")
-    plt.ylabel("Pressure Level (hPa)")
-    plt.title("Ice Mixing Ratio (kg/kg)")
-    plt.grid(True)
+        # Plot for QI
+        plt.subplot(4, 1, 2)
+        plt.plot(rmse_qi_per_level_values, levels, marker="o", linestyle="-", color="r")
+        plt.gca().invert_yaxis()
+        plt.xlabel("RMSE (kg/kg)")
+        plt.ylabel("Pressure Level (hPa)")
+        plt.title("Ice Mixing Ratio (kg/kg)")
+        plt.grid(True)
 
-    # Plot for QL
-    plt.subplot(4, 1, 3)
-    plt.plot(rmse_ql_per_level_values, levels, marker="o", linestyle="-", color="g")
-    plt.gca().invert_yaxis()
-    plt.xlabel("RMSE (kg/kg)")
-    plt.ylabel("Pressure Level (hPa)")
-    plt.title("Liquid Mixing Ratio (kg/kg)")
-    plt.grid(True)
+        # Plot for QL
+        plt.subplot(4, 1, 3)
+        plt.plot(rmse_ql_per_level_values, levels, marker="o", linestyle="-", color="g")
+        plt.gca().invert_yaxis()
+        plt.xlabel("RMSE (kg/kg)")
+        plt.ylabel("Pressure Level (hPa)")
+        plt.title("Liquid Mixing Ratio (kg/kg)")
+        plt.grid(True)
 
-    # Plot for QV
-    plt.subplot(4, 1, 4)
-    plt.plot(
-        rmse_qv_per_level_values, levels, marker="o", linestyle="-", color="purple"
-    )
-    plt.gca().invert_yaxis()
-    plt.xlabel("RMSE (kg/kg))")
-    plt.ylabel("Pressure Level (hPa)")
-    plt.title("Vapor Mixing Ratio (kg/kg)")
-    plt.grid(True)
+        # Plot for QV
+        plt.subplot(4, 1, 4)
+        plt.plot(
+            rmse_qv_per_level_values, levels, marker="o", linestyle="-", color="purple"
+        )
+        plt.gca().invert_yaxis()
+        plt.xlabel("RMSE (kg/kg))")
+        plt.ylabel("Pressure Level (hPa)")
+        plt.title("Vapor Mixing Ratio (kg/kg)")
+        plt.grid(True)
 
-    plt.tight_layout()
-    plt.savefig("RMSE_diffs_h2o.png")
-    # plt.show()
+        plt.tight_layout()
+        plt.savefig("RMSE_diffs_h2o.png")
+        # plt.show()
 
+    temperature_diff_flatten = temperature_diff.sel(lev=1000).values.flatten()
+    rh_diff_flatten = rh_diff.sel(lev=1000).values.flatten()
+    u_diff_flatten = u_diff.sel(lev=1000).values.flatten()
+    v_diff_flatten = v_diff.sel(lev=1000).values.flatten()
 
-###### Creating Florian's story
+    # Box plot of the differences in diagnostics variables:
+    if plot_box_diagnostics:
+        # Make boxplots of diffs at 1000hpa level
+        plt.figure(figsize=(8, 10), dpi=300)
 
-## WORST PERFORMANCE AREA
+        # Temperature Difference Box Plot at 1000 hPa
+        plt.subplot(4, 1, 1)
+        plt.boxplot(
+            temperature_diff_flatten[~np.isnan(temperature_diff_flatten)],
+            vert=False,
+            patch_artist=True,
+            boxprops=dict(facecolor="b", color="b"),
+        )
+        plt.xlabel("T Difference (K)")
+        plt.title("Temperature (1000 hPa)")
 
-lons, lats = np.meshgrid(lon, lat)
-cmap_levels = [-20, -15, -10, -5, -2, -1, 0, 1, 2, 5, 10, 15, 20]
+        # Relative Humidity Difference Box Plot at 1000 hPa
+        plt.subplot(4, 1, 2)
+        plt.boxplot(
+            rh_diff_flatten[~np.isnan(rh_diff_flatten)],
+            vert=False,
+            patch_artist=True,
+            boxprops=dict(facecolor="g", color="g"),
+        )
+        plt.xlabel("RH Difference (%)")
+        plt.title("Relative Humidity (1000 hPa)")
 
-# Plot the region of interest
+        # Zonal Wind (U) Difference Box Plot at 1000 hPa
+        plt.subplot(4, 1, 3)
+        plt.boxplot(
+            u_diff_flatten[~np.isnan(u_diff_flatten)],
+            vert=False,
+            patch_artist=True,
+            boxprops=dict(facecolor="r", color="r"),
+        )
+        plt.xlabel("U Difference (m/s)")
+        plt.title("Zonal Wind (U) (1000 hPa)")
 
-# observed
-plt.figure(figsize=(10, 7), dpi=300)
-ax = plt.axes(projection=ccrs.PlateCarree())
-# ax.stock_img()
+        # Meridional Wind (V) Difference Box Plot at 1000 hPa
+        plt.subplot(4, 1, 4)
+        plt.boxplot(
+            v_diff_flatten[~np.isnan(v_diff_flatten)],
+            vert=False,
+            patch_artist=True,
+            boxprops=dict(facecolor="purple", color="purple"),
+        )
+        plt.xlabel("V Difference (m/s)")
+        plt.title("Meridional Wind (V) (1000 hPa)")
 
-ax.coastlines()
-ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
+        # Adjust layout for better readability
+        plt.tight_layout()
+        plt.savefig("boxplots_sfc.png")
 
-ax.set_extent([-50, -15, -35, -20])
+    # Histogram of the differences in diagnostics variables:
+    if plot_hist_diagnostics:
+        # Create a figure with subplots to display the histograms with a smaller x-axis range
+        fig = plt.figure(figsize=(10, 12))
+        fig.suptitle(
+            f"Distribution of differences between {backend_label} and Fortran", size=18
+        )
 
-contour = ax.contourf(
-    lons,
-    lats,
-    observed_data["U"][0, 0, :, :],
-    levels=cmap_levels,
-    cmap="seismic",
-    extend="both",
-)
-cbar = plt.colorbar(
-    contour,
-    ax=ax,
-    orientation="horizontal",
-    shrink=0.7,
-    pad=0.01,
-    label="Wind Difference (m/s)",
-)
+        # Temperature Difference Histogram with smaller x-axis range
+        plt.subplot(4, 1, 1)
+        plt.hist(temperature_diff_flatten, bins=1000, color="b", alpha=0.7)
+        # plt.xlim([-0.5, 0.5])  # Narrowing the x-axis range
+        plt.xlabel("Temperature Difference (K)")
+        plt.ylabel("Frequency")
+        plt.title("Temperature")
 
-plt.title("NDSL U Field", size=25)
-plt.tight_layout()
-plt.savefig("U_NDSL_brazil.png")
+        # Relative Humidity Difference Histogram with smaller x-axis range
+        plt.subplot(4, 1, 2)
+        plt.hist(rh_diff_flatten, bins=1000, color="g", alpha=0.7)
+        # plt.xlim([-0.005, 0.005])  # Narrowing the x-axis range
+        plt.xlabel("Relative Humidity Difference (%)")
+        plt.ylabel("Frequency")
+        plt.title("Relative Humidity")
 
-# reference
-plt.figure(figsize=(10, 7), dpi=300)
-ax = plt.axes(projection=ccrs.PlateCarree())
-# ax.stock_img()
+        # Zonal Wind (U) Difference Histogram with smaller x-axis range
+        plt.subplot(4, 1, 3)
+        plt.hist(u_diff_flatten, bins=1000, color="r", alpha=0.7)
+        # plt.xlim([-0.5, 0.5])  # Narrowing the x-axis range
+        plt.xlabel("Zonal Wind U (m/s)")
+        plt.ylabel("Frequency")
+        plt.title("Zonal Wind (U)")
 
-ax.coastlines()
-ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
+        # Meridional Wind (V) Difference Histogram with smaller x-axis range
+        plt.subplot(4, 1, 4)
+        plt.hist(v_diff_flatten, bins=1000, color="purple", alpha=0.7)
+        # plt.xlim([-0.5, 0.5])  # Narrowing the x-axis range
+        plt.xlabel("Meridional Wind V (m/s)")
+        plt.ylabel("Frequency")
+        plt.title("Meridional Wind (V)")
 
-ax.set_extent([-50, -15, -35, -20])
+        # Adjust layout for readability
+        plt.tight_layout()
+        plt.savefig(f"hist__{backend}_v_Fortran__sfc.png")
 
-contour = ax.contourf(
-    lons,
-    lats,
-    reference_data["U"][0, 0, :, :],
-    levels=cmap_levels,
-    cmap="seismic",
-    extend="both",
-)
-cbar = plt.colorbar(
-    contour,
-    ax=ax,
-    orientation="horizontal",
-    shrink=0.7,
-    pad=0.01,
-    label="Wind Difference (m/s)",
-)
+    # Plot details
+    if plot_details:
+        # WORST PERFORMANCE AREA
 
-plt.title("Fortran U Field", size=25)
-plt.tight_layout()
-plt.savefig("U_Fortran_brazil.png")
+        lons, lats = np.meshgrid(lon, lat)
+        cmap_levels = [-20, -15, -10, -5, -2, -1, 0, 1, 2, 5, 10, 15, 20]
 
-# difference
-plt.figure(figsize=(10, 7), dpi=300)
-ax = plt.axes(projection=ccrs.PlateCarree())
-# ax.stock_img()
+        # Plot the region of interest
 
-ax.coastlines()
-ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
+        # observed
+        plt.figure(figsize=(10, 7), dpi=300)
+        ax = plt.axes(projection=ccrs.PlateCarree())
+        # ax.stock_img()
 
-ax.set_extent([-50, -15, -35, -20])
+        ax.coastlines()
+        ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
 
-contour = ax.contourf(
-    lons,
-    lats,
-    difference["U"][0, 0, :, :],
-    levels=cmap_levels,
-    cmap="seismic",
-    extend="both",
-)
-cbar = plt.colorbar(
-    contour,
-    ax=ax,
-    orientation="horizontal",
-    shrink=0.7,
-    pad=0.01,
-    label="Wind Difference (m/s)",
-)
+        ax.set_extent([-50, -15, -35, -20])
 
-plt.title("Difference (Fortran - NDSL) U Field", size=25)
-plt.tight_layout()
-plt.savefig("U_difference_brazil.png")
+        contour = ax.contourf(
+            lons,
+            lats,
+            observed_median["U"][0, 0, :, :],
+            levels=cmap_levels,
+            cmap="seismic",
+            extend="both",
+        )
+        cbar = plt.colorbar(
+            contour,
+            ax=ax,
+            orientation="horizontal",
+            shrink=0.7,
+            pad=0.01,
+            label="Wind Difference (m/s)",
+        )
 
+        plt.title("NDSL U Field", size=25)
+        plt.tight_layout()
+        plt.savefig("U_NDSL_brazil.png")
 
-## BETTER PERFORMANCE AREA chosen semi-randomly (numbers chosen without looking at data)
+        # reference
+        plt.figure(figsize=(10, 7), dpi=300)
+        ax = plt.axes(projection=ccrs.PlateCarree())
+        # ax.stock_img()
 
-# observed
-plt.figure(figsize=(10, 7), dpi=300)
-ax = plt.axes(projection=ccrs.PlateCarree())
-# ax.stock_img()
+        ax.coastlines()
+        ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
 
-ax.coastlines()
-ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
+        ax.set_extent([-50, -15, -35, -20])
 
-ax.set_extent([-180, -145, 45, 30])
+        contour = ax.contourf(
+            lons,
+            lats,
+            reference_data["U"][0, 0, :, :],
+            levels=cmap_levels,
+            cmap="seismic",
+            extend="both",
+        )
+        cbar = plt.colorbar(
+            contour,
+            ax=ax,
+            orientation="horizontal",
+            shrink=0.7,
+            pad=0.01,
+            label="Wind Difference (m/s)",
+        )
 
-contour = ax.contourf(
-    lons,
-    lats,
-    observed_data["U"][0, 0, :, :],
-    levels=cmap_levels,
-    cmap="seismic",
-    extend="both",
-)
-cbar = plt.colorbar(
-    contour,
-    ax=ax,
-    orientation="horizontal",
-    shrink=0.7,
-    pad=0.01,
-    label="Wind Difference (m/s)",
-)
+        plt.title("Fortran U Field", size=25)
+        plt.tight_layout()
+        plt.savefig("U_Fortran_brazil.png")
 
-plt.title("NDSL U Field", size=25)
-plt.tight_layout()
-plt.savefig("U_NDSL_northpacific.png")
+        # difference
+        plt.figure(figsize=(10, 7), dpi=300)
+        ax = plt.axes(projection=ccrs.PlateCarree())
+        # ax.stock_img()
 
-# reference
-plt.figure(figsize=(10, 7), dpi=300)
-ax = plt.axes(projection=ccrs.PlateCarree())
-# ax.stock_img()
+        ax.coastlines()
+        ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
 
-ax.coastlines()
-ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
+        ax.set_extent([-50, -15, -35, -20])
 
-ax.set_extent([-180, -145, 45, 30])
+        contour = ax.contourf(
+            lons,
+            lats,
+            difference["U"][0, 0, :, :],
+            levels=cmap_levels,
+            cmap="seismic",
+            extend="both",
+        )
+        cbar = plt.colorbar(
+            contour,
+            ax=ax,
+            orientation="horizontal",
+            shrink=0.7,
+            pad=0.01,
+            label="Wind Difference (m/s)",
+        )
 
-contour = ax.contourf(
-    lons,
-    lats,
-    reference_data["U"][0, 0, :, :],
-    levels=cmap_levels,
-    cmap="seismic",
-    extend="both",
-)
-cbar = plt.colorbar(
-    contour,
-    ax=ax,
-    orientation="horizontal",
-    shrink=0.7,
-    pad=0.01,
-    label="Wind Difference (m/s)",
-)
+        plt.title("Difference (Fortran - NDSL) U Field", size=25)
+        plt.tight_layout()
+        plt.savefig("U_difference_brazil.png")
 
-plt.title("Fortran U Field", size=25)
-plt.tight_layout()
-plt.savefig("U_Fortran_northpacific.png")
+        ## BETTER PERFORMANCE AREA chosen semi-randomly (numbers chosen without looking at data)
 
-# difference
-plt.figure(figsize=(10, 7), dpi=300)
-ax = plt.axes(projection=ccrs.PlateCarree())
-# ax.stock_img()
+        # observed
+        plt.figure(figsize=(10, 7), dpi=300)
+        ax = plt.axes(projection=ccrs.PlateCarree())
+        # ax.stock_img()
 
-ax.coastlines()
-ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
+        ax.coastlines()
+        ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
 
-ax.set_extent([-180, -145, 45, 30])
+        ax.set_extent([-180, -145, 45, 30])
 
-contour = ax.contourf(
-    lons,
-    lats,
-    difference["U"][0, 0, :, :],
-    levels=cmap_levels,
-    cmap="seismic",
-    extend="both",
-)
-cbar = plt.colorbar(
-    contour,
-    ax=ax,
-    orientation="horizontal",
-    shrink=0.7,
-    pad=0.01,
-    label="Wind Difference (m/s)",
-)
+        contour = ax.contourf(
+            lons,
+            lats,
+            observed_median["U"][0, 0, :, :],
+            levels=cmap_levels,
+            cmap="seismic",
+            extend="both",
+        )
+        cbar = plt.colorbar(
+            contour,
+            ax=ax,
+            orientation="horizontal",
+            shrink=0.7,
+            pad=0.01,
+            label="Wind Difference (m/s)",
+        )
 
-plt.title("Difference (Fortran - NDSL) U Field", size=25)
-plt.tight_layout()
-plt.savefig("U_diff_northpacific.png")
+        plt.title("NDSL U Field", size=25)
+        plt.tight_layout()
+        plt.savefig("U_NDSL_northpacific.png")
 
+        # reference
+        plt.figure(figsize=(10, 7), dpi=300)
+        ax = plt.axes(projection=ccrs.PlateCarree())
+        # ax.stock_img()
 
-# difference whole map
-plt.figure(figsize=(10, 7), dpi=300)
-ax = plt.axes(projection=ccrs.PlateCarree())
-# ax.stock_img()
+        ax.coastlines()
+        ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
 
-ax.coastlines()
-ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
+        ax.set_extent([-180, -145, 45, 30])
 
-# ax.set_extent([-180, -145, 45, 30])
+        contour = ax.contourf(
+            lons,
+            lats,
+            reference_data["U"][0, 0, :, :],
+            levels=cmap_levels,
+            cmap="seismic",
+            extend="both",
+        )
+        cbar = plt.colorbar(
+            contour,
+            ax=ax,
+            orientation="horizontal",
+            shrink=0.7,
+            pad=0.01,
+            label="Wind Difference (m/s)",
+        )
 
-contour = ax.contourf(
-    lons,
-    lats,
-    difference["U"][0, 0, :, :],
-    levels=cmap_levels,
-    cmap="seismic",
-    extend="both",
-)
-cbar = plt.colorbar(
-    contour,
-    ax=ax,
-    orientation="horizontal",
-    shrink=0.7,
-    pad=0.01,
-    label="Wind Difference (m/s)",
-)
+        plt.title("Fortran U Field", size=25)
+        plt.tight_layout()
+        plt.savefig("U_Fortran_northpacific.png")
 
-plt.title("Difference (Fortran - NDSL) U Field", size=25)
-plt.tight_layout()
-plt.savefig("U_diff_world.png")
+        # difference
+        plt.figure(figsize=(10, 7), dpi=300)
+        ax = plt.axes(projection=ccrs.PlateCarree())
+        # ax.stock_img()
+
+        ax.coastlines()
+        ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
+
+        ax.set_extent([-180, -145, 45, 30])
+
+        contour = ax.contourf(
+            lons,
+            lats,
+            difference["U"][0, 0, :, :],
+            levels=cmap_levels,
+            cmap="seismic",
+            extend="both",
+        )
+        cbar = plt.colorbar(
+            contour,
+            ax=ax,
+            orientation="horizontal",
+            shrink=0.7,
+            pad=0.01,
+            label="Wind Difference (m/s)",
+        )
+
+        plt.title("Difference (Fortran - NDSL) U Field", size=25)
+        plt.tight_layout()
+        plt.savefig("U_diff_northpacific.png")
+
+        # difference whole map
+        plt.figure(figsize=(10, 7), dpi=300)
+        ax = plt.axes(projection=ccrs.PlateCarree())
+        # ax.stock_img()
+
+        ax.coastlines()
+        ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
+
+        # ax.set_extent([-180, -145, 45, 30])
+
+        contour = ax.contourf(
+            lons,
+            lats,
+            difference["U"][0, 0, :, :],
+            levels=cmap_levels,
+            cmap="seismic",
+            extend="both",
+        )
+        cbar = plt.colorbar(
+            contour,
+            ax=ax,
+            orientation="horizontal",
+            shrink=0.7,
+            pad=0.01,
+            label="Wind (m/s)",
+        )
+
+        plt.title(
+            f"Zonal Wind U Field Differences (Fortran - {backend_label})", size=18
+        )
+        plt.tight_layout()
+        plt.savefig("U_diff_world.png")
+
+        contour = ax.contourf(
+            lons,
+            lats,
+            reference_data["U"][0, 0, :, :],
+            levels=cmap_levels,
+            cmap="seismic",
+            extend="both",
+        )
+
+        plt.title("Zonal Wind U Field from reference Fortran", size=18)
+        plt.tight_layout()
+        plt.savefig("U_fortran_world.png")
+
+        contour = ax.contourf(
+            lons,
+            lats,
+            observed_median["U"][0, 0, :, :],
+            levels=cmap_levels,
+            cmap="seismic",
+            extend="both",
+        )
+        plt.title(f"Zonal Wind U Field from {backend_label}", size=18)
+        plt.tight_layout()
+        plt.savefig("U_dacegpu_world.png")
+
+    # Plot benchmark numbers
+    if benchmark_call:
+        numeric_const_pattern = (
+            "[-+]? (?: (?: \d* \. \d+ ) | (?: \d+ \.? ) )(?: [Ee] [+-]? \d+ ) ?"  # noqa
+        )
+        rx = re.compile(numeric_const_pattern, re.VERBOSE)
+
+        observed_timings = []
+        observed_median_timings = 0
+        with open(f"{directory}/{backend}/BENCH.{backend}.timings.out") as f:
+            for line in f.readlines():
+                observed_timings.append((float(rx.findall(line)[2])))
+
+        reference_timings = []
+        reference_median = 0
+        with open(f"{directory}/fortran/BENCH.fortran.timings.out") as f:
+            for line in f.readlines():
+                reference_timings.append((float(rx.findall(line)[2])))
+
+        reference_median = np.percentile(
+            reference_timings, 95, method="median_unbiased"
+        )
+        observed_median = np.percentile(observed_timings, 95, method="median_unbiased")
+
+        print(f"Fortran {reference_median}")
+        print(f"{backend_label} {observed_median}")
+
+        if reference_median < observed_median:
+            speed_up = -1.0 * (observed_median / reference_median)
+        else:
+            speed_up = reference_median / observed_median
+        print("Speed up:", speed_up)
