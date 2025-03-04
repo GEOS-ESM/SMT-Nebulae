@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="Oi6eNHbNN4b7aSkW7Dm6" name="Page-1">
-        <mxGraphModel dx="8180" dy="6694" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+        <mxGraphModel dx="3380" dy="5073" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -54,7 +54,7 @@
                 <mxCell id="32" style="edgeStyle=none;html=1;" parent="1" source="5" target="6" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="5" value="🌏 - GEOS&lt;br&gt;GFDL 1M Numerical Validation" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" parent="1" vertex="1">
+                <mxCell id="5" value="🌏 - GEOS&lt;br&gt;GFDL 1M Numerical Validation" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
                     <mxGeometry x="420" y="-70" width="130" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="28" style="edgeStyle=none;html=1;" parent="1" source="6" target="7" edge="1">
@@ -67,7 +67,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="6" value="🌏 - GEOS&lt;br&gt;GFDL 1M&amp;nbsp;GEOS&lt;br&gt;integration" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" parent="1" vertex="1">
+                <mxCell id="6" value="🌏 - GEOS&lt;br&gt;GFDL 1M&amp;nbsp;GEOS&lt;br&gt;integration" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
                     <mxGeometry x="420" y="-160" width="130" height="60" as="geometry"/>
                 </mxCell>
                 <mxCell id="26" style="edgeStyle=none;html=1;" parent="1" source="7" target="318" edge="1">
@@ -603,7 +603,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="376" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="214" target="207">
+                <mxCell id="376" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="214" target="207" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="1490" y="-1330"/>
@@ -937,13 +937,13 @@
                 <mxCell id="310" value="External Blocker" style="shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;" parent="303" vertex="1">
                     <mxGeometry x="40" y="250" width="240" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="361" value="T1 &amp;amp; T2 : ToDo&lt;div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="303">
+                <mxCell id="361" value="T1 &amp;amp; T2 : ToDo&lt;div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="303" vertex="1">
                     <mxGeometry x="290" y="150" width="120" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="363" value="T1 &amp;amp; T2 : Done&lt;div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="303">
+                <mxCell id="363" value="T1 &amp;amp; T2 : Done&lt;div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="303" vertex="1">
                     <mxGeometry x="290" y="180" width="120" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="364" value="T3 &amp;amp; T4 : Done&lt;div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="303">
+                <mxCell id="364" value="T3 &amp;amp; T4 : Done&lt;div&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="303" vertex="1">
                     <mxGeometry x="430" y="150" width="120" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="311" value="&lt;h1&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Software Modernization Team - Taskboard&lt;/span&gt;&lt;/h1&gt;&lt;h1 style=&quot;line-height: 100%;&quot;&gt;&lt;span style=&quot;background-color: initial; font-size: 20px; font-weight: normal; line-height: 100%;&quot;&gt;All tasks and deliverable mapped sufficiently to be executed now.&lt;/span&gt;&lt;/h1&gt;&lt;div style=&quot;line-height: 100%;&quot;&gt;&lt;span style=&quot;background-color: initial; font-size: 20px; font-weight: normal;&quot;&gt;Current for Milestone 2 - March 2025 / August 2025 (inclusive)&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial; line-height: 100%;&quot;&gt;Do not contain further objectives, ideas and refactors deemed a later priority.&lt;/span&gt;&lt;/div&gt;" style="text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=20;" parent="1" vertex="1">
@@ -994,7 +994,7 @@
                 <mxCell id="111" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#F0F0F0;" parent="1" source="70" target="51" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="365" style="edgeStyle=none;html=1;" edge="1" parent="1" source="70" target="51">
+                <mxCell id="365" style="edgeStyle=none;html=1;" parent="1" source="70" target="51" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="70" value="&lt;b&gt;{...}&lt;/b&gt;&amp;nbsp;- GT4Py&lt;br&gt;Physics DSL&lt;br&gt;Experimental feature set" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" parent="1" vertex="1">
@@ -1125,7 +1125,7 @@
                         <mxPoint x="2459" y="70" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="359" style="edgeStyle=none;html=1;" edge="1" parent="1" source="224" target="358">
+                <mxCell id="359" style="edgeStyle=none;html=1;" parent="1" source="224" target="358" edge="1">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
                 <mxCell id="224" value="&lt;div&gt;&lt;/div&gt;&lt;b&gt;{...}&lt;/b&gt;&amp;nbsp; - DaCe&lt;br&gt;&lt;br&gt;Stree Trivial Merge" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
@@ -1140,16 +1140,16 @@
                 <mxCell id="353" value="GT4Py Bugs" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;dashed=1;strokeWidth=3;opacity=50;fontSize=24;fontFamily=Courier New;fontColor=light-dark(#FF00FF,#FF3333);" parent="1" vertex="1">
                     <mxGeometry x="273.5" y="956.4300000000001" width="193" height="85.57" as="geometry"/>
                 </mxCell>
-                <mxCell id="357" value="NDSL" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;dashed=1;strokeWidth=3;opacity=50;fontSize=24;fontFamily=Courier New;fontColor=light-dark(#FF00FF,#B3FF66);" parent="1" vertex="1">
+                <mxCell id="357" value="Tools" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;dashed=1;strokeWidth=3;opacity=50;fontSize=24;fontFamily=Courier New;fontColor=light-dark(#FF00FF,#B3FF66);" parent="1" vertex="1">
                     <mxGeometry x="-779" y="1134.4245901639347" width="143" height="85.57377049180329" as="geometry"/>
                 </mxCell>
-                <mxCell id="358" value="&lt;div&gt;&lt;/div&gt;&lt;b&gt;{...}&lt;/b&gt;&amp;nbsp; - DaCe&lt;br&gt;&lt;br&gt;InlineThreadLocalTransients" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                <mxCell id="358" value="&lt;div&gt;&lt;/div&gt;&lt;b&gt;{...}&lt;/b&gt;&amp;nbsp; - DaCe&lt;br&gt;&lt;br&gt;InlineThreadLocalTransients" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
                     <mxGeometry x="2150" y="720" width="220" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="360" value="🚆&amp;nbsp;- Training&lt;br&gt;&lt;br&gt;How to HPC for junior atmos scientists" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+                <mxCell id="360" value="🚆&amp;nbsp;- Training&lt;br&gt;&lt;br&gt;How to HPC for junior atmos scientists" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;" parent="1" vertex="1">
                     <mxGeometry x="-1690" y="1046" width="230" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="368" style="edgeStyle=none;html=1;" edge="1" parent="1" source="367" target="70">
+                <mxCell id="368" style="edgeStyle=none;html=1;" parent="1" source="367" target="70" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="710" y="1314"/>
@@ -1159,11 +1159,11 @@
                     </mxGeometry>
                 </mxCell>
                 <object label="&lt;div&gt;&lt;/div&gt;&lt;b&gt;{...}&lt;/b&gt;&amp;nbsp; - GT4Py&lt;br&gt;Physics DSL&lt;br&gt;Absolute K index + data dim on numpy" id="367">
-                    <mxCell style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fad9d5;strokeColor=#ae4132;" vertex="1" parent="1">
+                    <mxCell style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fad9d5;strokeColor=#ae4132;" parent="1" vertex="1">
                         <mxGeometry x="750" y="1284.42" width="220" height="60" as="geometry"/>
                     </mxCell>
                 </object>
-                <mxCell id="370" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="369" target="70">
+                <mxCell id="370" style="edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" parent="1" source="369" target="70" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
                             <mxPoint x="1100" y="1380"/>
@@ -1174,11 +1174,11 @@
                     </mxGeometry>
                 </mxCell>
                 <object label="&lt;div&gt;&lt;/div&gt;&lt;b&gt;{...}&lt;/b&gt;&amp;nbsp; - GT4Py&lt;br&gt;Physics DSL&lt;br&gt;Int/Float cast" id="369">
-                    <mxCell style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fad9d5;strokeColor=#ae4132;" vertex="1" parent="1">
+                    <mxCell style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fad9d5;strokeColor=#ae4132;" parent="1" vertex="1">
                         <mxGeometry x="990" y="1284.42" width="220" height="60" as="geometry"/>
                     </mxCell>
                 </object>
-                <mxCell id="373" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="214" target="202">
+                <mxCell id="373" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="214" target="202" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1487" y="-1290" as="sourcePoint"/>
                         <mxPoint x="1379" y="-1420" as="targetPoint"/>
@@ -1188,7 +1188,7 @@
                         </Array>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="374" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="214" target="204">
+                <mxCell id="374" style="edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;" parent="1" source="214" target="204" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="1488" y="-1290" as="sourcePoint"/>
                         <mxPoint x="1529" y="-1420" as="targetPoint"/>

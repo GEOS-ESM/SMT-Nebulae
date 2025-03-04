@@ -11,8 +11,8 @@ A plethora of extensions are available for VSCode. Most of them target streamlin
 - [H5Web](https://marketplace.visualstudio.com/items?itemName=h5web.vscode-h5web) for `netcdf` inline viewing
 - [DaCe SDFG Editor](https://marketplace.visualstudio.com/items?itemName=phschaad.sdfv) (in case you work with DaCe graphs)
 - your standard set of `git` extensions
-    - [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens) (in-code `git blame`)
-    - [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph) (clean git graphs)
+  - [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens) (in-code `git blame`)
+  - [Git Graph](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph) (clean git graphs)
 - [Live Share](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare) (remote pair-programming)
 - [Draw.io Integration](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio) (draw & share graphs directly from within VSCode - we've seen scaling errors when mixed with graphs created from the website)
 - [Mermaid support for Markdown preview](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid)
@@ -23,6 +23,7 @@ While `pre-commit` is the source of truth, having format on save support in the 
 
 1. Install the "Black Formatter" extension (see above)
 2. Configure "Black Formatter" as the default formatter for python files and enable format on save. In `.vscode/settings.json` add
+
 ```json
 {
     "[python]": {
