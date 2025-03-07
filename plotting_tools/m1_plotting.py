@@ -9,30 +9,30 @@ import re
 
 plot_rmse_diagnostics = False
 plot_box_diagnostics = False
-plot_hist_diagnostics = False
+plot_hist_diagnostics = True
 plot_rmse_mixing_ratios = False
 plot_details = False
-directory = "/home/fgdeconi/work/git/smt/results/benchmarks/25/March_microhysics/"
+directory = "/Users/ckropiew/data"
 # backend = "dacegpu"
 # backend_label = "NDSL GPU (dace:gpu)"
 backend = "gtcpukfirst"
 backend_label = "NDSL CPU (gt:cpu_kfirst)"
-benchmark_call = True
+benchmark_call = False
 
 
 if __name__ == "__main__":
-    observed_median = xr.open_dataset(
+    python_data = xr.open_dataset(
         f"{directory}/{backend}/stock-v11.5.2-1day-GNU-NH-GDATA-RRTMGP-GFDL-GF2020-OPS-c180-L137.geosgcm_prog.20150421_1800z.nc4"
     )
-    reference_data = xr.open_dataset(
+    fortran_data = xr.open_dataset(
         f"{directory}/fortran/stock-v11.5.2-1day-GNU-NH-GDATA-RRTMGP-GFDL-GF2020-OPS-c180-L137.geosgcm_prog.20150421_1800z.nc4"
     )
-    difference = observed_median - reference_data
+    difference = python_data - fortran_data
 
     lat = difference["lat"]
     lon = difference["lon"]
 
-    temperature_diff = difference["T"]
+    temperature_diff = difference["T"][:, :, 0:-1]
     u_diff = difference["U"]
     v_diff = difference["V"]
     omega_diff = difference["OMEGA"]
@@ -230,7 +230,14 @@ if __name__ == "__main__":
         # Temperature Difference Histogram with smaller x-axis range
         plt.subplot(4, 1, 1)
         plt.hist(temperature_diff_flatten, bins=1000, color="b", alpha=0.7)
-        # plt.xlim([-0.5, 0.5])  # Narrowing the x-axis range
+        plt.xlim(
+            [
+                np.nanmean(temperature_diff_flatten)
+                - (10 * np.nanstd(temperature_diff_flatten)),
+                np.nanmean(temperature_diff_flatten)
+                + (10 * np.nanstd(temperature_diff_flatten)),
+            ]
+        )  # Narrowing the x-axis range
         plt.xlabel("Temperature Difference (K)")
         plt.ylabel("Frequency")
         plt.title("Temperature")
@@ -238,7 +245,12 @@ if __name__ == "__main__":
         # Relative Humidity Difference Histogram with smaller x-axis range
         plt.subplot(4, 1, 2)
         plt.hist(rh_diff_flatten, bins=1000, color="g", alpha=0.7)
-        # plt.xlim([-0.005, 0.005])  # Narrowing the x-axis range
+        plt.xlim(
+            [
+                np.nanmean(rh_diff_flatten) - (10 * np.nanstd(rh_diff_flatten)),
+                np.nanmean(rh_diff_flatten) + (10 * np.nanstd(rh_diff_flatten)),
+            ]
+        )  # Narrowing the x-axis range
         plt.xlabel("Relative Humidity Difference (%)")
         plt.ylabel("Frequency")
         plt.title("Relative Humidity")
@@ -246,7 +258,12 @@ if __name__ == "__main__":
         # Zonal Wind (U) Difference Histogram with smaller x-axis range
         plt.subplot(4, 1, 3)
         plt.hist(u_diff_flatten, bins=1000, color="r", alpha=0.7)
-        # plt.xlim([-0.5, 0.5])  # Narrowing the x-axis range
+        plt.xlim(
+            [
+                np.nanmean(u_diff_flatten) - (10 * np.nanstd(u_diff_flatten)),
+                np.nanmean(u_diff_flatten) + (10 * np.nanstd(u_diff_flatten)),
+            ]
+        )  # Narrowing the x-axis range
         plt.xlabel("Zonal Wind U (m/s)")
         plt.ylabel("Frequency")
         plt.title("Zonal Wind (U)")
@@ -254,7 +271,12 @@ if __name__ == "__main__":
         # Meridional Wind (V) Difference Histogram with smaller x-axis range
         plt.subplot(4, 1, 4)
         plt.hist(v_diff_flatten, bins=1000, color="purple", alpha=0.7)
-        # plt.xlim([-0.5, 0.5])  # Narrowing the x-axis range
+        plt.xlim(
+            [
+                np.nanmean(v_diff_flatten) - (10 * np.nanstd(v_diff_flatten)),
+                np.nanmean(v_diff_flatten) + (10 * np.nanstd(v_diff_flatten)),
+            ]
+        )  # Narrowing the x-axis range
         plt.xlabel("Meridional Wind V (m/s)")
         plt.ylabel("Frequency")
         plt.title("Meridional Wind (V)")
@@ -285,7 +307,7 @@ if __name__ == "__main__":
         contour = ax.contourf(
             lons,
             lats,
-            observed_median["U"][0, 0, :, :],
+            python_data["U"][0, 0, :, :],
             levels=cmap_levels,
             cmap="seismic",
             extend="both",
@@ -316,7 +338,7 @@ if __name__ == "__main__":
         contour = ax.contourf(
             lons,
             lats,
-            reference_data["U"][0, 0, :, :],
+            fortran_data["U"][0, 0, :, :],
             levels=cmap_levels,
             cmap="seismic",
             extend="both",
@@ -380,7 +402,7 @@ if __name__ == "__main__":
         contour = ax.contourf(
             lons,
             lats,
-            observed_median["U"][0, 0, :, :],
+            python_data["U"][0, 0, :, :],
             levels=cmap_levels,
             cmap="seismic",
             extend="both",
@@ -411,7 +433,7 @@ if __name__ == "__main__":
         contour = ax.contourf(
             lons,
             lats,
-            reference_data["U"][0, 0, :, :],
+            fortran_data["U"][0, 0, :, :],
             levels=cmap_levels,
             cmap="seismic",
             extend="both",
@@ -496,7 +518,7 @@ if __name__ == "__main__":
         contour = ax.contourf(
             lons,
             lats,
-            reference_data["U"][0, 0, :, :],
+            fortran_data["U"][0, 0, :, :],
             levels=cmap_levels,
             cmap="seismic",
             extend="both",
@@ -509,7 +531,7 @@ if __name__ == "__main__":
         contour = ax.contourf(
             lons,
             lats,
-            observed_median["U"][0, 0, :, :],
+            python_data["U"][0, 0, :, :],
             levels=cmap_levels,
             cmap="seismic",
             extend="both",
@@ -540,13 +562,13 @@ if __name__ == "__main__":
         reference_median = np.percentile(
             reference_timings, 95, method="median_unbiased"
         )
-        observed_median = np.percentile(observed_timings, 95, method="median_unbiased")
+        python_data = np.percentile(observed_timings, 95, method="median_unbiased")
 
         print(f"Fortran {reference_median}")
-        print(f"{backend_label} {observed_median}")
+        print(f"{backend_label} {python_data}")
 
-        if reference_median < observed_median:
-            speed_up = -1.0 * (observed_median / reference_median)
+        if reference_median < python_data:
+            speed_up = -1.0 * (python_data / reference_median)
         else:
-            speed_up = reference_median / observed_median
+            speed_up = reference_median / python_data
         print("Speed up:", speed_up)
