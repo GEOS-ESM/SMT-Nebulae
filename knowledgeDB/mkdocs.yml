@@ -19,9 +19,22 @@ nav:
       - Supercomputing 23: project2426/results/SC23.md
       - Science Targets: project2426/results/science-targets.md
       - HPC Metrics: project2426/results/hpc-metrics.md
-  - Dev setup:
-    - Tech stack: dev-setup/tech-stack.md
-    - VSCode config: dev-setup/vscode.md
+  - Technical:
+    - Dev setup:
+      - Tech stack: technical/dev-setup/tech-stack.md
+      - VSCode config: technical/dev-setup/vscode.md
+    - Frontend:
+      - Experimental "physics" features: technical/frontend/experimental_features.md
+    - Porting:
+      - Translate tests: technical/porting/translate_test.md
+    - Backend work:
+      - Overview: technical/backend/index.md
+      - GT4Py/DaCe bridge: technical/backend/dace-bridge.md
+      - Coding guidelines: technical/backend/coding-guidelines.md
+      - Repositories:
+        - NDSL: technical/backend/repositories/ndsl.md
+        - GT4Py: technical/backend/repositories/gt4py.md
+        - DaCe: technical/backend/repositories/dace.md
   - GEOS:
     - Overview: GEOS/index.md
     - Local build: GEOS/local_build.md
@@ -35,16 +48,6 @@ nav:
         - GFDL_1M: GEOS/components/moist/GFDL_1M.md
         - RAS: GEOS/components/moist/RAS.md
         - UW: GEOS/components/moist/UW.md
-  - Porting:
-    - Translate tests: porting/translate_test.md
-  - Backend work:
-    - Overview: backend/index.md
-    - GT4Py/DaCe bridge: backend/dace-bridge.md
-    - Coding guidelines: backend/coding-guidelines.md
-    - Repositories:
-      - NDSL: backend/repositories/ndsl.md
-      - GT4Py: backend/repositories/gt4py.md
-      - DaCe: backend/repositories/dace.md
   - The Code Nebula:
     - Overview: tcn/index.md
     - Packages: tcn/packages.md
