@@ -41,6 +41,7 @@
 *[OGCM]: Ocean General Circulation Model
 *[pyFV3]: NDSL port of FV3
 *[pySHiELD]: NDSL port of SHiELD physics schemes
+*[SDFG]: Stateful Dataflow multiGraphs (DaCe concept)
 *[SHiELD]: System for High-resolution prediction of Earth-to-Local Domains
 *[TPU]: Tensor Processing Unit
 *[TPUs]: Tensor Processing Units

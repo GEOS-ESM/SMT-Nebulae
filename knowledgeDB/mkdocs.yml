@@ -59,10 +59,16 @@ markdown_extensions:
   - abbr
   # support for colored notes / warnings / tips / examples
   - admonition
+  # emoji support
+  - attr_list
   # support for footnotes
   - footnotes
   # supercharges admonitions by making them collapsible
   - pymdownx.details
+  # support for emojis
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   # support for syntax highlighting
   - pymdownx.highlight:
       anchor_linenums: true
