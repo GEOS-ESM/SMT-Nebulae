@@ -6,7 +6,7 @@
 
 - Install the [VSCode extension](https://marketplace.visualstudio.com/items?itemName=phschaad.sdfv)
 - You can call `sdfg.view()` from the debugger to look at any (intermediate) SDFG with the VSCode plugin
-- DaCe doesn't run the formatter automatically on the CI. You might see spurious formatting changes in your PRs (see [Discussion](https://github.com/spcl/dace/discussions/1804)).
+- DaCe only enforces automatic formatting on the `main` branch. If you are working on `v1/maintenance`, you might see spurious formatting changes in your PRs (see [Discussion](https://github.com/spcl/dace/discussions/1804) and [this PR](https://github.com/spcl/dace/pull/1957)).
 
 ## Community
 

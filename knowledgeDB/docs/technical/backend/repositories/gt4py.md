@@ -4,10 +4,11 @@
 
 ## Notes & quirks
 
-- GT4Py cartesian and next live in the same repository. Both share the `eve` framework and the test system.
-- GT4Py cartesian uses released versions of DaCe
+- GT4Py cartesian and next live in the same repository. Both share the `eve` framework, `_core` definitions, and the test system.
+- GT4Py cartesian uses released versions of DaCe. GT4Py next uses a pinned commit from the `main` branch.
 - To run cartesian tests that require DaCe (e.g. for bridge work): `nox -s "test_cartesian-3.10(dace,cpu)"`
 - Running tests with `nox` will use the local gt4py code, but install a clean environment.
+- CSCS CI is twitchy. If you get spurious test failures, try rerunning: comment `cscs-ci run` on your PR to kick off another round.
 
 ## Community
 

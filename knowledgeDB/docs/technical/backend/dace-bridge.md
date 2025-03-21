@@ -65,7 +65,7 @@ The main work is done in `StencilComputationSDFGBuilder`[^6]. Tasklet code is ge
 
 ![CodeBlock example SDFG](./images/sdfg.drawio)
 
-Notice how `statements{0,1}` are in one Tasklet and `statement8` is in another Tasket. If any local temporaries are written as part of statements 0 or 1, they could be read in `statement8`. We thus don't have any local scalars anymore and expose all writes (to scalars) for possible future reads. A standard DaCe cleanup pass will get rid of any unused write access node. This only needs special care for local scalar accesses because array memory is managed at the (nested) SDFG level. In the first version of the bridge, scalars could be represented as local scalars of the one big Tasklet. This leave a refactor opportunity to adapt the DaCe-IR.
+Notice how `statements{0,1}` are in one Tasklet and `statement8` is in another Tasklet. If any local temporaries are written as part of statements 0 or 1, they could be read in `statement8`. We thus don't have any local scalars anymore and expose all writes (to scalars) for possible future reads. A standard DaCe cleanup pass will get rid of any unused write access node. This only needs special care for local scalar accesses because array memory is managed at the (nested) SDFG level. In the first version of the bridge, scalars could be represented as local scalars of the one big Tasklet. This leave a refactor opportunity to adapt the DaCe-IR.
 
 ??? note "Refactor opportunity: Memlets for scalar accesses"
     In the first version of the bridges, scalar could be treated as local scalars of the one big Tasklet that existed. There was thus no need for scalar access to be represented in Memlets. When re-designing the DaCe-IR and/or when looking at Indexing, we should take a moment to asses what we could do better in terms of how we handle scalars. We should aim for knowing if a scalar is going to be read in a subsequent Tasklet when we build the SDFG.
@@ -92,7 +92,6 @@ NDSL supercharges DaCe-backends by not only "daceifying" GT4Py stencils but also
 Future work includes leveraging DaCe's schedule tree to adapt the loop order and merge loops along the same axis (possibly with over-computation).
 
 We'd also like to look into HW-dependant scheduling and JIT tiling.
-
 
 [^1]: <https://github.com/GridTools/gt4py/blob/main/src/gt4py/cartesian/gtc/dace/oir_to_dace.py>
 [^2]: <https://github.com/GridTools/gt4py/blob/main/src/gt4py/cartesian/backend/dace_backend.py>
