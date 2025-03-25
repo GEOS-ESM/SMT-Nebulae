@@ -48,6 +48,20 @@ nav:
         - GFDL_1M: GEOS/components/moist/GFDL_1M.md
         - RAS: GEOS/components/moist/RAS.md
         - UW: GEOS/components/moist/UW.md
+  - Tutorials:
+    - Introduction: tutorials/index.md
+    - NDSL:
+      - Introduction to NDSL: tutorials/how_to_ndsl/ndsl_introduction.md
+      - Data Types and Storage: tutorials/how_to_ndsl/data.md
+      - Stencils and Functions: tutorials/how_to_ndsl/stencil_function_basics.md
+      - Advanced Stencil Features: tutorials/how_to_ndsl/advanced_stencil_features.md
+      - Common Patterns: tutorials/how_to_ndsl/common_patterns.md
+      - Importance of Object Oriented Coding: tutorials/how_to_ndsl/why_use_classes.md
+    - GEOS:
+      - Introduction to GEOS: tutorials/geos_with_ndsl/index.md
+    - Model Development with NDSL:
+      - Model Development with NDSL: tutorials/developing_with_ndsl/index.md
+
   - The Code Nebula:
     - Overview: tcn/index.md
     - Packages: tcn/packages.md
@@ -78,7 +92,7 @@ markdown_extensions:
   - pymdownx.snippets:
       auto_append:
         # hover tooltips for abbreviations (simple glossary)
-        - includes/glossary.md
+        - ./includes/glossary.md
   - pymdownx.superfences:
       custom_fences:
       # support for mermaid graphs
