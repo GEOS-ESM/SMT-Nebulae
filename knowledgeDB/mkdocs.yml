@@ -57,7 +57,6 @@ nav:
       - Stencils and Functions: tutorials/how_to_ndsl/stencil_function_basics.md
       - Advanced Stencil Features: tutorials/how_to_ndsl/advanced_stencil_features.md
       - Common Patterns: tutorials/how_to_ndsl/common_patterns.md
-      - Importance of Object Oriented Coding: tutorials/how_to_ndsl/why_use_classes.md
     - GEOS:
       - Introduction to GEOS: tutorials/geos_with_ndsl/index.md
     - Model Development with NDSL:
