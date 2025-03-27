@@ -36,6 +36,10 @@ nav:
         - NDSL: technical/backend/repositories/ndsl.md
         - GT4Py: technical/backend/repositories/gt4py.md
         - DaCe: technical/backend/repositories/dace.md
+      - ADRs:
+        - Index: technical/backend/ADRs/index.md
+        - Schedule tree: technical/backend/ADRs/stree.md
+        - Schedule tree (v1): technical/backend/ADRs/stree_v1.md
   - GEOS:
     - Overview: GEOS/index.md
     - Local build: GEOS/local_build.md

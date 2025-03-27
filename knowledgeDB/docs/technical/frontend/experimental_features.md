@@ -15,7 +15,7 @@ Experimental work drops support for `gt` backends for the forseeable future to a
 | [ERF function](#4)                            | ✅    | ✅    | ✅       | ✅       |      |
 | [Type hinting of temporaries](#5)             | ✅🐞  | ✅🐞  | ✅🐞     | ✅🐞     |      |
 | [Variable indexing of data dimensions](#6)    | ✅    | ❓    | ✅       | ✅       |      |
-| [Exposing current K level as a scalar](#7)    | ✅    | ✅    | ✅       | ✅       |      |
+| [Exposing current K level as a scalar](#7)    | ✅🐞  | ✅    | ✅       | ✅       |      |
 | [Unrolling for-range loop](#8)                | ❓    | ✅    | ❓       | ❓       |      |
 | [Mutable arguments on gtscript.function](#9)  | ❓    | ✅    | ❓       | ❓       |      |
 | [Breakpoint injection](#10)                   |       |       |          |          |      |
