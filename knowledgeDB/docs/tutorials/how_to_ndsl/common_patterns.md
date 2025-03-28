@@ -572,8 +572,16 @@ as flags to turn on/off chunks of code, acting as flags on a per-point basis.
 
 ## Nested K Loops
 
-Occasionally there may be situtaions when there is a need to perform a nested K loop (such as
+Occasionally there may be situtaions when a nested K loop is required (such as
 accumulating precipitation).
 
 PUT EXAMPLE IN ONCE THERE IS PROPER SOLUTION FOR THIS (no need for double masks)
+
+## Goto and Exit
+
+As previously mentioned, NDSL is unable to end a computation early. Similarly, NDSL is unable to
+"jump" to another part of the code in a behavior similar to the Fortran `goto` statment. These
+keywords make code flow extremely difficult to follow, and implementing them in NDSL would have
+no performance gain. Rather than relying on these keywords, NDSL has all the tools required to
+implement proper code control while maintaining good readablity.
 
