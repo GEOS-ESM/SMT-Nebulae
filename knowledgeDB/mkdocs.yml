@@ -61,6 +61,7 @@ nav:
       - Data Types and Storage: tutorials/how_to_ndsl/data.md
       - Stencils and Functions: tutorials/how_to_ndsl/stencil_function_basics.md
       - Advanced Stencil Features: tutorials/how_to_ndsl/advanced_stencil_features.md
+      - Backends: tutorials/how_to_ndsl/backends.md
       - Common Patterns: tutorials/how_to_ndsl/common_patterns.md
     - GEOS:
       - Introduction to GEOS: tutorials/geos_with_ndsl/index.md

@@ -4,11 +4,16 @@ The NDSL is a Python based middleware which allows users to accelerate their cod
 simultaneously gaining access to CPU or GPU execution.
 
 NDSL relies heavily on the performance capabilities delivered by
-[GT4Py](https://gridtools.github.io/gt4py/latest/index.html), but wraps many of the GT4Py features
-with more user friendly interfaces and introduces its own set of features and optimization
-techniques. For this reason, it is recommended that anyone trying to learn NDSL focus on this user
-manual as a first point of contact, and only refer to the GT4Py documentation when absolutely
-necessary.
+[GT4Py](https://gridtools.github.io/gt4py/latest/index.html) and 
+[DaCe](https://spcldace.readthedocs.io/en/latest/index.html).
+
+NDSL combines and builds upon the core functions of these powerful pieces of software to create
+a unified tool which is more capable at delivering performance gains across a wide breasth of
+applications, wrapping core function in more user friendly interfaces and introducing new
+features along the way. The GT4Py and DaCe documentation may be useful, but since their use in NDSL
+differs greatly from their use as a standalone product, it is recommended that anyone interested in
+working with NDSL focus on this user guide and the official
+[NDSL documentation](https://www.youtube.com/watch?v=dQw4w9WgXcQ).
 
 NDSL - like all DSL's - is powerful because it is restrictive. Every degree of freedom added
 exponentially increases optimisation difficulty, and ultimately decreases performance.

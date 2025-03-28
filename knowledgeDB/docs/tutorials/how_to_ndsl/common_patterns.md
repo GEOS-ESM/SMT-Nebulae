@@ -28,15 +28,15 @@ stencil reads accordingly:
         integer, parameter :: Y_DIM = 10
         integer, parameter :: Z_DIM = 10
 
-        ! counters
+        ! allocate scalars
         integer :: i, j, k, p_crit
         real :: seed, total
 
-        ! data arrays
+        ! allocate arrays
         real, dimension(X_DIM, Y_DIM, Z_DIM) :: d_height
         real, dimension(X_DIM, Y_DIM, Z_DIM+1) :: height
 
-        ! initalize arrays
+        ! initalize data
         do i = 1, X_DIM
             do j = 1, Y_DIM
                 do k = 1, Z_DIM
@@ -92,6 +92,7 @@ stencil reads accordingly:
     class Code:
         def __init__(self, stencil_factory: StencilFactory):
 
+            # build stencil
             self.constructed_stencil = stencil_factory.from_dims_halo(
                 func=compute_height,
                 compute_dims=[X_DIM, Y_DIM, Z_INTERFACE_DIM],
@@ -102,6 +103,7 @@ stencil reads accordingly:
             height: FloatField,
             d_height: FloatField,
         ):
+            # execute stencil
             self.constructed_stencil(
                 height,
                 d_height,
@@ -157,16 +159,16 @@ one or more operations based on that level (e.g. identify LCL, compute convectiv
         integer, parameter :: Y_DIM = 10
         integer, parameter :: Z_DIM = 10
 
-        ! counters
+        ! allocate scalars
         integer :: i, j, k, p_crit
         real :: seed, total
 
-        ! data arrays
+        ! allocate arrays
         integer, dimension(X_DIM, Y_DIM, Z_DIM) :: temperature, pressure
         integer, dimension(X_DIM, Y_DIM) :: desired_level
         real, dimension(X_DIM, Y_DIM) :: average_temperature
 
-        ! initalize arrays
+        ! initalize data
         p_crit = 500
         do k = 1, Z_DIM
             pressure(:, :, k) = 1000 - (k-1) * 100 ! pressure decreases by 100mb per level
@@ -194,7 +196,7 @@ one or more operations based on that level (e.g. identify LCL, compute convectiv
             enddo
         enddo
         
-        ! perform operation based on desired_level
+        ! calculate average based on desired_level
         do i = 1, X_DIM
             do j = 1, Y_DIM
                 total = 0
@@ -486,6 +488,87 @@ stencil, and can then be accessed using normal data dimension indexing:
 Often there are times where it is necessary to control the execution of specific code paths
 dynamically within code execution (e.g. computing precipitaiton if there is sufficient liquid
 water present). There is no way to stop a computaiton early. Instead, the correct way to control
+execution of different coordinates on the X/Y plane is by using two dimensional fields, which act
+as flags to turn on/off chunks of code, acting as flags on a per-point basis.
+
+??? Example "NDSL Code"
+
+    ``` py linenums="1"
+    import gt4py.cartesian.gtscript as gtscript
+    from gt4py.cartesian.gtscript import PARALLEL, FORWARD, computation, interval, exp
+    from ndsl import StencilFactory
+    from ndsl.boilerplate import get_factories_single_tile
+    from ndsl.constants import X_DIM, Y_DIM, Z_DIM
+    from ndsl.dsl.typing import FloatField, Float, BoolFieldIJ, Bool
+    import random
+
+
+    def check_value(data: FloatField, flag: BoolFieldIJ):
+        from __externals__ import critical_value
+
+        with computation(FORWARD), interval(...):
+            # if the data surpasses a critical value anywhere in the column, set the flag to true
+            if data > critical_value:
+                flag = True
+
+
+    def computation_stencil(data_in: FloatField, data_out: FloatField, flag: BoolFieldIJ):
+        with computation(PARALLEL), interval(...):
+            if flag == True:
+                data_out = 2 * exp(data_in)
+            else:
+                data_out = 0
+
+
+    class DoSomeMath:
+        def __init__(self, stencil_factory: StencilFactory):
+
+            self.check_value = stencil_factory.from_dims_halo(
+                func=check_value,
+                compute_dims=[X_DIM, Y_DIM, Z_DIM],
+                externals={
+                    "critical_value": 5,
+                },
+            )
+
+            self.computation_stencil = stencil_factory.from_dims_halo(
+                func=computation_stencil,
+                compute_dims=[X_DIM, Y_DIM, Z_DIM],
+            )
+
+        def __call__(self, in_field: FloatField, out_field: FloatField):
+            self.check_value(in_field, flag_field)
+            self.computation_stencil(in_field, out_field, flag_field)
+
+
+    if __name__ == "__main__":
+
+        domain = (5, 5, 3)
+        nhalo = 0
+        stencil_factory, quantity_factory = get_factories_single_tile(
+            domain[0],
+            domain[1],
+            domain[2],
+            nhalo,
+        )
+
+        do_some_math = DoSomeMath(stencil_factory)
+
+        in_field = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
+        for i in range(in_field.view[:].shape[0]):
+            for j in range(in_field.view[:].shape[1]):
+                for k in range(in_field.view[:].shape[2]):
+                    in_field.view[i, j, k] = round(random.uniform(0, 10), 2)
+
+        out_field = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
+        out_field.view[:] = -999
+
+        flag_field = quantity_factory.zeros([X_DIM, Y_DIM], "n/a", dtype=Bool)
+
+        do_some_math(in_field, out_field)
+
+        print(out_field.view[:])
+    ```
 
 ## Nested K Loops
 

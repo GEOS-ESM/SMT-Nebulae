@@ -2,7 +2,7 @@
 
 ## Types
 
-NDSL uses unique data types (`Float`/`Int`/`Bool`) which correspond to commonly used NumPy data
+NDSL uses unique data types (`Float`/`Int`/`Bool`) which correspond to commonly used NumPy-like data
 types (`float`/`int`/`bool`). These NDSL data types are able to dynamically determine the precision
 of the environment and assign the correct data type at execution
 (e.g. `Float` will become `np.float32` vs `np.float64`).
@@ -19,15 +19,17 @@ All objects with one or more dimensions are considered "fields". NDSL assumes a 
 I/J/K coordinate system field, where I and J are horizontal dimensions and K is the vertical
 dimension, but allows these to be defined dynamically (more on this in the next section).
 
-The name of NDSL fields depends on the data type and the dimensions present. Some examples:
+NDSL fields are typed according to the following: 
+`[Type]Field[Axis][Precision]` - with `Type = [Int, Float, Bool]`; `Axis = [I, J, IJ, K]`;
+`Precision = [32, 64]` optional, if not specified then default to program precision
+
+Note that there is no `*_FieldIJK`; this is simply `*_Field`. 
 
 - `FloatFieldI`: one dimensional (I) field of type Float
 - `BoolFieldIK`: two dimensional (I, K) field of type Bool
 - `FloatFieldJK`: two dimensional (J, K) field of type Float
 - `Bool`: scalar variable of type Bool
 - `IntField`: three dimensional (I, J, K) field of type Int
-
-Note that there is no `*_FieldIJK`; this is simply `*_Field`. 
 
 ## Data Storage
 
@@ -123,10 +125,11 @@ be set to any value smaller than the smallest X/Y dimension.
 
 There are two main methods for accessing data stored within a quantity:
 
-- `quantity.view[:]`: returns the numerical contents of the quantity as a numpy array. This print
-always include the extra point from the interface dimension, regardless of whether that point is
-being considered for computations. Note that, since this is a NumPy array, it can be acccessed
-using normal Python accessing rules.
+- `quantity.view[:]`: returns the numerical contents of the quantity as a NumPy-like array. This
+print always includes the extra point from the interface dimension, regardless of whether that
+point is being considered for computations. Note that, since this is a NumPy-like array, it can
+be acccessed using normal Python accessing rules, and much of the functionality of NumPy arrays is
+also available.
 
 - `quantity.data[:]`: similar to `quantity.view[:]`, but `.data` also returns the halo, if one
 is present.

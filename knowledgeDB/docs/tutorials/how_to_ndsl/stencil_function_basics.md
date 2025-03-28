@@ -63,7 +63,7 @@ later.
 Now we set up our class:
 
 ``` py linenums="11"
-class create_quantity:
+class CopyData:
     def __init__(self, stencil_factory: StencilFactory):
 
         self.constructed_copy_stencil = stencil_factory.from_dims_halo(
@@ -95,7 +95,7 @@ if __name__ == "__main__":
         nhalo,
     )
 
-    class_instance = create_quantity(stencil_factory)
+    copy_data = CopyData(stencil_factory)
 
     in_quantity = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
     for i in range(in_quantity.view[:].shape[0]):
@@ -106,7 +106,7 @@ if __name__ == "__main__":
     out_quantity = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
     out_quantity.view[:] = -999
 
-    class_instance(in_quantity, out_quantity)
+    copy_data(in_quantity, out_quantity)
 ```
 
 **Temporary Fields**
@@ -147,14 +147,17 @@ executed, and is controlled using traditional Python indexing (e.g. `interval(0,
 `interval(10, None)`). The argument `...` signals compute at all levels, equivalent to `0, None`.
 
 NDSL has three possible iterations policies: `PARALLEL`, `FORWARD`, and`BAKWARD`.
-Choosing `PARALLEL` states that all three dimensions can be executed in parallel
-(recall that NDSL always executes the I and J dimensions - in our example `X_DIM` and `Y_DIM` -
-in parallel).
+Choosing `PARALLEL` states that all three dimensions can be executed in parallel. In this state,
+each point in the domain is computed independently in the fastest possible order. This means that
+fields are being written in random order, and therefore any operations which depends on data at
+other points in a field which is being written (e.g. `out = out[0, 0, 1]`) cannot use
+`PARALLEL`.
 
-The `FORWARD` and `BACKWARD` options can be considered non-parallel options, and are
-**therefore may be significantly slower than `PARALLEL`**. `FORWARD` and `BACKWARD` require that
-all calculations for a perticular K level are computed before moving on to the next K level.
-`FORWARD` executes from the first argument in the `with interval()` statement to the second (e.g.
+The `FORWARD` and `BACKWARD` options can be considered non-parallel options for the K axis. These
+options require that all calculations for a perticular K level are computed before moving on to the
+next K level. This is **often significantly slower than `PARALLEL`**, but ensures that each kernels
+has the information between execution of each index along the K axis. `FORWARD` executes from the
+first argument in the `with interval()` statement to the second (e.g.
 `with computaiton(FORWARD), interval(0, 10)` begins at 0 and ends at 9), while `BACKWARD` does the
 opposite (begins at 9, ends at 0).
 
@@ -162,7 +165,7 @@ opposite (begins at 9, ends at 0).
 offset and written in the same stencil:
 
 ``` py linenums="1"
-def NEED_NAME(in_field: FloatField, out_field: FloatField):
+def offset_read_with_write(in_field: FloatField, out_field: FloatField):
     with computation(FORWARD):
         with interval(0, -1):
             out_field = in_field[0, 0, 1]
@@ -172,6 +175,8 @@ def NEED_NAME(in_field: FloatField, out_field: FloatField):
 In this example, `in_field` is being read in but also modified. It is therefore necessary to use
 `FORWARD` to ensure that there is not a situation where in_field is doubled at a level `n`
 before it is read at level `n - 1`.
+
+Using offsets often requires a careful consideration of iteration policy. 
 
 **Flow Control**
 
@@ -220,6 +225,44 @@ def copy_stencil(in_field: FloatField, out_field: FloatField):
         with interval(...):
             out_field = copy_plus_five(in_field, out_field)
 ```
+
+**Builtin Functions**
+
+NDSL has a number of builtin functions:
+
+- `abs`: absolute value
+- `min`: minimum
+- `max`: maximum
+- `mod`: modulo
+- `sin`: sine
+- `cos`: cosine
+- `tan`: tangent
+- `sinh`: hyperbolic sine
+- `cosh`: hyperbolic cosine
+- `tanh`: hyperbolic tangent
+- `asin`: arc sine
+- `acos`: arc cosine
+- `atan`: arc tangent
+- `asinh`: inverse hyperbolic sine
+- `acosh`: inverse hyperbolic cosine
+- `atanh`: inverse hyperbolic tangent
+- `sqrt`: square root
+- `exp`: inverse hyperbolic sine
+- `log`: natural log
+- `log10`: base 10 log
+- `gamma`: gamma function
+- `cbrt`: cubic root
+- `isfinite`: determine if number is finite
+- `isinf`: determine if number is infinite
+- `isnan`: determine if number is nan
+- `floor`: round down to nearest integer
+- `ceil`: round up to nearest integer
+- `trunc`: truncate
+- `round`: round to nearest integer
+- `erf`: error function
+- `erfc`: complementary error function
+
+NOTE. EVENTUALLY ADD LINKS TO FULL DOCSTRING DOCUMENTATION FOR EACH FUNCTION ONCE THEY EXIST
 
 ## Stencils vs Functions
 

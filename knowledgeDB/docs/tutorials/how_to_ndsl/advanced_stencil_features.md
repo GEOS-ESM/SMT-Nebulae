@@ -17,25 +17,29 @@ to Kelvin:
 
 
     def celcius_to_kelvin(temperature_Celcius: FloatField, temperature_Kelvin: FloatField):
-        with computation(PARALLEL):
-            with interval(...):
+        with computation(PARALLEL), interval(...):
+                # convert from Celcius to Kelvin
                 temperature_Kelvin = temperature_Celcius + 273.15
 
 
     class Convert:
         def __init__(self, stencil_factory: StencilFactory):
 
+            # construct the stencil
             self.constructed_copy_stencil = stencil_factory.from_dims_halo(
                 func=celcius_to_kelvin,
                 compute_dims=[X_DIM, Y_DIM, Z_DIM],
             )
 
         def __call__(self, in_quantity: FloatField, out_quantity: FloatField):
+
+            # call the stencil
             self.constructed_copy_stencil(in_quantity, out_quantity)
 
 
     if __name__ == "__main__":
 
+        # setup domain and generate factories
         domain = (5, 5, 3)
         nhalo = 0
         stencil_factory, quantity_factory = get_factories_single_tile(
@@ -45,8 +49,10 @@ to Kelvin:
             nhalo,
         )
 
+        # initalize the class
         convert = Convert(stencil_factory)
 
+        # initalize quantities
         temperature_Celcius = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
         for i in range(temperature_Celcius.view[:].shape[0]):
             for j in range(temperature_Celcius.view[:].shape[1]):
@@ -58,6 +64,7 @@ to Kelvin:
         temperature_Kelvin = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
         temperature_Kelvin.view[:] = -999
 
+        # call the class, perform the calculation
         convert(temperature_Celcius, temperature_Kelvin)
     ```
 
@@ -73,7 +80,7 @@ where a constant is referenced numerous times throughout a stencil.
 
 To build the stencil with an external, we just need to add a single argument to the build command:
 
-``` py linenums="18"
+``` py linenums="19"
         self.constructed_copy_stencil = stencil_factory.from_dims_halo(
             func=celcius_to_kelvin,
             compute_dims=[X_DIM, Y_DIM, Z_DIM],
@@ -87,10 +94,11 @@ And then to load in the external within the stencil:
 
 ``` py linenums="9"
 def celcius_to_kelvin(temperature_Celcius: FloatField, temperature_Kelvin: FloatField):
+    # read in the external
     from __externals__ import C_TO_K
 
-    with computation(PARALLEL):
-        with interval(...):
+    with computation(PARALLEL), interval(...):
+            # convert from Celcius to Kelvin
             temperature_Kelvin = temperature_Celcius + C_TO_K
 ```
 
@@ -134,7 +142,7 @@ class Convert:
 and now we need to pass in an additional argument to the class:
 
 
-``` py linenums="38"
+``` py linenums="43"
     convert = Convert(stencil_factory, domain)
 ```
 
@@ -205,5 +213,5 @@ features in ways that will degrade performance. For that reason, it is recommend
 features are used sparingly, to that they do not become a crutch that enables poor coding habits
 and reduces the potentcy of the software as a whole.
 
-Next, we will present a number of patterns commonly seen in weather and climate modeling,
-and provide examples of how they are implemented in NDSL.
+In the next guide, we will introduce some more details about the inner workings of NDSL, and
+in the process unlock more control over the acceleration process.
