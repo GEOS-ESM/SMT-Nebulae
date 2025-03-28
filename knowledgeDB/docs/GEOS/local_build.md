@@ -61,7 +61,7 @@ The stack will take some time to install, especially the `baselibs` part of it. 
 
 which should output
 
-```
+```none
 -------+---------+---------+--------------
 Config | Install |  Check  |   Package
 -------+---------+---------+--------------

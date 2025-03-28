@@ -22,7 +22,7 @@ With the schedule tree representation, writing potent map fusion and loop re-ord
 
 We will need to write and maintain the back transformation from schedule tree to SDFG.
 
-## Alternatives Considered
+## Alternatives considered
 
 ### Improve the existing map fusion pass
 
@@ -37,7 +37,3 @@ Possible, but a lot more cumbersome than writing the same transformation based o
 ### Codegen from schedule tree
 
 While it is theoretically possible to generate code directly from Schedule Trees, we would loose the possibility to run (existing) optimization passes after loop transformations and map fusion, which could unlock things like vectorization. In addition, current AI research is based on the SDFG representation.
-
-## References
-
-If it helps, add references e.g. to issues and/or other planning documents.

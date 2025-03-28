@@ -39,7 +39,8 @@ nav:
       - ADRs:
         - Index: technical/backend/ADRs/index.md
         - Schedule tree: technical/backend/ADRs/stree.md
-        - Schedule tree (v1): technical/backend/ADRs/stree_v1.md
+        - Schedule tree (DaCe version): technical/backend/ADRs/stree_dace-version.md
+        - Schedule tree (NDSL integration): technical/backend/ADRs/stree_ndsl-integration.md
   - GEOS:
     - Overview: GEOS/index.md
     - Local build: GEOS/local_build.md
@@ -108,6 +109,8 @@ plugins:
   - drawio
   # add search box to the header, configuration in theme
   - search
+extra_css:
+  - stylesheets/extra.css
 watch:
   # reload when the glossary file is updated
   - includes

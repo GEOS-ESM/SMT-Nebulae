@@ -23,7 +23,7 @@ What it now easier to do? What becomes more difficult with this change?
 
 Describe the positive (e.g., improvement of quality attribute satisfaction, follow-up decisions required, ...) as well as the negative (e.g., compromising quality attribute, follow-up decisions required, ...) outcomes of this decision.
 
-## Alternatives Considered
+## Alternatives considered
 
 ### Alternative 1
 

@@ -1,4 +1,4 @@
-# Schedule tree - first version
+# Schedule tree - DaCe version
 
 In the context of [schedule trees](./stree.md), facing time pressure and spill-over from Milestone 1, we decided to write the back transformation from schedule trees to SDFGs against the `v1/maintenance` branch of DaCe to minify up-front cost and deliver CPU performance as part of Milestone 2. We considered updating to the mainline version of DaCe and accept follow-up cost to rewrite part of the transformation once DaCe v2 releases.
 
@@ -17,7 +17,7 @@ We chose to build a first version of the schedule tree to SDFG back-transformati
 - We'll be able to code against a familiar API (same as the [gt4py/dace bridge](../dace-bridge.md)) and thus hope to get results faster.
 - We won't be able to merge into `v1.x`.
 
-## Alternatives Considered
+## Alternatives considered
 
 ### Update to DaCe mainline first
 
