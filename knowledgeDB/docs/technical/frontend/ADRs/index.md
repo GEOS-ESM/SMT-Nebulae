@@ -6,4 +6,4 @@ Use the [_template](../../backend/ADRs/_template.md) as a starting point.
 
 Summary:
 
-- [](./fields_bundle.md)
+- [Fields Bundle](./fields_bundle.md): allow named indexation, filtering and grouping for a semantically logical group of Fields

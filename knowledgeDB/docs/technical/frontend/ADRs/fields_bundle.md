@@ -28,14 +28,16 @@ Our proposition should aim at covering all use case, retain pros, improved on co
 ## Decision
 
 We propose to implement a base class `FieldBundle` with two main components:
-    - a 4D device-senstive memory space
-    - a complex 4th dimensional `indexer`, carrying metadata (names, groups)
+
+- a 4D device-senstive memory space
+- a complex 4th dimensional `indexer`, carrying metadata (names, groups)
 
 The `indexer` operates on the memory and should have the following features:
-    - Access by name to a single 3D field (e.g. `bundle["vapor"]` or `bundle.vapor`)
-    - Filtering by groups to access a subset of the bundle (e.g. `bundle.groupby("water species")`)
-    - Sub-filtering a groups to access a subset of a given group (e.g. `bundle.groupby("water species").exclude(["rain", "ice"])`)
-    - Blind access to a 4D gt4py-capable field (e.g. `bundle` of type `FloatField` + Data Dimension)
+  
+- Access by name to a single 3D field (e.g. `bundle["vapor"]` or `bundle.vapor`)
+- Filtering by groups to access a subset of the bundle (e.g. `bundle.groupby("water species")`)
+- Sub-filtering a groups to access a subset of a given group (e.g. `bundle.groupby("water species").exclude(["rain", "ice"])`)
+- Blind access to a 4D gt4py-capable field (e.g. `bundle` of type `FloatField` + Data Dimension)
 
 The results will have to be `orchestratable` natively and allow for a quick and transparent access to 3D field as a `Quantity`.
 

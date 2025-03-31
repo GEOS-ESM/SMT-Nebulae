@@ -26,6 +26,9 @@ nav:
     - Frontend:
       - NDSL features: technical/frontend/ndsl_features.md
       - Experimental "physics" features: technical/frontend/experimental_features.md
+      - ADRs:
+        - Index: technical/frontend/ADRs/index.md
+        - Fields Bundle: technical/frontend/ADRs/fields_bundle.md
     - Porting:
       - Translate tests: technical/porting/translate_test.md
     - Backend work:
