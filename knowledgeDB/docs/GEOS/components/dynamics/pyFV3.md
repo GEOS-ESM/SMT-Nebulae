@@ -16,7 +16,7 @@ Dynamics (FVDynamics)
   - Acoustics (DynCore)
     - Halos
     - zero_data
-   =o= N SPLIT loop
+    - =o= N SPLIT loop
       - gz_from_surface_height_and_thicknesses
       - interface_pressure_from_toa_pressure_and_thickness
       - CGridShallowWaterDynamics (C_SW)
