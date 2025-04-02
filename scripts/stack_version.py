@@ -1,3 +1,5 @@
+"""Print out the current stack loaded in your virtual environment"""
+
 import subprocess
 import os
 
@@ -16,7 +18,10 @@ for pkg in packages:
     imported_pkg = __import__(pkg)
 
     if imported_pkg is not None:
-        os.chdir(imported_pkg.__path__[0])
+        try:
+            os.chdir(imported_pkg.__path__[0])
+        except:
+            print(f"[{pkg}] is not a git repository")
         local = os.getcwd()
         git = get_git_log_oneline()
         print(f"[{pkg}]: {git} (from local {local})")

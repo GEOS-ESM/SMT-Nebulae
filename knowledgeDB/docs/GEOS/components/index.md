@@ -4,4 +4,5 @@ This part of the knowledge base holds GEOS documentation with things that we dis
 
 !!! Note
 
-    Porting currently happens on the branch [`dsl/develop`](https://github.com/GEOS-ESM/GEOSgcm_GridComp/tree/dsl/develop) of [GEOS-ESM/GEOSgcm_GridComp](https://github.com/GEOS-ESM/GEOSgcm_GridComp).
+    Porting currently happens on the following branches:
+    -  [`dsl/develop`](https://github.com/GEOS-ESM/GEOSgcm_GridComp/tree/dsl/develop) of [GEOS-ESM/GEOSgcm_GridComp](https://github.com/GEOS-ESM/GEOSgcm_GridComp).
