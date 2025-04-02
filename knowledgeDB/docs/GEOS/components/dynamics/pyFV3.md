@@ -21,15 +21,15 @@ Dynamics (FVDynamics)
       - interface_pressure_from_toa_pressure_and_thickness
       - CGridShallowWaterDynamics (C_SW)
       - UpdateGeopotentialHeightOnCGrid (UpdateDzC)
-      - NonhydrostaticVerticalSolverCGrid (RiemanSolverC)
+      - NonhydrostaticVerticalSolverCGrid (Riem_Solver_C)
       - p_grad_c
       - DGridShallowWaterLagrangianDynamics (D_SW)
       - UpdateHeightOnDGrid (UpdateDzD)
-      - NonhydrostaticVerticalSolver (RiemanSolver3)
+      - NonhydrostaticVerticalSolver (Riem_Solver3)
       - == remap_step
         - edge_pe
       - compute_geopotential
-      - NonHydrostaticPressureGradient (NH_P_GRAD)
+      - NonHydrostaticPressureGradient (NH_P_Grad)
       - == rf_fast
         - RayleighDamping (Ray_Fast)
     - == do_del2cubed
