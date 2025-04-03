@@ -43,6 +43,10 @@ The results will have to be `orchestratable` natively and allow for a quick and 
 
 Once the first iteration of this code is available, we shall endeavor how we can refactor `pyFV3`'s `State` concept which has overlapping features.
 
+### Tooling / Features
+
+- Ability to dump all fields in a `xarray.Dataset` with options for grouping, single field save, etc.
+
 ## Consequences
 
 This will define a base class to be derived from. It will be implemented with pyFV3 (dynamics) and pySHiELD (physics) as workhorse. That strategy might narrow the field of design and miss importabnt APIs but it seems the pragmatic angle to ensure we do not over-engineer.
