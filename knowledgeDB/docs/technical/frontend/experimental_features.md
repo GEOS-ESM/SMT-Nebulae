@@ -4,7 +4,7 @@
 
 ## Summary
 
-Experimental work drops support for `gt` backends for the forseeable future to allow for quicker iteration
+Experimental work drops support for `gt` backends for the foreseeable future to allow for quicker iteration
 
 | Feature                                       | debug | numpy | dace:cpu | dace:gpu | test / example |
 | --------------------------------------------- | ----- | ----- | -------- | -------- | -------------- |
