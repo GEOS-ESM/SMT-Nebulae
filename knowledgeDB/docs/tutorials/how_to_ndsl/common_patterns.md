@@ -3,11 +3,10 @@
 Now that we have introduced the core features of NDSL and highlighted features which enable more
 complex coding structures, it is prudent to provide examples of how NDSL is implemented.
 
-Below are a plethera of patterns which may be useful when developing code for weather and
+Below are a plethora of patterns which may be useful when developing code for weather and
 climate models. These examples have been generalized, but should be broadly applicable to a
 variety of situations. Each example has a "source" Fortran program, and a "ported" NDSL
 implementation.
-
 
 ## Writing to a `Z_INTERFACE_DIM` Variable
 
@@ -15,7 +14,6 @@ If working with `Z_INTERFACE_DIM` quantities, one will inevitable need to write 
 point. The easiest way to achieve this is by declaring your `compute_dims` to operate on
 the `Z_INTERFACE_DIM` instead of the `Z_DIM`, and then restrict your interval and offset `Z_DIM`
 stencil reads accordingly:
-
 
 ??? Example "Fortran Code"
 
@@ -84,7 +82,7 @@ stencil reads accordingly:
             height = 0
 
         with computation(PARALLEL), interval(1, None):
-            # d_height is offset down one becuase this field operates on the Z_DIM,
+            # d_height is offset down one because this field operates on the Z_DIM,
             # while the stencil is computing on the Z_INTERFACE_DIM
             height = height[0, 0, -1] + d_height[0, 0, -1]
 
@@ -123,7 +121,7 @@ stencil reads accordingly:
             backend="debug",
         )
 
-        # initalize data
+        # initialize data
         height = quantity_factory.zeros([X_DIM, Y_DIM, Z_INTERFACE_DIM], "n/a")
 
         d_height = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
@@ -140,8 +138,6 @@ stencil reads accordingly:
 
         print(height.view[0, 0, :])
     ```
-
-
 
 ## K-Dimension Dependent Computations
 
@@ -289,7 +285,7 @@ one or more operations based on that level (e.g. identify LCL, compute convectiv
             backend="debug",
         )
 
-        # initalize data
+        # initialize data
         temperature = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
         for i in range(temperature.view[:].shape[0]):
             for j in range(temperature.view[:].shape[1]):
@@ -317,8 +313,8 @@ one or more operations based on that level (e.g. identify LCL, compute convectiv
 There may be situations where a table is needed for referencing throughout the execution of a
 component/model. It is highly unlikely that these tables will conform to the grid system used by
 the rest of the model in any way. Generating these tables, therefore, requires a somewhat
-unconvensional use of systems. The following example is an adaptation of code used to generate one
-of the saturaiton vapor pressure tables in the GEOS model, and displays the flexibility of
+unconventional use of systems. The following example is an adaptation of code used to generate one
+of the saturation vapor pressure tables in the GEOS model, and displays the flexibility of
 NDSL systems:
 
 ??? Example "Fortran Code"
@@ -486,8 +482,8 @@ stencil, and can then be accessed using normal data dimension indexing:
 ## Dynamic Conditionals and Internal Flags
 
 Often there are times where it is necessary to control the execution of specific code paths
-dynamically within code execution (e.g. computing precipitaiton if there is sufficient liquid
-water present). There is no way to stop a computaiton early. Instead, the correct way to control
+dynamically within code execution (e.g. computing precipitation if there is sufficient liquid
+water present). There is no way to stop a computation early. Instead, the correct way to control
 execution of different coordinates on the X/Y plane is by using two dimensional fields, which act
 as flags to turn on/off chunks of code, acting as flags on a per-point basis.
 
@@ -572,7 +568,7 @@ as flags to turn on/off chunks of code, acting as flags on a per-point basis.
 
 ## Nested K Loops
 
-Occasionally there may be situtaions when a nested K loop is required (such as
+Occasionally there may be situations when a nested K loop is required (such as
 accumulating precipitation).
 
 PUT EXAMPLE IN ONCE THERE IS PROPER SOLUTION FOR THIS (no need for double masks)
@@ -580,8 +576,7 @@ PUT EXAMPLE IN ONCE THERE IS PROPER SOLUTION FOR THIS (no need for double masks)
 ## Goto and Exit
 
 As previously mentioned, NDSL is unable to end a computation early. Similarly, NDSL is unable to
-"jump" to another part of the code in a behavior similar to the Fortran `goto` statment. These
+"jump" to another part of the code in a behavior similar to the Fortran `goto` statement. These
 keywords make code flow extremely difficult to follow, and implementing them in NDSL would have
 no performance gain. Rather than relying on these keywords, NDSL has all the tools required to
-implement proper code control while maintaining good readablity.
-
+implement proper code control while maintaining good readability.

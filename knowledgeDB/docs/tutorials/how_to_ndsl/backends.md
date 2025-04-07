@@ -17,7 +17,6 @@ this information and I'll do it)
 - `debug`: This backend is used for NDSL development, and does not support GPU execution or
 optimized performance. This should not be used unless you are actively developing NDSL.
 
-
 ## Looking Backwards to Move Forward
 
 review blurb

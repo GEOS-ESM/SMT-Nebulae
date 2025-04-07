@@ -37,7 +37,7 @@ NDSL stores all data in a "quantity" object. Quantities allocate memory and assi
 based which axis are present. Quantities must have at least one axis (else you have a
 scalar variable, which have no special storage methods).
 
-Below is an example of how to initalize an NDSL quantity with three dimensions:
+Below is an example of how to initialize an NDSL quantity with three dimensions:
 
 ``` py linenums="1"
 from ndsl.boilerplate import get_factories_single_tile
@@ -53,7 +53,7 @@ quantity_example = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], "n/a", dtype=Fl
 ```
 
 For now, lets just worry about line 10. Here, we use the `quantity_factory` object (more about this
-later) to initalize a quantity. The first argument, `[X_DIM, Y_DIM, Z_DIM]`, tells the system
+later) to initialize a quantity. The first argument, `[X_DIM, Y_DIM, Z_DIM]`, tells the system
 where to put each dimension within the quantity. Generally, the size of each dimension will be
 determined automatically, but here we have supplied `domain = (3, 2, 1)`, so the resulting quantity
 will have three dimensions, with the size the X/Y/Z dimension corresponding to position 0/1/2 in
@@ -75,7 +75,7 @@ print(quantity_example)
 
 will return:
 
-```
+```none
 Quantity(
     data=
 [[[0. 0.]
@@ -108,15 +108,15 @@ But wait, if our extent is (3, 2, 1), why is `data` size (4, 3, 2)?
 **Center vs Interface Computations**
 
 This extra index along each dimension are for interface computations. In weather and climate
-modeling, there are often situations where it is necessary to perfome calculations on the interface
+modeling, there are often situations where it is necessary to perform calculations on the interface
 between grid points, rather than at the center of grid points. NDSL always
 creates quantities with one extra grid point on each dimension; however, this extra point is
-ignored by the system unless you explitly state that it should be considered by replacing
-(for example) `Z_DIM` with `Z_INTETFACE_DIM`.
+ignored by the system unless you explicitly state that it should be considered by replacing
+(for example) `Z_DIM` with `Z_INTERFACE_DIM`.
 
 **Halo**
 
-NDSL quantities can be contructed with a halo on the X and Y dimensions. This is useful
+NDSL quantities can be constructed with a halo on the X and Y dimensions. This is useful
 when working with components such as the FV3 core, which uses a halo to facilitate data exchange
 between faces of the cube. In the example above, the halo is set to zero (`nhalo=0`), but this can
 be set to any value smaller than the smallest X/Y dimension.
@@ -128,7 +128,7 @@ There are two main methods for accessing data stored within a quantity:
 - `quantity.view[:]`: returns the numerical contents of the quantity as a NumPy-like array. This
 print always includes the extra point from the interface dimension, regardless of whether that
 point is being considered for computations. Note that, since this is a NumPy-like array, it can
-be acccessed using normal Python accessing rules, and much of the functionality of NumPy arrays is
+be accessed using normal Python accessing rules, and much of the functionality of NumPy arrays is
 also available.
 
 - `quantity.data[:]`: similar to `quantity.view[:]`, but `.data` also returns the halo, if one
@@ -153,7 +153,7 @@ need not worry about how they function for now. For now, just remember that a `Q
 produces quantities and a `StencilFactory` produces stencils (something we will talk about in the
 next guide).
 
-# Looking Backwards to Move Forward
+## Looking Backwards to Move Forward
 
 In this guide, we have discussed the unique NDSL data types and storage objects, focusing on how
 to create, access, and print their contents.

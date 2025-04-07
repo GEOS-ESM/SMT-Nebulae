@@ -2,7 +2,7 @@
 
 NDSL has a number of features which are designed to streamline development.
 
-To help illustrate them, let's create a simple stencil where we convert temperature from Celcius
+To help illustrate them, let's create a simple stencil where we convert temperature from Celsius
 to Kelvin:
 
 ??? Example
@@ -16,10 +16,10 @@ to Kelvin:
     import random
 
 
-    def celcius_to_kelvin(temperature_Celcius: FloatField, temperature_Kelvin: FloatField):
+    def celsius_to_kelvin(temperature_Celsius: FloatField, temperature_Kelvin: FloatField):
         with computation(PARALLEL), interval(...):
-                # convert from Celcius to Kelvin
-                temperature_Kelvin = temperature_Celcius + 273.15
+                # convert from Celsius to Kelvin
+                temperature_Kelvin = temperature_Celsius + 273.15
 
 
     class Convert:
@@ -27,7 +27,7 @@ to Kelvin:
 
             # construct the stencil
             self.constructed_copy_stencil = stencil_factory.from_dims_halo(
-                func=celcius_to_kelvin,
+                func=celsius_to_kelvin,
                 compute_dims=[X_DIM, Y_DIM, Z_DIM],
             )
 
@@ -49,15 +49,15 @@ to Kelvin:
             nhalo,
         )
 
-        # initalize the class
+        # initialize the class
         convert = Convert(stencil_factory)
 
-        # initalize quantities
-        temperature_Celcius = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
-        for i in range(temperature_Celcius.view[:].shape[0]):
-            for j in range(temperature_Celcius.view[:].shape[1]):
-                for k in range(temperature_Celcius.view[:].shape[2]):
-                    temperature_Celcius.view[i, j, k] = 20 + round(
+        # initialize quantities
+        temperature_Celsius = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
+        for i in range(temperature_Celsius.view[:].shape[0]):
+            for j in range(temperature_Celsius.view[:].shape[1]):
+                for k in range(temperature_Celsius.view[:].shape[2]):
+                    temperature_Celsius.view[i, j, k] = 20 + round(
                         random.uniform(-10, 10), 2
                     )
 
@@ -65,7 +65,7 @@ to Kelvin:
         temperature_Kelvin.view[:] = -999
 
         # call the class, perform the calculation
-        convert(temperature_Celcius, temperature_Kelvin)
+        convert(temperature_Celsius, temperature_Kelvin)
     ```
 
 ## Externals
@@ -82,7 +82,7 @@ To build the stencil with an external, we just need to add a single argument to 
 
 ``` py linenums="19"
         self.constructed_copy_stencil = stencil_factory.from_dims_halo(
-            func=celcius_to_kelvin,
+            func=celsius_to_kelvin,
             compute_dims=[X_DIM, Y_DIM, Z_DIM],
             externals={
                 "C_TO_K": 273.15,
@@ -93,13 +93,13 @@ To build the stencil with an external, we just need to add a single argument to 
 And then to load in the external within the stencil:
 
 ``` py linenums="9"
-def celcius_to_kelvin(temperature_Celcius: FloatField, temperature_Kelvin: FloatField):
+def celsius_to_kelvin(temperature_Celsius: FloatField, temperature_Kelvin: FloatField):
     # read in the external
     from __externals__ import C_TO_K
 
     with computation(PARALLEL), interval(...):
-            # convert from Celcius to Kelvin
-            temperature_Kelvin = temperature_Celcius + C_TO_K
+            # convert from Celsius to Kelvin
+            temperature_Kelvin = temperature_Celsius + C_TO_K
 ```
 
 Note that these externals are not automatically passed down to any functions called with the
@@ -109,6 +109,7 @@ Externals may be of type `float`, `int`, or `bool`, but must be scalar values.
 
 NDSL has a a number of externals which are related to the compute domain of a stencil and are
 always available (we will discuss compute domain more in a later section). These are:
+
 - `i_start`
 - `i_end`
 - `j_start`
@@ -141,7 +142,6 @@ class Convert:
 
 and now we need to pass in an additional argument to the class:
 
-
 ``` py linenums="43"
     convert = Convert(stencil_factory, domain)
 ```
@@ -158,7 +158,7 @@ arguments to create multiple executable stencils.
 
 Of course, using `from_dims_halo` requires information about the `domain` to be available, and a
 previous guide stated that `domain` would not (and should not) be explicitly defined when
-integrating code into a larger system. At that stage, informaiton about the domain will be
+integrating code into a larger system. At that stage, information about the domain will be
 automatically generated and stored in a variable called `grid` - but we will talk more about that
 when we get there.
 
@@ -168,12 +168,12 @@ It is possible to create a four dimensional field in NDSL. This is constructed a
 three dimensional field plus a fourth "data dimension". This fourth dimension cannot be
 parallelized, and therefore cannot be iterated over like the primary three dimensions.
 
-METHOD FOR CERATING FOUR DIMENSIONAL FIELDS WILL GO HERE ONCE IT IS FINALIZED
+METHOD FOR CREATING FOUR DIMENSIONAL FIELDS WILL GO HERE ONCE IT IS FINALIZED
 (if we are sticking with the current method let me know and I will put that here, but I think
 we should have it more streamlined at some point)
 
 These fields have a unique accessing method: `field.A[0, 0, 0][0]`. The first three indexes are
-the standard relative indexing method, while the fourth is an *absolute* index cooresponding to the
+the standard relative indexing method, while the fourth is an *absolute* index corresponding to the
 desired location along the additional axis that you want to reference.
 
 Using a similar method as above, it is also possible to create data dimensions with one or two
@@ -186,22 +186,22 @@ floating point precision, respectively. When using these casts, the precision is
 set to line up with the specified global precision. It is possible; however, to overwrite this and
 cast explicitly to a 32 or 64 bit version with `i32()`/`i64()`/`f32()`/`f64()`
 
-It is also possible to initate a temporary field with a specific type. The correct nomenclature is:
+It is also possible to initiate a temporary field with a specific type. The correct nomenclature is:
 `field: type = 0` where `type` can be any of `i32`/`i64`/`f32`/`f64`
 
 ## Current Index Information
 
-NDSL stores informaiton about the current K level in a variable called `THIS_K` as type `Int`.
+NDSL stores information about the current K level in a variable called `THIS_K` as type `Int`.
 This must be imported from `gt4py.cartesian.gtscript` prior to being used.
 
 ## Absolute K Indexing
 
 NDSL does have a method for absolute indexing within a stencil, but it should be used with caution.
-This can only be used at read (similar to offsets), and should only be used when absolutly
+This can only be used at read (similar to offsets), and should only be used when absolutely
 necessary (i.e. do not rely on this when relative offsetting is sufficient).
 
 The proper nomenclature is `field.at(K=level)` where level is a `Int` type number, variable, or
-expression which cooresponds to a level present in the accessed field.
+expression which corresponds to a level present in the accessed field.
 
 NOTE: add information about four dimensional fields once we have updated that
 
@@ -211,7 +211,7 @@ This guide introduced some more advanced features and exceptions to some of NDSL
 as designed these features will have no impact on performance, but it is possible to misuse these
 features in ways that will degrade performance. For that reason, it is recommended that these
 features are used sparingly, to that they do not become a crutch that enables poor coding habits
-and reduces the potentcy of the software as a whole.
+and reduces the potency of the software as a whole.
 
 In the next guide, we will introduce some more details about the inner workings of NDSL, and
 in the process unlock more control over the acceleration process.

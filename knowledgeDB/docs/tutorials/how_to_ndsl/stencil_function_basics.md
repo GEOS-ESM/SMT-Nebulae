@@ -17,7 +17,7 @@ In the horizontal plane, computations are **always** executed in parallel, which
 no assumed calculation order within the plane. This concept is the foundation of of NDSL's
 performance capabilities, and cannot be altered.
 
-In the vertical column, comptuations are performed by an iteration policy that is declared
+In the vertical column, computations are performed by an iteration policy that is declared
 within the stencil. This is done to enable the implementation of more scientific patterns using
 NDSL. We will discuss this in more detail shortly.
 
@@ -53,7 +53,7 @@ in traditional Python, and may be familiar to you as optional "type hinting". Fo
 (and functions) these type hints are required, and the code will not execute if the supplied type
 does not match the declared type.
 
-Looking into the stencil code, we can see the two most important keywords in NDSL. 
+Looking into the stencil code, we can see the two most important keywords in NDSL.
 
 The statement `with computation(PARALLEL)` signals that *all three* dimensions can be executed in
 parallel. The statement `with interval(...)` signals that the computation should apply to all
@@ -113,7 +113,7 @@ if __name__ == "__main__":
 
 NDSL has the ability to generate temporary quantities within a stencil. All temporary quantities
 (defined as variables which are used within the stencil but not passed to the stencil at call) are
-initalized as a field of dimensions equal to the full model domain. These fields can be used
+initialized as a field of dimensions equal to the full model domain. These fields can be used
 just as any other field can be used.
 
 **Offsets**
@@ -133,11 +133,11 @@ def copy_with_offset(in_field: FloatField, out_field: FloatField):
             out_field = in_field[0, 0, 1]
 ```
 
-Note that the interval is restricted to prevent the computaiton from occuring on the top
+Note that the interval is restricted to prevent the computation from occurring on the top
 level of `out_field`, as looking "up" from the top level would look into the extra point included
 for interface calculations. Since this computation is not being performed on the interface (both
 quantities are created using `Z_DIM`, not `Z_INTERFACE_DIM`), that row of data will be zero, and
-accessing it here will have unintented consequences in subsequent calculations.
+accessing it here will have unintended consequences in subsequent calculations.
 
 **Intervals and Iteration Policies**
 
@@ -146,19 +146,19 @@ executed, and is controlled using traditional Python indexing (e.g. `interval(0,
 `interval(1, -1)`). The argument `None` can be used to say "go to end of the domain" (e.g.
 `interval(10, None)`). The argument `...` signals compute at all levels, equivalent to `0, None`.
 
-NDSL has three possible iterations policies: `PARALLEL`, `FORWARD`, and`BAKWARD`.
+NDSL has three possible iterations policies: `PARALLEL`, `FORWARD`, and `BACKWARD`.
 Choosing `PARALLEL` states that all three dimensions can be executed in parallel. In this state,
 each point in the domain is computed independently in the fastest possible order. This means that
 fields are being written in random order, and therefore any operations which depends on data at
-other points in a field which is being written (e.g. `out = out[0, 0, 1]`) cannot use
+other points in a field which is being written (e.g. `out = in_field[0, 0, 1]`) cannot use
 `PARALLEL`.
 
 The `FORWARD` and `BACKWARD` options can be considered non-parallel options for the K axis. These
-options require that all calculations for a perticular K level are computed before moving on to the
-next K level. This is **often significantly slower than `PARALLEL`**, but ensures that each kernels
+options require that all calculations for a particular K level are computed before moving on to the
+next K level. This is **often significantly slower than `PARALLEL`**, but ensures that each kernel
 has the information between execution of each index along the K axis. `FORWARD` executes from the
 first argument in the `with interval()` statement to the second (e.g.
-`with computaiton(FORWARD), interval(0, 10)` begins at 0 and ends at 9), while `BACKWARD` does the
+`with computation(FORWARD), interval(0, 10)` begins at 0 and ends at 9), while `BACKWARD` does the
 opposite (begins at 9, ends at 0).
 
 `FORWARD` and `BACKWARD` are useful for more complex situations where data is being read with an
@@ -173,10 +173,10 @@ def offset_read_with_write(in_field: FloatField, out_field: FloatField):
 ```
 
 In this example, `in_field` is being read in but also modified. It is therefore necessary to use
-`FORWARD` to ensure that there is not a situation where in_field is doubled at a level `n`
+`FORWARD` to ensure that there is not a situation where `in_field` is doubled at a level `n`
 before it is read at level `n - 1`.
 
-Using offsets often requires a careful consideration of iteration policy. 
+Using offsets often requires a careful consideration of iteration policy.
 
 **Flow Control**
 
@@ -205,7 +205,8 @@ Functions in NDSL are used similar to traditional Python functions. They can be 
 visually more appealing, and are inlined at execution.
 
 Functions follow all the same rules as stencils, a but have a number of important quirks. Functions:
-- cannot contain the keywords `computaiton` or `interval` (they rely on the host stencil for this info)
+
+- cannot contain the keywords `computation` or `interval` (they rely on the host stencil for this info)
 - cannot be called outside of a stencil
 - must have a single return statement, but can return multiple values
 - are not tied to a single stencil, and may be reused across any number of stencils
@@ -266,7 +267,7 @@ NOTE. EVENTUALLY ADD LINKS TO FULL DOCSTRING DOCUMENTATION FOR EACH FUNCTION ONC
 
 ## Stencils vs Functions
 
-Every computaiton block must have an outermost layer of a stencil. The stencil signals that
+Every computation block must have an outermost layer of a stencil. The stencil signals that
 parallel computation is possible, and defines the iteration policy and interval. From this point
 the following logic applies:
 
@@ -281,15 +282,15 @@ within another function.
 
 ## Basic Stencil & Function Tips and Tricks
 
-Multiple stencils can be used sequantially with no impact on performanc - NDSL will combine
+Multiple stencils can be used sequentially with no impact on performance - NDSL will combine
 these stencils during compilation.
 
 Similarly, a single stencil can have any number of `with computation()` and `with interval()`
-statments. They do not need to appear in pairs, but often do (in which case they can be
+statements. They do not need to appear in pairs, but often do (in which case they can be
 concisely stated as `with computation(), interval()`). Remember that all numerical calculations must
 be inside of these two statements (either directly in a stencil, or indirectly via a function call).
 
-When writing code in NDSL, it is generally best to prioritze readability and make your
+When writing code in NDSL, it is generally best to prioritize readability and make your
 code as *approachable* as possible. NDSL will find ways to optimize it and make it as *fast*
 as possible.
 
