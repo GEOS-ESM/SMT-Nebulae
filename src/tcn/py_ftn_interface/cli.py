@@ -12,6 +12,8 @@ from tcn.py_ftn_interface.argument import get_argument_yaml_loader
 from tcn.py_ftn_interface.base import Function, InterfaceConfig
 from tcn.py_ftn_interface.bridge import Bridge
 
+from argument import Argument
+
 ###############
 # TODO:
 # - Fill Object version of the interface (actually used in GEOS)
@@ -98,25 +100,48 @@ def cli(definition_json_filepath: str, directory: str, hook: str, build: str):
     # that move data "as-is" between fortran and python (through c)
     prefix = defs["name"]
     functions = []
-    for function in defs["bridge"]:
-        args = function["arguments"]
+    # for function in defs["bridge"]:
+    for function in defs["functions"]:
+        # args = function["arguments"]
+        args = defs["functions"][function]
         if args == "None":
             args = None
+        else:
+            if "inputs" in args.keys():
+                inputs = []
+                for key, value in args["inputs"].items():
+                    # print(key, value)
+                    inputs.append(Argument(key, value))
+            if "inouts" in args.keys():
+                inouts = []
+                for key, value in args["inouts"].items():
+                    # print(key, value)
+                    inouts.append(Argument(key, value))
+            if "outputs" in args.keys():
+                outputs = []
+                for key, value in args["outputs"].items():
+                    # print(key, value)
+                    outputs.append(Argument(key, value))
         functions.append(
             Function(
-                function["name"],
-                (args["inputs"] if "inputs" in args.keys() else []) if args else [],
-                (args["inouts"] if "inouts" in args.keys() else []) if args else [],
-                (args["outputs"] if "outputs" in args.keys() else []) if args else [],
+                # function["name"],
+                function,
+                (inputs if "inputs" in args.keys() else []) if args else [],
+                (inouts if "inouts" in args.keys() else []) if args else [],
+                (outputs if "outputs" in args.keys() else []) if args else [],
             )
         )
 
     template_loader = jinja2.FileSystemLoader(searchpath=_find_templates_dir())
     template_env = jinja2.Environment(loader=template_loader)
 
+    # Bridge.make_from_yaml(
+    #     directory, template_env, defs
+    # ).generate_c().generate_fortran().generate_python().generate_hook(hook)
+
     Bridge.make_from_yaml(
         directory, template_env, defs
-    ).generate_c().generate_fortran().generate_python().generate_hook(hook)
+    ).generate_fortran().generate_hook(hook)
 
     # The build script is not fully functional - it is meant as a hint
     b = Build(

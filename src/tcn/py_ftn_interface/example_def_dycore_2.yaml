@@ -1,0 +1,12 @@
+type: py_ftn_interface
+name: geos_gtfv3
+functions:
+    init:
+        inputs:
+            comm: MPI
+            npx: int
+            npy: int
+    function2:
+        inputs:
+            npx: int
+            npy: int
