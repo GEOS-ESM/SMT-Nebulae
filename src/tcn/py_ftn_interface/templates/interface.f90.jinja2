@@ -26,7 +26,7 @@ module {{prefix}}_interface_mod
         subroutine {{prefix}}_{{function.name}}_f( &
             !inputs
             {% for input in function.inputs -%}
-                {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 else "" }}{{"&\n" if (loop.index % 10) == 0 else ""}}
+                {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}{{"&\n" if (loop.index % 10) == 0 else ""}}
             {%- endfor %}{{ "&" if function.inputs|length > 0 else "" }}
             !inouts
             {% for inout in function.inouts -%}

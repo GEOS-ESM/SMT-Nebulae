@@ -48,12 +48,12 @@ class Function:
         ]
 
     @staticmethod
-    def fortran_arguments_for_jinja2(arguments: List[Argument]) -> List[Dict[str, str]]:
+    def fortran_arguments_for_jinja2(arguments: List[Argument], containsIntentOut=False) -> List[Dict[str, str]]:
         """Transform yaml input for the template renderer"""
         return [
             {
                 "name": argument.name,
-                "type": argument.f90_type_definition,
+                "type": argument.f90_type_definition_inputs if not containsIntentOut else argument.f90_type_definition_with_output,
                 "dims_f90_defs": argument.f90_dims_definition,
                 "size_f90_per_dims": argument.f90_size_per_dims,
                 "f90_dims_and_size": argument.f90_dims_and_size,

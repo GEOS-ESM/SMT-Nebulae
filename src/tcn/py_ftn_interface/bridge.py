@@ -7,7 +7,9 @@ import jinja2
 from tcn.py_ftn_interface.base import Function, InterfaceConfig
 from tcn.py_ftn_interface.hook import Hook
 from tcn.py_ftn_interface.validation import Validation
+from tcn.py_ftn_interface.argument import Argument
 
+import fprettify
 
 class Bridge(InterfaceConfig):
     def __init__(
@@ -36,28 +38,49 @@ class Bridge(InterfaceConfig):
         prefix = configuration["name"]
         functions = []
         validations = []
-        for function in configuration["bridge"]:
-            args = function["arguments"]
+        # for function in configuration["bridge"]:
+        for function_name in configuration["functions"]:
+            # args = function["arguments"]
+            args = configuration["functions"][function_name]
             if args == "None":
                 args = None
-            candidate = Function(
-                function["name"],
-                (args["inputs"] if "inputs" in args.keys() else []) if args else [],
-                (args["inouts"] if "inouts" in args.keys() else []) if args else [],
-                (args["outputs"] if "outputs" in args.keys() else []) if args else [],
-            )
-            functions.append(candidate)
-            # Check for validation
-            if "validation" in function.keys():
-                if not args or (args["inouts"] == [] and args["outputs"] == []):
-                    raise RuntimeError(f"Can't validate {candidate.name}: no outputs.")
-                validations.append(
-                    Validation(
-                        candidate,
-                        function["validation"]["reference"]["call"],
-                        function["validation"]["reference"]["mod"],
-                    )
+            else:
+                if "inputs" in args.keys():
+                    inputs = []
+                    for key, value in args["inputs"].items():
+                        # print(key, value)
+                        inputs.append(Argument(key, value))
+                if "inouts" in args.keys():
+                    inouts = []
+                    for key, value in args["inouts"].items():
+                        # print(key, value)
+                        inouts.append(Argument(key, value))
+                if "outputs" in args.keys():
+                    outputs = []
+                    for key, value in args["outputs"].items():
+                        # print(key, value)
+                        outputs.append(Argument(key, value))
+            functions.append(Function(
+                # function["name"],
+                    function_name,
+                    (inputs if "inputs" in args.keys() else []) if args else [],
+                    (inouts if "inouts" in args.keys() else []) if args else [],
+                    (outputs if "outputs" in args.keys() else []) if args else [],
                 )
+            )
+
+            # Check for validation
+            # # if "validation" in function.keys():
+            # if "validation" in configuration["functions"][function].keys():
+            #     if not args or (args["inouts"] == [] and args["outputs"] == []):
+            #         raise RuntimeError(f"Can't validate {candidate.name}: no outputs.")
+            #     validations.append(
+            #         Validation(
+            #             candidate,
+            #             function["validation"]["reference"]["call"],
+            #             function["validation"]["reference"]["mod"],
+            #         )
+            #     )
 
         return cls(directory, prefix, functions, template_env, validations)
 
@@ -104,8 +127,8 @@ class Bridge(InterfaceConfig):
                 {
                     "name": function.name,
                     "inputs": Function.fortran_arguments_for_jinja2(function.inputs),
-                    "inouts": Function.fortran_arguments_for_jinja2(function.inouts),
-                    "outputs": Function.fortran_arguments_for_jinja2(function.outputs),
+                    "inouts": Function.fortran_arguments_for_jinja2(function.inouts, containsIntentOut=True),
+                    "outputs": Function.fortran_arguments_for_jinja2(function.outputs, containsIntentOut=True),
                 }
             )
 
@@ -126,7 +149,7 @@ class Bridge(InterfaceConfig):
 
         # Format
         # Note: pdoc dies when this is imported at file level. -_o_-
-        import fprettify  # noqa
+        # import fprettify  # noqa
 
         fprettify.reformat_inplace(ftn_source_filepath)
 

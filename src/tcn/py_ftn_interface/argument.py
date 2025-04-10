@@ -67,7 +67,7 @@ class Argument:
         return self._type
 
     @property
-    def f90_type_definition(self) -> str:
+    def f90_type_definition_inputs(self) -> str:
         if self._type == "int":
             return "integer(kind=c_int), value"
         elif self._type == "float":
@@ -85,6 +85,24 @@ class Argument:
         else:
             raise RuntimeError(f"ERROR_DEF_TYPE_TO_FORTRAN: {self._type}")
 
+    @property
+    def f90_type_definition_with_output(self) -> str:
+        if self._type == "int":
+            return "integer(kind=c_int)"
+        elif self._type == "float":
+            return "real(kind=c_float)"
+        elif self._type == "double":
+            return "real(kind=c_double)"
+        elif self._type == "array_int":
+            return "integer(kind=c_int), dimension(*)"
+        elif self._type == "array_float":
+            return "real(kind=c_float), dimension(*)"
+        elif self._type == "array_double":
+            return "real(kind=c_double), dimension(*)"
+        elif self._type == "MPI":
+            return "integer(kind=c_int)"
+        else:
+            raise RuntimeError(f"ERROR_DEF_TYPE_TO_FORTRAN: {self._type}")
 
 def argument_constructor(
     loader: yaml.SafeLoader, node: yaml.nodes.MappingNode

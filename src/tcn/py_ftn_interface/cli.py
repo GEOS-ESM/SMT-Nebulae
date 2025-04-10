@@ -141,24 +141,24 @@ def cli(definition_json_filepath: str, directory: str, hook: str, build: str):
 
     Bridge.make_from_yaml(
         directory, template_env, defs
-    ).generate_fortran().generate_hook(hook)
+    ).generate_fortran()
 
     # The build script is not fully functional - it is meant as a hint
-    b = Build(
-        directory,
-        prefix,
-        functions,
-        template_env,
-    )
-    if build == "cmake":
-        b.generate_cmake()
-    else:
-        raise NotImplementedError(f"No build '{build}'")
+    # b = Build(
+    #     directory,
+    #     prefix,
+    #     functions,
+    #     template_env,
+    # )
+    # if build == "cmake":
+    #     b.generate_cmake()
+    # else:
+    #     raise NotImplementedError(f"No build '{build}'")
 
     # Copy support files
-    shutil.copy(_find_templates("cuda_profiler.py"), directory)
-    shutil.copy(_find_templates("data_conversion.py"), directory)
-    open(directory + "/__init__.py", "a").close()
+    # shutil.copy(_find_templates("cuda_profiler.py"), directory)
+    # shutil.copy(_find_templates("data_conversion.py"), directory)
+    # open(directory + "/__init__.py", "a").close()
 
 
 if __name__ == "__main__":
