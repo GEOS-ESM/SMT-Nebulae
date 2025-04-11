@@ -17,7 +17,7 @@ source = f"""
 from {TMPFILEBASE} import ffi
 from datetime import datetime
 from mpi4py import MPI
-
+import traceback
 
 from {{prefix}}_hook import {{hook_obj}}
 
@@ -37,7 +37,7 @@ def {{prefix}}_{{function.name}}_py(
       {% for output in function.outputs -%}
         {{output.name}}:{{output.type}}{{ ", " if not loop.last else "" }}
       {%- endfor %}
-    ):
+    ) -> int:
 
     # Transform init code
     {% for code in function.init_code %}

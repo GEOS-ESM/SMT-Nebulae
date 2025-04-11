@@ -132,3 +132,12 @@ class InterfaceConfig:
         self._hook_class = prefix.upper()
         self._functions = function_defines
         self._template_env = template_env
+
+class Derived_Type:
+    def __init__(
+        self,
+        name: str,
+        variable_list: List[Argument],
+    ) -> None:
+        self.name = name
+        self._variable_list = variable_list

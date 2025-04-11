@@ -4,7 +4,7 @@ from typing import Any, Dict, List
 import clang_format as cf
 import jinja2
 
-from tcn.py_ftn_interface.base import Function, InterfaceConfig
+from tcn.py_ftn_interface.base import Function, InterfaceConfig, Derived_Type
 from tcn.py_ftn_interface.hook import Hook
 from tcn.py_ftn_interface.validation import Validation
 from tcn.py_ftn_interface.argument import Argument
@@ -18,6 +18,7 @@ class Bridge(InterfaceConfig):
         prefix: str,
         function_defines: List[Function],
         template_env: jinja2.Environment,
+        derived_types: List[Derived_Type] = [], 
         validations: List[Validation] = [],
     ) -> None:
         super().__init__(
@@ -27,7 +28,7 @@ class Bridge(InterfaceConfig):
             template_env=template_env,
         )
         self._validations = validations
-
+        self._derived_types = derived_types
     @classmethod
     def make_from_yaml(
         cls,
@@ -38,6 +39,7 @@ class Bridge(InterfaceConfig):
         prefix = configuration["name"]
         functions = []
         validations = []
+        derived_types = []
         # for function in configuration["bridge"]:
         for function_name in configuration["functions"]:
             # args = function["arguments"]
@@ -73,16 +75,28 @@ class Bridge(InterfaceConfig):
             # # if "validation" in function.keys():
             # if "validation" in configuration["functions"][function].keys():
             #     if not args or (args["inouts"] == [] and args["outputs"] == []):
-            #         raise RuntimeError(f"Can't validate {candidate.name}: no outputs.")
+            #         raise RuntimeError(f"Can't validate {function}: no outputs.")
             #     validations.append(
             #         Validation(
-            #             candidate,
-            #             function["validation"]["reference"]["call"],
+            #             functions[-1],
+            #             function[-1]["validation"]["reference"]["call"],
             #             function["validation"]["reference"]["mod"],
             #         )
             #     )
 
-        return cls(directory, prefix, functions, template_env, validations)
+        # Check for derived types
+        if "derived_types" in configuration.keys():
+            for derived_type_name in configuration["derived_types"]:
+                derived_type_data_list = []
+                for key, value in configuration["derived_types"][derived_type_name].items():
+                    derived_type_data_list.append(Argument(key, value))
+                derived_types.append(Derived_Type(
+                    name=derived_type_name,
+                    variable_list=derived_type_data_list,
+                    )
+                )
+
+        return cls(directory, prefix, functions, template_env, derived_types, validations)
 
     def generate_c(self) -> "Bridge":
         # Transform data for Jinja2 template
