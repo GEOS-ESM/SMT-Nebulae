@@ -36,11 +36,11 @@ class Function:
         return self._inputs + self._inouts + self._outputs
 
     @staticmethod
-    def c_arguments_for_jinja2(arguments: List[Argument]) -> List[Dict[str, Any]]:
+    def c_arguments_for_jinja2(arguments: List[Argument], inputOnly=False) -> List[Dict[str, Any],]:
         """Transform yaml input for the template renderer"""
         return [
             {
-                "type": argument.c_type,
+                "type": argument.c_type if not inputOnly else argument.c_type_input_only,
                 "name": argument.name,
                 "dims": argument._dims,
             }

@@ -91,7 +91,7 @@ class Bridge(InterfaceConfig):
             functions.append(
                 {
                     "name": function.name,
-                    "inputs": Function.c_arguments_for_jinja2(function.inputs),
+                    "inputs": Function.c_arguments_for_jinja2(function.inputs, inputOnly=True),
                     "inouts": Function.c_arguments_for_jinja2(function.inouts),
                     "outputs": Function.c_arguments_for_jinja2(function.outputs),
                     "arguments": Function.c_arguments_for_jinja2(function.arguments),
@@ -99,16 +99,16 @@ class Bridge(InterfaceConfig):
                 }
             )
 
-        validations = []
-        for validation in self._validations:
-            validations.append(validation.for_jinja_c())
+        # validations = []
+        # for validation in self._validations:
+        #     validations.append(validation.for_jinja_c())
 
         # Source
         template = self._template_env.get_template("interface.c.jinja2")
         code = template.render(
             prefix=self._prefix,
             functions=functions,
-            validations=validations,
+            # validations=validations,
         )
 
         c_source_filepath = f"{self._directory_path}/{self._prefix}_interface.c"

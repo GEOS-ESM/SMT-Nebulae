@@ -8,7 +8,7 @@
   void {{prefix}}_{{function.name}}_c(
       // inputs
       {% for input in function.inputs -%}
-        {{input.type}} {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 else "" }}
+        {{input.type}} {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
       {%- endfor %}
       // inputs-outputs
       {% for inout in function.inouts -%}
@@ -22,11 +22,35 @@
     {%- for init_code in function.arguments_init -%}
         {{init_code}}
     {%- endfor -%}
-    {{prefix}}_{{function.name}}_py(
-      {%- for arg in function.arguments -%}
-          {{arg.name}}{{ ", " if not loop.last else "" }}
-      {%- endfor -%}
+    int return_code = {{prefix}}_{{function.name}}_py(
+      {% for input in function.inputs -%}
+        {% if "MPI" not in input.type -%}
+          {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+        {%- else -%}
+          {{input.name}}_c{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+        {%- endif %}
+      {% endfor %}
+      {%- for inout in function.inouts -%}
+        {% if "MPI" not in inout.type -%}
+          {{inout.name}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+        {%- else -%}
+          {{inout.name}}_c{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+        {%- endif %}
+      {% endfor -%}
+      {%- for output in function.outputs -%}
+        {% if "MPI" not in output.type -%}
+          {{output.name}}{{ ", " if not loop.last else "" }}
+        {%- else -%}
+          {{output.name}}_c{{ ", " if not loop.last else "" }}
+        {%- endif %}
+      {% endfor %}
+
     );
+
+    if (return_code < 0)
+    {
+        exit(return_code);
+    }
   }
 
 {% endfor %}

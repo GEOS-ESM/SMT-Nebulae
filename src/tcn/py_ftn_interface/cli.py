@@ -139,9 +139,12 @@ def cli(definition_json_filepath: str, directory: str, hook: str, build: str):
     #     directory, template_env, defs
     # ).generate_c().generate_fortran().generate_python().generate_hook(hook)
 
-    Bridge.make_from_yaml(
+    bridge_construct = Bridge.make_from_yaml(
         directory, template_env, defs
-    ).generate_fortran()
+    )
+    
+    bridge_construct.generate_fortran()
+    bridge_construct.generate_c()
 
     # The build script is not fully functional - it is meant as a hint
     # b = Build(

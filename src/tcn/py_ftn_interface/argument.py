@@ -55,7 +55,15 @@ class Argument:
         if self._type.startswith("array_"):
             return self._type[len("array_") :] + "*"
         if self._type.startswith("MPI"):
-            return "void*"
+            return "MPI_Fint"
+        return self._type
+    
+    @property
+    def c_type_input_only(self) -> str:
+        if self._type.startswith("array_"):
+            return "const " + self._type[len("array_") :] + "*"
+        if self._type.startswith("MPI"):
+            return "MPI_Fint"
         return self._type
 
     @property
