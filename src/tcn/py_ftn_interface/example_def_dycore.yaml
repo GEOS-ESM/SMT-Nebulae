@@ -1,5 +1,5 @@
 type: py_ftn_interface
-name: geos_gtfv3
+name: geos_pyfv3
 functions:
     init:
         inputs:

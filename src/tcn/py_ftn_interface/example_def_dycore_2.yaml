@@ -1,5 +1,5 @@
 type: py_ftn_interface
-name: geos_gtfv3
+name: geos_pyfv3
 functions:
     function1:
         inputs:
@@ -44,7 +44,7 @@ functions:
             w5: array_float
             w6: array_double
 derived_types: 
-    fv_flags_t:
+    fv_flags:
         grid_type : int
         hord_mt : int
         kord_mt : int
@@ -183,7 +183,7 @@ derived_types:
         c2l_ord : int
         dx_const : float
         deglat : float
-        double deglon_start : double
+        deglon_start : double
         adj_mass_vmr : bool
         compute_coords_locally : bool
         layout_x : int

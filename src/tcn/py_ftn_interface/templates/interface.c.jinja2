@@ -5,7 +5,7 @@
 
 {% for function in functions -%}
 
-  void {{prefix}}_{{function.name}}_c(
+  void {{prefix}}_c_{{function.name}}(
       // inputs
       {% for input in function.inputs -%}
         {{input.type}} {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
@@ -22,7 +22,7 @@
     {%- for init_code in function.arguments_init -%}
         {{init_code}}
     {%- endfor -%}
-    int return_code = {{prefix}}_{{function.name}}_py(
+    int return_code = {{prefix}}_py_{{function.name}}(
       {% for input in function.inputs -%}
         {% if "MPI" not in input.type -%}
           {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
@@ -57,7 +57,7 @@
 
 {% for validation in validations -%}
 
-  void v_{{prefix}}_{{validation.candidate}}_c(
+  void v_{{prefix}}_c_{{validation.candidate}}(
       // inputs-outputs
       {% for inout in validation.inouts -%}
         {{inout.type}} f90_{{inout.name}}, {{inout.type}} py_{{inout.name}}, int {{inout.name}}_dims,
@@ -93,7 +93,7 @@
     {% endfor %}
     {%- endfor %}
 
-    v_{{prefix}}_{{validation.candidate}}_py(
+    v_{{prefix}}_py_{{validation.candidate}}(
       {% for inout in validation.inouts -%}
         {{inout.name}}_wrapped{{ ", " if not loop.last or validation.outputs|length > 0 else "" }}
       {%- endfor %}

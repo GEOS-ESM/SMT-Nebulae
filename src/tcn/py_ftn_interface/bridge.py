@@ -135,6 +135,17 @@ class Bridge(InterfaceConfig):
 
     def generate_fortran(self) -> "Bridge":
         # Transform data for Jinja2 template
+        derived_types = []
+        for derived_type in self._derived_types:
+            derived_types.append(
+                {
+                    "name": derived_type.name,
+                    # Current assumption is that "variables" does not contain any arrays
+                    "variables": Function.fortran_arguments_for_jinja2(derived_type._variable_list, containsIntentOut=True),
+                }
+            )
+
+
         functions = []
         for function in self._functions:
             functions.append(
@@ -154,6 +165,7 @@ class Bridge(InterfaceConfig):
         code = template.render(
             prefix=self._prefix,
             functions=functions,
+            derived_types=derived_types,
             validations=validations,
         )
 
@@ -203,6 +215,51 @@ class Bridge(InterfaceConfig):
 
         # Format
         subprocess.call(["black", "-q", py_source_filepath])
+
+        return self
+    
+    def generate_header(self) -> "Bridge":
+        # Generate Header File list
+        derived_types = []
+        for derived_type in self._derived_types:
+            derived_types.append(
+                {
+                    "name": derived_type.name,
+                    "variables": Function.header_arguments_for_jinja2(derived_type._variable_list),
+                }
+            )
+        
+        # Generate C extern prototypes list
+        functions = []
+        for function in self._functions:
+            functions.append(
+                {
+                    "name": function.name,
+                    "inputs": Function.c_prototype_for_jinja2(function.inputs, inputOnly=True),
+                    "inouts": Function.c_prototype_for_jinja2(function.inouts),
+                    "outputs": Function.c_prototype_for_jinja2(function.outputs),
+                }
+            )
+
+        template = self._template_env.get_template("interface.h.jinja2")
+
+        validations = []
+        for validation in self._validations:
+            validations.append(validation.for_jinja_python())
+
+        code = template.render(
+            prefix=self._prefix,
+            derived_types=derived_types,
+            functions=functions,
+            validations=validations,
+            hook_obj=self._hook_obj,
+        )
+
+        h_source_filepath = f"{self._directory_path}/{self._prefix}_interface.h"
+        with open(h_source_filepath, "w+") as f:
+            f.write(code)
+
+        subprocess.call([cf._get_executable("clang-format"), "-i", h_source_filepath])
 
         return self
 

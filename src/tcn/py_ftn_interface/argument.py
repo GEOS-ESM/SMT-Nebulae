@@ -65,6 +65,22 @@ class Argument:
         if self._type.startswith("MPI"):
             return "MPI_Fint"
         return self._type
+    
+    @property
+    def c_prototype_input_only(self) -> str:
+        if self._type.startswith("array_"):
+            return "const " + self._type[len("array_") :] + "*"
+        if self._type.startswith("MPI"):
+            return "void *"
+        return self._type
+    
+    @property
+    def c_prototype(self) -> str:
+        if self._type.startswith("array_"):
+            return self._type[len("array_") :] + "*"
+        if self._type.startswith("MPI"):
+            return "void *"
+        return self._type
 
     @property
     def py_type_hint(self) -> str:
@@ -82,6 +98,8 @@ class Argument:
             return "real(kind=c_float), value"
         elif self._type == "double":
             return "real(kind=c_double), value"
+        elif self._type == "bool":
+            return "logical(kind=c_bool), value"
         elif self._type == "array_int":
             return "integer(kind=c_int), dimension(*)"
         elif self._type == "array_float":
@@ -101,6 +119,8 @@ class Argument:
             return "real(kind=c_float)"
         elif self._type == "double":
             return "real(kind=c_double)"
+        elif self._type == "bool":
+            return "logical(kind=c_bool)"
         elif self._type == "array_int":
             return "integer(kind=c_int), dimension(*)"
         elif self._type == "array_float":

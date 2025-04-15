@@ -46,6 +46,30 @@ class Function:
             }
             for argument in arguments
         ]
+    
+    @staticmethod
+    def header_arguments_for_jinja2(arguments: List[Argument], inputOnly=False) -> List[Dict[str, Any],]:
+        """Transform yaml input for the template renderer"""
+        return [
+            {
+                "type": argument.c_type if not inputOnly else argument.c_type_input_only,
+                "name": argument.name,
+                "dims": argument._dims,
+            }
+            for argument in arguments
+        ]
+    
+    @staticmethod
+    def c_prototype_for_jinja2(arguments: List[Argument], inputOnly=False) -> List[Dict[str, Any],]:
+        """Transform yaml input for the template renderer"""
+        return [
+            {
+                "type": argument.c_prototype if not inputOnly else argument.c_prototype_input_only,
+                "name": argument.name,
+                "dims": argument._dims,
+            }
+            for argument in arguments
+        ]
 
     @staticmethod
     def fortran_arguments_for_jinja2(arguments: List[Argument], containsIntentOut=False) -> List[Dict[str, str]]:
