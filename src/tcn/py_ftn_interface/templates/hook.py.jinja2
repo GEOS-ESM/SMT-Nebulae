@@ -19,7 +19,7 @@ class {{hook_class}}:
         self,
         # inputs
         {% for input in function.inputs -%}
-        {{input.name}}:{{input.type}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+        {{input.name}}:{{input.type}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
         {%- endfor %}
         # inputs-outputs
         {% for inout in function.inouts -%}

@@ -141,7 +141,7 @@ class Bridge(InterfaceConfig):
                 {
                     "name": derived_type.name,
                     # Current assumption is that "variables" does not contain any arrays
-                    "variables": Function.fortran_arguments_for_jinja2(derived_type._variable_list, containsIntentOut=True),
+                    "variables": Function.fortran_arguments_for_jinja2(derived_type._variable_list, [], containsIntentOut=True),
                 }
             )
 
@@ -151,9 +151,9 @@ class Bridge(InterfaceConfig):
             functions.append(
                 {
                     "name": function.name,
-                    "inputs": Function.fortran_arguments_for_jinja2(function.inputs),
-                    "inouts": Function.fortran_arguments_for_jinja2(function.inouts, containsIntentOut=True),
-                    "outputs": Function.fortran_arguments_for_jinja2(function.outputs, containsIntentOut=True),
+                    "inputs": Function.fortran_arguments_for_jinja2(function.inputs, derived_types),
+                    "inouts": Function.fortran_arguments_for_jinja2(function.inouts, derived_types, containsIntentOut=True),
+                    "outputs": Function.fortran_arguments_for_jinja2(function.outputs, derived_types, containsIntentOut=True),
                 }
             )
 

@@ -90,8 +90,8 @@ class Argument:
             return "MPI.Intercomm"
         return self._type
 
-    @property
-    def f90_type_definition_inputs(self) -> str:
+    # @property
+    def f90_type_definition_inputs(self, derived_type_names=[]) -> str:
         if self._type == "int":
             return "integer(kind=c_int), value"
         elif self._type == "float":
@@ -108,11 +108,13 @@ class Argument:
             return "real(kind=c_double), dimension(*)"
         elif self._type == "MPI":
             return "integer(kind=c_int), value"
+        elif self._type in derived_type_names:
+            return "type("+ self._type + "_interface_type)"
         else:
             raise RuntimeError(f"ERROR_DEF_TYPE_TO_FORTRAN: {self._type}")
 
-    @property
-    def f90_type_definition_with_output(self) -> str:
+    # @property
+    def f90_type_definition_with_output(self,derived_type_names) -> str:
         if self._type == "int":
             return "integer(kind=c_int)"
         elif self._type == "float":
@@ -129,6 +131,8 @@ class Argument:
             return "real(kind=c_double), dimension(*)"
         elif self._type == "MPI":
             return "integer(kind=c_int)"
+        elif self._type in derived_type_names:
+            return self._type + "_interface_type"
         else:
             raise RuntimeError(f"ERROR_DEF_TYPE_TO_FORTRAN: {self._type}")
 

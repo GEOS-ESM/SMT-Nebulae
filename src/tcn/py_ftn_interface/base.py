@@ -72,12 +72,15 @@ class Function:
         ]
 
     @staticmethod
-    def fortran_arguments_for_jinja2(arguments: List[Argument], containsIntentOut=False) -> List[Dict[str, str]]:
+    def fortran_arguments_for_jinja2(arguments: List[Argument], derived_types: List[Dict], containsIntentOut=False) -> List[Dict[str, str]]:
         """Transform yaml input for the template renderer"""
+        derived_type_names = [
+            derived_type["name"] for derived_type in derived_types
+        ]
         return [
             {
                 "name": argument.name,
-                "type": argument.f90_type_definition_inputs if not containsIntentOut else argument.f90_type_definition_with_output,
+                "type": argument.f90_type_definition_inputs(derived_type_names) if not containsIntentOut else argument.f90_type_definition_with_output(derived_type_names),
                 "dims_f90_defs": argument.f90_dims_definition,
                 "size_f90_per_dims": argument.f90_size_per_dims,
                 "f90_dims_and_size": argument.f90_dims_and_size,

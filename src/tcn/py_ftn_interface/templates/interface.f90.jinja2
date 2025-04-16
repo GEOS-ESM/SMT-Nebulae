@@ -18,6 +18,13 @@ module {{prefix}}_interface_mod
     {% for function in functions -%}
     public :: {{prefix}}_f_{{function.name}}
     {% endfor -%}
+    {% for new_type in derived_types -%}
+    public :: {{new_type.name}}_interface_type
+    public :: make_{{new_type.name}}_C_interop
+    {% endfor -%}
+
+    {% for validation in validations -%}
+    {% endfor -%}
     {% for validation in validations -%}
     public :: validate_{{prefix}}_f_{{validation.candidate}}
     {% endfor -%}
@@ -47,6 +54,9 @@ module {{prefix}}_interface_mod
             {%- endfor -%}{{ "&" if function.outputs|length > 0 else "" }}
         ) bind(c, name='{{prefix}}_c_{{function.name}}')
             import c_int, c_float, c_double
+            {% for new_type in derived_types -%}
+            import {{new_type.name}}_interface_type ! This may be extraneous in some cases
+            {% endfor -%}
             implicit none
 
             {% for input in function.inputs -%}
@@ -91,6 +101,18 @@ module {{prefix}}_interface_mod
     end interface
 
     contains
+
+    {% for new_type in derived_types -%}
+    subroutine make_{{new_type.name}}_C_interop({{new_type.name}}, c_{{new_type.name}})
+        type(<INSERT FORTRAN DERIVED TYPE>), intent(in) :: {{new_type.name}}
+        type({{new_type.name}}_interface_type), intent(out) :: c_{{new_type.name}}
+
+        {% for variable in new_type.variables -%}
+            c_{{new_type.name}}%{{variable.name}} = {{new_type.name}}%{{variable.name}}
+        {% endfor -%}
+    end subroutine make_{{new_type.name}}_C_interop
+    {% endfor %}
+
     {% for validation in validations -%}
     subroutine validate_{{prefix}}_f_{{validation.candidate}}( &
         !inputs
