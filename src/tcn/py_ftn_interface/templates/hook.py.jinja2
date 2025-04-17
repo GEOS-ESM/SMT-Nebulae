@@ -30,7 +30,36 @@ class {{hook_class}}:
         {{output.name}}:{{output.type}}{{ ", " if not loop.last else "" }}
         {%- endfor %}
     ):
+        python_state_data = {}
+        # Note: Will need to add in dimensions for call to .fortran_to_python
+        {% for data in function.inputs -%}
+            {% if "cffi.FFI.CData" in data.type -%}
+        python_state_data["{{data.name}}"] = self._f2py.fortran_to_python({{data.name}})
+            {%- endif %}
+        {% endfor %}
+        {% for data in function.inouts -%}
+            {% if "cffi.FFI.CData" in data.type -%}
+        python_state_data["{{data.name}}"] = self._f2py.fortran_to_python({{data.name}})
+            {%- endif %}
+        {% endfor %}
+        {% for data in function.outputs -%}
+            {% if "cffi.FFI.CData" in data.type -%}
+        python_state_data["{{data.name}}"] = self._f2py.fortran_to_python({{data.name}})
+            {%- endif %}
+        {% endfor %}
         print("My code for {{prefix}}_{{function.name}} goes here.")
+
+        # Note: Will need to add in potential offset for call to .python_to_fortran
+        {% for data in function.inouts -%}
+            {% if "cffi.FFI.CData" in data.type -%}
+        self._f2py.python_to_fortran(python_state_data["{{data.name}}"],{{data.name}})
+            {%- endif %}
+        {% endfor %}
+        {% for data in function.outputs -%}
+            {% if "cffi.FFI.CData" in data.type -%}
+        self._f2py.python_to_fortran(python_state_data["{{data.name}}"],{{data.name}})
+            {%- endif %}
+        {% endfor %}
     {% endfor %}
 
     {% for validation in validations %}
