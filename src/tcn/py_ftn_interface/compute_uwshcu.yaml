@@ -1,0 +1,118 @@
+type: py_ftn_interface
+name: compute_uwshcu
+functions:
+	init: # May need some sort of initialization for UW to convert arrays properly
+    	inputs:
+    	inouts:
+    	outputs:
+    call_compute_uwshcu:
+	    inputs: 
+            dotransport : int
+			ncnst : int
+			k0 : int
+			windsrcavg : int
+			qtsrchgt : real
+			qtsrc_fac : real
+			thlsrc_fac : real
+			frc_rasn : real
+			rbuoy : real
+			epsvarw : real
+			use_CINcin : int
+			mumin1 : real
+			rmaxfrac : real
+			PGFc : real
+			dt : real
+			niter_xc : int
+			criqc : real
+			rle : real
+			cridist_opt : int
+			mixscale : real
+			rkm : real
+			detrhgt : real
+			rdrag : real
+			use_self_detrain : int
+			use_cumpenent : int
+			rpen : real
+			use_momenflx : int
+			rdrop : real
+			
+			pifc0_in : array_float
+			zifc0_in : array_float
+			pmid0_in : array_float
+			zmid0_in : array_float
+			kpbl_in : array_int_IJ
+			exnmid0_in : array_float
+			exnifc0_in : array_float
+			dp0_in : array_float
+			u0_in : array_float
+			v0_in : array_float
+			qv0_in : array_float
+			ql0_in : array_float
+			qi0_in : array_float
+			th0_in : array_float
+			frland_in : array_float_IJ
+			tke_in : array_float
+			rkfre : array_float_IJ
+			shfx : array_float_IJ
+			evap : array_float_IJ
+			
+			cush_inout : array_float_IJ
+			tr0_inout : array_float_NTracer
+			ssthl0 : array_float
+			ssqt0 : array_float
+			ssu0 : array_float
+			ssv0 : array_float
+			sstr0 : array_float_Ntracer
+			thj : array_float
+			qlj : array_float
+			qij : array_float
+			qvj : array_float
+			qse : array_float
+			id_check : array_int
+			thvl0top : array_float
+			tr0_o : array_float_Ntracer
+			sstr0_o : array_float_Ntracer
+			trflx : array_float_Ntracer
+			trten : array_float_Ntracer
+			tru : array_float_Ntracer
+			tru_emf : array_float_Ntracer
+			kinv : array_int
+			umf_out : array_float
+			dcm_out : array_float
+			qvten_out : array_float
+			qlten_out : array_float
+			qiten_out : array_float
+			sten_out : array_float
+			uten_out : array_float
+			vten_out : array_float
+			qrten_out : array_float
+			qsten_out : array_float
+			cufrc_out : array_float
+			cushinout : array_float(?) --
+			qtflx_out : array_float
+			slflx_out : array_float
+			uflx_out : array_float
+			vflx_out : array_float
+			fer_out : array_float
+			fdr_out : array_float
+			thvlavg : array_float
+			tkeavg : array_float
+			uavg : array_float
+			vavg : array_float
+			thvlmin : array_float
+			qtavg : array_float
+			dpi : array_float_IJ
+			thlsrc : array_float
+			usrc : array_float
+			vsrc : array_float
+			plcl : array_float
+			klcl_test : ? --
+			thl0lcl : array_float
+			qt0lcl : array_float
+			thv0lcl : array_float
+			plfc : array_float
+			cin : array_float
+			thvubot_test : ? --
+			thvlsrc : array_float
+			thv0bot_test : ? --
+			thl0top : array_float

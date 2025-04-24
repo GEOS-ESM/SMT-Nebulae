@@ -24,7 +24,7 @@ from {{prefix}}_hook import {{hook_obj}}
 
 {% for function in functions %}
 @ffi.def_extern()
-def {{prefix}}_{{function.name}}_py(
+def {{prefix}}_py_{{function.name}}(
       # inputs
       {% for input in function.inputs -%}
         {{input.name}}:{{input.type}}{{ ", " if not loop.last or function.inouts|length > 0 else "" }}
@@ -52,7 +52,7 @@ def {{prefix}}_{{function.name}}_py(
 {% endfor %}
 {% for validation in validations %}
 @ffi.def_extern()
-def v_{{prefix}}_{{validation.candidate}}_py(
+def v_{{prefix}}_py_{{validation.candidate}}(
       # inputs-outputs
       {% for inout in validation.inouts -%}
         f90_{{inout.name}}:{{inout.type}}, py_{{inout.name}}:{{inout.type}}{{ ", " if not loop.last or validation.outputs|length > 0 else "" }}
@@ -84,7 +84,7 @@ extern void {{prefix}}_{{function.name}}_py(
 );
 {% endfor %}
 {% for validation in validations %}
-extern void v_{{prefix}}_{{validation.candidate}}_py(
+extern void v_{{prefix}}_py_{{validation.candidate}}(
     {% for inout in validation.inouts_c -%}
       {{inout.type}} f90_{{inout.name}}, {{inout.type}} py_{{inout.name}}{{ ", " if not loop.last or validation.outputs|length > 0 else "" }}
     {%- endfor %}
