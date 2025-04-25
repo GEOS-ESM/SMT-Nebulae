@@ -26,7 +26,13 @@ typedef union
       // inputs
       {% for input in function.inputs -%}
         {% if "void *" not in input.type -%}
+          {%- if "*" in input.type -%}
+          {{input.type}} {{input.name}},
+          int * {{input.name}}_dim_sizes,
+          int {{input.name}}_rank{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+          {%- else -%}
           {{input.type}} {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+          {%- endif %}
         {%- else -%}
           {{input.type}} {{input.name}}_c{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
         {%- endif %}
@@ -34,7 +40,13 @@ typedef union
       // inputs-outputs
       {% for inout in function.inouts -%}
         {% if "void *" not in inout.type -%}
+          {%- if "*" in inout.type -%}
+          {{inout.type}} {{inout.name}},
+          int * {{inout.name}}_dim_sizes,
+          int {{inout.name}}_rank{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+          {%- else -%}
           {{inout.type}} {{inout.name}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+          {%- endif %}
         {%- else -%}
           {{inout.type}} {{inout.name}}_c{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
         {%- endif %}

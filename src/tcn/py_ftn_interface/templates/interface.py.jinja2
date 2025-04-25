@@ -27,16 +27,28 @@ from {{prefix}}_hook import {{hook_obj}}
 def {{prefix}}_py_{{function.name}}(
       # inputs
       {% for input in function.inputs -%}
-        {{input.name}}:{{input.type}}{{ ", " if not loop.last or function.inouts|length > 0 else "" }}
-      {%- endfor %}
+      {% if "CData" in input.type -%}
+      {{input.name}}:{{input.type}},
+      {{input.name}}_dim_sizes:{{input.type}},
+      {{input.name}}_rank:int{{ ", " if not loop.last or function.inouts|length > 0 else "" }}
+      {%- else -%}
+      {{input.name}}:{{input.type}}{{ ", " if not loop.last or function.inouts|length > 0 else "" }}
+      {%- endif %}
+      {% endfor %}
       # inputs-outputs
       {% for inout in function.inouts -%}
-        {{inout.name}}:{{inout.type}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
-      {%- endfor %}
+      {% if "CData" in inout.type -%}
+      {{inout.name}}:{{inout.type}},
+      {{inout.name}}_dim_sizes:{{inout.type}},
+      {{inout.name}}_rank:int{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+      {%- else -%}
+      {{inout.name}}:{{inout.type}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+      {%- endif %}
+      {% endfor %}
       # outputs
       {% for output in function.outputs -%}
         {{output.name}}:{{output.type}}{{ ", " if not loop.last else "" }}
-      {%- endfor %}
+      {% endfor %}
     ) -> int:
 
     # Transform init code
@@ -45,8 +57,27 @@ def {{prefix}}_py_{{function.name}}(
     {% endfor %}
 
     {{hook_obj}}.{{function.name}}(
-        {%- for name in function.all_arguments_name -%}
-          {{name}}={{name}}{{ ", " if not loop.last else "" }}
+        
+      {% for input in function.inputs -%}
+      {% if "CData" in input.type -%}
+      {{input.name}}={{input.name}},
+      {{input.name}}_dim_sizes={{input.name}}_dim_sizes,
+      {{input.name}}_rank={{input.name}}_rank{{ ", " if not loop.last else "" }}
+      {%- else -%}
+      {{input.name}}={{input.name}}{{ ", " if not loop.last else "" }}
+      {%- endif %}
+      {% endfor %}
+      {% for inout in function.inouts -%}
+      {% if "CData" in inout.type -%}
+      {{inout.name}}={{inout.name}},
+      {{inout.name}}_dim_sizes={{inout.name}}_dim_sizes,
+      {{inout.name}}_rank={{inout.name}}_rank{{ ", " if not loop.last else "" }}
+      {%- else -%}
+      {{inout.name}}={{inout.name}}{{ ", " if not loop.last else "" }}
+      {%- endif %}
+      {% endfor %}
+      {% for output in function.outputs -%}
+      {{output.name}}={{output.name}}{{ ", " if not loop.last else "" }}
       {% endfor %}
     )
 {% endfor %}
@@ -79,7 +110,13 @@ header = f"""
 {% for function in functions -%}
 extern void {{prefix}}_{{function.name}}_py(
     {%- for arg in function.c_arguments -%}
-        {{arg.type}} {{arg.name}}{{ ", " if not loop.last else "" }}
+      {%- if "*" in arg.type -%}
+    {{arg.type}} {{arg.name}}
+    int * {{arg.name}}_dim_sizes,
+    int {{arg.name}}_rank{{ ", " if not loop.last else "" }}
+      {%- else -%}
+    {{arg.type}} {{arg.name}}{{ ", " if not loop.last else "" }}
+      {%- endif -%}
     {%- endfor -%}
 );
 {% endfor %}

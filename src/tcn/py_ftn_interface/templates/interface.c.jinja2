@@ -8,11 +8,23 @@
   void {{prefix}}_c_{{function.name}}(
       // inputs
       {% for input in function.inputs -%}
+        {%- if "*" in input.type -%}
+        {{input.type}} {{input.name}},
+        int * {{input.name}}_dim_sizes,
+        int {{input.name}}_rank{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+        {%- else -%}
         {{input.type}} {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+        {%- endif -%}
       {%- endfor %}
       // inputs-outputs
       {% for inout in function.inouts -%}
+        {%- if "*" in inout.type -%}
+        {{inout.type}} {{inout.name}},
+        int * {{inout.name}}_dim_sizes,
+        int {{inout.name}}_rank{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+        {%- else -%}
         {{inout.type}} {{inout.name}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+        {%- endif -%}
       {%- endfor %}
       // outputs
       {% for output in function.outputs -%}
@@ -25,14 +37,24 @@
     int return_code = {{prefix}}_py_{{function.name}}(
       {% for input in function.inputs -%}
         {% if "MPI" not in input.type -%}
+          {%- if "*" in input.type -%}
+           {{input.name}},
+          {{input.name}}_dim_sizes, {{input.name}}_rank{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+          {%- else -%}
           {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+          {%- endif -%}
         {%- else -%}
           {{input.name}}_c{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
         {%- endif %}
       {% endfor %}
       {%- for inout in function.inouts -%}
         {% if "MPI" not in inout.type -%}
+          {%- if "*" in inout.type -%}
+          {{inout.name}},
+          {{inout.name}}_dim_sizes, {{inout.name}}_rank{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+          {%- else -%}
           {{inout.name}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+          {%- endif -%}
         {%- else -%}
           {{inout.name}}_c{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
         {%- endif %}
