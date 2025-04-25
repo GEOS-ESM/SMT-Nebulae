@@ -42,11 +42,21 @@ module {{prefix}}_interface_mod
         subroutine {{prefix}}_f_{{function.name}}( &
             !inputs
             {% for input in function.inputs -%}
-                {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}{{"&\n" if (loop.index % 10) == 0 else ""}}
+                {% if "dimension(*)" in input.type %}
+                {{input.name}}, &
+                {{input.name}}_dim_sizes, & 
+                {{input.name}}_rank{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}{{"&\n" if (loop.index % 3) == 0 or not loop.last else ""}}
+                {%- else -%}
+                {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}{{"&\n" if (loop.index % 3) == 0 else ""}}
+                {%- endif %}
             {%- endfor %}{{ "&" if function.inputs|length > 0 else "" }}
             !inouts
             {% for inout in function.inouts -%}
-                {{inout.name}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}{{"&\n" if loop.index % 10 == 0 else ""}}
+                {% if "dimension(*)" in inout.type -%}
+                {{inout.name}}, {{inout.name}}_dim_sizes, {{inout.name}}_rank{{ ", " if not loop.last or function.outputs|length > 0 else "" }}{{"&\n" if (loop.index % 3) == 0 or not loop.last else ""}}
+                {%- else -%}
+                {{inout.name}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}{{"&\n" if (loop.index % 3) == 0 else ""}}
+                {%- endif %}
             {%- endfor %}{{ "&" if function.inouts|length > 0 else "" }}
             !outputs
             {% for output in function.outputs -%}
@@ -61,10 +71,18 @@ module {{prefix}}_interface_mod
 
             {% for input in function.inputs -%}
             {{input.type}}, intent(in) :: {{input.name}}
+                {% if "dimension(*)" in input.type -%}
+                    integer(kind=c_int), dimension(*), intent(in) :: {{input.name}}_dim_sizes
+                    integer(kind=c_int), value, intent(in) :: {{input.name}}_rank
+                {%- endif -%}{{"\n"}}
             {% endfor -%}
 
             {% for inout in function.inouts -%}
             {{inout.type}}, intent(inout) :: {{inout.name}}
+            {% if "dimension(*)" in inout.type -%}
+                    integer(kind=c_int), dimension(*), intent(in) :: {{inout.name}}_dim_sizes
+                    integer(kind=c_int), value, intent(in) :: {{inout.name}}_rank
+                {%- endif -%}{{"\n"}}
             {% endfor -%}
 
             {% for output in function.outputs -%}
