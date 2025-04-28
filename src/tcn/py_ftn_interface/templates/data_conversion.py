@@ -58,12 +58,13 @@ class FortranPythonConversion:
 
     def fortran_to_python(
         self,
-        fptr: np.ndarray,
-        dim: List[int],
+        fptr: "cffi.FFI.CData",
+        dim: "cffi.FFI.CData",
+        num_dims: int,
         swap_axes: Optional[Tuple[int, int]] = None,
     ) -> PythonArray:
         """Move fortran memory into python space"""
-        np_array = self._fortran_pointer_to_numpy_buffer(fptr, dim)
+        np_array = self._fortran_pointer_to_numpy_buffer(fptr, dim, num_dims)
         if self._python_targets_gpu:
             return self._upload_and_transform(np_array, dim, swap_axes)
         else:
@@ -97,7 +98,8 @@ class FortranPythonConversion:
     def _fortran_pointer_to_numpy_buffer(
         self,
         fptr: "cffi.FFI.CData",
-        dim: List[int],
+        dim: "cffi.FFI.CData",
+        num_dims: int,
     ) -> np.ndarray:
         """
         Input: Fortran data pointed to by fptr and of shape dim = (i, j, k)
@@ -105,8 +107,9 @@ class FortranPythonConversion:
         """
         ftype = self._ffi.getctype(self._ffi.typeof(fptr).item)
         assert ftype in self._TYPEMAP
+        dim_list = [dim[dim_index] for dim_index in range(num_dims)]
         return np.frombuffer(  # noqa
-            buffer=self._ffi.buffer(fptr, prod(dim) * self._ffi.sizeof(ftype)),
+            buffer=self._ffi.buffer(fptr, prod(dim_list) * self._ffi.sizeof(ftype)),
             dtype=self._TYPEMAP[ftype],
         )
 

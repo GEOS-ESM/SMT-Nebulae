@@ -276,3 +276,30 @@ class Bridge(InterfaceConfig):
             h.generate_blank()
         else:
             raise NotImplementedError(f"No hook '{hook}'")
+        
+    def generate_f_py_conversion(self) -> "Bridge":
+        # Transform data for Jinja2 template
+        functions = []
+        for function in self._functions:
+            functions.append(
+                {
+                    "name": function.name,
+                    "inputs": Function.py_arguments_for_jinja2(function.inputs),
+                    "inouts": Function.py_arguments_for_jinja2(function.inouts),
+                    "outputs": Function.py_arguments_for_jinja2(function.outputs),
+                }
+            )
+
+        template = self._template_env.get_template("f_py_conversion.py.jinja2")
+        code = template.render(
+            prefix=self._prefix,
+            functions=functions,
+        )
+
+        f_py_source_filepath = f"{self._directory_path}/{self._prefix}_f_py_conversion.py"
+        with open(f_py_source_filepath, "w+") as f:
+            f.write(code)
+
+        subprocess.call(["black", "-q", f_py_source_filepath])
+
+        return self

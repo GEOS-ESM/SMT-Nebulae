@@ -17,34 +17,46 @@ class {{hook_class}}:
     {% for function in functions %}
     def {{function.name}}(
         self,
-        # inputs
+        # input
         {% for input in function.inputs -%}
-        {{input.name}}:{{input.type}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
-        {%- endfor %}
-        # inputs-outputs
+            {% if "CData" in input.type -%}
+        {{input.name}} : {{input.type}},
+        {{input.name}}_dim_sizes : "cffi.FFI.CData",
+        {{input.name}}_rank: int,
+            {%- else -%}
+        {{input.name}} : {{input.type}},
+            {%- endif %}
+        {% endfor %}
+        # input-output
         {% for inout in function.inouts -%}
-        {{inout.name}}:{{inout.type}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
-        {%- endfor %}
-        # outputs
+            {% if "CData" in inout.type -%}
+        {{inout.name}} : {{inout.type}},
+        {{inout.name}}_dim_sizes : "cffi.FFI.CData",
+        {{inout.name}}_rank : int,
+            {%- else -%}
+        {{inout.name}} : {{inout.type}},
+            {%- endif %}
+        {% endfor %}
+        # output
         {% for output in function.outputs -%}
-        {{output.name}}:{{output.type}}{{ ", " if not loop.last else "" }}
-        {%- endfor %}
+        {{output.name}} : {{output.type}},
+        {% endfor %}
     ):
         python_state_data = {}
         # Note: Will need to add in dimensions for call to .fortran_to_python
         {% for data in function.inputs -%}
             {% if "cffi.FFI.CData" in data.type -%}
-        python_state_data["{{data.name}}"] = self._f2py.fortran_to_python({{data.name}})
+        python_state_data["{{data.name}}"] = self._f2py.fortran_to_python({{data.name}}, dim={{data.name}}_dim_sizes, rank={{data.name}}_rank)
             {%- endif %}
         {% endfor %}
         {% for data in function.inouts -%}
             {% if "cffi.FFI.CData" in data.type -%}
-        python_state_data["{{data.name}}"] = self._f2py.fortran_to_python({{data.name}})
+        python_state_data["{{data.name}}"] = self._f2py.fortran_to_python({{data.name}}, dim={{data.name}}_dim_sizes, rank={{data.name}}_rank)
             {%- endif %}
         {% endfor %}
         {% for data in function.outputs -%}
             {% if "cffi.FFI.CData" in data.type -%}
-        python_state_data["{{data.name}}"] = self._f2py.fortran_to_python({{data.name}})
+        python_state_data["{{data.name}}"] = self._f2py.fortran_to_python({{data.name}}, dim={{data.name}}_dim_sizes, rank={{data.name}}_rank)
             {%- endif %}
         {% endfor %}
         print("My code for {{prefix}}_{{function.name}} goes here.")

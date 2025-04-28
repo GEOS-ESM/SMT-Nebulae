@@ -108,7 +108,7 @@ def v_{{prefix}}_py_{{validation.candidate}}(
 header = f"""
 
 {% for function in functions -%}
-extern void {{prefix}}_{{function.name}}_py(
+extern void {{prefix}}_py_{{function.name}}(
     {%- for arg in function.c_arguments -%}
       {%- if "*" in arg.type -%}
     {{arg.type}} {{arg.name}}
