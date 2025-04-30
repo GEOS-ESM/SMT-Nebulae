@@ -2,7 +2,7 @@ import cffi
 import os
 from mpi4py import MPI
 
-TMPFILEBASE = "{{prefix}}_interface"
+TMPFILEBASE = "{{prefix}}_interface_library"
 
 ffi = cffi.FFI()
 
@@ -111,7 +111,7 @@ header = f"""
 extern void {{prefix}}_py_{{function.name}}(
     {%- for arg in function.c_arguments -%}
       {%- if "*" in arg.type -%}
-    {{arg.type}} {{arg.name}}
+    {{arg.type}} {{arg.name}},
     int * {{arg.name}}_dim_sizes,
     int {{arg.name}}_rank{{ ", " if not loop.last else "" }}
       {%- else -%}

@@ -125,7 +125,7 @@ class Bridge(InterfaceConfig):
             # validations=validations,
         )
 
-        c_source_filepath = f"{self._directory_path}/{self._prefix}_interface.c"
+        c_source_filepath = f"{self._directory_path}/{self._prefix}_interface_c.c"
         with open(c_source_filepath, "w+") as f:
             f.write(code)
 
@@ -169,7 +169,7 @@ class Bridge(InterfaceConfig):
             validations=validations,
         )
 
-        ftn_source_filepath = f"{self._directory_path}/{self._prefix}_interface.f90"
+        ftn_source_filepath = f"{self._directory_path}/{self._prefix}_interface_f.f90"
         with open(ftn_source_filepath, "w+") as f:
             f.write(code)
 
@@ -217,51 +217,6 @@ class Bridge(InterfaceConfig):
         subprocess.call(["black", "-q", py_source_filepath])
 
         return self
-    
-    def generate_header(self) -> "Bridge":
-        # Generate Header File list
-        derived_types = []
-        for derived_type in self._derived_types:
-            derived_types.append(
-                {
-                    "name": derived_type.name,
-                    "variables": Function.header_arguments_for_jinja2(derived_type._variable_list),
-                }
-            )
-        
-        # Generate C extern prototypes list
-        functions = []
-        for function in self._functions:
-            functions.append(
-                {
-                    "name": function.name,
-                    "inputs": Function.c_prototype_for_jinja2(function.inputs, inputOnly=True),
-                    "inouts": Function.c_prototype_for_jinja2(function.inouts),
-                    "outputs": Function.c_prototype_for_jinja2(function.outputs),
-                }
-            )
-
-        template = self._template_env.get_template("interface.h.jinja2")
-
-        validations = []
-        for validation in self._validations:
-            validations.append(validation.for_jinja_python())
-
-        code = template.render(
-            prefix=self._prefix,
-            derived_types=derived_types,
-            functions=functions,
-            validations=validations,
-            hook_obj=self._hook_obj,
-        )
-
-        h_source_filepath = f"{self._directory_path}/{self._prefix}_interface.h"
-        with open(h_source_filepath, "w+") as f:
-            f.write(code)
-
-        subprocess.call([cf._get_executable("clang-format"), "-i", h_source_filepath])
-
-        return self
 
     def generate_hook(self, hook: str):
         # Make hook - this our springboard to the larger python code
@@ -276,30 +231,3 @@ class Bridge(InterfaceConfig):
             h.generate_blank()
         else:
             raise NotImplementedError(f"No hook '{hook}'")
-        
-    def generate_f_py_conversion(self) -> "Bridge":
-        # Transform data for Jinja2 template
-        functions = []
-        for function in self._functions:
-            functions.append(
-                {
-                    "name": function.name,
-                    "inputs": Function.py_arguments_for_jinja2(function.inputs),
-                    "inouts": Function.py_arguments_for_jinja2(function.inouts),
-                    "outputs": Function.py_arguments_for_jinja2(function.outputs),
-                }
-            )
-
-        template = self._template_env.get_template("f_py_conversion.py.jinja2")
-        code = template.render(
-            prefix=self._prefix,
-            functions=functions,
-        )
-
-        f_py_source_filepath = f"{self._directory_path}/{self._prefix}_f_py_conversion.py"
-        with open(f_py_source_filepath, "w+") as f:
-            f.write(code)
-
-        subprocess.call(["black", "-q", f_py_source_filepath])
-
-        return self

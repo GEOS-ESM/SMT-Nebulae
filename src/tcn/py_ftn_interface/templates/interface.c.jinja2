@@ -1,4 +1,4 @@
-#include "{{prefix}}_interface.h"
+#include "{{prefix}}_interface_library.h"
 #include "mpi.h"
 #include <stdio.h>
 #include <time.h>
@@ -34,7 +34,7 @@
     {%- for init_code in function.arguments_init -%}
         {{init_code}}
     {%- endfor -%}
-    int return_code = {{prefix}}_py_{{function.name}}(
+    {{prefix}}_py_{{function.name}}(
       {% for input in function.inputs -%}
         {% if "MPI" not in input.type -%}
           {%- if "*" in input.type -%}
@@ -69,10 +69,10 @@
 
     );
 
-    if (return_code < 0)
-    {
-        exit(return_code);
-    }
+    //if (return_code < 0)
+    //{
+    //    exit(return_code);
+    //}
   }
 
 {% endfor %}
