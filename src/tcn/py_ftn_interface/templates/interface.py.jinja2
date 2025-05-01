@@ -30,9 +30,9 @@ def {{prefix}}_py_{{function.name}}(
       {% if "CData" in input.type -%}
       {{input.name}}:{{input.type}},
       {{input.name}}_dim_sizes:{{input.type}},
-      {{input.name}}_rank:int{{ ", " if not loop.last or function.inouts|length > 0 else "" }}
+      {{input.name}}_rank:int,
       {%- else -%}
-      {{input.name}}:{{input.type}}{{ ", " if not loop.last or function.inouts|length > 0 else "" }}
+      {{input.name}}:{{input.type}},
       {%- endif %}
       {% endfor %}
       # inputs-outputs
@@ -40,14 +40,14 @@ def {{prefix}}_py_{{function.name}}(
       {% if "CData" in inout.type -%}
       {{inout.name}}:{{inout.type}},
       {{inout.name}}_dim_sizes:{{inout.type}},
-      {{inout.name}}_rank:int{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+      {{inout.name}}_rank:int,
       {%- else -%}
-      {{inout.name}}:{{inout.type}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+      {{inout.name}}:{{inout.type}},
       {%- endif %}
       {% endfor %}
       # outputs
       {% for output in function.outputs -%}
-        {{output.name}}:{{output.type}}{{ ", " if not loop.last else "" }}
+        {{output.name}}:{{output.type}},
       {% endfor %}
     ) -> int:
 
@@ -62,22 +62,22 @@ def {{prefix}}_py_{{function.name}}(
       {% if "CData" in input.type -%}
       {{input.name}}={{input.name}},
       {{input.name}}_dim_sizes={{input.name}}_dim_sizes,
-      {{input.name}}_rank={{input.name}}_rank{{ ", " if not loop.last else "" }}
+      {{input.name}}_rank={{input.name}}_rank,
       {%- else -%}
-      {{input.name}}={{input.name}}{{ ", " if not loop.last else "" }}
+      {{input.name}}={{input.name}},
       {%- endif %}
       {% endfor %}
       {% for inout in function.inouts -%}
       {% if "CData" in inout.type -%}
       {{inout.name}}={{inout.name}},
       {{inout.name}}_dim_sizes={{inout.name}}_dim_sizes,
-      {{inout.name}}_rank={{inout.name}}_rank{{ ", " if not loop.last else "" }}
+      {{inout.name}}_rank={{inout.name}}_rank,
       {%- else -%}
-      {{inout.name}}={{inout.name}}{{ ", " if not loop.last else "" }}
+      {{inout.name}}={{inout.name}},
       {%- endif %}
       {% endfor %}
       {% for output in function.outputs -%}
-      {{output.name}}={{output.name}}{{ ", " if not loop.last else "" }}
+      {{output.name}}={{output.name}},
       {% endfor %}
     )
 {% endfor %}
