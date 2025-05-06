@@ -22,7 +22,7 @@ typedef union
 
 {% for function in functions %}
 
-  extern int {{prefix}}_py_{{function.name}}(
+  extern void {{prefix}}_py_{{function.name}}(
       // inputs
       {% for input in function.inputs -%}
         {% if "void *" not in input.type -%}
@@ -31,7 +31,11 @@ typedef union
           int * {{input.name}}_dim_sizes,
           int {{input.name}}_rank{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
           {%- else -%}
-          {{input.type}} {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+            {%- if "int" not in input.type and "float" not in input.type -%}
+               {{input.type}}_t {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+            {%- else -%}
+              {{input.type}} {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+            {%- endif %}
           {%- endif %}
         {%- else -%}
           {{input.type}} {{input.name}}_c{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}

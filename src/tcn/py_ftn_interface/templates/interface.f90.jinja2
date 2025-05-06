@@ -43,24 +43,22 @@ module {{prefix}}_interface_mod
             !inputs
             {% for input in function.inputs -%}
                 {% if "dimension(*)" in input.type %}
-                {{input.name}}, &
-                {{input.name}}_dim_sizes, & 
-                {{input.name}}_rank{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}{{"&\n" if (loop.index % 3) == 0 or not loop.last else ""}}
+            {{input.name}}, {{input.name}}_dim_sizes, {{input.name}}_rank{{ ", &" if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else " &" }}
                 {%- else -%}
-                {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}{{"&\n" if (loop.index % 3) == 0 else ""}}
-                {%- endif %}
-            {%- endfor %}{{ "&" if function.inputs|length > 0 else "" }}
+            {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else " &" }}
+                {%- endif -%}{{"&\n" if loop.last}}
+            {%- endfor %}
             !inouts
             {% for inout in function.inouts -%}
-                {% if "dimension(*)" in inout.type -%}
-                {{inout.name}}, {{inout.name}}_dim_sizes, {{inout.name}}_rank{{ ", " if not loop.last or function.outputs|length > 0 else "" }}{{"&\n" if (loop.index % 3) == 0 or not loop.last else ""}}
+                {% if "dimension(*)" in inout.type %}
+                {{inout.name}}, {{inout.name}}_dim_sizes, {{inout.name}}_rank{{ ", &" if not loop.last or function.outputs|length > 0 else " &" }}
                 {%- else -%}
-                {{inout.name}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}{{"&\n" if (loop.index % 3) == 0 else ""}}
-                {%- endif %}
-            {%- endfor %}{{ "&" if function.inouts|length > 0 else "" }}
+                {{inout.name}}{{ ", " if not loop.last or function.outputs|length > 0 else " &" }}
+                {%- endif -%}
+            {%- endfor %}{{"&\n" if loop.last}}
             !outputs
             {% for output in function.outputs -%}
-                {{output.name}}{{ ", " if not loop.last }}{{"&\n" if loop.index % 10 == 0 else ""}}
+                {{output.name}}{{ ", " if not loop.last else " &" }}
             {%- endfor -%}{{ "&" if function.outputs|length > 0 else "" }}
         ) bind(c, name='{{prefix}}_c_{{function.name}}')
             import c_int, c_float, c_double

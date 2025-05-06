@@ -147,6 +147,7 @@ def cli(definition_json_filepath: str, directory: str, hook: str, build: str):
     bridge_construct.generate_c()
     bridge_construct.generate_python()
     bridge_construct.generate_hook(hook)
+    bridge_construct.generate_header()
 
     # The build script is not fully functional - it is meant as a hint
     # b = Build(

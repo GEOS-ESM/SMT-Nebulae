@@ -2,7 +2,7 @@ import cffi
 import os
 from mpi4py import MPI
 
-TMPFILEBASE = "{{prefix}}_interface_library"
+TMPFILEBASE = "{{prefix}}_interface"
 
 ffi = cffi.FFI()
 
@@ -132,6 +132,7 @@ extern void v_{{prefix}}_py_{{validation.candidate}}(
 {% endfor %}
 """
 
+{#
 with open(f"{TMPFILEBASE}.h", "w") as f:
     f.write(header)
     ffi.embedding_api(header)
@@ -145,3 +146,14 @@ with open(f"{TMPFILEBASE}.h", "w") as f:
 header_path = os.path.join(os.path.dirname(__file__), f"./{TMPFILEBASE}.h")
 with open(header_path, "w") as f:
     f.write(header)
+#}
+
+with open(f"{TMPFILEBASE}.h") as f:
+    data = "".join([line for line in f if not line.startswith("#")])
+    data = data.replace("CFFI_DLLEXPORT", "")
+    ffi.embedding_api(data)
+
+ffi.set_source(TMPFILEBASE, f'#include "{TMPFILEBASE}.h"')
+
+ffi.embedding_init_code(source)
+ffi.compile(target="lib" + TMPFILEBASE + ".so", verbose=True)
