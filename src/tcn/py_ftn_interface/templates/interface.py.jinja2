@@ -105,6 +105,7 @@ def v_{{prefix}}_py_{{validation.candidate}}(
 
 """
 
+{#
 header = f"""
 
 {% for function in functions -%}
@@ -132,7 +133,7 @@ extern void v_{{prefix}}_py_{{validation.candidate}}(
 {% endfor %}
 """
 
-{#
+
 with open(f"{TMPFILEBASE}.h", "w") as f:
     f.write(header)
     ffi.embedding_api(header)

@@ -13,7 +13,11 @@
         int * {{input.name}}_dim_sizes,
         int {{input.name}}_rank{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
         {%- else -%}
+          {%- if "int" not in input.type and "float" not in input.type and "bool" not in input.type -%}
+        {{input.type}}_t {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+          {%- else -%}
         {{input.type}} {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+          {%- endif -%}
         {%- endif -%}
       {%- endfor %}
       // inputs-outputs
@@ -23,7 +27,11 @@
         int * {{inout.name}}_dim_sizes,
         int {{inout.name}}_rank{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
         {%- else -%}
+          {%- if "int" not in input.type and "float" not in input.type and "bool" not in input.type -%}
+        {{input.type}}_t {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+          {%- else -%}
         {{inout.type}} {{inout.name}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+          {%- endif -%}
         {%- endif -%}
       {%- endfor %}
       // outputs
