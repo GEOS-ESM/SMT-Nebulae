@@ -1,0 +1,16 @@
+type: py_ftn_interface
+name: geos_pyfv3
+derived_types: 
+    test_derived_type:
+        int_value : int
+        float_value : float
+        bool_value : bool
+functions:
+    derived_type_function:
+        inputs:
+            int_scalar : int
+            float_scalar : float
+            derived_type_name : test_derived_type
+        inouts:
+            int_3D : array_int
+            float_3D : array_float
