@@ -1,6 +1,7 @@
 type: py_ftn_interface
 name: compute_uwshcu
 functions:
+    init : None
     run_compute_uwshcu:
         inputs:
             dotransport : int

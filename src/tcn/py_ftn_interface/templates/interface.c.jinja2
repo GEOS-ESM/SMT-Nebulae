@@ -27,8 +27,8 @@
         int * {{inout.name}}_dim_sizes,
         int {{inout.name}}_rank{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
         {%- else -%}
-          {%- if "int" not in input.type and "float" not in input.type and "bool" not in input.type -%}
-        {{input.type}}_t {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+          {%- if "int" not in inout.type and "float" not in inout.type and "bool" not in inout.type -%}
+        {{inout.type}}_t {{inout.name}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
           {%- else -%}
         {{inout.type}} {{inout.name}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
           {%- endif -%}
@@ -36,7 +36,17 @@
       {%- endfor %}
       // outputs
       {% for output in function.outputs -%}
-        {{output.type}} {{output.name}}{{ ", " if not loop.last else "" }}
+      {%- if "*" in output.type -%}
+        {{output.type}} {{output.name}},
+        int * {{output.name}}_dim_sizes,
+        int {{output.name}}_rank{{ ", " if not loop.last else "" }}
+        {%- else -%}
+          {%- if "int" not in output.type and "float" not in output.type and "bool" not in output.type -%}
+        {{output.type}}_t {{output.name}}{{ ", " if not loop.last else "" }}
+          {%- else -%}
+        {{outout.type}} {{outout.name}}{{ ", " if not loop.last else "" }}
+          {%- endif -%}
+        {%- endif -%}
       {%- endfor %}
   ) {
     {%- for init_code in function.arguments_init -%}
@@ -69,7 +79,12 @@
       {% endfor -%}
       {%- for output in function.outputs -%}
         {% if "MPI" not in output.type -%}
+          {%- if "*" in output.type -%}
+          {{output.name}},
+          {{output.name}}_dim_sizes, {{output.name}}_rank{{ ", " if not loop.last else "" }}
+          {%- else -%}
           {{output.name}}{{ ", " if not loop.last else "" }}
+          {%- endif -%}
         {%- else -%}
           {{output.name}}_c{{ ", " if not loop.last else "" }}
         {%- endif %}

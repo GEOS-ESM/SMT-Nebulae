@@ -40,7 +40,13 @@ class {{hook_class}}:
         {% endfor %}
         # output
         {% for output in function.outputs -%}
+        {% if "CData" in output.type -%}
         {{output.name}} : {{output.type}},
+        {{output.name}}_dim_sizes : "cffi.FFI.CData",
+        {{output.name}}_rank : int,
+            {%- else -%}
+        {{output.name}} : {{output.type}},
+            {%- endif %}
         {% endfor %}
     ):
         python_state_data = {}

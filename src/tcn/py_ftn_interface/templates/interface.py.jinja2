@@ -47,7 +47,13 @@ def {{prefix}}_py_{{function.name}}(
       {% endfor %}
       # outputs
       {% for output in function.outputs -%}
-        {{output.name}}:{{output.type}},
+        {% if "CData" in output.type -%}
+      {{output.name}}:{{output.type}},
+      {{output.name}}_dim_sizes:{{output.type}},
+      {{output.name}}_rank:int,
+      {%- else -%}
+      {{output.name}}:{{output.type}},
+      {%- endif %}
       {% endfor %}
     ) -> int:
 
@@ -77,7 +83,13 @@ def {{prefix}}_py_{{function.name}}(
       {%- endif %}
       {% endfor %}
       {% for output in function.outputs -%}
+      {% if "CData" in output.type -%}
       {{output.name}}={{output.name}},
+      {{output.name}}_dim_sizes={{output.name}}_dim_sizes,
+      {{output.name}}_rank={{output.name}}_rank,
+      {%- else -%}
+      {{output.name}}={{output.name}},
+      {%- endif %}
       {% endfor %}
     )
 {% endfor %}
