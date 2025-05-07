@@ -58,8 +58,12 @@ module {{prefix}}_interface_mod
             {%- endfor %}{{"\n" if loop.last}}
             !outputs
             {% for output in function.outputs -%}
-                {{output.name}}{{ ", " if not loop.last else " &" }}
-            {%- endfor -%}{{ "&" if function.outputs|length > 0 else "" }}
+                {% if "dimension(*)" in output.type %}
+            {{output.name}}, {{output.name}}_dim_sizes, {{output.name}}_rank{{ ", &" if not loop.last else " &" }}
+                {%- else %}
+            {{output.name}}{{ ", &" if not loop.last else " &" }}
+                {%- endif -%}{{"\n" if loop.last}}
+            {%- endfor -%}{{"\n" if loop.last}}
         ) bind(c, name='{{prefix}}_c_{{function.name}}')
             import c_int, c_float, c_double
             {% for new_type in derived_types -%}
@@ -85,6 +89,10 @@ module {{prefix}}_interface_mod
 
             {% for output in function.outputs -%}
             {{output.type}}, intent(out) :: {{output.name}}
+            {% if "dimension(*)" in output.type -%}
+                integer(kind=c_int), dimension(*), intent(in) :: {{output.name}}_dim_sizes
+                integer(kind=c_int), value, intent(in) :: {{output.name}}_rank
+                {%- endif -%}{{"\n"}}
             {% endfor -%}
 
         end subroutine {{prefix}}_f_{{function.name}}
