@@ -57,7 +57,17 @@ typedef union
       {%- endfor %}
       // outputs
       {% for output in function.outputs -%}
-        {{output.type}} {{output.name}}{{ ", " if not loop.last else "" }}
+        {% if "void *" not in output.type -%}
+          {%- if "*" in output.type -%}
+          {{output.type}} {{output.name}},
+          int * {{output.name}}_dim_sizes,
+          int {{output.name}}_rank{{ ", " if not loop.last else "" }}
+          {%- else -%}
+          {{output.type}} {{output.name}}{{ ", " if not loop.last else "" }}
+          {%- endif %}
+        {%- else -%}
+          {{output.type}} {{output.name}}_c{{ ", " if not loop.last else "" }}
+        {%- endif %}
       {%- endfor %}
   );
 {% endfor %}
