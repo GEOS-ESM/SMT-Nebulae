@@ -24,3 +24,12 @@ _Orchestration workflow diagram_
 ## GT4Py / DaCe bridge
 
 DaCe provides two high-performance backends in the GT4Py backend; one for CPU, and one for GPU. The code that "converts" GT4Py's "Optimization IR" (OIR) to DaCe SDFGs is commonly know as "the bridge", see [GT4Py/Dace bridge](./dace-bridge.md).
+
+## Schedule tree
+
+The schedule tree is the code representation used to do macro-level optimization like loop re-ordering and merging. Further reading:
+
+- [current state of the feature](./schedule-tree.md)
+- choice of [representation](./ADRs/stree.md)
+- choice of [DaCe version](./ADRs/stree_dace-version.md) to work against (for the first version)
+- choice of [integration point](./ADRs/stree_ndsl-integration.md) (for the first version)

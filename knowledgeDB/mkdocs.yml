@@ -110,6 +110,9 @@ markdown_extensions:
       - name: mermaid
         class: mermaid
         format: !!python/name:pymdownx.superfences.fence_code_format
+  # support for task list of the form `- [ ] task name`
+  - pymdownx.tasklist:
+      custom_checkbox: false
 plugins:
   # use drawio diagrams as if they were images
   - drawio
