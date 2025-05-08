@@ -45,7 +45,7 @@ functions:
             qv0_inv : array_float
             ql0_inv : array_float
             qi0_inv : array_float
-            th0_inv : array_float
+            t0_inv : array_float
             frland_in : array_float
             tke_inv : array_float
             rkfre : array_float
