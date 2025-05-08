@@ -16,6 +16,7 @@ A plethora of extensions are available for VSCode. Most of them target streamlin
 - [Live Share](https://marketplace.visualstudio.com/items?itemName=MS-vsliveshare.vsliveshare) (remote pair-programming)
 - [Draw.io Integration](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio) (draw & share graphs directly from within VSCode - we've seen scaling errors when mixed with graphs created from the website)
 - [Mermaid support for Markdown preview](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-mermaid)
+- [Footnotes support for Markdown preview](https://marketplace.visualstudio.com/items?itemName=bierner.markdown-footnotes)
 
 ### Format on save
 
