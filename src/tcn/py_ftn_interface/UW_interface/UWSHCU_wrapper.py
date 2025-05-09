@@ -35,28 +35,17 @@ from ndsl.grid import DampingCoefficients, GridData, MetricTerms
 from ndsl.logging import ndsl_log
 from ndsl.optional_imports import cupy as cp
 from ndsl.utils import safe_assign_array
-from fv_flags import FVFlags, FVFlags_to_DycoreConfig
 from ndsl.comm.mpi import MPIComm
 from pyFV3.tracers import Tracers
 
 from pyMoist.UW.compute_uwshcu import ComputeUwshcuInv
-
-TRACERS_IN_FORTRAN = [
-    "vapor",
-    "liquid",
-    "ice",
-    "rain",
-    "snow",
-    "graupel",
-    "cloud",
-]
-
-class UWSHCU_Wrapper:
+from pyMoist.saturation.formulation import SaturationFormulation
+class UWSHCUwrapper:
 
     def __init__(
         self,
     ):
-        print("UW_Wrapper.__init__")
+        print("UWSHCUwrapper.__init__")
 
         BACKEND = os.environ.get("GEOS_PYFV3_BACKEND", "gt:gpu")
 
@@ -204,7 +193,7 @@ class UWSHCU_Wrapper:
         tpert_out: np.ndarray,
         qpert_out: np.ndarray,
         ):
-        print("UW_Wrapper.__call__")
+        print("UWSHCUwrapper.__call__")
         # This is where the actual work would be done
         self.compute_uwshcu(
             # Field inputs
@@ -285,4 +274,5 @@ class UWSHCU_Wrapper:
             qisub_inv=qisub_inv,
             tpert_out=tpert_out,
             qpert_out=qpert_out,
+            formulation=SaturationFormulation.Staars,
         )
