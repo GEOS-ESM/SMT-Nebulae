@@ -32,7 +32,7 @@ In big terms, schedule tree to SDFG conversion has the following steps:
 ## Current issues
 
 - [x] Running a roundtrip for `tmp_UpdateDzD.sdfgz` (smaller) and `tmp_D_SW.sdfgz` (bigger), I end up with a duplicate `dt`, which is found in the symbols as well as in the arrays (as scalar). Since we copy both when building the descriptor repository (in step 1), assuming the SDFG was de-duplicated, the resulting SDFG  fails validation after the roundtrip.
-- [ ] Running a roundtrip for `tmp_D_SW.sdfgz`, node validation fails for `__g_self__column_namelist__d_con__'
+- [x] Running a roundtrip for `tmp_D_SW.sdfgz`, node validation fails for `__g_self__column_namelist__d_con__'
 - [ ] Missing implementation of `NView` for `tmp_Fillz.sdfgz` (small) and `tmp_Ray_Fast.sdfgz` (bigger).
 - [ ] Performance issue with `_insert_memory_dependency_state_boundaries()`. Known sources are:
     1. `MemletDict` checks for subset coverage and `subset.covers(other_subset)` is slow. While a cache is in place, this remains the number one issue according to `py-spy`.
@@ -66,17 +66,17 @@ in combination with SDFGs from [this GitHub issue](https://github.com/GEOS-ESM/N
 
 ## State of translate tests
 
-|              | Roundtrip SDFG validating | Translate test passing |
-| ------------ | ------------------------- | ---------------------- |
-| XPPM         | yes                       | yes                    |
-| DelnFluxNoSG | yes                       | yes                    |
-| DelnFlux     | yes                       | yes                    |
-| FvTp2d       | yes                       | yes                    |
-| FxAdv        | yes                       | yes                    |
-| Fillz        | no (NView)                |  -                     |
-| Ray_Fast     | no (NView)                |  -                     |
-| D_SW         | no (invalid SDFG node)    |  -                     |
-| UpdateDzD    | yes                       | yes                    |
+|              |  Roundtrip SDFG validating   | Translate test passing |
+| ------------ | ---------------------------- | ---------------------- |
+| XPPM         | yes                          | yes                    |
+| DelnFluxNoSG | yes                          | yes                    |
+| DelnFlux     | yes                          | yes                    |
+| FvTp2d       | yes                          | yes                    |
+| FxAdv        | yes                          | yes                    |
+| Fillz        | no (NView)                   |  -                     |
+| Ray_Fast     | no (NView)                   |  -                     |
+| D_SW         | yes (no ConstantPropagation) | yes                    |
+| UpdateDzD    | yes                          | yes                    |
 
 SDFGs for roundtrip validation can be downloaded from [this GitHub issue](https://github.com/GEOS-ESM/NDSL/issues/6#issuecomment-2743978233).
 
