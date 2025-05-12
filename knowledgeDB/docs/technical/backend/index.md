@@ -6,6 +6,11 @@ Backend work is split into multiple repositories, each having their quirks to wo
 - [GT4Py](./repositories/gt4py.md) - The component that defines the frontend, has all the intermediate representations (IR) and dispatches to multiple backends.
 - [DaCe](./repositories/dace.md) - Data-driven optimization framework used in GT4Py as performance backend. Full program optimizer driving orchestration.
 
+NDSL is then used in the following repositories:
+
+- [PyFV3](https://github.com/NOAA-GFDL/PyFV3) NDSL port of the FV3 dynamical core.
+- [pace](https://github.com/NOAA-GFDL/pace) combines the PyFV3 port with PySHiELD physics, a DSL port of the SHiELD physics.
+
 ## Backend workflows
 
 There's two main workflows for the backend depending on which part model code is targeted for transpiling. The backend can either work
