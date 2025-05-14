@@ -39,7 +39,6 @@ from ndsl.comm.mpi import MPIComm
 from pyFV3.tracers import Tracers
 
 from pyMoist.UW.compute_uwshcu import ComputeUwshcuInv
-from pyMoist.saturation.formulation import SaturationFormulation
 class UWSHCUwrapper:
 
     def __init__(
@@ -274,5 +273,4 @@ class UWSHCUwrapper:
             qisub_inv=qisub_inv,
             tpert_out=tpert_out,
             qpert_out=qpert_out,
-            formulation=SaturationFormulation.Staars,
         )
