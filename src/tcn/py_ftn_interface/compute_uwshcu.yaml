@@ -1,11 +1,14 @@
 type: py_ftn_interface
 name: compute_uwshcu
 functions:
-    init : None
+    init:
+        inputs:
+            ncnst : int
+            k0 : int
+            windsrcavg : int
     run_compute_uwshcu:
         inputs:
             dotransport : int
-            ncnst : int
             k0 : int
             windsrcavg : int
             qtsrchgt : float
@@ -24,14 +27,15 @@ functions:
             rle : float
             cridist_opt : int
             mixscale : float
-            rkm : float
-            detrhgt : float
             rdrag : float
+            rkm : float
             use_self_detrain : int
+            detrhgt : float
             use_cumpenent : int
             rpen : float
             use_momenflx : int
             rdrop : float
+            iter_cin : int
             pifc0_inv : array_float
             zifc0_inv : array_float
             pmid0_inv : array_float
