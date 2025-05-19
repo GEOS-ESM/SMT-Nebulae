@@ -38,3 +38,7 @@ The schedule tree is the code representation used to do macro-level optimization
 - choice of [representation](./ADRs/stree.md)
 - choice of [DaCe version](./ADRs/stree_dace-version.md) to work against (for the first version)
 - choice of [integration point](./ADRs/stree_ndsl-integration.md) (for the first version)
+
+## Orchestration
+
+System that bring stencils and python together to open up whole program optimization. Required frontend/backend system to enable the most potent wide-context optimization: [thoughts, issues and details.](./orchestration.md)
