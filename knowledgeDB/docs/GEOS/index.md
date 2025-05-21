@@ -13,7 +13,7 @@ GEOS uses a spherical cube to as discretization of the earth. Resolution is usua
 - 6 x 1120 x 1120 grid points for the full cube
 - and 191 vertical levels (for all sides of the cube)
 
-The following table "translates" Cxxx to approximate horizontal resolution in kilo meters and GEOS common resolutions. Production runs marked with *
+The following table "translates" Cxxx to approximate horizontal resolution in kilo meters and GEOS common resolutions. Production runs marked with *.
 
 ```c
 { 
