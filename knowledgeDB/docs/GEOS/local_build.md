@@ -37,8 +37,8 @@ brew install lmod
 ```
 
 * For MacOS, install the following additional packages via Homebrew
-  * `brew install automake autoconf libtool texinfo m4 cmake wget boost`
-  * **IMPORTANT** : Examine `brew info libtool` and `brew info m4` to access `libtool` and `m4` properly on MacOS
+    * `brew install automake autoconf libtool texinfo m4 cmake wget boost`
+    * **IMPORTANT** : Examine `brew info libtool` and `brew info m4` to access `libtool` and `m4` properly on MacOS
 
 ## Build our software stack
 
@@ -151,6 +151,37 @@ make -j6 install ESMF_COMM=openmpi ESMF_COMPILER=gfortranclang prefix=$DSLSW_INS
 +pip install mpi4py cffi
 ```
 
+⚠️ `cffi`, `venv` and embedded Python interpreter ⚠️
+Due to a non standard approach of non-Posix or Posix-adjacent (Darwin, Windows...) file pathing, the `venv` can be misdetected when using an embedded Python interpreter via CPython. The CPython crew is aware of the issue but noe fix is ready. To test build the following:
+
+```c++
+#include <stdio.h>
+#include <Python.h>
+
+int main(void)
+{
+    Py_InitializeEx(0);
+    PyObject *f = PySys_GetObject((char *)"stderr");
+    PyFile_WriteString("\nsys.path: ", f);
+    PyFile_WriteObject(PySys_GetObject((char *)"path"), f, 0);
+    PyFile_WriteString("\n\n", f);
+    return 0;
+}
+```
+
+with (replace the path to include & lib of Python)
+
+```bash
+gcc -o pex \
+    -I/home/fgdeconi/.pyenv/versions/3.11.9/include/python3.11/ \
+    run_python.c \
+    -L/home/fgdeconi/.pyenv/versions/3.11.9/lib -lpython3.11
+```
+
+Then run `./pex`. This will print the python `sys.path` which _should_ have your virtual environement `sites-packages` in there. If it doesn't then it's the bug.
+
+One workaround is to use `conda` which seems to use a different approach, more sandboxy, which goes around the issue.
+
 ### Notes on building Software stack with Linux Kernel v6.8+
 
 Make the following adjustments before running the above pipeline...
@@ -221,16 +252,16 @@ index 78c21bce04..ab40a39379 100644
 ## Build GEOS
 
 * Get and setup `mepo` which is pre-installed on `Discover`
-  * `mepo` stands for "Multiple rEPOsitory": a Python tool held by Matt T in the SI team that handles the GEOS multi-repository strategy.  It can be installed using `pip`.
+    * `mepo` stands for "Multiple rEPOsitory": a Python tool held by Matt T in the SI team that handles the GEOS multi-repository strategy.  It can be installed using `pip`.
 
 ```bash
 pip install mepo
 ```
 
 * Git clone the root of GEOS then using `mepo`, you clone the rest of the components which pull on the `components.yaml` at the root of `GEOSgcm`
-  * There is two sources for a component the default and the `develop` source
-  * `v11.5.2` is our baseline, but we have `dsl/develop` branch where needed
-  * We do not use `develop` for `GEOSgcm_App` or `cmake` since those have been setup for OpenACC but are not up-to-date for v11.5.2
+    * There is two sources for a component the default and the `develop` source
+    * `v11.5.2` is our baseline, but we have `dsl/develop` branch where needed
+    * We do not use `develop` for `GEOSgcm_App` or `cmake` since those have been setup for OpenACC but are not up-to-date for v11.5.2
 
 ```bash
 git clone -b dsl/develop git@github.com:GEOS-ESM/GEOSgcm.git geos
@@ -241,7 +272,7 @@ mepo develop env GEOSgcm GEOSgcm_GridComp FVdycoreCubed_GridComp pyFV3
 
 * CMake GEOS, using the stack, our custom build `baselibs` and turning on the interface to `pyFV3` for the dynamical core
 * Then `make install`. Grab a coffee (or 2)
-  * We override the compiler with their `mpi` counterpart to make sure `libmpi` is pulled properly. CMake should deal with that, but there's some failure floating around.
+    * We override the compiler with their `mpi` counterpart to make sure `libmpi` is pulled properly. CMake should deal with that, but there's some failure floating around.
 
 ```bash
 module use -a SW_STACK/modulefiles
@@ -286,8 +317,8 @@ Note: There may be an error that occurs when building GEOS on MacOS that refers 
 Some code in GEOS requires MKL. It's unclear which (apart from a random number generator in Radiation) and it seems to be an optional dependency. The `cmake` process will look for it. If you want to install it follow steps for the standalone [OneAPI MKL installer](https://www.intel.com/content/www/us/en/developer/tools/oneapi/onemkl-download.html)
 
 * Get data (curtesy of Matt T.) in it's most compact form: TinyBC
-  * WARNING: TinyBC is Matt way to move around a small example and/or develop on desktop, it's fragile and we shall treat it as a dev tool, offer help when needed.
-  * *Do not rename it*
+    * WARNING: TinyBC is Matt way to move around a small example and/or develop on desktop, it's fragile and we shall treat it as a dev tool, offer help when needed.
+    * _Do not rename it_
 
 ```bash
 wget https://portal.nccs.nasa.gov/datashare/astg/smt/geos-fp/TinyBCs-GitV10.2024Apr04.tar.gz
@@ -325,9 +356,9 @@ module load SMTStack/2024.04.04
 ./gcm_run.j
 ```
 
-* To run the `pyFV3` version, modification to the `AGCM.rc` and `gcm_run.j` needs to be done *after* the `tinybc_makeoneday`. This runs the `numpy` backend.
+* To run the `pyFV3` version, modification to the `AGCM.rc` and `gcm_run.j` needs to be done _after_ the `tinybc_makeoneday`. This runs the `numpy` backend.
 
-*AGCM.rc*
+_AGCM.rc_
 
 ```diff
 ###########################################################
@@ -339,7 +370,7 @@ DYCORE: FV3
 AdvCore_Advection: 0
 ```
 
-*gcm_run.j*
+_gcm_run.j_
 
 ```diff
 setenv RUN_CMD "$GEOSBIN/esma_mpirun -np "
