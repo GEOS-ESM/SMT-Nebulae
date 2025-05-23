@@ -182,6 +182,8 @@ Then run `./pex`. This will print the python `sys.path` which _should_ have your
 
 One workaround is to use `conda` which seems to use a different approach, more sandboxy, which goes around the issue.
 
+Some reference: <https://github.com/PyO3/pyo3/issues/1741>
+
 ### Notes on building Software stack with Linux Kernel v6.8+
 
 Make the following adjustments before running the above pipeline...
