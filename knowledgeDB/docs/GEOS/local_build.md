@@ -395,3 +395,5 @@ echo   VERSION: $GCMVER
 #             Experiment Specific Environment Variables
 ######################################################################
 ```
+
+Remove the `source $GEOSBIN/g5_modules` to make sure your local environment is left clean.
