@@ -29,11 +29,3 @@ make -j ESMF_COMM=openmpi \
     ALLOW_ARGUMENT_MISMATCH=-fallow-argument-mismatch \
     prefix=$DSLSW_INSTALL_DIR/baselibs-$DSLSW_BASELIBS_VER/install/Darwin \
     install
-
-cd $DSLSW_BASE/baselibs-$DSLSW_BASELIBS_VER
-make -j ESMF_COMM=openmpi \
-    ESMF_COMPILER=gfortran \
-    BUILD=ESSENTIALS \
-    ALLOW_ARGUMENT_MISMATCH=-fallow-argument-mismatch \
-    prefix=/Users/ckropiew/SMT-Nebulae/sw_stack/local/src/install_test/baselibs-$DSLSW_BASELIBS_VER/install/Darwin \
-    install
