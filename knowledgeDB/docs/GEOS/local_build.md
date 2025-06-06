@@ -3,8 +3,9 @@
 ## Requirements
 
 * `tcsh` for GEOS workflow
-* A `gcc/g++/gfortran` compiler (gcc-12 is our current workhorse)
-* If using MacOS, [Homebrew](https://brew.sh/) is needed to install certain packages
+* A `gcc/g++/gfortran` compiler (gcc-12 is our current workhorse in Linux.  macOS has been tested using gcc-14 via Homebrew)
+    * As of macOS Sequoia 15.5, `clang/clang++` can also be used in place of `gcc/g++`.
+* If using macOS, [Homebrew](https://brew.sh/) is needed to install certain packages
 
 ```bash
 # *** If building on Linux ***
@@ -14,8 +15,8 @@ sudo apt install g++ gcc gfortran
 # sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-12
 # sudo update-alternatives --config gcc
 
-# *** If building on MacOS, use Homebrew to install gcc-12 to access gfortran***
-brew install gcc@12
+# *** If building on macOS, use Homebrew to install gcc-14 to access gfortran***
+brew install gcc@14
 ```
 
 * A `cuda` toolkit if GPU backends will be used. (nvhpc/23.5+ or appropriate for your hardware)
@@ -32,13 +33,13 @@ sudo ln -s /opt/apps/lmod/lmod/init/profile        /etc/profile.d/z00_lmod.sh
 sudo ln -s /opt/apps/lmod/lmod/init/cshrc          /etc/profile.d/z00_lmod.csh
 sudo ln -s /opt/apps/lmod/lmod/init/profile.fish   /etc/fish/conf.d/z00_lmod.fish
 
-# On MacOS, lmod can be installed via Homebrew without the above commands
+# On macOS, lmod can be installed via Homebrew without the above commands
 brew install lmod
 ```
 
-* For MacOS, install the following additional packages via Homebrew
+* For macOS, install the following additional packages via Homebrew
     * `brew install automake autoconf libtool texinfo m4 cmake wget boost`
-    * **IMPORTANT** : Examine `brew info libtool` and `brew info m4` to access `libtool` and `m4` properly on MacOS
+    * **IMPORTANT** : Examine `brew info libtool` and `brew info m4` to access `libtool` and `m4` easily on macOS
 
 ## Build our software stack
 
@@ -78,78 +79,82 @@ Config | Install |  Check  |   Package
 -------+---------+---------+--------------
 ```
 
-### MacOS Notes on building Software stack
+### macOS Notes on building Software stack
+
+* Use the `SMT-Nebulae` branch called `feature/functional_mac_build` that contains build scripts specific to macOS.
 
 * Adjust `basics.sh` as follows
 
 ```diff
--export DSLSW_OMPI_MAJOR_VER=4.1
--export DSLSW_OMPI_VER=${DSLSW_OMPI_MAJOR_VER}.6
-+export DSLSW_OMPI_MAJOR_VER=5.0
-+export DSLSW_OMPI_VER=${DSLSW_OMPI_MAJOR_VER}.2
+-source /Users/ckropiew/SMT-Nebulae/sw_stack/local/modulefiles/SMTStack/2024.08.LOCAL.sh
++source <YOUR PATH TO SMT-Nebulae>/sw_stack/local/modulefiles/SMTStack/2024.08.LOCAL.sh
 
--export DSLSW_BASELIBS_VER=7.17.1
-+export DSLSW_BASELIBS_VER=7.23.0
+-export DSLSW_BASELIBS_VER=7.27.0
++export DSLSW_BASELIBS_VER=8.14.0
 
-+#CUDA_DIR=/usr/local/other/nvidia/hpc_sdk/Linux_x86_64/23.9/cuda/
+-export DSLSW_BOOST_VER=1.76.0
+-export DSLSW_BOOST_VER_STR=1_76_0 
++export DSLSW_BOOST_VER=1.88.0
++export DSLSW_BOOST_VER_STR=1_88_0
 
--export FC=gfortran
-+export FC=gfortran-12
+-export DSLSW_BASE=/Users/ckropiew/SMT-Nebulae/sw_stack/local/src/build
++export DSLSW_BASE=<YOUR PATH TO SMT-Nebulae>/sw_stack/local/src/build
 ```
 
-* Install the [prebuild Python binaries](https://www.python.org/downloads/release/python-3117/)
-
-* No need to download and install UCX libraries, OSU Benchmark, Python, or Boost libraries from the `download.sh` and `build_0_on-node.sh` scripts .  References to these software packages can be commented out in the respective scripts.
-* Modify the setup of Baselibs in `download.sh` as follows by removing commands after the `git clone` command.
+* Adjust `2024.08.LOCAL.sh` as follows
 
 ```diff
-git clone --recurse-submodules -b v$DSLSW_BASELIBS_VER https://github.com/GEOS-ESM/ESMA-Baselibs.git ./baselibs-$DSLSW_BASELIBS_VER
--cd ./baselibs-$DSLSW_BASELIBS_VER
--make download
--echo "=>Baselibs >> Removing HDF4 from the ESSENTIALS"
--sed -i 's/ESSENTIAL_DIRS = jpeg zlib szlib hdf4 hdf5/ESSENTIAL_DIRS = jpeg zlib szlib hdf5/g' GNUmakefile
--sed -i 's/\/zlib \/szlib \/jpeg \/hdf5 \/hdf \/netcdf,\\/\/ \/zlib \/szlib \/jpeg \/hdf5 \/netcdf,\\/g' GNUmakefile
+-install_dir="/Users/ckropiew/GEOS_dependencies/install"
+-ser_pkgdir="/Users/ckropiew/GEOS_dependencies/install/serialbox"
++install_dir="<YOUR PATH TO SMT-Nebulae>/sw_stack/local/src/install"
++ser_pkgdir="<YOUR PATH TO SMT-Nebulae>/sw_stack/local/src/install/serialbox"
+
+-boost_pkgdir="$homebrew_install_dir/boost/1.86.0_1"
++boost_pkgdir="$homebrew_install_dir/boost/1.88.0"
+
+-baselibs_pkgdir="$install_dir/baselibs-7.27.0/install/"
++baselibs_pkgdir="$install_dir/baselibs-8.14.0/install/"
+
+-export PYTHONPATH="$ser_pkgdir/python":$PYTHONPATH
++#export PYTHONPATH="$ser_pkgdir/python":$PYTHONPATH
+
+-py_pkgdir="/Library/Frameworks/Python.framework/Versions/3.11"
+-export PATH="$py_pkgdir/bin":$PATH
+-export LD_LIBRARY_PATH="$py_pkgdir/lib":$LD_LIBRARY_PATH
+-export LD_LIBRARY_PATH="$py_pkgdir/lib64":$LD_LIBRARY_PATH
++py_pkgdir="<YOUR PATH TO miniconda>/envs/venv"
++#export PATH="$py_pkgdir/bin":$PATH
++#export LD_LIBRARY_PATH="$py_pkgdir/lib":$LD_LIBRARY_PATH
++#export LD_LIBRARY_PATH="$py_pkgdir/lib64":$LD_LIBRARY_PATH
+
+# *** If clang/clang++ is the C/C++ compiler, make the changes below
+-export CC=/opt/homebrew/opt/gcc@14/bin/gcc-14
+-export CXX=/opt/homebrew/opt/gcc@14/bin/g++-14
++export CC=clang
++export CXX=clang++
 ```
 
-* Modify the command to configure OpenMPI in `build_0_on-node.sh`
+* Install miniconda
+    * In the terminal, retrieve the installation file for miniconda via `curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -o miniconda.sh`
+    * Run `minconda.sh` to set up miniconda
+    * Create a virtual Python v3.11.7 environment via miniconda.  The command below will create a virtual environment called `venv`.
+        * `conda create -n venv python=3.11.7`
+    * Whenever you want to activate the environment, run `conda activate venv`
+
+* If you are using `clang` and `clang++` in place of `gcc` and `g++` for compiling, modify the setup of Baselibs in `build_baselibs.sh` as follows.
 
 ```diff
--./configure --prefix=$DSLSW_INSTALL_DIR/ompi \
--            --disable-libxml2 \
--            --disable-wrapper-rpath \
--            --disable-wrapper-runpath \
--            --with-pmix \
--            --with-cuda=$CUDA_DIR \
--            --with-cuda-libdir=$CUDA_DIR/lib64/stubs \
--            --with-ucx=$DSLSW_INSTALL_DIR/ucx \
--            --with-slurm \
--            --enable-mpi1-compatibility
-
-+./configure --disable-wrapper-rpath --disable-wrapper-runpath \
-+  CC=clang CXX=clang++ FC=gfortran-12 \
-+  --with-hwloc=internal --with-libevent=internal --with-pmix=internal \
-+  --prefix=$DSLSW_INSTALL_DIR/ompi
+make -j ESMF_COMM=openmpi \
+-    ESMF_COMPILER=gfortran \
++    ESMF_COMPILER=gfortranclang \
 ```
 
-* Modify the commands to compile Baselibs in `build_0_on-node.sh` as follows
+* Install OpenMPI by running the `build_ompi.sh` script
+* Install serialbox by running the `build_serialbox.sh` script
+* Install Baselibs by running the `build_baselibs.sh` script
+* Install NDSL by running the `build_ndsl.sh` script
 
-```diff
-echo " === Baselibs === "
-cd $DSLSW_BASE/baselibs-$DSLSW_BASELIBS_VER
--make ESMF_COMM=openmpi \
--    BUILD=ESSENTIALS \
--    ALLOW_ARGUMENT_MISMATCH=-fallow-argument-mismatch \
--    prefix=$DSLSW_INSTALL_DIR/baselibs-$DSLSW_BASELIBS_VER/install/x86_64-pc-linux-gnu/Linux \
--    install
-make -j6 install ESMF_COMM=openmpi ESMF_COMPILER=gfortranclang prefix=$DSLSW_INSTALL_DIR/baselibs-$DSLSW_BASELIBS_VER/install/Darwin
-```
-
-* In `build_1_on-login.sh`, remove the reference to `cupy-cuda12x`.
-
-```diff
--pip install mpi4py cffi cupy-cuda12x
-+pip install mpi4py cffi
-```
+* Check that Baselibs is installed properly by running `./verify_baselibs.sh` and see if you get the output shown above when running `./verify_baselibs.sh`.
 
 ⚠️ `cffi`, `venv` and embedded Python interpreter ⚠️
 Due to a non standard approach of non-Posix or Posix-adjacent (Darwin, Windows...) file pathing, the `venv` can be misdetected when using an embedded Python interpreter via CPython. The CPython crew is aware of the issue but noe fix is ready. To test build the following:
@@ -280,7 +285,7 @@ mepo develop env GEOSgcm GEOSgcm_GridComp FVdycoreCubed_GridComp pyFV3
 module use -a SW_STACK/modulefiles
 ml SMTStack/2024.04.00
 export BASEDIR=SW_STACK/src/2024.04.00/install/baselibs-7.17.1/install/x86_64-pc-linux-gnu
-# *** Note: Above BASEDIR path will be different for MacOS ***
+# *** Note: Above BASEDIR path will be different for macOS ***
 
 mkdir -f build
 cd build
@@ -307,12 +312,19 @@ cmake .. -DBASEDIR=$BASEDIR/Linux \
 
 # *** If MKL isn't found by cmake, add the following flag to the above cmake command: -DMKL_INCLUDE_DIR=<MKL Include Path>
      
-# *** Note: For MacOS, set -DBUILD_PYFV3_INTERFACE=OFF and be mindful about setting -DBASEDIR ***
+# *** Note: For macOS, set -DBUILD_PYFV3_INTERFACE=OFF and be mindful about setting -DBASEDIR ***
 
 make -j48 install
 ```
 
-Note: There may be an error that occurs when building GEOS on MacOS that refers to `./src/Shared/@GMAO_Shared/LANL_Shared/CICE4/bld/makdep.c`.  This error points out that the `main` routine in `makdep.c` is missing a type.  Simply put `int` in front of `main` to resolve this problem (ex: `int main`).
+Note: There may be an error that occurs when building GEOS on macOS that refers to `./src/Shared/@GMAO_Shared/LANL_Shared/CICE4/bld/makdep.c`.  This error points out that the `main` routine in `makdep.c` is missing a type.  Simply put `int` in front of `main` to resolve this problem (ex: `int main`).
+
+**macOS Note**: There are extra OpenMP files that macOS does not have that GEOS needs to build.  Here is how to get those files and set up environment variables for building GEOS on macOS
+* Use Homebrew to get the `libomp` package : `brew install libomp`
+* Set up the following environment variables
+    * `export OPENMP_CPPFLAGS="-I/opt/homebrew/opt/libomp/include`
+    * `export OPENMP_LDFLAGS="-L/opt/homebrew/opt/libomp/lib -lomp -Xpreprocessor -fopenmp`
+    * `export GT4PY_EXTRA_COMPILE_OPT_FLAGS="-fbracket-depth=512`
 
 ⚠️ MKL Dependency⚠️
 
