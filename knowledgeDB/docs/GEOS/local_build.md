@@ -134,7 +134,7 @@ Config | Install |  Check  |   Package
 +export CXX=clang++
 ```
 
-* Install miniconda
+* Install miniconda for access to Python
     * In the terminal, retrieve the installation file for miniconda via `curl https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh -o miniconda.sh`
     * Run `minconda.sh` to set up miniconda
     * Create a virtual Python v3.11.7 environment via miniconda.  The command below will create a virtual environment called `venv`.
@@ -185,7 +185,9 @@ gcc -o pex \
 
 Then run `./pex`. This will print the python `sys.path` which _should_ have your virtual environement `sites-packages` in there. If it doesn't then it's the bug.
 
-One workaround is to use `conda` which seems to use a different approach, more sandboxy, which goes around the issue.
+Our workaround is to use `conda` which seems to use a different approach, more sandboxy, which goes around the issue.
+
+**macOS Note**: You may have to set the `DYLD_LIBRARY_PATH` environment variable to the `lib` path related to your conda Python environment to run the `pex` binary.
 
 Some reference: <https://github.com/PyO3/pyo3/issues/1741>
 
@@ -311,8 +313,6 @@ cmake .. -DBASEDIR=$BASEDIR/Linux \
 #     2) -DSERIALBOX_ROOT=<Path to Serialbox Installation>
 
 # *** If MKL isn't found by cmake, add the following flag to the above cmake command: -DMKL_INCLUDE_DIR=<MKL Include Path>
-     
-# *** Note: For macOS, set -DBUILD_PYFV3_INTERFACE=OFF and be mindful about setting -DBASEDIR ***
 
 make -j48 install
 ```
