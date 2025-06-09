@@ -320,6 +320,7 @@ make -j48 install
 Note: There may be an error that occurs when building GEOS on macOS that refers to `./src/Shared/@GMAO_Shared/LANL_Shared/CICE4/bld/makdep.c`.  This error points out that the `main` routine in `makdep.c` is missing a type.  Simply put `int` in front of `main` to resolve this problem (ex: `int main`).
 
 **macOS Note**: There are extra OpenMP files that macOS does not have that GEOS needs to build.  Here is how to get those files and set up environment variables for building GEOS on macOS
+
 * Use Homebrew to get the `libomp` package : `brew install libomp`
 * Set up the following environment variables
     * `export OPENMP_CPPFLAGS="-I/opt/homebrew/opt/libomp/include`
