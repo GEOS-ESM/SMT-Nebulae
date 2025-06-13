@@ -28,6 +28,6 @@ In short:
 - use `xfail` to indicate that a test fails, but should be supported, e.g. because we are missing a feature (or missing a feature for a certain backend).
 - use `skip` to indicate that under a certain condition the test doesn't make sense.
 
-That means: `skip` and `pytest.raises` are used in bugfree cases, `xfail`s are the ones that should be fixed. Further reading in the [pytest docs](https://docs.pytest.org/en/7.1.x/how-to/skipping.html).
+That means: `skip` and `pytest.raises` are used in bug-free cases, `xfail`s are the ones that should be fixed. Further reading in the [pytest docs](https://docs.pytest.org/en/7.1.x/how-to/skipping.html).
 
 Rationale: Established standard in the ecosystem and actively promoted by the `pytest` documentation.
