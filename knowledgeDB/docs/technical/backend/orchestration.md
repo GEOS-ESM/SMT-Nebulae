@@ -6,7 +6,7 @@
 
 ### The parser wants _simple_ things
 
-The python parser of DaCe hates dynamicity. No allocations must be done in the runtime code. We superseed a lot of the python actions or guide them to be resolved but there's still a (ongoing) list of failure that could be triggered.
+The python parser of DaCe hates dynamicity. No allocations must be done in the runtime code. We supersede a lot of the python actions or guide them to be resolved but there's still a (ongoing) list of failure that could be triggered.
 
 Original [documentation](https://spcldace.readthedocs.io/en/latest/frontend/daceprograms.html) provides some introduction with very simple examples.
 
