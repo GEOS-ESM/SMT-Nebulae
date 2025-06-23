@@ -33,7 +33,7 @@ nav:
       - Translate tests: technical/porting/translate_test.md
     - Backend work:
       - Overview: technical/backend/index.md
-      - GT4Py/DaCe bridge: technical/backend/dace-bridge.md
+      - GT4Py/DaCe bridge via stree: technical/backend/schedule-tree.md
       - Coding guidelines: technical/backend/coding-guidelines.md
       - Repositories:
         - NDSL: technical/backend/repositories/ndsl.md
@@ -44,6 +44,8 @@ nav:
         - Schedule tree: technical/backend/ADRs/stree.md
         - Schedule tree (DaCe version): technical/backend/ADRs/stree_dace-version.md
         - Schedule tree (NDSL integration): technical/backend/ADRs/stree_ndsl-integration.md
+      - Archive:
+        - GT4Py/DaCe bridge via expansion: technical/backend/dace-bridge.md
   - GEOS:
     - Overview: GEOS/index.md
     - Local build: GEOS/local_build.md

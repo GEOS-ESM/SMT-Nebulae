@@ -7,6 +7,10 @@ This is a quick overview of the current state of the schedule tree feature. The 
 
 The first one is a GT4Py issue, the other a missing piece in DaCe.
 
+## Workflow
+
+![Workflow diagram](./images/stree_workflow.excalidraw.svg)
+
 ## Working branches
 
 - **GT4Py** [`romanc/oir-to-stree`](https://github.com/romanc/gt4py/tree/oir-to-stree) on [Roman's fork](https://github.com/romanc/dace)
