@@ -66,5 +66,21 @@ In big terms, schedule tree to SDFG conversion has the following steps:
 - I've added additional state boundaries after inter-state assigns to ensure the symbols are defined before they are accessed. As far as I understand, that shouldn't be necessary. However, I've had SDFGs (todo: which ones?) with unused assigns at the end of the main visitor.
 - I've written tests for some things as a way of developing the main visitor. For simple schedule trees, I've already added checks on the resulting SDFG, but pretty fast I ended up validating by "looking at the resulting SDFG".
 
+## Optimization laundry list
+
+Things we want to do for optimization (and things we have to re-build from the old bridge).
+
+- Different loops per target hardware: like [previously](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/backend/dace_backend.py#L75-L120), but less confusing
+- Tiling: like [previously](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/backend/dace_backend.py#L123-L132), but hardware dependent. More details in [this file](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/gtc/dace/expansion_specification.py#L237-L240).
+- Axis-split merge
+- Over-computation merge
+- Local caching
+- Inline thread-local transients: like [previously](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/gtc/dace/transformations.py#L36).
+- Optimize OpenMP pragmas: Check which of the [previous optimizations](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/backend/dace_backend.py#L162-L182) still make sense.
+- We ran a [special version](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/gtc/dace/transformations.py#L15-L33) of `TrivialMapElimination` with more condition to when it applies.
+- Special cases for stencils without effect? They were treated separately in [the previous bridge](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/backend/dace_backend.py#L148-L152).
+- In the previous bridge, we'd [merge a horizontal region with the loop bounds](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/gtc/dace/expansion/daceir_builder.py#L1042-L1053) in case the horizontal region was the only thing inside that loop.
+- In the previous bridge, we'd [split horizontal execution regions](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/gtc/dace/expansion/expansion.py#L149). Not really sure why and this did, but we don't do it anymore. To be re-evaluated.
+
 [^1]: as far as I understand `_insert_memory_dependency_state_boundaries`, this shouldn't be necessary. Might be related to extra state boundaries for nested SDFGs.
 [^2]: Nested SDFGs are added when multiple states are needed inside a map.
