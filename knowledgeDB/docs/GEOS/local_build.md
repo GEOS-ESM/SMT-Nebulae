@@ -336,7 +336,7 @@ Some code in GEOS requires MKL. It's unclear which (apart from a random number g
     * _Do not rename it_
 
 ```bash
-wget https://portal.nccs.nasa.gov/datashare/astg/smt/geos-fp/TinyBCs-GitV10.2024Apr04.tar.gz
+wget https://portal.nccs.nasa.gov/datashare/astg/smt/geos-fp/restarts/TinyBCs-GitV10.2024Apr04.tar.gz
 tar -xvf TinyBCs-GitV10.2024Apr04.tar.gz
 rm TinyBCs-GitV10.2024Apr04.tar.gz
 cd TinyBCs-GitV10
