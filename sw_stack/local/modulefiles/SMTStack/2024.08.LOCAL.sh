@@ -47,10 +47,10 @@ export LD_LIBRARY_PATH="$ser_pkgdir/lib":$LD_LIBRARY_PATH
 export PYTHONPATH="$ser_pkgdir/python":$PYTHONPATH
 
 # Python 3
-py_pkgdir="/Library/Frameworks/Python.framework/Versions/3.11"
-export PATH="$py_pkgdir/bin":$PATH
-export LD_LIBRARY_PATH="$py_pkgdir/lib":$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH="$py_pkgdir/lib64":$LD_LIBRARY_PATH
+# py_pkgdir="/Library/Frameworks/Python.framework/Versions/3.11"
+# export PATH="$py_pkgdir/bin":$PATH
+# export LD_LIBRARY_PATH="$py_pkgdir/lib":$LD_LIBRARY_PATH
+# export LD_LIBRARY_PATH="$py_pkgdir/lib64":$LD_LIBRARY_PATH
 
 # Enforce proper compilers
 export FC=/opt/homebrew/opt/gcc@14/bin/gfortran-14
