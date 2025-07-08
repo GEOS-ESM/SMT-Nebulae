@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# USAGE: mpirun/srun -n N gpu-mpi-wrapper my_executable args1 args 2
+
 # For debug of this script
 #set -x
 
