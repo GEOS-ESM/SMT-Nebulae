@@ -9,6 +9,7 @@ from setup_cube_sphere import setup_fv_cube_grid
 from cuda_timer import TimedCUDAProfiler, GPU_AVAILABLE
 from progress import TimedProgress
 from data_ingester import xarray_data_to_quantity
+from ndsl.constants import X_DIM, Y_DIM, Z_DIM
 
 import pyFV3.stencils.d_sw as d_sw
 import pyFV3
@@ -41,7 +42,7 @@ IS_SERIALIZE_DATA = True
 BACKEND = "dace:cpu"
 """The One to bring them and in darkness speed them up."""
 
-ORCHESTRATION = True
+ORCHESTRATION = False
 """Bring all code under a single compiled code."""
 
 BENCH_ITERATION = 1000
@@ -50,8 +51,11 @@ BENCH_ITERATION = 1000
 BENCH_NAME = "D_SW"
 """How many execution to measure."""
 
-PERTUBATE_DATA_MODE = True
-"""Copy the data BENCH_ITERATION time and apply a small sigma-noise on it."""
+PERTUBATE_DATA_MODE = False
+"""Copy the data BENCH_ITERATION time and apply a small sigma-noise on it.
+This will slow down benchs and scale time with BENCH_ITERATION but probably be more
+realistic.
+"""
 # ---- GLOBAL MESS ----#
 
 
@@ -156,36 +160,41 @@ if PERTUBATE_DATA_MODE:
 
     with progress(f"🚀 Bench ({BENCH_ITERATION} times)"):
         timings = {}
-        with TimedCUDAProfiler("topline", timings) as total_timer:
-            # The below for-loop can't be orchestrated because dataset is a dybamic set of data (duh)
-            for d in dataset:
+        # The below for-loop can't be orchestrated because dataset is a dybamic set of data (duh)
+        for d in dataset:
+            with TimedCUDAProfiler("topline", timings):
                 d_sw(**d)
 else:
     with progress(f"🚀 Bench ({BENCH_ITERATION} times)"):
         timings = {}
-        with TimedCUDAProfiler("topline", timings) as total_timer:
-            # ⚠️ This could be orchestrated if we want a "no python" bench ⚠️
-            # But that means re-compiling if bench iteration is different
-            for _n in range(BENCH_ITERATION):
+        # ⚠️ This could be orchestrated if we want a "no python" bench ⚠️
+        # But that means re-compiling if bench iteration is different
+        for _n in range(BENCH_ITERATION):
+            with TimedCUDAProfiler("topline", timings):
                 d_sw(**inputs)
 
 with progress("📋 Making report"):
     # Header
     report = f"{BENCH_NAME} benchmark.\n\n"
     report += f"Timestamp: {datetime.now().strftime('%Y-%m-%d_%H:%M:%S')}\n"
-    report += f"Machine: {platform.machine()} / {platform.processor()}\n"
+    report += f"Machine: {platform.system()} / {platform.machine()}\n"
     report += "CPU: extract CPU info with `lscpu` on Linux and `sysctl -a` on Darwin\n"
     if GPU_AVAILABLE:
         report += "GPU: to extract with cupy\n"
-    report += f"Tile resolution: {grid_shape[0:3]} w/ halo={grid_shape[3]} "
-    report += f"({grid_shape[0] * grid_shape[1] * grid_shape[2]} grid points per compute domain)\n"
     report += "ndsl version: git hash\n"
     report += "gt4py version: git hash\n"
     report += "dace version: git hash\n"
+    report += f"Tile resolution: {grid_shape[0:3]} w/ halo={grid_shape[3]} "
+    report += f"({grid_shape[0] * grid_shape[1] * grid_shape[2]} grid points per compute domain)\n"
+    qty_zero = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], units="na")
+    report += f"Memory strides (IJK): {qty_zero.data.strides}"
     report += "\n"
 
     # Timer
-    total = timings["topline"][0]
-    time_per_call = total / BENCH_ITERATION
-    report += f"Topline: {time_per_call:.3}s (total: {total:.3})"
+    median = np.median(timings["topline"])
+    mean = np.mean(timings["topline"])
+    min_ = np.min(timings["topline"])
+    max_ = np.max(timings["topline"])
+    report += "Timings in seconds (median [mean / min / max]):\n"
+    report += f"  Topline: {median:.3} [{mean:.3}s/ {min_:.3} / {max_:.3}]\n"
     print(report)
