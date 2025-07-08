@@ -181,13 +181,15 @@ with progress("📋 Making report"):
     report += "CPU: extract CPU info with `lscpu` on Linux and `sysctl -a` on Darwin\n"
     if GPU_AVAILABLE:
         report += "GPU: to extract with cupy\n"
-    report += "ndsl version: git hash\n"
-    report += "gt4py version: git hash\n"
-    report += "dace version: git hash\n"
+    report += "Code versions\n"
+    report += "  ndsl: git hash\n"
+    report += "  gt4py: git hash\n"
+    report += "  dace: git hash\n"
+    report += "Compiler: read in CC?\n"
     report += f"Tile resolution: {grid_shape[0:3]} w/ halo={grid_shape[3]} "
     report += f"({grid_shape[0] * grid_shape[1] * grid_shape[2]} grid points per compute domain)\n"
     qty_zero = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], units="na")
-    report += f"Memory strides (IJK): {qty_zero.data.strides}"
+    report += f"Memory strides (IJK): {[s // 8 for s in qty_zero.data.strides]}"
     report += "\n"
 
     # Timer
