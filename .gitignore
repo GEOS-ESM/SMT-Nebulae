@@ -23,3 +23,6 @@ tmp_*/
 .gt4py_cache/
 
 knowledgeDB/site
+
+# Fortran-ism
+*.mod
