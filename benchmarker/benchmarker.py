@@ -173,7 +173,7 @@ with progress("📋 Making report"):
     # Header
     report = f"{BENCH_NAME} benchmark.\n\n"
     report += f"Timestamp: {datetime.now().strftime('%Y-%m-%d_%H:%M:%S')}\n"
-    report += f"Machine: {platform.machine()} / {platform.processor()}"
+    report += f"Machine: {platform.machine()} / {platform.processor()}\n"
     report += "CPU: extract CPU info with `lscpu` on Linux and `sysctl -a` on Darwin\n"
     if GPU_AVAILABLE:
         report += "GPU: to extract with cupy\n"
