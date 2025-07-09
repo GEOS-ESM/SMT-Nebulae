@@ -154,7 +154,7 @@ with progress("🔥 Warm up: first run - doesn't count"):
 
 if PERTUBATE_DATA_MODE:
     with progress("🔀 Pertubate data"):
-        # Pertub data
+        # Perturb data
         mean, sigma = 0, 0.01
         dataset = []
         for _n in range(BENCH_ITERATION):
@@ -167,7 +167,7 @@ if PERTUBATE_DATA_MODE:
 
     with progress(f"🚀 Bench ({BENCH_ITERATION} times)"):
         timings = {}
-        # The below for-loop can't be orchestrated because dataset is a dybamic set of data (duh)
+        # The below for-loop can't be orchestrated because dataset is a dynamic set of data (duh)
         for d in dataset:
             with TimedCUDAProfiler("topline", timings):
                 d_sw(**d)

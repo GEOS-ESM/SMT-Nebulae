@@ -28,7 +28,7 @@ def setup_fv_cube_grid(
 
     Args:
         layout: X/Y layout of the cube for a single tile, e.g. 2,2 will split a tile in 4 sub-tiles
-        tile_shape: 4-element typle describing the shape of tile of the form (I, J, K, Horizontal Halo)
+        tile_shape: 4-element tuple describing the shape of tile of the form (I, J, K, Horizontal Halo)
         backend: the backend
         eta_file: netcdfs with pressure levels
         orchestrate: run in orchestration mode (BuildAndRun)

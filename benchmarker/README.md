@@ -1,6 +1,6 @@
 # Benchmarker script
 
-Entry point: `bencharmker.py`
+Entry point: `benchmarker.py`
 
 All variables between the
 
