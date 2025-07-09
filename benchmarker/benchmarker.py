@@ -4,8 +4,11 @@
 # - How to expand the dataset knowing we need the Namelist (so GEOS is not an option)
 #   - Re-use the C12 namelist and use data from another resolution
 #   - Artificially expand C12 into CXX
+# - Make it GPU worthy with upload to cupy arrays
 
+import os
 from datetime import datetime
+import enum
 import platform
 import numpy as np
 import f90nml
@@ -14,7 +17,7 @@ from setup_cube_sphere import setup_fv_cube_grid
 from cuda_timer import TimedCUDAProfiler, GPU_AVAILABLE
 from progress import TimedProgress
 from benchmark_inlined_orch import BenchmarkMe
-from data_ingester import xarray_data_to_quantity
+from data_ingester import raw_data_to_quantity
 from ndsl.constants import X_DIM, Y_DIM, Z_DIM
 from ndsl import DaCeOrchestration
 
@@ -23,99 +26,25 @@ import pyFV3
 
 # ---- GLOBAL MESS ----#
 # In a better world those would becomes options
-GRID = {"IM": 12, "JM": 12, "KM": 79, "halo": 3}
-"""The grid size as we expect it in the data"""
-
-TILE_LAYOUT = (1, 1)
-"""The layout of a single tile, as we expect it into the data (for parallel codes)"""
-
-DATA_DIR = "/home/fgdeconi/work/git/pyfv3/test_data/8.1.3/c12_6ranks_standard/dycore"
-"""We expect all data to be nicely put in there. Developed against the serialize workflow."""
-
-DATA_NAME = "D_SW-In.nc"
-"""NetCDFs to read in for input data."""
-
-ETA_FILE = "/home/fgdeconi/work/git/ndsl/eta79.nc"
-"""Atmospheric level file to read for initialization of the grid. Generate from `ndsl` if need be."""
-
-NAMELIST = (
-    "/home/fgdeconi/work/git/pyfv3/test_data/8.1.3/c12_6ranks_standard/dycore/input.nml"
-)
-"""Dynamics namelist - sorry."""
-
-IS_SERIALIZE_DATA = True
-"""Flag that our data comes from Fortran and therefore need special love."""
-
-BACKEND = "dace:cpu"
-"""The One to bring them and in darkness speed them up."""
-
-ORCHESTRATION = DaCeOrchestration.BuildAndRun
-"""Bring all code under a single compiled code."""
-
-BENCH_ITERATION = 1000
-"""How many execution to measure."""
-
-BENCH_NAME = "D_SW"
-"""How many execution to measure."""
-
-PERTUBATE_DATA_MODE = False
-"""Copy the data BENCH_ITERATION time and apply a small sigma-noise on it.
-This will slow down benchs and scale time with BENCH_ITERATION but probably be more
-realistic.
-"""
-# ---- GLOBAL MESS ----#
 
 
-progress = TimedProgress()
-grid_shape = (GRID["IM"], GRID["JM"], GRID["KM"], GRID["halo"])
-
-with progress("🌏 Build Cube-Sphere"):
-    stencil_factory, quantity_factory, grid_data, damping_coefficients = (
-        setup_fv_cube_grid(
-            layout=TILE_LAYOUT,
-            tile_shape=grid_shape,
-            backend=BACKEND,
-            eta_file=ETA_FILE,
-            orchestrate=ORCHESTRATION,
-        )
-    )
+@enum.unique
+class Exp(enum.Enum):
+    C12_AI2 = enum.auto()
+    C24_GEOS = enum.auto()
 
 
-with progress("🚆 Load & move data to Quantities"):
-    raw_data = xr.open_dataset(f"{DATA_DIR}/{DATA_NAME}")
+xp = Exp.C24_GEOS
 
-    inputs = {}
-    for name in raw_data.keys():
-        inputs[name] = xarray_data_to_quantity(
-            raw_data[name],
-            grid_shape=grid_shape,
-            quantity_factory=quantity_factory,
-            serialized_data=IS_SERIALIZE_DATA,
-        )
-
-
-with progress("🤸 Setup user code"):
-    f90_nml = f90nml.read(NAMELIST)
-    dycore_config = pyFV3.DynamicalCoreConfig.from_f90nml(f90_nml)
-    column_namelist = d_sw.get_column_namelist(
-        config=dycore_config.acoustic_dynamics.d_grid_shallow_water,
-        quantity_factory=quantity_factory,
-    )
-
-    d_sw = d_sw.DGridShallowWaterLagrangianDynamics(
-        stencil_factory=stencil_factory,
-        quantity_factory=quantity_factory,
-        grid_data=grid_data,
-        damping_coefficients=damping_coefficients,
-        column_namelist=column_namelist,
-        nested=False,
-        stretched_grid=False,
-        config=dycore_config.acoustic_dynamics.d_grid_shallow_water,
-    )
-
-    # The above garbage because of serialize data if the data was captured
-    # none of this would exist
-    input_name_to_code_name = {
+if xp == Exp.C12_AI2:
+    GRID = {"IM": 12, "JM": 12, "KM": 79, "halo": 3}
+    """The grid size as we expect it in the data."""
+    DATA_PATH = "/home/fgdeconi/work/git/pyfv3/test_data/8.1.3/c12_6ranks_standard/dycore/D_SW-In.nc"
+    """Path to a netcdf with the input data."""
+    ETA_FILE = "/home/fgdeconi/work/git/ndsl/eta79.nc"
+    ETA_AK_BK_FILE = None
+    """Atmospheric level file to read for initialization of the grid. Generate from `ndsl` or saved from a previous runs (ak, bk)."""
+    INPUT_NAME_TO_CODE_NAME = {
         "ucd": "uc",
         "vcd": "vc",
         "wd": "w",
@@ -140,29 +69,180 @@ with progress("🤸 Setup user code"):
         "zhd": "zh",
         "divgdd": "divgd",
     }
-    for input_name, code_name in input_name_to_code_name.items():
+    """Mapping of saved named to expected names in the code"""
+    INPUTS_TO_REMOVE = ["nq", "nord_v", "damp_vt", "zvir", "ptcd"]
+    """List of inputs not used in the code signature"""
+elif xp == Exp.C24_GEOS:
+    GRID = {"IM": 24, "JM": 24, "KM": 72, "halo": 3}
+    DATA_PATH = "/home/fgdeconi/work/git/fp/savepoints/dynamics_C24L72_1x1/D_SW-In.nc"
+    ETA_FILE = ""
+    ETA_AK_BK_FILE = (
+        "/home/fgdeconi/work/git/fp/savepoints/dynamics_C24L72_1x1/Ak_Bk.nc"
+    )
+    INPUT_NAME_TO_CODE_NAME = {
+        "ucd": "uc",
+        "vcd": "vc",
+        "wd": "w",
+        "delpcd": "delpc",
+        "delpd": "delp",
+        "ud": "u",
+        "vd": "v",
+        "xfxd": "xfx",
+        "crxd": "crx",
+        "yfxd": "yfx",
+        "cryd": "cry",
+        "mfxd_R8": "mfx",
+        "mfyd_R8": "mfy",
+        "cxd_R8": "cx",
+        "cyd_R8": "cy",
+        "heat_sourced": "heat_source",
+        "diss_estd": "diss_est",
+        "q_cond": "q_con",
+        "ptd": "pt",
+        "uad": "ua",
+        "vad": "va",
+        "zhd": "zh",
+        "divgdd": "divgd",
+    }
+    INPUTS_TO_REMOVE = ["nq", "nord_v", "damp_vt", "zvir", "ptcd", "dpx"]
+else:
+    raise NotImplementedError(f"Experiment {xp} just is not ")
+
+
+TILE_LAYOUT = (1, 1)
+"""The layout of a single tile, as we expect it into the data (for parallel codes)."""
+
+NAMELIST = (
+    "/home/fgdeconi/work/git/pyfv3/test_data/8.1.3/c12_6ranks_standard/dycore/input.nml"
+)
+"""Dynamics namelist - sorry."""
+
+IS_SERIALIZE_DATA = True
+"""Flag that our data comes from Fortran and therefore need special love."""
+
+BACKEND = "dace:cpu"
+"""The One to bring them and in darkness speed them up."""
+
+ORCHESTRATION = DaCeOrchestration.BuildAndRun
+"""Tune the orchestration strategy."""
+
+BENCH_WITHOUT_ORCHESTRATION_OVERHEAD = False
+"""Wrap the bench iteration."""
+
+BENCH_ITERATION = 1000
+"""How many execution to measure."""
+
+BENCH_NAME = "D_SW"
+"""How many execution to measure."""
+
+PERTUBATE_DATA_MODE = False
+"""Copy the data BENCH_ITERATION time and apply a small sigma-noise on it.
+This will slow down benchs and scale time with BENCH_ITERATION but probably be more
+realistic.
+"""
+
+MONO_CORE = True
+"""Deactivate threading to test the code in a single-core/thread capacity to mimicking
+the hyperscaling strategy of GEOS"""
+
+# ---- GLOBAL MESS ----#
+
+# Clean up environement
+
+os.environ["GT4PY_COMPILE_OPT_LEVEL"] = "3"
+if MONO_CORE:
+    os.environ["OMP_NUM_THREADS"] = "1"
+
+
+progress = TimedProgress()
+
+with progress("🔁 Load data and de-serialize"):
+    raw_data = xr.open_dataset(DATA_PATH)
+
+    inputs = {}
+    for name, xarray_data in raw_data.items():
+        if IS_SERIALIZE_DATA:
+            # Case of the scalar
+            if len(xarray_data.shape) == 2:
+                inputs[name] = xarray_data.data[0, 0]
+            else:
+                inputs[name] = xarray_data[0, 0, ::].data
+        else:
+            inputs[name] = xarray_data.data
+
+grid_shape = (
+    GRID["IM"],
+    GRID["JM"],
+    GRID["KM"],
+    GRID["halo"],
+)
+
+with progress("🌏 Build Cube-Sphere"):
+    stencil_factory, quantity_factory, grid_data, damping_coefficients = (
+        setup_fv_cube_grid(
+            layout=TILE_LAYOUT,
+            tile_shape=grid_shape,
+            backend=BACKEND,
+            eta_file=ETA_FILE,
+            eta_ak_bk_file=ETA_AK_BK_FILE,
+            orchestrate=ORCHESTRATION,
+        )
+    )
+
+
+with progress("🚆 Move data to Quantities"):
+    for name, input_ in inputs.items():
+        inputs[name] = raw_data_to_quantity(
+            input_,
+            grid_shape=grid_shape,
+            quantity_factory=quantity_factory,
+        )
+
+
+with progress("🤸 Setup user code"):
+    f90_nml = f90nml.read(NAMELIST)
+    dycore_config = pyFV3.DynamicalCoreConfig.from_f90nml(f90_nml)
+    column_namelist = d_sw.get_column_namelist(
+        config=dycore_config.acoustic_dynamics.d_grid_shallow_water,
+        quantity_factory=quantity_factory,
+    )
+
+    d_sw = d_sw.DGridShallowWaterLagrangianDynamics(
+        stencil_factory=stencil_factory,
+        quantity_factory=quantity_factory,
+        grid_data=grid_data,
+        damping_coefficients=damping_coefficients,
+        column_namelist=column_namelist,
+        nested=False,
+        stretched_grid=False,
+        config=dycore_config.acoustic_dynamics.d_grid_shallow_water,
+    )
+
+    # The above garbage because of serialize data if the data was captured
+    # none of this would exist
+    for input_name, code_name in INPUT_NAME_TO_CODE_NAME.items():
         inputs[code_name] = inputs.pop(input_name)
 
-    inputs_to_remove = ["nq", "nord_v", "damp_vt", "zvir", "ptcd"]
-    for name in inputs_to_remove:
+    for name in INPUTS_TO_REMOVE:
         inputs.pop(name)
 
 # First run - loading/compile/doesn't count
 
 # TODO: turn this on to get orchestration tested without the overhead
-# benchy = BenchmarkMe(d_sw=d_sw, dace_config=stencil_factory.config.dace_config)
-# with progress("🔥 Warm up: first run - doesn't count"):
-#     benchy(inputs, BENCH_ITERATION, inputs["dt"])
-
-with progress("🔥 Warm up: first run - doesn't count"):
-    d_sw(**inputs)
+if BENCH_WITHOUT_ORCHESTRATION_OVERHEAD:
+    benchy = BenchmarkMe(d_sw=d_sw, dace_config=stencil_factory.config.dace_config)
+    with progress("🔥 Warm up: first run - doesn't count"):
+        benchy(inputs, BENCH_ITERATION, inputs["dt"])
+else:
+    with progress("🔥 Warm up: first run - doesn't count"):
+        d_sw(**inputs)
 
 if PERTUBATE_DATA_MODE:
     with progress("🔀 Pertubate data"):
         # Perturb data
         mean, sigma = 0, 0.01
         dataset = []
-        for _n in range(BENCH_ITERATION):
+        for _ in range(BENCH_ITERATION):
             local_dataset = {}
             for name, input_data in inputs.items():
                 local_dataset[name] = input_data + np.random.normal(
@@ -179,14 +259,13 @@ if PERTUBATE_DATA_MODE:
 else:
     with progress(f"🚀 Bench ({BENCH_ITERATION} times)"):
         timings = {}
-        # ⚠️ This could be orchestrated if we want a "no python" bench ⚠️
-        # But that means re-compiling if bench iteration is different
-        for _n in range(BENCH_ITERATION):
-            with TimedCUDAProfiler("topline", timings):
-                d_sw(**inputs)
-        # TODO: turn this on to get orchestration tested without the overhead
-        # benchy(inputs, BENCH_ITERATION, inputs["dt"])
-        # timings = benchy.timings
+        if BENCH_WITHOUT_ORCHESTRATION_OVERHEAD:
+            benchy(inputs, BENCH_ITERATION, inputs["dt"])
+            timings = benchy.timings
+        else:
+            for _ in range(BENCH_ITERATION):
+                with TimedCUDAProfiler("topline", timings):
+                    d_sw(**inputs)
 
 with progress("📋 Making report"):
     # Header
