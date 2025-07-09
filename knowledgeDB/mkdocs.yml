@@ -20,6 +20,7 @@ nav:
       - Science Targets: project2426/results/science-targets.md
       - HPC Metrics: project2426/results/hpc-metrics.md
   - Technical:
+    - The Laundry List 👕: technical/laundry-list.md
     - Dev setup:
       - Tech stack: technical/dev-setup/tech-stack.md
       - VSCode config: technical/dev-setup/vscode.md
@@ -34,7 +35,6 @@ nav:
     - Backend work:
       - Overview: technical/backend/index.md
       - Schedule Tree bridge: technical/backend/schedule-tree.md
-      - The laundry list: technical/backend/laundry-list.md
       - Coding guidelines: technical/backend/coding-guidelines.md
       - Repositories:
         - NDSL: technical/backend/repositories/ndsl.md
