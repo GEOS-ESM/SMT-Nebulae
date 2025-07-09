@@ -125,6 +125,10 @@ DaCe stopped feature development on the v1 branch (only critical fixes can go in
 
 We built the schedule tree on top of the v1 branch [see here why](./ADRs/stree_dace-version.md) and are thus currently in limbo between versions. We'll need to update once DaCe 2.0 gets stable or - at least - takes shape.
 
+### Storing compressed SDFGs
+
+DaCe has the option to store SDFGs in compressed format. Since SDFGs are stored as (human readable) plain-text json, this can reduce file sizes drastically. To be evaluated if this has a negative impact on save & load times. The hypothesis is no, but it's always better to check and there are probably a bunch of hard-coded `.sdfg` extension that need to be adapted.
+
 ### Interval context: drop explicit `PARALLEL`
 
 Currently, users need to specify whether their stencil can run in parallel or not. From data dependency analysis, we should be able to derive if it is safe to run a stencil in parallel or not. The would allow us to remove the `PARALLEL` option and auto-magically enable parallelism when possible.
