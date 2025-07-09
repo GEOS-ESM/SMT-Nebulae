@@ -8,8 +8,10 @@ import xarray as xr
 from setup_cube_sphere import setup_fv_cube_grid
 from cuda_timer import TimedCUDAProfiler, GPU_AVAILABLE
 from progress import TimedProgress
+from benchmark_inlined_orch import BenchmarkMe
 from data_ingester import xarray_data_to_quantity
 from ndsl.constants import X_DIM, Y_DIM, Z_DIM
+from ndsl import DaCeOrchestration
 
 import pyFV3.stencils.d_sw as d_sw
 import pyFV3
@@ -42,7 +44,7 @@ IS_SERIALIZE_DATA = True
 BACKEND = "dace:cpu"
 """The One to bring them and in darkness speed them up."""
 
-ORCHESTRATION = False
+ORCHESTRATION = DaCeOrchestration.BuildAndRun
 """Bring all code under a single compiled code."""
 
 BENCH_ITERATION = 1000
@@ -142,6 +144,11 @@ with progress("🤸 Setup user code"):
 
 # First run - loading/compile/doesn't count
 
+# TODO: turn this on to get orchestration tested without the overhead
+# benchy = BenchmarkMe(d_sw=d_sw, dace_config=stencil_factory.config.dace_config)
+# with progress("🔥 Warm up: first run - doesn't count"):
+#     benchy(inputs, BENCH_ITERATION, inputs["dt"])
+
 with progress("🔥 Warm up: first run - doesn't count"):
     d_sw(**inputs)
 
@@ -172,6 +179,9 @@ else:
         for _n in range(BENCH_ITERATION):
             with TimedCUDAProfiler("topline", timings):
                 d_sw(**inputs)
+        # TODO: turn this on to get orchestration tested without the overhead
+        # benchy(inputs, BENCH_ITERATION, inputs["dt"])
+        # timings = benchy.timings
 
 with progress("📋 Making report"):
     # Header
@@ -189,7 +199,8 @@ with progress("📋 Making report"):
     report += f"Tile resolution: {grid_shape[0:3]} w/ halo={grid_shape[3]} "
     report += f"({grid_shape[0] * grid_shape[1] * grid_shape[2]} grid points per compute domain)\n"
     qty_zero = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], units="na")
-    report += f"Memory strides (IJK): {[s // 8 for s in qty_zero.data.strides]}"
+    report += f"Memory strides (IJK): {[s // 8 for s in qty_zero.data.strides]}\n"
+    report += f"Backend: {'orch:' if ORCHESTRATION else ''}{BACKEND}\n"
     report += "\n"
 
     # Timer
@@ -197,6 +208,7 @@ with progress("📋 Making report"):
     mean = np.mean(timings["topline"])
     min_ = np.min(timings["topline"])
     max_ = np.max(timings["topline"])
+    report += f"Executions: {BENCH_ITERATION}.\n"
     report += "Timings in seconds (median [mean / min / max]):\n"
     report += f"  Topline: {median:.3} [{mean:.3}s/ {min_:.3} / {max_:.3}]\n"
     print(report)

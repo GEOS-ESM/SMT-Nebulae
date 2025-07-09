@@ -22,7 +22,7 @@ def setup_fv_cube_grid(
     tile_shape: tuple[int, int, int, int],
     backend: str,
     eta_file: str,
-    orchestrate: bool,
+    orchestrate: DaCeOrchestration,
 ):
     """
 
@@ -80,9 +80,7 @@ def setup_fv_cube_grid(
         backend=stencil_config.backend,
         tile_nx=tile_shape[0],
         tile_nz=tile_shape[1],
-        orchestration=DaCeOrchestration.BuildAndRun
-        if orchestrate
-        else DaCeOrchestration.Python,
+        orchestration=orchestrate,
     )
 
     grid_indexing = GridIndexing.from_sizer_and_communicator(
