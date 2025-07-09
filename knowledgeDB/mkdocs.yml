@@ -34,6 +34,7 @@ nav:
     - Backend work:
       - Overview: technical/backend/index.md
       - Schedule Tree bridge: technical/backend/schedule-tree.md
+      - The laundry list: technical/backend/laundry-list.md
       - Coding guidelines: technical/backend/coding-guidelines.md
       - Repositories:
         - NDSL: technical/backend/repositories/ndsl.md
