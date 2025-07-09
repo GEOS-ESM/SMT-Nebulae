@@ -33,7 +33,7 @@ nav:
       - Translate tests: technical/porting/translate_test.md
     - Backend work:
       - Overview: technical/backend/index.md
-      - GT4Py/DaCe bridge via stree: technical/backend/schedule-tree.md
+      - Schedule Tree bridge: technical/backend/schedule-tree.md
       - Coding guidelines: technical/backend/coding-guidelines.md
       - Repositories:
         - NDSL: technical/backend/repositories/ndsl.md

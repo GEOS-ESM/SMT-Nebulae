@@ -4,7 +4,7 @@ NDSL has multiple backends, each serving different purposes:
 
 - Debug backend: easy to read python code. Playground for new DSL features. Really, really slow.
 - Numpy backend: "fast" python-based backend. Playground for new science code.
-- DaCe backends: performance backends for running at scale in production. Has the ability to optimize code in between stencils, see [orchestration](./orchestration.md).
+- DaCe backends: performance backends for running at scale in production. DaCe backends have the ability to do full program optimization (e.g. analyze and optimize even code in between stencils), see [orchestration](./orchestration.md).
 
 Note: DaCe backends is plural because that backend can either generate code that targets CPUs or GPUs.
 
@@ -76,7 +76,7 @@ All scheduling choices happen in the schedule tree. After the schedule is fixed,
 
 ### Orchestration
 
-DaCe backends can either optimize per-stencil or do whole program optimization through orchestration. Orchestration is a system that bring GT4Py stencils and regular python code together. This opens up the potential for whole program optimization. Orchestration enables the most potent wide-context optimizations. [Details and Limitations.](./orchestration.md)
+DaCe backends can either optimize per-stencil or do full program optimization through orchestration. Orchestration is a system that bring GT4Py stencils and regular python code together. This opens up the potential for full program optimization. Orchestration enables the most potent wide-context optimizations. [Details and Limitations.](./orchestration.md)
 
 ## Repositories
 
