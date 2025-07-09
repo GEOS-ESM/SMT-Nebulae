@@ -1,5 +1,10 @@
 """Benchmark script, valid for serial or parallel code"""
 
+# TODO list
+# - How to expand the dataset knowing we need the Namelist (so GEOS is not an option)
+#   - Re-use the C12 namelist and use data from another resolution
+#   - Artificially expand C12 into CXX
+
 from datetime import datetime
 import platform
 import numpy as np
