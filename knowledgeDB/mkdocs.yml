@@ -23,9 +23,11 @@ nav:
     - Overview: technical/index.md
     - The Laundry List 👕: technical/laundry-list.md
     - Dev setup:
+      - Overview: technical/dev-setup/index.md
       - Tech stack: technical/dev-setup/tech-stack.md
       - VSCode config: technical/dev-setup/vscode.md
     - Frontend:
+      - Overview: technical/frontend/index.md
       - NDSL features: technical/frontend/ndsl_features.md
       - Experimental "physics" features: technical/frontend/experimental_features.md
       - ADRs:
@@ -37,6 +39,7 @@ nav:
       - Overview: technical/backend/index.md
       - Schedule Tree bridge: technical/backend/schedule-tree.md
       - Coding guidelines: technical/backend/coding-guidelines.md
+      - Orchestration: technical/backend/orchestration.md
       - Repositories:
         - NDSL: technical/backend/repositories/ndsl.md
         - GT4Py: technical/backend/repositories/gt4py.md
