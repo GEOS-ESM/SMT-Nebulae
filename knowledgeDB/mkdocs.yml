@@ -20,6 +20,7 @@ nav:
       - Science Targets: project2426/results/science-targets.md
       - HPC Metrics: project2426/results/hpc-metrics.md
   - Technical:
+    - Overview: technical/index.md
     - The Laundry List 👕: technical/laundry-list.md
     - Dev setup:
       - Tech stack: technical/dev-setup/tech-stack.md

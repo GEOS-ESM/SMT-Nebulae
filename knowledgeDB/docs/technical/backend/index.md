@@ -90,7 +90,3 @@ NDSL is then used in the following repositories:
 
 - [PyFV3](https://github.com/NOAA-GFDL/PyFV3) NDSL port of the FV3 dynamical core.
 - [pace](https://github.com/NOAA-GFDL/pace) combines the PyFV3 port with PySHiELD physics, a DSL port of the SHiELD physics.
-
-## The laundry list of things to do
-
-We have many ideas on what to do in the future. Since the work is so fragmented, across repositories, we started a [laundry list](./laundry-list.md) in the hope keep things together in one place.
