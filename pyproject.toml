@@ -38,7 +38,7 @@ dependencies = [
     "kaleido",
     "pre-commit",
     "xarray",
-    "netcdf4==1.6.3",
+    "netcdf4",
     "f90nml",
     "GitPython",
     "pandas",
