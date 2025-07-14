@@ -46,7 +46,9 @@ Run the orchestrated translate test for `D_SW` from the PyFV3 repository. Build 
 
 ## Frontend
 
-- 🐞: Unable to do operation in absolute indexer in stencils. E.g. `field.at(K=k22 - k_index)` with `k22` and `k_index` `IntField32`
+- 🐞: Unable to do operation in absolute indexer in stencils.
+    - This WORKS: `field.at(K=k22 - k_index)` with `k22` and `k_index` as `IntField32`
+    - This FAILS: `field.at(K=kbcon - 1)` with `kbcon` as `IntField32`
 
 ## Code maintenance
 
