@@ -69,7 +69,7 @@ In big terms, schedule tree to SDFG conversion has the following steps:
 
 ## Optimization laundry list
 
-We have a long laundry list of [planned optimizations](./laundry-list.md#planned-optimizations).
+We have a long laundry list of [planned optimizations](../laundry-list.md#planned-optimizations).
 
 [^1]: as far as I understand `_insert_memory_dependency_state_boundaries`, this shouldn't be necessary. Might be related to extra state boundaries for nested SDFGs.
 [^2]: Nested SDFGs are added when multiple states are needed inside a map.

@@ -6,7 +6,7 @@ This document is a loose list of topics, bringing together planned and known iss
 
 ### Planned optimizations
 
-There are a bunch of optimizations that we have planned with the [schedule tree bridge](./schedule-tree.md) and a bunch of optimization that we need to build back with the new bridge:
+There are a bunch of optimizations that we have planned with the [schedule tree bridge](./backend/schedule-tree.md) and a bunch of optimization that we need to build back with the new bridge:
 
 - Different loops per target hardware: like [previously](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/backend/dace_backend.py#L75-L120), but less confusing
 - Tiling: like [previously](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/backend/dace_backend.py#L123-L132), but hardware dependent. More details in [this file](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/gtc/dace/expansion_specification.py#L237-L240).
@@ -21,7 +21,7 @@ There are a bunch of optimizations that we have planned with the [schedule tree 
 - In the previous bridge, we'd [merge a horizontal region with the loop bounds](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/gtc/dace/expansion/daceir_builder.py#L1042-L1053) in case the horizontal region was the only thing inside that loop.
 - In the previous bridge, we'd [split horizontal execution regions](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/gtc/dace/expansion/expansion.py#L149). This was also used for [orchestration in NDSL](https://github.com/NOAA-GFDL/NDSL/blob/2986b450386b5006d847f246ff6e8b23abdc9190/ndsl/dsl/dace/sdfg_opt_passes.py). To be re-evaluated.
 - When orchestrating a lot of the fields that are held by the classes (the `self.tmp_field`) are transient to the local object (could be multiple stencils!) but those are flagged as global memory anyway. Re-scoping them to proper transients could lead to better memory & scalarization. At the `stree` level we don't scope the arrays to any space, we just flag them and the STREE-to-SDFG bridge deals with localizing them. Could we just write a pass scoping the containers post parsing and let the bridge do it?
-- For stencils only we are missing a `simplify` (and potienally a `validate`?) right before [going to code generation](https://github.com/romanc/gt4py/blob/06cd753135d1a6caaabe0aca37cf735fb1d96c52/src/gt4py/cartesian/backend/dace_backend.py#L407)
+- For stencils only we are missing a `simplify` (and potentially a `validate`?) right before [going to code generation](https://github.com/romanc/gt4py/blob/06cd753135d1a6caaabe0aca37cf735fb1d96c52/src/gt4py/cartesian/backend/dace_backend.py#L407)
 
 ### Dynamics runtime
 
@@ -129,7 +129,7 @@ Bottom line, this will come in the future as 3.12 is the last to support numpy <
 
 DaCe stopped feature development on the v1 branch (only critical fixes can go in) and is working actively on shaping the next major version. According to Tal, DaCe 2.0 will be much nicer and fix everything ;)
 
-We built the schedule tree on top of the v1 branch [see here why](./ADRs/stree_dace-version.md) and are thus currently in limbo between versions. We'll need to update once DaCe 2.0 gets stable or - at least - takes shape.
+We built the schedule tree on top of the v1 branch [see here why](./backend/ADRs/stree_dace-version.md) and are thus currently in limbo between versions. We'll need to update once DaCe 2.0 gets stable or - at least - takes shape.
 
 ### Storing compressed SDFGs
 
@@ -201,4 +201,4 @@ Issues:
 
 ### Issue duplication / fragmentation
 
-For [milestone 1](../../project2426/milestone1.md), we were using a GitHub project in the `GEOS-ESM` organization. This forced us to have a fork of NDSL under that organization, which lead to issue fragmentation / duplication on that fork. We should find the time to clean [these issues](https://github.com/GEOS-ESM/NDSL/issues).
+For [milestone 1](../project2426/milestone1.md), we were using a GitHub project in the `GEOS-ESM` organization. This forced us to have a fork of NDSL under that organization, which lead to issue fragmentation / duplication on that fork. We should find the time to clean [these issues](https://github.com/GEOS-ESM/NDSL/issues).
