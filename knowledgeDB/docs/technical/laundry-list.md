@@ -44,6 +44,10 @@ Running (`FV3_DACEMODE=Run`) the pre-compiled, orchestrated translate test for `
 
 Run the orchestrated translate test for `D_SW` from the PyFV3 repository. Build once with `FV3_DACEMODE=Build` and then run with `FV3_DACEMODE=Run`.
 
+## Frontend
+
+- 🐞: Unable to do operation in absolute indexer in stencils. E.g. `field.at(K=k22 - k_index)` with `k22` and `k_index` `IntField32`
+
 ## Code maintenance
 
 ### Grid layout
