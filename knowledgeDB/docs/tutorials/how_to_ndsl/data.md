@@ -25,11 +25,21 @@ NDSL fields are typed according to the following:
 
 Note that there is no `*_FieldIJK`; this is simply `*_Field`. 
 
-- `FloatFieldI`: one dimensional (I) field of type Float
-- `BoolFieldIK`: two dimensional (I, K) field of type Bool
-- `FloatFieldJK`: two dimensional (J, K) field of type Float
+Below is a list of some commonly used NDSL field types:
+- `Float`: scalar variable of type Float
+- `Int`: scalar variable of type Int
 - `Bool`: scalar variable of type Bool
+- `FloatFieldK`: one dimensional (K) field of type Float
+- `IntFieldK`: one dimensional (K) field of type Int
+- `BoolFieldK`: one dimensional (K) field of type Bool
+- `FloatFieldIJ`: two dimensional (I, J) field of type Float
+- `IntFieldIJ`: two dimensional (I, J) field of type Int
+- `BoolFieldIJ`: two dimensional (I, J) field of type Bool
+- `FloatField`: three dimensional (I, J, K) field of type Float
 - `IntField`: three dimensional (I, J, K) field of type Int
+- `BoolField`: three dimensional (I, J, K) field of type Bool
+
+Discuss 4D fields here
 
 ## Data Storage
 
@@ -57,11 +67,7 @@ later) to initialize a quantity. The first argument, `[X_DIM, Y_DIM, Z_DIM]`, te
 where to put each dimension within the quantity. Generally, the size of each dimension will be
 determined automatically, but here we have supplied `domain = (3, 2, 1)`, so the resulting quantity
 will have three dimensions, with the size the X/Y/Z dimension corresponding to position 0/1/2 in
-domain, respectively. Note that changing the order of the first argument only changes the order of
-each dimension within the quantity, and that one dimension can be used twice (e.g.
-`[Y_DIM, X_DIM, X_DIM]`, will correspond to a 2x3x3 quantity); however, unless you have a very good
-reason to do so, it is generally best to leave the dimensions as [X, Y, Z] and only remove any
-that are unneeded.
+domain, respectively.
 
 The second argument, `"n/a"`, specifies the units of the data stored. This is only for
 metadata and ease of use, and has no impact on calculations. The final argument `dtype` controls
@@ -118,18 +124,18 @@ ignored by the system unless you explicitly state that it should be considered b
 
 NDSL quantities can be constructed with a halo on the X and Y dimensions. This is useful
 when working with components such as the FV3 core, which uses a halo to facilitate data exchange
-between faces of the cube. In the example above, the halo is set to zero (`nhalo=0`), but this can
+between faces of the cube and between MPI ranks. In the example above, the halo is set to zero (`nhalo=0`), but this can
 be set to any value smaller than the smallest X/Y dimension.
 
 **Accessing Data**
 
 There are two main methods for accessing data stored within a quantity:
 
-- `quantity.view[:]`: returns the numerical contents of the quantity as a NumPy-like array. This
-print always includes the extra point from the interface dimension, regardless of whether that
-point is being considered for computations. Note that, since this is a NumPy-like array, it can
-be accessed using normal Python accessing rules, and much of the functionality of NumPy arrays is
-also available.
+- `quantity.view[:]`: returns the compute domain (exludes halos) of the quantity as a NumPy-like 
+array. This print always includes the extra point from the interface dimension, regardless of 
+whether that point is being considered for computations. Note that, since this is a NumPy-like 
+array, it can be accessed using normal Python accessing rules, and much of the functionality of 
+NumPy arrays is also available.
 
 - `quantity.data[:]`: similar to `quantity.view[:]`, but `.data` also returns the halo, if one
 is present.

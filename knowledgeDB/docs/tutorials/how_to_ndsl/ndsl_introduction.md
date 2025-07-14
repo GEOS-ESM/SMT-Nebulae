@@ -1,7 +1,9 @@
 # Introduction to NDSL
 
 NDSL is a Python based middleware which allows users to accelerate their code while
-simultaneously gaining access to CPU or GPU execution.
+simultaneously gaining access to CPU or GPU execution. NDSL provides an easy way to accelerate code 
+onto multiple hardware backends with GT4Py and DaCe, abstracting boilerplate and sharper edges of 
+GT4Py development – it gives easy access to GT4Py and DaCe.
 
 NDSL relies heavily on the performance capabilities delivered by
 [GT4Py](https://gridtools.github.io/gt4py/latest/index.html) and

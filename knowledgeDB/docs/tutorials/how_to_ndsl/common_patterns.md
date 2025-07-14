@@ -10,7 +10,7 @@ implementation.
 
 ## Writing to a `Z_INTERFACE_DIM` Variable
 
-If working with `Z_INTERFACE_DIM` quantities, one will inevitable need to write to the "extra"
+If working with `Z_INTERFACE_DIM` quantities, one will inevitably need to write to the "extra"
 point. The easiest way to achieve this is by declaring your `compute_dims` to operate on
 the `Z_INTERFACE_DIM` instead of the `Z_DIM`, and then restrict your interval and offset `Z_DIM`
 stencil reads accordingly:
@@ -571,7 +571,73 @@ as flags to turn on/off chunks of code, acting as flags on a per-point basis.
 Occasionally there may be situations when a nested K loop is required (such as
 accumulating precipitation).
 
-PUT EXAMPLE IN ONCE THERE IS PROPER SOLUTION FOR THIS (no need for double masks)
+Below is an example of a nested K loop from the lagrangian_contributions stencil. It is not 
+currently possible in NDSL to nest a `with computation(PARALLEL)` within a 
+`with computation(PARALLEL)`, however a `while`loop can be used to create a nested K loop 
+(lines x-x).
+
+    ```py linenums="1"
+    def lagrangian_contributions(
+        q: FloatField,
+        pe1: FloatField,
+        pe2: FloatField,
+        q4_1: FloatField,
+        q4_2: FloatField,
+        q4_3: FloatField,
+        q4_4: FloatField,
+        dp1: FloatField,
+        lev: IntFieldIJ,
+    ):
+        """
+        Args:
+            q (out):
+            pe1 (in):
+            pe2 (in):
+            q4_1 (in):
+            q4_2 (in):
+            q4_3 (in):
+            q4_4 (in):
+            dp1 (in):
+            lev (inout):
+        """
+        with computation(FORWARD), interval(...):
+            pl = (pe2 - pe1[0, 0, lev]) / dp1[0, 0, lev]
+            if pe2[0, 0, 1] <= pe1[0, 0, lev + 1]:
+                pr = (pe2[0, 0, 1] - pe1[0, 0, lev]) / dp1[0, 0, lev]
+                q = (
+                    q4_2[0, 0, lev]
+                    + 0.5
+                    * (q4_4[0, 0, lev] + q4_3[0, 0, lev] - q4_2[0, 0, lev])
+                    * (pr + pl)
+                    - q4_4[0, 0, lev] * 1.0 / 3.0 * (pr * (pr + pl) + pl * pl)
+                )
+            else:
+                qsum = (pe1[0, 0, lev + 1] - pe2) * (
+                    q4_2[0, 0, lev]
+                    + 0.5
+                    * (q4_4[0, 0, lev] + q4_3[0, 0, lev] - q4_2[0, 0, lev])
+                    * (1.0 + pl)
+                    - q4_4[0, 0, lev] * 1.0 / 3.0 * (1.0 + pl * (1.0 + pl))
+                )
+                lev = lev + 1
+                while pe1[0, 0, lev + 1] < pe2[0, 0, 1]:
+                    qsum += dp1[0, 0, lev] * q4_1[0, 0, lev]
+                    lev = lev + 1
+                dp = pe2[0, 0, 1] - pe1[0, 0, lev]
+                esl = dp / dp1[0, 0, lev]
+                qsum += dp * (
+                    q4_2[0, 0, lev]
+                    + 0.5
+                    * esl
+                    * (
+                        q4_3[0, 0, lev]
+                        - q4_2[0, 0, lev]
+                        + q4_4[0, 0, lev] * (1.0 - (2.0 / 3.0) * esl)
+                    )
+                )
+                q = qsum / (pe2[0, 0, 1] - pe2)
+            lev = lev - 1
+    ```
 
 ## Goto and Exit
 

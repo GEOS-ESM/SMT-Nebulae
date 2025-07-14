@@ -1,8 +1,7 @@
 # Stencil and Function Basics
 
 NDSL derives its power from the ability to accelerate and dynamically compile code. To do this,
-NDSL has two constructs which are used to denote and contain acceleratable code: "stencils" and
-"functions". Conceptually, the two are similar, but their uses are different.
+NDSL creates an interface to two GT4Py constructs which are used to denote and contain acceleratable code: "stencils" and "functions". Conceptually, the two are similar, but their uses are different.
 
 ## Stencils
 
@@ -57,8 +56,9 @@ Looking into the stencil code, we can see the two most important keywords in NDS
 
 The statement `with computation(PARALLEL)` signals that *all three* dimensions can be executed in
 parallel. The statement `with interval(...)` signals that the computation should apply to all
-vertical levels over which the stencil is executed. We will discuss both of these in more detail
-later.
+vertical levels over which the stencil is executed. More specifically, `with computation(PARALLEL)` specifies the iteration direction in K, and `with interval(...)` describes the extent of the K-axis 
+to apply this computation to. A stencil may have multiple compute blocks and each compute block may 
+have multiple intervals, but intervals within a compute block must be in-order and cannot overlap.
 
 Now we set up our class:
 
@@ -77,9 +77,10 @@ class CopyData:
 
 Here is where we actually build our stencil (lines 14-17). Behind the scenes the system is
 compiling code based on a number of considerations, most important of which is the target
-architecture: CPU or GPU. We will discuss more build options in a future section, but you will
-always have to specify `func` (to determine what stencil is being built), and `compute_dims`
-(we will discuss restricting the `compute_dims` in a later guide).
+architecture: CPU or GPU. You will always have to specify `func` (to determine what stencil is being built), and `compute_dims`(we will discuss restricting the `compute_dims` in a later guide), 
+unless you are using stencil_factory.from_origin_domain() to compile a stencil, which will be 
+discussed in a later section.
+
 
 Finally we can run the program:
 
@@ -113,7 +114,7 @@ if __name__ == "__main__":
 
 NDSL has the ability to generate temporary quantities within a stencil. All temporary quantities
 (defined as variables which are used within the stencil but not passed to the stencil at call) are
-initialized as a field of dimensions equal to the full model domain. These fields can be used
+initialized as a field of dimensions equal to the full stencil domain. These fields can be used
 just as any other field can be used.
 
 **Offsets**
@@ -146,10 +147,10 @@ executed, and is controlled using traditional Python indexing (e.g. `interval(0,
 `interval(1, -1)`). The argument `None` can be used to say "go to end of the domain" (e.g.
 `interval(10, None)`). The argument `...` signals compute at all levels, equivalent to `0, None`.
 
-NDSL has three possible iterations policies: `PARALLEL`, `FORWARD`, and `BACKWARD`.
-Choosing `PARALLEL` states that all three dimensions can be executed in parallel. In this state,
+NDSL has three possible iteration policies: `PARALLEL`, `FORWARD`, and `BACKWARD`.
+Choosing `PARALLEL` states that the vertical dimension will be executed in parallel. In this state,
 each point in the domain is computed independently in the fastest possible order. This means that
-fields are being written in random order, and therefore any operations which depends on data at
+fields are being written in random order, and therefore any operations which depend on data at
 other points in a field which is being written (e.g. `out = in_field[0, 0, 1]`) cannot use
 `PARALLEL`.
 
@@ -202,7 +203,9 @@ NEED TO UNDERSTAND THE NEW FOR LOOP FEATURE THEN WRITE SOMETHING ABOUT IT
 ## Functions
 
 Functions in NDSL are used similar to traditional Python functions. They can be used to make code
-visually more appealing, and are inlined at execution.
+visually more appealing, and are inlined at execution. Technically, NDSL functions are GT4Py 
+constructs, that NDSL provides an interface for. They are "pure" functions - meaning they 
+cannot modify arguments in-place and just return values.
 
 Functions follow all the same rules as stencils, a but have a number of important quirks. Functions:
 
@@ -282,8 +285,8 @@ within another function.
 
 ## Basic Stencil & Function Tips and Tricks
 
-Multiple stencils can be used sequentially with no impact on performance - NDSL will combine
-these stencils during compilation.
+When using a DaCe backend, multiple stencils can be used sequentially with no impact on 
+performance - NDSL will combine these stencils during compilation.
 
 Similarly, a single stencil can have any number of `with computation()` and `with interval()`
 statements. They do not need to appear in pairs, but often do (in which case they can be
