@@ -8,7 +8,7 @@ to Kelvin:
 ??? Example
 
     ``` py linenums="1"
-    from gt4py.cartesian.gtscript import PARALLEL, computation, interval
+    from ndsl.dsl.gt4py import PARALLEL, computation, interval
     from ndsl import StencilFactory
     from ndsl.boilerplate import get_factories_single_tile
     from ndsl.constants import X_DIM, Y_DIM, Z_DIM
@@ -54,15 +54,15 @@ to Kelvin:
 
         # initialize quantities
         temperature_Celsius = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
-        for i in range(temperature_Celsius.view[:].shape[0]):
-            for j in range(temperature_Celsius.view[:].shape[1]):
-                for k in range(temperature_Celsius.view[:].shape[2]):
-                    temperature_Celsius.view[i, j, k] = 20 + round(
+        for i in range(temperature_Celsius.field.shape[0]):
+            for j in range(temperature_Celsius.field.shape[1]):
+                for k in range(temperature_Celsius.field.shape[2]):
+                    temperature_Celsius.field[i, j, k] = 20 + round(
                         random.uniform(-10, 10), 2
                     )
 
         temperature_Kelvin = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
-        temperature_Kelvin.view[:] = -999
+        temperature_Kelvin.field[:] = -999
 
         # call the class, perform the calculation
         convert(temperature_Celsius, temperature_Kelvin)
@@ -205,7 +205,7 @@ expression which corresponds to a level present in the accessed field.
 
 NOTE: add information about four dimensional fields once we have updated that
 
-## Looking Backwards to Move Forward
+## Summary
 
 This guide introduced some more advanced features and exceptions to some of NDSL's rules. If used
 as designed these features will have no impact on performance, but it is possible to misuse these

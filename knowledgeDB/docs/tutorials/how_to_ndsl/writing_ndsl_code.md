@@ -1,6 +1,6 @@
-# Stencil and Function Basics
+# Writing Code in NDSL
 
-NDSL derives its power from the ability to accelerate and dynamically compile code. To do this,
+NDSL finds power in its ability to accelerate and dynamically compile code. To do this,
 NDSL creates an interface to two GT4Py constructs which are used to denote and contain acceleratable code: "stencils" and "functions". Conceptually, the two are similar, but their uses are different.
 
 ## Stencils
@@ -8,8 +8,8 @@ NDSL creates an interface to two GT4Py constructs which are used to denote and c
 Stencils are the primary method of creating parralelizable code with NDSL, and indeed in NDSL
 everything must begin with a stencil.
 
-Within a 3-dimensional domain, NDSL evaluates computations in two parts. If we assume an (X, Y, Z)
-coordinate system as a reference, NDSL separates computations in the horizontal (X, Y) plane from the
+Within a 3-dimensional domain, NDSL evaluates computations in two parts. If we assume an (I, J, K)
+coordinate system as a reference, NDSL separates computations in the horizontal (I, J) plane from the
 vertical (Z) column.
 
 In the horizontal plane, computations are **always** executed in parallel, which means that there is
@@ -22,8 +22,10 @@ NDSL. We will discuss this in more detail shortly.
 
 **Basic Stencil Example**
 
-To demonstrate how to implement a NDSL stencil, let's step through an example that copies the
-values of one field into another field. First, we import several packages:
+To demonstrate how to implement a NDSL stencil and introduce the most important keywords, let's step through
+an example of a stencil that copies the values of one field into another field.
+
+First, we import several packages:
 
 ``` py linenums="1"
 from ndsl import StencilFactory
@@ -54,11 +56,14 @@ does not match the declared type.
 
 Looking into the stencil code, we can see the two most important keywords in NDSL.
 
-The statement `with computation(PARALLEL)` signals that *all three* dimensions can be executed in
-parallel. The statement `with interval(...)` signals that the computation should apply to all
-vertical levels over which the stencil is executed. More specifically, `with computation(PARALLEL)` specifies the iteration direction in K, and `with interval(...)` describes the extent of the K-axis 
-to apply this computation to. A stencil may have multiple compute blocks and each compute block may 
-have multiple intervals, but intervals within a compute block must be in-order and cannot overlap.
+The statement `with computation([argument])` sets the iteration policy of the nested code. In this case,
+we have declared `with computation(PARALLEL), signaling that *all three* dimensions can be executed in
+parallel. The statement `with interval([argument])` sets the domain of the nested code. Once again, in this case,
+we have declared `with interval(...)`, signaling that the computation should apply to all vertical levels
+in the compute domain.
+
+A stencil may have multiple sequential computation policies, and each computation policy may have multiple
+intervals.
 
 Now we set up our class:
 
@@ -77,10 +82,12 @@ class CopyData:
 
 Here is where we actually build our stencil (lines 14-17). Behind the scenes the system is
 compiling code based on a number of considerations, most important of which is the target
-architecture: CPU or GPU. You will always have to specify `func` (to determine what stencil is being built), and `compute_dims`(we will discuss restricting the `compute_dims` in a later guide), 
-unless you are using stencil_factory.from_origin_domain() to compile a stencil, which will be 
-discussed in a later section.
-
+architecture: CPU or GPU. In this example, we use the method `from_dims_halo`, which is the most
+straightforward way to build a stencil. With this method, you will always have to specify `func` (to
+determine what stencil is being built), and `compute_dims`. Stencils can also be built using
+`from_origin_domain`, which requires manual entry of the `origin` and `domain` of the stencil. Behind the
+scenes, `from_dims_halo` computes these and calls `from_origin_domain` automatically, so we recommend using
+`from_dims_halo`, as it will suffice for the vast majority of situations.
 
 Finally we can run the program:
 
@@ -99,13 +106,13 @@ if __name__ == "__main__":
     copy_data = CopyData(stencil_factory)
 
     in_quantity = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
-    for i in range(in_quantity.view[:].shape[0]):
-        for j in range(in_quantity.view[:].shape[1]):
-            for k in range(in_quantity.view[:].shape[2]):
-                in_quantity.view[i, j, k] = i * 100 + j * 10 + k
+    for i in range(in_quantity.field.shape[0]):
+        for j in range(in_quantity.field.shape[1]):
+            for k in range(in_quantity.field.shape[2]):
+                in_quantity.field[i, j, k] = i * 100 + j * 10 + k
 
     out_quantity = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
-    out_quantity.view[:] = -999
+    out_quantity.field[:] = -999
 
     copy_data(in_quantity, out_quantity)
 ```
@@ -115,13 +122,16 @@ if __name__ == "__main__":
 NDSL has the ability to generate temporary quantities within a stencil. All temporary quantities
 (defined as variables which are used within the stencil but not passed to the stencil at call) are
 initialized as a field of dimensions equal to the full stencil domain. These fields can be used
-just as any other field can be used.
+just as any other field can be used, and are unavailable outside of the stencil.
 
 **Offsets**
 
 Within a stencil, points are referenced relative to each other. For example, the statement
 `field[0, 0, 1]` implies that you want an offset of positive one along the K axis (Z dimension
-in our example). Offsets can only occur at read; NDSL does not allow writing with an offset.
+in our example). This offset occurs at each point in the domain independently, so you will always be reading
+one "above" your current position.
+
+Offsets can only occur at read; NDSL does not allow writing with an offset.
 Additionally, it is not possible to write to a field when you read from it with an offset in the
 same statement (e.g. `field = field[0, 0, 1]` is illegal).
 
@@ -148,17 +158,17 @@ executed, and is controlled using traditional Python indexing (e.g. `interval(0,
 `interval(10, None)`). The argument `...` signals compute at all levels, equivalent to `0, None`.
 
 NDSL has three possible iteration policies: `PARALLEL`, `FORWARD`, and `BACKWARD`.
-Choosing `PARALLEL` states that the vertical dimension will be executed in parallel. In this state,
-each point in the domain is computed independently in the fastest possible order. This means that
-fields are being written in random order, and therefore any operations which depend on data at
-other points in a field which is being written (e.g. `out = in_field[0, 0, 1]`) cannot use
+As previously mentioned, choosing `PARALLEL` states that all three dimension will be executed in parallel.
+In this state, each point in the compute domain is computed independently in the fastest possible order.
+This means that fields are being written in random order, and therefore any operations which depend on data at
+other points in a field which is being written (e.g. `out_field = field_computed_locally[0, 0, 1]`) cannot use
 `PARALLEL`.
 
 The `FORWARD` and `BACKWARD` options can be considered non-parallel options for the K axis. These
 options require that all calculations for a particular K level are computed before moving on to the
 next K level. This is **often significantly slower than `PARALLEL`**, but ensures that each kernel
-has the information between execution of each index along the K axis. `FORWARD` executes from the
-first argument in the `with interval()` statement to the second (e.g.
+has the correct information for the present level before moving on to the next one. `FORWARD` executes
+from the first argument in the `with interval()` statement to the second (e.g.
 `with computation(FORWARD), interval(0, 10)` begins at 0 and ends at 9), while `BACKWARD` does the
 opposite (begins at 9, ends at 0).
 
@@ -187,7 +197,6 @@ A number of traditional Python flow control keywords can be used within NDSL ste
 - `elif`
 - `else`
 - `while`
-- `for`
 
 **Conditionals**
 
@@ -196,16 +205,18 @@ in traditional Python.
 
 **Loops**
 
-Loops are legal with NDSL stencils, but must have definite limits (e.g. no `while True`)
-
-NEED TO UNDERSTAND THE NEW FOR LOOP FEATURE THEN WRITE SOMETHING ABOUT IT
+It is possible to use a while loops within an NDSL stencil. All loops must have definite limits
+(e.g. no `while True`), but these limits do not necessarily need to be hard coded. Other variables can be
+used a bounds of the loop, creating a situation where the bound of the loop is potentiall different at
+each point within the domain.
 
 ## Functions
 
 Functions in NDSL are used similar to traditional Python functions. They can be used to make code
 visually more appealing, and are inlined at execution. Technically, NDSL functions are GT4Py 
-constructs, that NDSL provides an interface for. They are "pure" functions - meaning they 
-cannot modify arguments in-place and just return values.
+constructs, that NDSL provides an interface for. Unlike stencils, functions do not modify fields in place.
+Any changes made within the function are only reflected in the larger stencil if the new value is returned
+in the function and written in the stencil.
 
 Functions follow all the same rules as stencils, a but have a number of important quirks. Functions:
 
@@ -266,12 +277,10 @@ NDSL has a number of builtin functions:
 - `erf`: error function
 - `erfc`: complementary error function
 
-NOTE. EVENTUALLY ADD LINKS TO FULL DOCSTRING DOCUMENTATION FOR EACH FUNCTION ONCE THEY EXIST
-
 ## Stencils vs Functions
 
-Every computation block must have an outermost layer of a stencil. The stencil signals that
-parallel computation is possible, and defines the iteration policy and interval. From this point
+Every block of NDSL-acceleratable code begins and ends in a stencil. The stencil signals that
+parallel computation is possible, defines the iteration policy and sets the interval. From this point
 the following logic applies:
 
 - It is not possible to call one stencil from within another, as that would create a situation where
@@ -280,24 +289,9 @@ should be put into a function.
 
 - For similar reasons, it is not possible to call a stencil from within a function.
 
-- As long as you are originating from a stencil, it is possible to call one function from
-within another function.
+- It is possible to call one function from within another function, and there is no limit on maximum depth.
 
-## Basic Stencil & Function Tips and Tricks
-
-When using a DaCe backend, multiple stencils can be used sequentially with no impact on 
-performance - NDSL will combine these stencils during compilation.
-
-Similarly, a single stencil can have any number of `with computation()` and `with interval()`
-statements. They do not need to appear in pairs, but often do (in which case they can be
-concisely stated as `with computation(), interval()`). Remember that all numerical calculations must
-be inside of these two statements (either directly in a stencil, or indirectly via a function call).
-
-When writing code in NDSL, it is generally best to prioritize readability and make your
-code as *approachable* as possible. NDSL will find ways to optimize it and make it as *fast*
-as possible.
-
-## Looking Backwards to Move Forward
+## Summary
 
 This guide introduced the basic principles of stencils and functions. We have discussed how and
 when to use each, and highlighted features that make their use more flexible, and

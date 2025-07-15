@@ -69,12 +69,12 @@ nav:
   - Tutorials:
     - Introduction: tutorials/index.md
     - NDSL:
-      - Introduction to NDSL: tutorials/how_to_ndsl/ndsl_introduction.md
-      - Data Types and Storage: tutorials/how_to_ndsl/data.md
-      - Stencils and Functions: tutorials/how_to_ndsl/stencil_function_basics.md
-      - Advanced Stencil Features: tutorials/how_to_ndsl/advanced_stencil_features.md
-      - Backends: tutorials/how_to_ndsl/backends.md
-      - Common Patterns: tutorials/how_to_ndsl/common_patterns.md
+      - 1. Introduction to NDSL: tutorials/how_to_ndsl/ndsl_introduction.md
+      - 2. Data Types and Storage: tutorials/how_to_ndsl/data.md
+      - 3. Writing Code with NDSL: tutorials/how_to_ndsl/writing_ndsl_code.md
+      - 4. Advanced Stencil Features: tutorials/how_to_ndsl/advanced_stencil_features.md
+      - 5. Backends: tutorials/how_to_ndsl/backends.md
+      - 6. Common Patterns: tutorials/how_to_ndsl/common_patterns.md
     - GEOS:
       - Introduction to GEOS: tutorials/geos_with_ndsl/index.md
     - Model Development with NDSL:
