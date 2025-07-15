@@ -23,7 +23,7 @@ def setup_fv_cube_grid(
     backend: str,
     eta_file: str | None,
     eta_ak_bk_file: str | None,
-    orchestrate: DaCeOrchestration,
+    orchestrate: DaCeOrchestration | None,
 ):
     """
 
@@ -85,13 +85,14 @@ def setup_fv_cube_grid(
     # Build a DaCeConfig for orchestration.
     # This and all orchestration code are transparent when outside
     # configuration deactivate orchestration
-    stencil_config.dace_config = DaceConfig(
-        communicator=communicator,
-        backend=stencil_config.backend,
-        tile_nx=tile_shape[0],
-        tile_nz=tile_shape[1],
-        orchestration=orchestrate,
-    )
+    if orchestrate is not None:
+        stencil_config.dace_config = DaceConfig(
+            communicator=communicator,
+            backend=stencil_config.backend,
+            tile_nx=tile_shape[0],
+            tile_nz=tile_shape[1],
+            orchestration=orchestrate,
+        )
 
     grid_indexing = GridIndexing.from_sizer_and_communicator(
         sizer=_sizer, comm=communicator

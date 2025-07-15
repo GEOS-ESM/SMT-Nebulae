@@ -21,8 +21,8 @@ from data_ingester import raw_data_to_quantity
 from ndsl.constants import X_DIM, Y_DIM, Z_DIM
 from ndsl import DaCeOrchestration
 
-import pyFV3.stencils.d_sw as d_sw
-import pyFV3
+import pyfv3.stencils.d_sw as d_sw
+import pyfv3
 
 # ---- GLOBAL MESS ----#
 # In a better world those would becomes options
@@ -34,14 +34,14 @@ class Exp(enum.Enum):
     C24_GEOS = enum.auto()
 
 
-xp = Exp.C24_GEOS
+xp = Exp.C12_AI2
 
 if xp == Exp.C12_AI2:
     GRID = {"IM": 12, "JM": 12, "KM": 79, "halo": 3}
     """The grid size as we expect it in the data."""
-    DATA_PATH = "/home/fgdeconi/work/git/pyfv3/test_data/8.1.3/c12_6ranks_standard/dycore/D_SW-In.nc"
+    DATA_PATH = "/home/romanc/code/PyFV3/test_data/8.1.3/c12_6ranks_standard/dycore/D_SW-In.nc"
     """Path to a netcdf with the input data."""
-    ETA_FILE = "/home/fgdeconi/work/git/ndsl/eta79.nc"
+    ETA_FILE = "/home/romanc/code/NDSL/eta79.nc"
     ETA_AK_BK_FILE = None
     """Atmospheric level file to read for initialization of the grid. Generate from `ndsl` or saved from a previous runs (ak, bk)."""
     INPUT_NAME_TO_CODE_NAME = {
@@ -113,18 +113,18 @@ TILE_LAYOUT = (1, 1)
 """The layout of a single tile, as we expect it into the data (for parallel codes)."""
 
 NAMELIST = (
-    "/home/fgdeconi/work/git/pyfv3/test_data/8.1.3/c12_6ranks_standard/dycore/input.nml"
+    "/home/romanc/code/PyFV3/test_data/8.1.3/c12_6ranks_standard/dycore/input.nml"
 )
 """Dynamics namelist - sorry."""
 
 IS_SERIALIZE_DATA = True
 """Flag that our data comes from Fortran and therefore need special love."""
 
-BACKEND = "dace:cpu"
+BACKEND = "dace:cpu" # ""gt:cpu_ifirst""
 """The One to bring them and in darkness speed them up."""
 
-ORCHESTRATION = DaCeOrchestration.BuildAndRun
-"""Tune the orchestration strategy."""
+ORCHESTRATION = DaCeOrchestration.Python # DaCeOrchestration.BuildAndRun # None
+"""Tune the orchestration strategy. Set to `None` if you are running `gt:X` backends for comparison."""
 
 BENCH_WITHOUT_ORCHESTRATION_OVERHEAD = False
 """Wrap the bench iteration."""
@@ -137,7 +137,7 @@ BENCH_NAME = "D_SW"
 
 PERTUBATE_DATA_MODE = False
 """Copy the data BENCH_ITERATION time and apply a small sigma-noise on it.
-This will slow down benchs and scale time with BENCH_ITERATION but probably be more
+This will slow down benchmarks and scale time with BENCH_ITERATION but probably be more
 realistic.
 """
 
@@ -147,7 +147,7 @@ the hyperscaling strategy of GEOS"""
 
 # ---- GLOBAL MESS ----#
 
-# Clean up environement
+# Clean up environment
 
 os.environ["GT4PY_COMPILE_OPT_LEVEL"] = "3"
 if MONO_CORE:
@@ -201,7 +201,7 @@ with progress("🚆 Move data to Quantities"):
 
 with progress("🤸 Setup user code"):
     f90_nml = f90nml.read(NAMELIST)
-    dycore_config = pyFV3.DynamicalCoreConfig.from_f90nml(f90_nml)
+    dycore_config = pyfv3.DynamicalCoreConfig.from_f90nml(f90_nml)
     column_namelist = d_sw.get_column_namelist(
         config=dycore_config.acoustic_dynamics.d_grid_shallow_water,
         quantity_factory=quantity_factory,
@@ -238,7 +238,7 @@ else:
         d_sw(**inputs)
 
 if PERTUBATE_DATA_MODE:
-    with progress("🔀 Pertubate data"):
+    with progress("🔀 Perturb data"):
         # Perturb data
         mean, sigma = 0, 0.01
         dataset = []
