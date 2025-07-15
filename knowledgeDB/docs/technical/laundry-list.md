@@ -172,6 +172,11 @@ Issues:
 
 ## Build system
 
+### Multi-compiler native support
+
+- `clang` compilation fails on `dace:cpu` because of `-fopenmp` default flag
+- `icc`/`ifx` support (never tried)
+
 ### Reflect orchestration in backend name
 
 Currently, orchestration (or not) defined as a combination of backend name `dace:{cpu, gpu}` and the environment variable `FV3_DACEMODE`.
