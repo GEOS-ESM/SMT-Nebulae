@@ -7,7 +7,7 @@
 Getting started: Run
 
 ```sh
-uv sync --group dev --extra dace-cartesian
+uv sync --extra cartesian --group dace-cartesian
 ```
 
 This installs a development environment (containing things like tests and pre-commit hooks) with the cartesian version of [DaCe](./dace.md). Add `--extra cuda12` at the end for GPU support.
@@ -28,7 +28,7 @@ nox -s "test_cartesian-3.10(dace,cpu)"`
 - To update the DaCe branch in the `uv.lock` file:
 
 ```sh
-uv sync -P dace --group dev --extra dace-cartesian --extra cuda12
+uv sync -P dace --extra cartesian --group dace-cartesian --extra cuda12
 ```
 
 ## Community
