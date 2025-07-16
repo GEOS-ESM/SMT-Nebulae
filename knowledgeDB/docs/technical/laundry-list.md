@@ -160,7 +160,7 @@ Issues:
 - <https://github.com/GridTools/gt4py/issues/2083>
 - <https://github.com/NOAA-GFDL/NDSL/issues/70>
 
-#### NDSL constants system
+### NDSL constants system
 
 There are a bunch of issue floating around (in NDSL) about constants and that they should be refactored into a new/better system.
 
@@ -203,6 +203,10 @@ Issues:
 - <https://github.com/NOAA-GFDL/PyFV3/issues/52>
 - <https://github.com/NOAA-GFDL/pace/issues/118>
 - <https://github.com/NOAA-GFDL/PySHiELD/issues/32>
+
+### Dace bridge caching
+
+The OIR -> schedule tree -> SDFG bridge has support for caching the generated (unspecific) SDFG. It's used as "online" caching where the first SDFG is always generated (and then written to disk for re-use). We could expand this to "offline" caching where we'd fist check if an SDFG exists on disk and use this one if it does.
 
 ## Work organization
 
