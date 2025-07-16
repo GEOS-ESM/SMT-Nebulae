@@ -12,7 +12,9 @@ import enum
 import platform
 import numpy as np
 import f90nml
+from pathlib import Path
 import xarray as xr
+import yaml
 from setup_cube_sphere import setup_fv_cube_grid
 from cuda_timer import TimedCUDAProfiler, GPU_AVAILABLE
 from progress import TimedProgress
@@ -27,6 +29,13 @@ import pyfv3
 # ---- GLOBAL MESS ----#
 # In a better world those would becomes options
 
+config_yaml = Path(__file__).absolute().parent / ".config.yaml"
+if not config_yaml.exists():
+    raise FileNotFoundError(f"Couldn't file config file. Expected one at path {config_yaml}. You can copy `.config-example.yaml` as a starting point.")
+
+with open(config_yaml,"r") as config_file:
+    # load machine dependent changes
+    config=yaml.load(config_file, Loader=yaml.SafeLoader)
 
 @enum.unique
 class Exp(enum.Enum):
@@ -39,9 +48,9 @@ xp = Exp.C12_AI2
 if xp == Exp.C12_AI2:
     GRID = {"IM": 12, "JM": 12, "KM": 79, "halo": 3}
     """The grid size as we expect it in the data."""
-    DATA_PATH = "/home/romanc/code/PyFV3/test_data/8.1.3/c12_6ranks_standard/dycore/D_SW-In.nc"
+    DATA_PATH = config["paths"]["c12_AI2"]["data"]
     """Path to a netcdf with the input data."""
-    ETA_FILE = "/home/romanc/code/NDSL/eta79.nc"
+    ETA_FILE = config["paths"]["c12_AI2"]["eta_file"]
     ETA_AK_BK_FILE = None
     """Atmospheric level file to read for initialization of the grid. Generate from `ndsl` or saved from a previous runs (ak, bk)."""
     INPUT_NAME_TO_CODE_NAME = {
@@ -74,11 +83,9 @@ if xp == Exp.C12_AI2:
     """List of inputs not used in the code signature"""
 elif xp == Exp.C24_GEOS:
     GRID = {"IM": 24, "JM": 24, "KM": 72, "halo": 3}
-    DATA_PATH = "/home/fgdeconi/work/git/fp/savepoints/dynamics_C24L72_1x1/D_SW-In.nc"
+    DATA_PATH = config["paths"]["c24_GEOS"]["data"]
     ETA_FILE = ""
-    ETA_AK_BK_FILE = (
-        "/home/fgdeconi/work/git/fp/savepoints/dynamics_C24L72_1x1/Ak_Bk.nc"
-    )
+    ETA_AK_BK_FILE = config["paths"]["c24_GEOS"]["eta_ak_bk_file"]
     INPUT_NAME_TO_CODE_NAME = {
         "ucd": "uc",
         "vcd": "vc",
@@ -112,9 +119,7 @@ else:
 TILE_LAYOUT = (1, 1)
 """The layout of a single tile, as we expect it into the data (for parallel codes)."""
 
-NAMELIST = (
-    "/home/romanc/code/PyFV3/test_data/8.1.3/c12_6ranks_standard/dycore/input.nml"
-)
+NAMELIST = config["paths"]["namelist"]
 """Dynamics namelist - sorry."""
 
 IS_SERIALIZE_DATA = True

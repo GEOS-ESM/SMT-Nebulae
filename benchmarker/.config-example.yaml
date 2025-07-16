@@ -1,0 +1,10 @@
+# copy this file to `.config.yaml` and edit the paths as necessary
+
+paths:
+  namelist: "/path/to/c12_6ranks_standard/dycore/input.nml"
+  c12_AI2:
+    data: "/path/to/c12_6ranks_standard/dycore/D_SW-In.nc"
+    eta_file: "/path/to/eta79.nc"
+  c24_GEOS:
+    data: "/path/to/dynamics_C24L72_1x1/D_SW-In.nc"
+    eta_ak_bk_file: "/path/to/dynamics_C24L72_1x1/Ak_Bk.nc"
