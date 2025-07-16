@@ -22,7 +22,11 @@ tmp_*/
 .dacecache*
 .gt4py_cache/
 
+# docs
 knowledgeDB/site
+
+# benchmarker
+benchmarker/.config.yaml
 
 # Fortran-ism
 *.mod
