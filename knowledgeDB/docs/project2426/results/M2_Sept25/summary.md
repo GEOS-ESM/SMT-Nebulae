@@ -1,5 +1,10 @@
 # NDSL powered GEOS: CPU & GPU validation & benchmark
 
+## TL;DR
+
+!!! bug
+    A one-liner of bench & validation results
+
 ## Table of results
 
 | Science Code               | Numerical Validation(C24) | Scientific Validation(C180) | CPU Benchmark (C180) |   GPU Benchmark (C180) | GPU Benchmark (C720) |
