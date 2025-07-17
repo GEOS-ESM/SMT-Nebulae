@@ -1,18 +1,14 @@
-# Benchmark for GEOS powered NDSL established during Milestone 2
+# Early Microphysics results (March)
 
-## March: Early Microphysics results
+!!! abstract ""
+    [Back to M2 results summary](summary.md)
 
 Project call for the porting of the [GFDL One Moment Microphyics (GFDL_1M)](https://geos-esm.github.io/SMT-Nebulae/GEOS/components/moist/GFDL_1M/). The work was concluded in March with validation on performance backends and early pre-optimization benchmarks
 
-### Hardware
+## Validation
 
-Below work was run on NCCS's Discover A100 partition:
-
-- 2 nodes – with Dual HDR Infiniband 2x200 Gbps
-- 8x A100 GPUs – 40 GB (released 2021)
-- 4x EPYC 7402 – 96 cores (released 2020)
-
-### Validation
+!!! example "Hardware & software stack"
+    Validation using the [Discover hardware](./summary.md#hardware)
 
 Validation was done on a GEOS-FP run at [C180-L137](https://geos-esm.github.io/SMT-Nebulae/GEOS/) (~51 km horizontal resolution) over 7 days of simulated time. Only the GFDL Microphysics scheme was swapped from Fortran to NDSL, the rest of the model code is running the original Fortran.
 
@@ -22,17 +18,17 @@ _Note_: validation was done on CPU performance backend first but isn't shown her
 
 We start with an histogram showing the repartition of differences between the reference Fortran. We have good agreement with a few outliers:
 
-![Histograms of diagnostic variables differences](./img/25M3_GFDL__hist__dacegpu_v_Fortran__sfc.png)
+![Histograms of diagnostic variables differences](../img/25M3_GFDL__hist__dacegpu_v_Fortran__sfc.png)
 
 Looking at the zonal wind in particular to explore the outliers, we show below the reference Fortran and the NDSL performance backend:
 
-![Zonal Wind U Field - Reference Fortran](./img/25M3_GFDL__U_fortran_world.png)
+![Zonal Wind U Field - Reference Fortran](../img/25M3_GFDL__U_fortran_world.png)
 
-![Zonal Wind U Field - NDSL GPU (dace:gpu)](./img/25M3_GFDL__U_dacegpu_world.png)
+![Zonal Wind U Field - NDSL GPU (dace:gpu)](../img/25M3_GFDL__U_dacegpu_world.png)
 
 The above graphs show differences around storm regions (Brazil). Those differences are on the position of the front leading to large value differences. Below we graph the difference between Fortran and NDSL to show a good spatial agreement of the runs:
 
-![Zonal Wind U Field - NDSL GPU (dace:gpu)](./img/25M3_GFDL__U_diff_world.png)
+![Zonal Wind U Field - NDSL GPU (dace:gpu)](../img/25M3_GFDL__U_diff_world.png)
 
 ### Benchmark
 
