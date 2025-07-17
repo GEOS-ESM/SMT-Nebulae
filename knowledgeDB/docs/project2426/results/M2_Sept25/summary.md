@@ -62,6 +62,13 @@ NCCS's PRISM GH partition, refered as **"Prism GH"**, per node:
 !!! bug
     TODO
 
+## Data
+
+The "numerical validation" data (a.k.a translate test) are available on NCCS datashare:
+
+- [Dynamics (Pace)](https://portal.nccs.nasa.gov/datashare/astg/smt/pace-regression-data/)
+- [Dynamics (GEOS v11.4.2)](https://portal.nccs.nasa.gov/datashare/astg/smt/geos-fp/translate/11.5.2/x86_GNU/Dycore/TBC_C24_L72_Debug/)
+
 ## Overviews and earlier results
 
 - [Validation - overview](./validation_overview.md)
