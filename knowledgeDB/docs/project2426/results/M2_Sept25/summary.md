@@ -59,7 +59,7 @@ NCCS's Discover A100 partition, refered as **"Discover"**, per node:
 
 NCCS's PRISM GH partition, refered as **"Prism GH"**, per node:
 
-- 1x H100 (96 GB) + 1 Grace (72 cores @ 2GHz- 480 GB) on the same die (released 2022)
+- GH200: 1x H100 (96 GB HBME3) + 1 Grace (72 cores @ 2GHz- 480 GB LPPDR5) on the same die (released 2023)
 - Dual HDR Infiniband 2x100 Gbps
 
 ### Software stack
