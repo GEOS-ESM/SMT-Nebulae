@@ -30,7 +30,7 @@ Numerical validation is done comparing a single time step between Fortran and ND
 <INSERT PPT IMAGE TO SHOWCASE TRANSLATE TEST>
 
 - Both codes run with `-O0`, e.g., with compiler optimization turned off.
-- A multi-modal metric is used for measuring difference that combines absolute and relative differnces, and ULP measurement.
+- A multi-modal metric is used for measuring difference that combines absolute and relative differences, and ULP measurement.
 - Differences are expected (compilers, different codes) and reasonable thresholding will be used.
 
 _Scientific validation:_
@@ -43,7 +43,7 @@ See more details and discussion in the [overview](./validation_overview.md)
 
 ### Benchmark
 
-Benchmark is done both on CPU and GPU at C180 L137. To showcase the difference in device bandwith, we also run GPU on C720 L137.
+Benchmark is done both on CPU and GPU at C180 L137. To showcase the difference in device bandwidth, we also run GPU on C720 L137.
 
 Benchmark are done online in GEOS but measure several performance which are all interconnected
 
@@ -51,13 +51,13 @@ Benchmark are done online in GEOS but measure several performance which are all 
 
 ### Hardware
 
-NCCS's Discover A100 partition, refered as **"Discover"**, per node:
+NCCS's Discover A100 partition, referred as **"Discover"**, per node:
 
 - 4x A100 GPUs – 40 GB (released 2021)
 - 1x EPYC 7402 – 96 cores (released 2020)
 - Dual HDR Infiniband 2x200 Gbps
 
-NCCS's PRISM GH partition, refered as **"Prism GH"**, per node:
+NCCS's PRISM GH partition, referred as **"Prism GH"**, per node:
 
 - 1x H100 (96 GB) + 1 Grace (72 cores @ 2GHz- 480 GB) on the same die (released 2022)
 - Dual HDR Infiniband 2x100 Gbps
