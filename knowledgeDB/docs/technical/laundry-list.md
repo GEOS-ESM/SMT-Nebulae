@@ -23,6 +23,15 @@ There are a bunch of optimizations that we have planned with the [schedule tree 
 - When orchestrating a lot of the fields that are held by the classes (the `self.tmp_field`) are transient to the local object (could be multiple stencils!) but those are flagged as global memory anyway. Re-scoping them to proper transients could lead to better memory & scalarization. At the `stree` level we don't scope the arrays to any space, we just flag them and the STREE-to-SDFG bridge deals with localizing them. Could we just write a pass scoping the containers post parsing and let the bridge do it?
 - For stencils only we are missing a `simplify` (and potentially a `validate`?) right before [going to code generation](https://github.com/romanc/gt4py/blob/06cd753135d1a6caaabe0aca37cf735fb1d96c52/src/gt4py/cartesian/backend/dace_backend.py#L407)
 
+### Allocation lifetime of temporaries
+
+IN the OIR -> Schedule Tree bridge, we allocate temporary fields with `AllocationLifetime.Persistent`. This has been done before (in the initial GT4Py-DaCe bridge). This isn't a good default and we tried to change it. Ideally we'd like to keep the scope of temporary fields as small as possible. `AllocationLifetime.Global` seems like a good default (since `AllocationLifetime.Scope`is too small for temporaries that are populated in one `with computation(..)` block and re-used subsequent ones).
+
+We tried allocating temporary field with `AllocationLifetime.Global` and hit two issues
+
+1. Dead dataflow elimination (DDE) crashed hard when we access (non-scalarized) temporaries with data dimension inside Tasklets ([DaCe issue](https://github.com/spcl/dace/issues/2086)). We put a temporary workaround in place, such that DDE doesn't try to remove such calls.
+2. With the above fix in place, Florian ran into (massive) memory leaks with tracers when running the dycore. Basically, the generated SDFG validates, but code generation writes `new` without corresponding `delete[]`. It looks like the workaround from above, generates "Zombie 3D fields" (e.g. `br` which is allocated, never read and never deleted) in `FvTp2d` under certain conditions. As per Florian, not easy to repro and no smaller repro found thus far.
+
 ### Dynamics runtime
 
 Chris reported a runtime of 25 sec per timestep for dynamics (`NX=2` and `NY=12`) with `gt:cpu_kfirst` where the Fortran baseline is only 5 sec / timestep. This is with the new amount of tracers, but still, we shouldn't be so far off.
