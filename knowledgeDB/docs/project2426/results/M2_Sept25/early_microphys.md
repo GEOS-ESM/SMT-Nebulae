@@ -3,7 +3,7 @@
 !!! abstract ""
     [Back to M2 results summary](summary.md)
 
-Project call for the porting of the [GFDL One Moment Microphysics (GFDL_1M)](../../../GEOS/components/moist/GFDL_1M/). The work was concluded in March with validation on performance backends and early pre-optimization benchmarks
+Project call for the porting of the [GFDL One Moment Microphysics (GFDL_1M)](../../../GEOS/components/moist/GFDL_1M.md). The work was concluded in March with validation on performance backends and early pre-optimization benchmarks
 
 ## Validation
 
