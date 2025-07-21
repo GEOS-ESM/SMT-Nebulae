@@ -211,6 +211,14 @@ In GT4py, we'd like to move away from setuptools and leverage cmake. This will u
 
 Issue: <https://github.com/GridTools/gt4py/issues/83>
 
+### Dace bridge caching ♻️
+
+The OIR -> schedule tree -> SDFG bridge has support for caching the generated (unspecific) SDFG. It's used as "online" caching where the first SDFG is always generated (and then written to disk for re-use). We could expand this to "offline" caching where we'd fist check if an SDFG exists on disk and use this one if it does.
+
+### Dependabot for GHA dependencies 🤖
+
+Dependabot can be used to keep dependencies up to date. We could start by letting the bot check versions of GitHub Actions. In the `pace` repo, there's even a [dormant `dependabot.yml` config](https://github.com/NOAA-GFDL/pace/blob/develop/.github/dependabot.yml) for updating the submodules.
+
 ### ✅ Python packaging questions (NDSL, PyFV3, PySHiELD, pace) 🗄️
 
 We are considering to move to `pyproject.toml`. Some questions about developer installs remain.
@@ -221,10 +229,6 @@ Issues:
 - <https://github.com/NOAA-GFDL/PyFV3/issues/52>
 - <https://github.com/NOAA-GFDL/pace/issues/118>
 - <https://github.com/NOAA-GFDL/PySHiELD/issues/32>
-
-### Dace bridge caching ♻️
-
-The OIR -> schedule tree -> SDFG bridge has support for caching the generated (unspecific) SDFG. It's used as "online" caching where the first SDFG is always generated (and then written to disk for re-use). We could expand this to "offline" caching where we'd fist check if an SDFG exists on disk and use this one if it does.
 
 ## 📁 Work organization
 
