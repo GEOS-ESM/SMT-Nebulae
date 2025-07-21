@@ -55,6 +55,7 @@ nav:
     - Overview: GEOS/index.md
     - Local build: GEOS/local_build.md
     - Discover: GEOS/discover_build.md
+    - PRISM (GH200): GEOS/gh200.md
     - Validation: GEOS/validation_basics.md
     - Component documentation:
       - Overview: GEOS/components/index.md
