@@ -68,6 +68,10 @@ We might want to centralize hardware detection. We currently
     - This FAILS: `field.at(K=kbcon - 1)` with `kbcon` as `IntField32`
 - Missing integer divide operator (`//`) in GT4Py ([issue](https://github.com/NOAA-GFDL/NDSL/issues/179))
 
+## 🐞 Debug
+
+- Most of the time we could do `ast.unparse(node)` to give a better idea of where the error is, even when the source/line fails.
+
 ## 🚧 Code maintenance
 
 ### Grid layout 🌐
