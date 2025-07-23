@@ -14,7 +14,6 @@ The first one is a GT4Py issue, the other a missing piece in DaCe.
 ## Working branches
 
 - **NDSL** [`feature/oir_stree_sdfg_bridge`](https://github.com/NOAA-GFDL/NDSL/tree/feature/oir_stree_sdfg_bridge) (integration branch)
-
     - With added frontend features: [`THIS_K`](https://github.com/FlorianDeconinck/gt4py/tree/cartesian/feat/THIS_K) on [Florian's fork](https://github.com/FlorianDeconinck/gt4py)
 - **GT4Py** [`romanc/oir-to-stree`](https://github.com/romanc/gt4py/tree/oir-to-stree) on [Roman's fork](https://github.com/romanc/dace)
 - **DaCe** [`romanc/stree-to-sdfg`](https://github.com/GridTools/dace/tree/romanc/stree-to-sdfg) on [GridTool's fork](https://github.com/GridTools/dace)
