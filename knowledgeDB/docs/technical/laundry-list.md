@@ -66,6 +66,7 @@ We might want to centralize hardware detection. We currently
 - 🐞: Unable to do operation in absolute indexer in stencils.
     - This WORKS: `field.at(K=k22 - k_index)` with `k22` and `k_index` as `IntField32`
     - This FAILS: `field.at(K=kbcon - 1)` with `kbcon` as `IntField32`
+- ChrisH and Katrina report that `.at(K=...)` only works with 64-bit integers. 2D integer fields (e.g. `IntFieldIJ`) also seem to make problems. Sounds like this is related to the bug above.
 - Missing integer divide operator (`//`) in GT4Py ([issue](https://github.com/NOAA-GFDL/NDSL/issues/179))
 - Support for `pass` inside stencils
 
