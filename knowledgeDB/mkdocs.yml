@@ -76,6 +76,7 @@ nav:
       - 4. Advanced Stencil Features: tutorials/how_to_ndsl/advanced_stencil_features.md
       - 5. Backends: tutorials/how_to_ndsl/backends.md
       - 6. Common Patterns: tutorials/how_to_ndsl/common_patterns.md
+      - FAQ: tutorials/how_to_ndsl/faq.md
     - GEOS:
       - Introduction to GEOS: tutorials/geos_with_ndsl/index.md
     - Model Development with NDSL:
@@ -94,6 +95,8 @@ markdown_extensions:
   - admonition
   # emoji support
   - attr_list
+  # support for definition lists (e.g. FAQ)
+  - def_list
   # support for footnotes
   - footnotes
   # supercharges admonitions by making them collapsible
