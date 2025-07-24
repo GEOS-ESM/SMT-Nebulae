@@ -8,8 +8,12 @@ Some words about NDSL.
 
 Some words about GEOS.
 
+## Lessons
+
 The following lessons have been developed:
 
 - [NDSL](./how_to_ndsl/ndsl_introduction.md)
 - [GEOS with NDSL](./geos_with_ndsl/index.md)
 - [Model Development with NDSL](./developing_with_ndsl/index.md)
+
+Also check our [frequently asked questions (FAQ)](faq.md).

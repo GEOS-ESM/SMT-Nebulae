@@ -76,11 +76,11 @@ nav:
       - 4. Advanced Stencil Features: tutorials/how_to_ndsl/advanced_stencil_features.md
       - 5. Backends: tutorials/how_to_ndsl/backends.md
       - 6. Common Patterns: tutorials/how_to_ndsl/common_patterns.md
-      - FAQ: tutorials/how_to_ndsl/faq.md
     - GEOS:
       - Introduction to GEOS: tutorials/geos_with_ndsl/index.md
     - Model Development with NDSL:
       - Model Development with NDSL: tutorials/developing_with_ndsl/index.md
+    - FAQ: tutorials/faq.md
 
   - The Code Nebula:
     - Overview: tcn/index.md
