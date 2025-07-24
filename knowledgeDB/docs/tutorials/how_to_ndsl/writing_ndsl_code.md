@@ -1,11 +1,11 @@
 # Writing Code in NDSL
 
 NDSL finds power in its ability to accelerate and dynamically compile code. To do this,
-NDSL creates an interface to two GT4Py constructs which are used to denote and contain acceleratable code: "stencils" and "functions". Conceptually, the two are similar, but their uses are different.
+NDSL creates an interface to two GT4Py constructs which are used to denote and contain accelerable code: "stencils" and "functions". Conceptually, the two are similar, but their uses are different.
 
 ## Stencils
 
-Stencils are the primary method of creating parralelizable code with NDSL, and indeed in NDSL
+Stencils are the primary method of creating parallelizable code with NDSL, and indeed in NDSL
 everything must begin with a stencil.
 
 Within a 3-dimensional domain, NDSL evaluates computations in two parts. If we assume an (I, J, K)
@@ -20,7 +20,7 @@ In the vertical column, computations are performed by an iteration policy that i
 within the stencil. This is done to enable the implementation of more scientific patterns using
 NDSL. We will discuss this in more detail shortly.
 
-**Basic Stencil Example**
+### Basic Stencil Example
 
 To demonstrate how to implement a NDSL stencil and introduce the most important keywords, let's step through
 an example of a stencil that copies the values of one field into another field.
@@ -117,14 +117,14 @@ if __name__ == "__main__":
     copy_data(in_quantity, out_quantity)
 ```
 
-**Temporary Fields**
+### Temporary Fields
 
 NDSL has the ability to generate temporary quantities within a stencil. All temporary quantities
 (defined as variables which are used within the stencil but not passed to the stencil at call) are
 initialized as a field of dimensions equal to the full stencil domain. These fields can be used
 just as any other field can be used, and are unavailable outside of the stencil.
 
-**Offsets**
+### Offsets
 
 Within a stencil, points are referenced relative to each other. For example, the statement
 `field[0, 0, 1]` implies that you want an offset of positive one along the K axis (Z dimension
@@ -150,7 +150,7 @@ for interface calculations. Since this computation is not being performed on the
 quantities are created using `Z_DIM`, not `Z_INTERFACE_DIM`), that row of data will be zero, and
 accessing it here will have unintended consequences in subsequent calculations.
 
-**Intervals and Iteration Policies**
+### Intervals and Iteration Policies
 
 The statement `with interval()` controls the subset of the K axis over which the stencil is
 executed, and is controlled using traditional Python indexing (e.g. `interval(0, 10)`,
@@ -189,7 +189,7 @@ before it is read at level `n - 1`.
 
 Using offsets often requires a careful consideration of iteration policy.
 
-**Flow Control**
+### Flow Control
 
 A number of traditional Python flow control keywords can be used within NDSL stencils. These are:
 
@@ -198,22 +198,22 @@ A number of traditional Python flow control keywords can be used within NDSL ste
 - `else`
 - `while`
 
-**Conditionals**
+### Conditionals
 
 NDSL allows conditionals to be used inside of a stencil in the same way they would be used
 in traditional Python.
 
-**Loops**
+### Loops
 
-It is possible to use a while loops within an NDSL stencil. All loops must have definite limits
+It is possible to use a `while` loops within an NDSL stencil. All loops must have definite limits
 (e.g. no `while True`), but these limits do not necessarily need to be hard coded. Other variables can be
-used a bounds of the loop, creating a situation where the bound of the loop is potentiall different at
+used a bounds of the loop, creating a situation where the bound of the loop is potentially different at
 each point within the domain.
 
 ## Functions
 
 Functions in NDSL are used similar to traditional Python functions. They can be used to make code
-visually more appealing, and are inlined at execution. Technically, NDSL functions are GT4Py 
+visually more appealing, and are inlined at execution. Technically, NDSL functions are GT4Py
 constructs, that NDSL provides an interface for. Unlike stencils, functions do not modify fields in place.
 Any changes made within the function are only reflected in the larger stencil if the new value is returned
 in the function and written in the stencil.
@@ -241,7 +241,7 @@ def copy_stencil(in_field: FloatField, out_field: FloatField):
             out_field = copy_plus_five(in_field, out_field)
 ```
 
-**Builtin Functions**
+### Builtin Functions
 
 NDSL has a number of builtin functions:
 
@@ -279,7 +279,7 @@ NDSL has a number of builtin functions:
 
 ## Stencils vs Functions
 
-Every block of NDSL-acceleratable code begins and ends in a stencil. The stencil signals that
+Every block of NDSL-accelerable code begins and ends in a stencil. The stencil signals that
 parallel computation is possible, defines the iteration policy and sets the interval. From this point
 the following logic applies:
 

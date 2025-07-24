@@ -4,7 +4,7 @@
 
 NDSL uses unique data types (`Float`/`Int`/`Bool`) which link to commonly used Python data
 types (`float`/`int`/`bool`). Unlike python, however, with NDSL these will be either 32 or 64 bit, depending
-on the desired execution environment. By default, NDSL executes in 64 bit precition. To control this manually,
+on the desired execution environment. By default, NDSL executes in 64 bit precision. To control this manually,
 ensure the environmental variable GT4PY_LITERAL_PRECISION is set to either 32 or 64 prior to execution.
 
 ## Fields
@@ -37,8 +37,8 @@ more in the future once we have a firm grasp of the basics.
 ## Data Storage
 
 NDSL stores all field (>0 dimensions) data in a "quantity" object. Quantities allocate memory and assign
-type automatically based on the dimensions and axis present. Scalars are not storaged in quantities, and
-therefore do not have access to the following functionalty.
+type automatically based on the dimensions and axis present. Scalars are not stored in quantities, and
+therefore do not have access to the following functionality.
 
 Below is an example of how to initialize an NDSL quantity with three dimensions:
 
@@ -103,7 +103,7 @@ and origin (a concept we will discuss later).
 
 But wait, if our extent is (3, 2, 1), why is `data` size (4, 3, 2)?
 
-**Center vs Interface Computations**
+### Center vs Interface Computations
 
 This extra index along each dimension are for interface computations. In weather and climate
 modeling, there are often situations where it is necessary to perform calculations on the interface
@@ -113,18 +113,18 @@ however, this extra point is ignored by the system unless you explicitly state t
 by replacing (for example) `Z_DIM` with `Z_INTERFACE_DIM`. Specifying `Z_INTERFACE_DIM` does
 *not* add an additional point along that dimension. It simple "enables" the point that is already there.
 
-**Halo**
+### Halo
 
 NDSL quantities can be constructed with a halo on the X and Y dimensions. This is useful
 when working with components such as the FV3 core, which uses a halo to facilitate data exchange
 between faces of the cube. In the example above, the halo is set to zero (`nhalo=0`), but this can
 be set to any value smaller than the smallest X/Y dimension.
 
-**Accessing Data**
+### Accessing Data
 
 There are two main methods for accessing data stored within a quantity:
 
-- `quantity.field[:]`: returns the compute domain (exludes halos) of the quantity as a NumPy-like 
+- `quantity.field[:]`: returns the compute domain (excludes halos) of the quantity as a NumPy-like 
 array. Note this will include the interface dimension point for axis specified to be operating on the
 interface. Note that, since this is a NumPy-like 
 array, it can be accessed using normal Python accessing rules, and much of the functionality of 
@@ -133,9 +133,9 @@ NumPy arrays is also available.
 - `quantity.data[:]`: returns all data contained within the quantity, including the interface dimension point
 (regardless of if it is including in the compute domain) and any halo present.
 
-**Stencil/Quantity Factories**
+### Stencil/Quantity Factories
 
-NDSL comes with a number of predesigned factory functions (e.g. `get_factories_single_tile`).
+NDSL comes with a number of pre-designed factory functions (e.g. `get_factories_single_tile`).
 These are designed to provide users with easy entry points to features while developing new code.
 
 When working in a larger system the tasks of determining the domain and constructing factories
@@ -143,7 +143,7 @@ When working in a larger system the tasks of determining the domain and construc
 
 Therefore, we recommend you don't worry about how `get_factories_single_tile` works for now. As we
 move through more advanced guides we will introduce additional details and complexities, and those can be
-reapplied to understand these funcitons, but knowledge of this function is not critical to using the software.
+reapplied to understand these functions, but knowledge of this function is not critical to using the software.
 
 The `QuantityFactory` and `StencilFactory` types will be present in all your code, but once again you
 need not worry about how they function. For now, just remember that a `QuantityFactory`
@@ -155,4 +155,4 @@ next guide), and as time progresses, we will introduce some of their more import
 In this guide, we have discussed the unique NDSL data types and storage objects, focusing on how
 to create, access, and print their contents.
 
-Next, we will discuss how to write acceleratable code with NDSL.
+Next, we will discuss how to write accelerable code with NDSL.

@@ -1,20 +1,19 @@
 # Best Coding Practices
 
-In this section, we provide some general guidelines for writing and structuring code in NDSL. 
-While these practices are not necessarily required, we strongly encourage users to adhere to them 
+In this section, we provide some general guidelines for writing and structuring code in NDSL.
+While these practices are not necessarily required, we strongly encourage users to adhere to them
 as they are important for readability, maintainability, collaboration, and performance.
-
 
 ## Docstrings
 
-When writing code using NDSL, it is important that your code is well-documented so that others can 
-easily understand the purpose of your code without having to dig into the implementation details. 
-We strongly encourage the use of docstrings to document your code. 
+When writing code using NDSL, it is important that your code is well-documented so that others can
+easily understand the purpose of your code without having to dig into the implementation details.
+We strongly encourage the use of docstrings to document your code.
 
-Docstrings are strings written immediately after the definition of an NDSL function, stencil, or 
+Docstrings are strings written immediately after the definition of an NDSL function, stencil, or
 class. They are enclosed in triple quotes (`"""` or `'''`) and can span multiple lines. A good
 docstring should include information about what the function, stencil, or class does. It should also
-include a summary of what the code does and a list of parameters, their type, and a description. 
+include a summary of what the code does and a list of parameters, their type, and a description.
 See below for an example of how to write docstrings for a GT4Py function.
 
 ```py
@@ -44,9 +43,9 @@ def sign(
 
 ## Temporaries
 
-To create and store temporary fields in NDSL, which are not explicitly defined within a stencil or 
+To create and store temporary fields in NDSL, which are not explicitly defined within a stencil or
 class, we strongly encourage the use of NDSL `dataclasses`. A `dataclass` is a Python class
-that is used to store or hold data. While the use of `dataclasses` are not required, we strongly 
+that is used to store or hold data. While the use of `dataclasses` are not required, we strongly
 encourage our users to store temporaries in a `dataclass` for cleanliness and readability purposes.
 
 See below for an example of how to create a `dataclass` to hold temporary fields.
@@ -87,18 +86,18 @@ GIVE A FEW REASONS WHY WE PREFER OBJECT ORIENTED CODING.
 
 INTRODUCE CLASSES AND WHY WE USE THEM (someone else should probably do this).
 
-
 ## General structure of NDSL repositories
+
 Now that we have covered pretty much all of the topics needed to start learning and developing
 code in NDSL, it's time to talk about how a repository containing NDSL code should be
-structured. 
+structured.
 
 In this example, we've created a mock-up repository (provide link to repo) which contains NDSL code to convert
-temperature from Fahrenheit to Kelvin and then back to Fahrenheit. We've named our mock-up 
-repository `tutorial`, which contains four Python scripts: `driver.py`, `stencils.py`, 
-`constants.py`, and `temporaries.py`. 
+temperature from Fahrenheit to Kelvin and then back to Fahrenheit. We've named our mock-up
+repository `tutorial`, which contains four Python scripts: `driver.py`, `stencils.py`,
+`constants.py`, and `temporaries.py`.
 
-Each script has a unique purpose. For example, `driver.py` contains code to create and call the 
+Each script has a unique purpose. For example, `driver.py` contains code to create and call the
 `class` that initializes the NDSL stencils.
 
 ```py
@@ -185,7 +184,6 @@ if __name__ == "__main__":
     print(temp_K.field[0, 0, :])
     print(temp_F.field[0, 0, :])
 ```
-
 
 `stencils.py` contains both NDSL functions and stencils that do the temperature conversion.
 
@@ -279,8 +277,7 @@ def convert_K_to_F(
         temp_F = convert_C_to_F(temp_C)
 ```
 
-
-`temporaries.py` contains a `dataclass` that holds any temporary fields used in the stencil 
+`temporaries.py` contains a `dataclass` that holds any temporary fields used in the stencil
 computations
 
 ```py
@@ -304,7 +301,6 @@ class Temporaries:
         )
 ```
 
-
 `constants.py` contains any constants needed in the functions and stencils
 
 ```py
@@ -313,9 +309,5 @@ from ndsl.dsl.typing import Float
 absolute_zero = Float(273.15)
 ```
 
-It is important to structure your NDSL repositories in a similar fashion not only for cleanliness 
-and readability, but for scalability and debugging purposes as well. 
-
-
-
-
+It is important to structure your NDSL repositories in a similar fashion not only for cleanliness
+and readability, but for scalability and debugging purposes as well.

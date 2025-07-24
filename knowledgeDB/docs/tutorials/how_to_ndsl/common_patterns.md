@@ -739,17 +739,15 @@ currently possible in NDSL to nest a `with computation(PARALLEL)` within a
         print(out_data.field[0, 0, :])
     ```
 
-
-
-Nested K loops provide an excellend example of how thinking outside the box - and possessing a willingness
-to reapproach traditional coding practices - allows for a much wider application of the software and reveals
+Nested K loops provide an excellent example of how thinking outside the box - and possessing a willingness
+to re-approach traditional coding practices - allows for a much wider application of the software and reveals
 that the rules put in place by NDSL are not necessarily as restrictive as they may seem.
 
-## Goto Statments
+## Goto Statements
 
 In Fortran, the `goto` construct allows the user to jump to another portion of the code. NDSL is
 incapable of of "jumping" from one portion of code to another; stencils are always executed linearly
-zand completely. Since `goto` statement are tremendously flexile, there is no "standard" was of translating
-a piece of code with a `godo` statement into NDSL. Indeed, the presense of `goto` statements often signals
+and completely. Since `goto` statement are tremendously flexile, there is no "standard" way of translating
+a piece of code with a `goto` statement into NDSL. Indeed, the presence of `goto` statements often signals
 a non-parallelizable code structure, which requires refactoring to be implemented in NDSL. During this
-process, however, the aforementioned patterns - partularly the use of masks - may be extremely useful.
+process, however, the aforementioned patterns - particularly the use of masks - may be extremely useful.

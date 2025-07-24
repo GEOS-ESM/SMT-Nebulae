@@ -2,11 +2,11 @@
 
 ## What is NDSL?
 
-some words about NDSL
+Some words about NDSL.
 
 ## What is GEOS
 
-some words about GEOS
+Some words about GEOS.
 
 The following lessons have been developed:
 
