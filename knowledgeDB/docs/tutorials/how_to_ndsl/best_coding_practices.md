@@ -92,10 +92,10 @@ Now that we have covered pretty much all of the topics needed to start learning 
 code in NDSL, it's time to talk about how a repository containing NDSL code should be
 structured.
 
-In this example, we've created a mock-up repository (provide link to repo) which contains NDSL code to convert
-temperature from Fahrenheit to Kelvin and then back to Fahrenheit. We've named our mock-up
-repository `tutorial`, which contains four Python scripts: `driver.py`, `stencils.py`,
-`constants.py`, and `temporaries.py`.
+In this example, we've created a mock-up repository which contains NDSL code to convert
+temperature from Fahrenheit to Kelvin and then back to Fahrenheit. We've named our mock-up 
+repository `tutorial`, which contains four Python scripts: `driver.py`, `stencils.py`, 
+`constants.py`, and `temporaries.py`. 
 
 Each script has a unique purpose. For example, `driver.py` contains code to create and call the
 `class` that initializes the NDSL stencils.
@@ -221,7 +221,7 @@ def convert_C_to_F(
     t_C: Float,
 ):
     """
-    Function to convert Fahrenheit to Celsius.
+    Function to convert Celsius to Fahrenheit.
 
     Inputs:
     t_C (Float): Temperature in Celsius (degrees)
