@@ -324,22 +324,17 @@ NDSL systems:
         integer, parameter :: size = 1000 ! dimension not related to the size of the encompassing model
 
         real :: constant_one, constant_two
-        real, dimension(size) :: temperature, table
+        real, dimension(size) :: table
 
         integer :: l
 
         constant_one = 10
         constant_two = 2
-        
-        ! set up temperature array increasing linearly from 10 C to 20 C
-        do l = 1, size
-            temperature(l) = 10+0.01*l
-        enddo
 
         ! construct a table based on temperature input
 
         do l = 1, size
-            table(l) = log(temperature(l)/constant_one) + constant_two
+            table(l) = log(0.1 * (l-1) / constant_one) + constant_two
         enddo
 
         print *, table
@@ -355,26 +350,41 @@ NDSL systems:
         interval,
         log,
         PARALLEL,
+        GlobalTable,
     )
-    from ndsl import StencilFactory
+    from ndsl import StencilFactory, QuantityFactory
     from ndsl.boilerplate import get_factories_single_tile
     from ndsl.constants import X_DIM, Y_DIM, Z_DIM
-    from ndsl.dsl.typing import FloatField
+    from ndsl.dsl.typing import FloatField, Float
+    from gt4py.cartesian.gtscript import THIS_K
 
 
-    def compute_table(temperature: FloatField, table: FloatField):
+    # NOTE Ideally, these next two statements should be done elsewhere (perhaps
+    # in a constants and types file, respectively) and imported
+    # declare table size
+    table_size = 1000
+    # define table type
+    GlobalTable_local_type = GlobalTable[(Float, int(table_size))]
+
+
+    def _compute_table(table: FloatField):
         from __externals__ import constant_one, constant_two
 
         with computation(PARALLEL), interval(1, None):
-            table = log(temperature / constant_one) + constant_two
+            table = log(0.1 * THIS_K / constant_one) + constant_two
 
 
-    class Code:
-        def __init__(self, stencil_factory: StencilFactory):
+    def _use_table(out_field: FloatField, table: GlobalTable_local_type):
+        with computation(PARALLEL), interval(...):
+            out_field = 2 * table.A[150]
+
+
+    class ConstructTable:
+        def __init__(self, stencil_factory: StencilFactory, quantity_factory: QuantityFactory):
 
             # build stencil
-            self.constructed_stencil = stencil_factory.from_dims_halo(
-                func=compute_table,
+            self.compute_table = stencil_factory.from_dims_halo(
+                func=_compute_table,
                 compute_dims=[X_DIM, Y_DIM, Z_DIM],
                 externals={
                     "constant_one": 10,
@@ -382,22 +392,22 @@ NDSL systems:
                 },
             )
 
-        def __call__(
-            self,
-            temperature: FloatField,
-            table: FloatField,
-        ):
+            self._table = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
+
+        def __call__(self):
             # execute stencil
-            self.constructed_stencil(
-                temperature,
-                table,
+            self.compute_table(
+                self._table,
             )
 
             # return a GlobalTable object
 
+        @property
+        def table(self):
+            return self._table.field[0, 0, :]
+
 
     if __name__ == "__main__":
-
         # consider the following model domain and factories are presnet
         domain = (10, 10, 10)
         nhalo = 0
@@ -410,8 +420,7 @@ NDSL systems:
         )
 
         # we must create a new set for this table calculation, because we require an off-grid dimension
-        size = 1000
-        domain_table = (1, 1, size)
+        domain_table = (1, 1, table_size)
         nhalo_table = 0
         stencil_factory_table, quantity_factory_table = get_factories_single_tile(
             domain_table[0],
@@ -423,33 +432,45 @@ NDSL systems:
 
         # initialize data
         temperature = quantity_factory_table.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
-        table = quantity_factory_table.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
 
         for l in range(temperature.field.shape[2]):
             temperature.field[:, :, l] = 10 + 0.01 * (l + 1)
 
         # build stencil
-        code = Code(stencil_factory_table)
+        construct_table = ConstructTable(stencil_factory_table, quantity_factory_table)
 
         # execute stencil
-        code(temperature, table)
+        construct_table()
 
-        print(table.field)
+        # construct stencil that will use the table
+        use_table = stencil_factory.from_dims_halo(
+            func=_use_table,
+            compute_dims=[X_DIM, Y_DIM, Z_DIM],
+        )
+
+        # # initalize array for calculation using table
+        out_field = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], "n/a")
+
+        use_table(out_field, construct_table.table)
+
+        print(construct_table.table)
+        print("Done 🚀")
     ```
 
-These tables must be subsequently referenced as a `GlobalTable` type, informing the system that the object
-features a single, off-grid axis, and may not conform to the larger model grid specification:
+These tables must be subsequently referenced as a local variant of the `GlobalTable` type,
+informing the system that the object features a single off-grid axis, and may not conform
+to the larger model grid specifications:
 
 ??? Example "NDSL Code"
 
-    This type must be defined using the following pattern:
+    This type is defined using the following pattern:
     ``` py
-    GlobalTable_local_type = GlobalTable[(Float, int(table_size))]
+    GlobalTable_local_type = GlobalTable[(<data type (Float/Int/Bool)>, int(table_size))]
     ```
 
     And accurately typed and referenced within the stencil:
     ``` py
-    def stencil(table: GlobalTable_local_type):
+    def stencil(data: FloatField, table: GlobalTable_local_type):
         with computation(PARALLEL), interval(...):
             data = table.A[desired_index]
     ```
