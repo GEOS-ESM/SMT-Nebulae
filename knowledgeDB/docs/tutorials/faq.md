@@ -2,4 +2,4 @@
 
 Does NDSL support strings?
 
-:   No.
+:   No. NDSL in no way supports strings. There are only three accepted data types: `Float`, `Int`, and `Bool`.

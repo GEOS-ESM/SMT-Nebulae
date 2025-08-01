@@ -96,11 +96,13 @@ if __name__ == "__main__":
 
     domain = (5, 5, 3)
     nhalo = 0
+    backend = "numpy"
     stencil_factory, quantity_factory = get_factories_single_tile(
         domain[0],
         domain[1],
         domain[2],
         nhalo,
+        backend,
     )
 
     copy_data = CopyData(stencil_factory)
@@ -116,6 +118,14 @@ if __name__ == "__main__":
 
     copy_data(in_quantity, out_quantity)
 ```
+
+To run the code, we first need to build the factories that will be used to construct the stencil and
+quantities. In this small-scale example, we use the boilerplate function `get_factories_single_tile`,
+supplying it the domain size, halo size, and backend. This function has limited capabilities, but is
+sufficient for most small scale cases - testing code, debugging specific issues, etc. For larger projects
+(such as a full Earth system model), it may be necessary to move away from the boilerplate code to get
+more control over how these factoris are generated - but for now, just focus on using
+`get_factories_single_tile`, as that will serve you well while you are learning the systems.
 
 ### Temporary Fields
 

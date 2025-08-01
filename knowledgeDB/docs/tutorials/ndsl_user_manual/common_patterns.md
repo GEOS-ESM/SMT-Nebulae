@@ -475,6 +475,77 @@ to the larger model grid specifications:
             data = table.A[desired_index]
     ```
 
+## Optional Inputs
+
+In Fortran - and in traditional Python - it is possible to have optional inputs to a function. NDSL does not
+support optional field inputs (a quantity with one or more dimensions) but it is possible to create 
+optional scalar inputs.
+
+For a field, the best way to create an "optional" input in NDSL is to create a situation where an input
+(which is always suppled) has the option of being used - a calculation tied to some boolean, perhaps.
+Furthermore, the field supplied need not be relevant. If the option will never be used, a dummy
+field can be passed to satisfy the API of the function and simply never touched (or touched, with the result
+discarded upon completion of the function).
+
+For scalar inputs, the notation is quite similar to that of traditional Python. Note that NDSL requires
+that all scalars - if not suppled - have a default value, and that default value must be of the declared type
+(see line 19 of the example below):
+
+??? Example "NDSL Code"
+
+    ``` py linenums="1"
+
+    from ndsl.dsl.gt4py import (
+        computation,
+        interval,
+        PARALLEL,
+    )
+    from ndsl.boilerplate import get_factories_single_tile
+    from ndsl.constants import X_DIM, Y_DIM, Z_DIM
+    from ndsl.dsl.typing import FloatField, Float
+    from ndsl import StencilFactory, orchestrate
+    import numpy as np
+
+    domain = (2, 2, 5)
+
+    stencil_factory, quantity_factory = get_factories_single_tile(
+        domain[0], domain[1], domain[2], 0, backend="numpy"
+    )
+
+
+    def the_stencil(in_field: FloatField, out_field: FloatField, factor: Float = 2.0):
+        with computation(PARALLEL), interval(...):
+            out_field = in_field * factor
+
+
+    class Code:
+        def __init__(self, stencil_factory: StencilFactory):
+            orchestrate(obj=self, config=stencil_factory.config.dace_config)
+            self._the_stencil = stencil_factory.from_dims_halo(
+                func=the_stencil,
+                compute_dims=[X_DIM, Y_DIM, Z_DIM],
+            )
+
+        def __call__(self, in_field: FloatField, out_field: FloatField):
+            self._the_stencil(in_field, out_field)
+
+
+    if __name__ == "__main__":
+        in_arr = quantity_factory.zeros(
+            dims=[X_DIM, Y_DIM, Z_DIM],
+            units="inputs",
+        )
+        sz = domain[0] * domain[1] * domain[2]
+        in_arr.view[:] = np.arange(sz, dtype=Float).reshape(domain)
+
+        out_arr = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], units="outputs")
+
+        code = Code(stencil_factory)
+        code(in_arr, out_arr)
+
+        print("Done 🚀")
+    ```
+
 ## Exit Statements and Internal Masks
 
 Often there are times where it is necessary to control the execution of specific code paths

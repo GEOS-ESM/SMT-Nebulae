@@ -68,15 +68,15 @@ nav:
         - RAS: GEOS/components/moist/RAS.md
         - UW: GEOS/components/moist/UW.md
   - Tutorials:
-    - Introduction: tutorials/index.md
+    - Start Here!: tutorials/index.md
     - NDSL:
-      - 1. Introduction to NDSL: tutorials/how_to_ndsl/ndsl_introduction.md
-      - 2. Data Types and Storage: tutorials/how_to_ndsl/data.md
-      - 3. Writing Code with NDSL: tutorials/how_to_ndsl/writing_ndsl_code.md
-      - 4. Advanced Stencil Features: tutorials/how_to_ndsl/advanced_stencil_features.md
-      - 5. Backends: tutorials/how_to_ndsl/backends.md
-      - 6. Common Patterns: tutorials/how_to_ndsl/common_patterns.md
-      - 7. Best Coding Practices: tutorials/how_to_ndsl/best_coding_practices.md
+      - 1. Introduction to NDSL: tutorials/ndsl_user_manual/ndsl_introduction.md
+      - 2. Data Types and Storage: tutorials/ndsl_user_manual/data.md
+      - 3. Writing Code with NDSL: tutorials/ndsl_user_manual/writing_ndsl_code.md
+      - 4. Advanced Features: tutorials/ndsl_user_manual/advanced_features.md
+      - 5. Backends: tutorials/ndsl_user_manual/backends.md
+      - 6. Common Patterns: tutorials/ndsl_user_manual/common_patterns.md
+      - 7. Best Coding Practices: tutorials/ndsl_user_manual/best_coding_practices.md
     - GEOS:
       - Introduction to GEOS: tutorials/geos_with_ndsl/index.md
     - Model Development with NDSL:
