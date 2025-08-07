@@ -222,38 +222,65 @@ each point within the domain.
 
 ## Functions
 
-Functions in NDSL are used similar to traditional Python functions. They can be used to make code
-visually more appealing, and are inlined at execution. Technically, NDSL functions are GT4Py
-constructs, that NDSL provides an interface for. Unlike stencils, functions do not modify fields in place.
-Any changes made within the function are only reflected in the larger stencil if the new value is returned
-in the function and written in the stencil.
+Functions in NDSL - much like traditional Python functions - serve as a way to store commonly used code so
+that it can be referenced easily from multiple places. NDSL functions (hereafter referred to as "functions")
+can only be used from within stencils, and often act as extentions of the stencil, performing repetitive or
+particualrly detailed operations. Critically, however, functions have a additional set of rules which make
+them different in both appearence and operation stencils which house them.
 
-Functions follow all the same rules as stencils, a but have a number of important quirks. Functions:
-
-- cannot contain the keywords `computation` or `interval` (they rely on the host stencil for this info)
+Functions:
 - cannot be called outside of a stencil
+- cannot contain the keywords `computation` or `interval` (they rely on the host stencil for this info)
+- are "point operations" - the are executed independently at each point in the compute domain (see below)
 - must have a single return statement, but can return multiple values
-- are not tied to a single stencil, and may be reused across any number of stencils
-- do not need to be constructed with a stencil factory (they are built with the stencil)
+- are not tied to a single stencil, and may be reused multiple times in one or many stencils
+- do not need to be independently constructed with a stencil factory (they are built with the stencil)
+
+The concept of a "point operation" is particularly important, and warrants its own discussion. There are
+two important ideas which come along with this concept: functions perform operation at each point in the
+compute domain independently, in isolation from all other points; and (despite this) functions may take
+scalar or fields as inputs. Functions take an entire field as an import (despite only operating on a
+single point in any particular instance) to allow for offset reads of these inputs. It may be necessary
+read an offset from a field within a stencil, and it would be overly combersome to require a series of scalar
+inputs for each of these offsets.
+
+Beyond their use for potentially reading offsets from the inputs, the concept of a field is effectively
+banned within a stencil. All calculations are performed using scalars. There are no arrays, lists, fields,
+etc. Furthermore, reading a offset (such as `field[0, 0, 1]`) will alwyas produce a scalar, which fits
+this paradigm as the rest of the field is effectively discarded.
+
+As a consequence of these rules, functions always return a scalar value. The *stencil* then takes this value
+and writes it to the correct place in the field.
 
 Below is an example of a NDSL function, called from within a stencil:
 
 ``` py linenums="1"
 @gtscript.function
-def copy_plus_five(in_field: FloatField, out_field: FloatField):
-    out_field = in_field + 5
-    return out_field
+def add_five(in_field: FloatField):
+    out_value = in_field + 5
+    return out_value
 
 
 def copy_stencil(in_field: FloatField, out_field: FloatField):
     with computation(PARALLEL):
         with interval(...):
-            out_field = copy_plus_five(in_field, out_field)
+            out_field = add_five(in_field)
 ```
+
+It is worth reiterating that, while functions can only have a single return statment, they can return multiple
+value. Such a case would take the following pattern:
+``` py
+    field_1, field_2 = my_function(input_1, input_2, input_3)
+```
+
+Note that functions with multiple returns
+cannot be integrated into larger expressions - they must be written on their own line, and each output must
+be recieved (or discarded with `_`).
+
 
 ### Builtin Functions
 
-NDSL has a number of builtin functions:
+NDSL provides access to a number of builtin GT4Py functions:
 
 - `abs`: absolute value
 - `min`: minimum
@@ -286,6 +313,12 @@ NDSL has a number of builtin functions:
 - `round`: round to nearest integer
 - `erf`: error function
 - `erfc`: complementary error function
+- `int32`: cast to a 32 bit integer
+- `int64`: cast to a 64 bit integer
+- `float32`: cast to a 32 bit float
+- `float64`: cast to a 64 bit float
+
+All of these functions are available via the module `ndsl.dsl.gt4py`
 
 ## Stencils vs Functions
 
