@@ -6,8 +6,8 @@ A Python `class` is like a template or blueprint for creating objects — in thi
 creates tools to check if the condensation is likely to occur based on temperature and dew point at
 a certain location.
 
-Think of it like this:
-- A `function` does one task.
+Think of it like this:\\
+- A `function` does one task.\\
 - A `class` bundles together data and functions (called methods) that relate to a single concept — 
 like checking condensation.
 
@@ -26,9 +26,9 @@ class CondensationChecker:
         # Prints the current condition and whether condensation is likely
 ```
 
-Here:
-The data: temperature, dew point, location
-The behavior: check_condensation(), report()
+Here:\\
+The data: temperature, dew point, location\\
+The behavior: check_condensation(), report()\\
 
 ## What are Classes used for?
 
@@ -67,19 +67,19 @@ on that data.
 
 ## Benefits of using a Class
 
-1. Encapsulation: Grouping Related Data and Behavior
+Organization: Grouping Related Data and Behavior
 
 A class brings data and the functions that operate on it together in one place.
 
-In CondensationChecker:
-The data: temperature, dew point, location
-The behavior: check_condensation(), report()
+In CondensationChecker:\\
+The data: temperature, dew point, location\\
+The behavior: check_condensation(), report()\\
 
 These things belong together logically. Instead of keeping temperature and dew point as separate 
 variables and writing separate functions, the class keeps them bundled as one logical unit.
 
 
-2. Reusability: Create Many Independent Instances
+Reusability: Create Many Independent Instances
 
 You can reuse the same class to create multiple objects representing different conditions — 
 without repeating code.
@@ -87,7 +87,7 @@ without repeating code.
 Example:
 ```py
 station1 = CondensationChecker("London", 15, 12)
-station2 = CondensationChecker("Mumbai", 28, 27)
+station2 = CondensationChecker("Barcelona", 28, 27)
 
 station1.report()
 station2.report()
@@ -99,7 +99,7 @@ Without a class, you'd have to manage multiple sets of variables manually and pa
 functions every time — more error-prone and harder to manage.
 
 
-3. Extensibility: Easy to Add New Features
+Extensibility: Easy to Add New Features
 
 When your code grows in complexity, classes make it easy to add new functionality without breaking 
 existing logic.
@@ -113,20 +113,20 @@ def estimate_relative_humidity(self):
 This method now becomes part of the condensation checker — you don’t have to touch outside code.
 
 
-4. Modularity and Organization
+Modularity
 
 Classes act like building blocks for larger systems. You can isolate pieces of your program into 
 logical units.
 
 
-5. Maintainability: Easier to Read, Debug, and Scale
+Maintainability and Cleanliness: Easier to Read, Debug, and Scale
 
 When your project grows, keeping code maintainable is very important.
 
-With a class:
-- Each part of the program has a clear purpose.
-- You can fix or update just one class without affecting others.
-- You don’t have to trace global variables across multiple files.
+With a class:\\
+- Each part of the program has a clear purpose.\\
+- You can fix or update just one class without affecting others.\\
+- You don’t have to trace global variables across multiple files.\\
 
 If someone new joins your team, they can understand what CondensationChecker does just by reading 
 that one class.
