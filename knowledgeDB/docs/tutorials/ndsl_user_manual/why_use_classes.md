@@ -67,19 +67,19 @@ on that data.
 
 ## Benefits of using a Class
 
-Organization: Grouping Related Data and Behavior
+**Organization: Grouping Related Data and Behavior**
 
 A class brings data and the functions that operate on it together in one place.
 
-In CondensationChecker:\
-The data: temperature, dew point, location\
-The behavior: check_condensation(), report()\
+In CondensationChecker: <br>
+The data: temperature, dew point, location <br>
+The behavior: check_condensation(), report() <br>
 
 These things belong together logically. Instead of keeping temperature and dew point as separate 
 variables and writing separate functions, the class keeps them bundled as one logical unit.
 
 
-Reusability: Create Many Independent Instances
+**Reusability: Create Many Independent Instances**
 
 You can reuse the same class to create multiple objects representing different conditions — 
 without repeating code.
@@ -99,7 +99,7 @@ Without a class, you'd have to manage multiple sets of variables manually and pa
 functions every time — more error-prone and harder to manage.
 
 
-Extensibility: Easy to Add New Features
+**Extensibility: Easy to Add New Features**
 
 When your code grows in complexity, classes make it easy to add new functionality without breaking 
 existing logic.
@@ -113,13 +113,13 @@ def estimate_relative_humidity(self):
 This method now becomes part of the condensation checker — you don’t have to touch outside code.
 
 
-Modularity
+**Modularity**
 
 Classes act like building blocks for larger systems. You can isolate pieces of your program into 
 logical units.
 
 
-Maintainability and Cleanliness: Easier to Read, Debug, and Scale
+**Maintainability and Cleanliness: Easier to Read, Debug, and Scale**
 
 When your project grows, keeping code maintainable is very important.
 
