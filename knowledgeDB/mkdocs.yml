@@ -76,7 +76,8 @@ nav:
       - 4. Advanced Features: tutorials/ndsl_user_manual/advanced_features.md
       - 5. Backends: tutorials/ndsl_user_manual/backends.md
       - 6. Common Patterns: tutorials/ndsl_user_manual/common_patterns.md
-      - 7. Best Coding Practices: tutorials/ndsl_user_manual/best_coding_practices.md
+      - 7. Why Use Classes?: tutorials/ndsl_user_manual/why_use_classes.md
+      - 8. Best Coding Practices: tutorials/ndsl_user_manual/best_coding_practices.md
     - GEOS:
       - Introduction to GEOS: tutorials/geos_with_ndsl/index.md
     - Model Development with NDSL:
