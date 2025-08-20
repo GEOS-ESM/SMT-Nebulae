@@ -6,8 +6,8 @@ A Python `class` is like a template or blueprint for creating objects — in thi
 creates tools to check if the condensation is likely to occur based on temperature and dew point at
 a certain location.
 
-Think of it like this:\\
-- A `function` does one task.\\
+Think of it like this:\
+- A `function` does one task.\
 - A `class` bundles together data and functions (called methods) that relate to a single concept — 
 like checking condensation.
 
@@ -26,9 +26,9 @@ class CondensationChecker:
         # Prints the current condition and whether condensation is likely
 ```
 
-Here:\\
-The data: temperature, dew point, location\\
-The behavior: check_condensation(), report()\\
+Here:\
+The data: temperature, dew point, location\
+The behavior: check_condensation(), report()\
 
 ## What are Classes used for?
 
@@ -71,9 +71,9 @@ Organization: Grouping Related Data and Behavior
 
 A class brings data and the functions that operate on it together in one place.
 
-In CondensationChecker:\\
-The data: temperature, dew point, location\\
-The behavior: check_condensation(), report()\\
+In CondensationChecker:\
+The data: temperature, dew point, location\
+The behavior: check_condensation(), report()\
 
 These things belong together logically. Instead of keeping temperature and dew point as separate 
 variables and writing separate functions, the class keeps them bundled as one logical unit.
@@ -123,10 +123,10 @@ Maintainability and Cleanliness: Easier to Read, Debug, and Scale
 
 When your project grows, keeping code maintainable is very important.
 
-With a class:\\
-- Each part of the program has a clear purpose.\\
-- You can fix or update just one class without affecting others.\\
-- You don’t have to trace global variables across multiple files.\\
+With a class:\
+- Each part of the program has a clear purpose.\
+- You can fix or update just one class without affecting others.\
+- You don’t have to trace global variables across multiple files.\
 
 If someone new joins your team, they can understand what CondensationChecker does just by reading 
 that one class.
