@@ -21,13 +21,13 @@ there are still a larger number of non-zero outliers. especially for relative hu
 
 Looking at temperature in particular to explore the outliers, we show below the reference Fortran and the NDSL performance backend:
 
-![Zonal Wind U Field - Reference Fortran](../img/UW_T_fortran_world.png)
+![Temperature Field - Reference Fortran](../img/UW_T_fortran_world.png)
 
-![Zonal Wind U Field - NDSL CPU (dace:cpu)](../img/UW_T_dacecpu_world.png)
+![Temperature Field - NDSL CPU (dace:cpu)](../img/UW_T_dacecpu_world.png)
 
 The temperature patterns look very similar between the Fortran and Python. However some differences do exist at places where the temperature gradient is slightly misplaced in the NDSL. Below we graph the difference between Fortran and NDSL to show generally good spatial agreement of the runs, however some large erros do exist at several places. Again, these errors are most likely due to the numerical differences that still exists between the Fortan and the NDSL in the UW shallow convection scheme:
 
-![Zonal Wind U Field - NDSL CPU (dace:cpu)](../img/UW_T_diff_world.png)
+![Temperature Field Diffs - NDSL CPU (dace:cpu)](../img/UW_T_diff_world.png)
 
 ### Benchmark
 
@@ -55,6 +55,6 @@ Looking at temperature again, here are temperature fields for the Fortran and th
 
 And the temperature differences between the reference Fortran and the perturbed Fortran runs:
 
-![Temperature (K) [Fortran - Perturbed Fortran]](../img/T_diff_world.png)
+![Temperature (K) [Fortran - Perturbed Fortran]](../img/T_diff_world_perturbed.png)
 
 It can be seen that by initializing the Fortran run with relatively small errors, those errors can become exacerbated over time and grow into much larger errors. Therefore, even though we have achieved very close numerical validation of the UW shallow convection scheme, the small errors that still exist between the Fortran and NDSL have the potential to grow into large errors throughout a longer simulation. Going forward, we plan to pay close attention to these errors and try to minimize them as best we can.
