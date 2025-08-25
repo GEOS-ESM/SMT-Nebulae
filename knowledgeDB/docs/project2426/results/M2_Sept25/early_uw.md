@@ -17,17 +17,17 @@ Below are the distribution of differences between the reference Fortran and the 
 We start with an histogram showing the distribution of differences between the reference Fortran. While a good portion of the differences are centered around zero,
 there are still a larger number of non-zero outliers. especially for relative humidity and wind. These outliers are most likely due to numerical differences that still exist between the Fortran and NDSL in the UW shallow convection scheme. Alhough these errors are relatively small, they can become quite large over a 7 day simulation:
 
-![Histograms of diagnostic variables differences](../img/UW_hist__debug_v_Fortran__sfc.png)
+![Histograms of diagnostic variables differences](../img/UW_hist__dace_cpu_v_Fortran__sfc.png)
 
 Looking at temperature in particular to explore the outliers, we show below the reference Fortran and the NDSL performance backend:
 
-![Zonal Wind U Field - Reference Fortran](../img/UW_T_fortran_7days.png)
+![Zonal Wind U Field - Reference Fortran](../img/UW_T_fortran_world.png)
 
-![Zonal Wind U Field - NDSL GPU (dace:gpu)](../img/UW_T_debug_7days.png)
+![Zonal Wind U Field - NDSL CPU (dace:cpu)](../img/UW_T_dacecpu_world.png)
 
 The temperature patterns look very similar between the Fortran and Python. However some differences do exist at places where the temperature gradient is slightly misplaced in the NDSL. Below we graph the difference between Fortran and NDSL to show generally good spatial agreement of the runs, however some large erros do exist at several places. Again, these errors are most likely due to the numerical differences that still exists between the Fortan and the NDSL in the UW shallow convection scheme:
 
-![Zonal Wind U Field - NDSL GPU (dace:gpu)](../img/UW_T_diff_7days.png)
+![Zonal Wind U Field - NDSL CPU (dace:cpu)](../img/UW_T_diff_world.png)
 
 ### Benchmark
 
@@ -49,7 +49,7 @@ To demonstrate how small errors can grow into larger errors throughout a 7-day F
 
 Looking at temperature again, here are temperature fields for the Fortran and the perturbed Fortran runs: 
 
-![Temperature (K) - Reference Fortran](../img/T_fortran_world.png)
+![Temperature (K) - Reference Fortran](../img/UW_T_fortran_world.png)
 
 ![Temperature (K) - Perturbed Fortran](../img/T_fortran_perturbed_world.png)
 
