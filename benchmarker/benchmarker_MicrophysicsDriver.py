@@ -13,68 +13,23 @@ from setup_cube_sphere import setup_fv_cube_grid
 from cuda_timer import TimedCUDAProfiler
 from progress import TimedProgress
 from data_ingester import raw_data_to_quantity
-from ndsl.constants import X_DIM, Y_DIM, Z_DIM, Z_INTERFACE_DIM
-from ndsl import DaCeOrchestration, Quantity
+from ndsl.constants import X_DIM, Y_DIM, Z_DIM
+from ndsl import DaCeOrchestration
 
-from pyMoist.UW.compute_uwshcu import ComputeUwshcuInv
-from pyMoist.UW.config import UWConfiguration
-
+from pyMoist.GFDL_1M.driver.driver import MicrophysicsDriver
+from pyMoist.GFDL_1M.config import GFDL1MConfig
+from ndsl.stencils.testing.savepoint import DataLoader
 
 import dace
 from ndsl.dsl.dace.orchestration import orchestrate, dace_inhibitor
 
 
-class BenchmarkUW:
-    def __init__(self, dace_config, uw):
+class BenchmarkMicrophysics:
+    def __init__(self, dace_config, microphys):
         orchestrate(obj=self, config=dace_config)
-        self._uw = uw
+        self._microphys = microphys
         self.timings = {}
         self._timer = TimedCUDAProfiler("topline", self.timings)
-
-    @classmethod
-    def outputs(cls, quantity_factory) -> dict[str, Quantity]:
-        outs = {}
-
-        ij_k_interface_fields = [
-            "umf_inv",
-            "qtflx_inv",
-            "slflx_inv",
-            "uflx_inv",
-            "vflx_inv",
-        ]
-        for name in ij_k_interface_fields:
-            outs[name] = quantity_factory.zeros(
-                dims=[X_DIM, Y_DIM, Z_INTERFACE_DIM], units="n/a"
-            )
-
-        ijk_fields = [
-            "dcm_inv",
-            "qvten_inv",
-            "qlten_inv",
-            "qiten_inv",
-            "tten_inv",
-            "uten_inv",
-            "vten_inv",
-            "qrten_inv",
-            "qsten_inv",
-            "cufrc_inv",
-            "fer_inv",
-            "fdr_inv",
-            "ndrop_inv",
-            "nice_inv",
-            "qldet_inv",
-            "qlsub_inv",
-            "qidet_inv",
-            "qisub_inv",
-        ]
-        for name in ijk_fields:
-            outs[name] = quantity_factory.zeros(dims=[X_DIM, Y_DIM, Z_DIM], units="n/a")
-
-        ij_fields = ["tpert_out", "qpert_out"]
-        for name in ij_fields:
-            outs[name] = quantity_factory.zeros(dims=[X_DIM, Y_DIM], units="n/a")
-
-        return outs
 
     @dace_inhibitor
     def _start_timer(self):
@@ -91,85 +46,38 @@ class BenchmarkUW:
     ):
         for _ in dace.nounroll(range(iteration)):
             self._start_timer()
-            self._uw(
-                # Field inputs
-                pifc0_inv=inputs["pifc0_inv"],
-                zifc0_inv=inputs["zifc0_inv"],
-                pmid0_inv=inputs["pmid0_inv"],
-                zmid0_inv=inputs["zmid0_inv"],
-                kpbl_inv=inputs["kpbl_inv"],
-                exnmid0_inv=inputs["exnmid0_inv"],
-                exnifc0_inv=inputs["exnifc0_inv"],
-                dp0_inv=inputs["dp0_inv"],
-                u0_inv=inputs["u0_inv"],
-                v0_inv=inputs["v0_inv"],
-                qv0_inv=inputs["qv0_inv"],
-                ql0_inv=inputs["ql0_inv"],
-                qi0_inv=inputs["qi0_inv"],
-                t0_inv=inputs["t0_inv"],
-                frland=inputs["frland"],
-                tke_inv=inputs["tke_inv"],
-                rkfre=inputs["rkfre"],
-                cush=inputs["cush"],
-                shfx=inputs["shfx"],
-                evap=inputs["evap"],
-                cnvtr=inputs["cnvtr"],
-                CNV_Tracers=inputs["CNV_Tracers"],
-                # Float/Int inputs
-                dotransport=inputs["dotransport"],
-                k0=inputs["k0"],
-                windsrcavg=inputs["windsrcavg"],
-                qtsrchgt=inputs["qtsrchgt"],
-                qtsrc_fac=inputs["qtsrc_fac"],
-                thlsrc_fac=inputs["thlsrc_fac"],
-                frc_rasn=inputs["frc_rasn"],
-                rbuoy=inputs["rbuoy"],
-                epsvarw=inputs["epsvarw"],
-                use_CINcin=inputs["use_CINcin"],
-                mumin1=inputs["mumin1"],
-                rmaxfrac=inputs["rmaxfrac"],
-                PGFc=inputs["PGFc"],
-                dt=inputs["dt"],
-                niter_xc=inputs["niter_xc"],
-                criqc=inputs["criqc"],
-                rle=inputs["rle"],
-                cridist_opt=inputs["cridist_opt"],
-                mixscale=inputs["mixscale"],
-                rdrag=inputs["rdrag"],
-                rkm=inputs["rkm"],
-                use_self_detrain=inputs["use_self_detrain"],
-                detrhgt=inputs["detrhgt"],
-                use_cumpenent=inputs["use_cumpenent"],
-                rpen=inputs["rpen"],
-                use_momenflx=inputs["use_momenflx"],
-                rdrop=inputs["rdrop"],
-                iter_cin=inputs["iter_cin"],
-                # Outputs
-                umf_inv=inputs["umf_inv"],
-                dcm_inv=inputs["dcm_inv"],
-                qtflx_inv=inputs["qtflx_inv"],
-                slflx_inv=inputs["slflx_inv"],
-                uflx_inv=inputs["uflx_inv"],
-                vflx_inv=inputs["vflx_inv"],
-                qvten_inv=inputs["qvten_inv"],
-                qlten_inv=inputs["qlten_inv"],
-                qiten_inv=inputs["qiten_inv"],
-                tten_inv=inputs["tten_inv"],
-                uten_inv=inputs["uten_inv"],
-                vten_inv=inputs["vten_inv"],
-                qrten_inv=inputs["qrten_inv"],
-                qsten_inv=inputs["qsten_inv"],
-                cufrc_inv=inputs["cufrc_inv"],
-                fer_inv=inputs["fer_inv"],
-                fdr_inv=inputs["fdr_inv"],
-                ndrop_inv=inputs["ndrop_inv"],
-                nice_inv=inputs["nice_inv"],
-                qldet_inv=inputs["qldet_inv"],
-                qlsub_inv=inputs["qlsub_inv"],
-                qidet_inv=inputs["qidet_inv"],
-                qisub_inv=inputs["qisub_inv"],
-                tpert_out=inputs["tpert_out"],
-                qpert_out=inputs["qpert_out"],
+            self._microphys(
+                t=inputs["T"],
+                w=inputs["W"],
+                u=inputs["U"],
+                v=inputs["V"],
+                dz=inputs["DZ"],
+                dp=inputs["DP"],
+                area=inputs["AREA"],
+                land_fraction=inputs["FRLAND"],
+                convection_fraction=inputs["CNV_FRC"],
+                surface_type=inputs["SRF_TYPE"],
+                estimated_inversion_strength=inputs["EIS"],
+                rh_crit=inputs["RHCRIT3D"],
+                vapor=inputs["RAD_QV"],
+                liquid=inputs["RAD_QL"],
+                rain=inputs["RAD_QR"],
+                ice=inputs["RAD_QI"],
+                snow=inputs["RAD_QS"],
+                graupel=inputs["RAD_QG"],
+                cloud_fraction=inputs["RAD_CF"],
+                ice_concentration=inputs["NACTI"],
+                liquid_concentration=inputs["NACTL"],
+                dvapor_dt=inputs["DQVDTmic"],
+                dliquid_dt=inputs["DQLDTmic"],
+                drain_dt=inputs["DQRDTmic"],
+                dice_dt=inputs["DQIDTmic"],
+                dsnow_dt=inputs["DQSDTmic"],
+                dgraupel_dt=inputs["DQGDTmic"],
+                dcloud_fraction_dt=inputs["DQADTmic"],
+                dt_dt=inputs["DTDTmic"],
+                du_dt=inputs["DUDTmic"],
+                dv_dt=inputs["DVDTmic"],
             )
             self._end_timer()
 
@@ -203,7 +111,7 @@ class Exp(enum.Enum):
     C24_GEOS = enum.auto()
 
 
-BENCH_NAME = "UW"
+BENCH_NAME = "Microphys"
 """Benchmark name & config key."""
 xp = Exp.C24_GEOS
 
@@ -229,6 +137,7 @@ elif xp == Exp.C24_GEOS:
     ETA_AK_BK_FILE = c24_config["eta_ak_bk_file"]
     INPUT_NAME_TO_CODE_NAME = c24_config["inputs_name_to_code_name"]
     INPUTS_TO_REMOVE = c24_config["inputs_to_remove"]
+    CONSTANTS_PATH = c24_config["data_constants"]
 else:
     raise NotImplementedError(f"Experiment {xp} just is not ")
 
@@ -309,11 +218,113 @@ with progress("🚆 Move data to Quantities"):
 
 
 with progress("🤸 Setup user code"):
-    UW_config = UWConfiguration(inputs["ncnst"], inputs["k0"], inputs["windsrcavg"])
-    uw = ComputeUwshcuInv(
+    constants = DataLoader(rank=0, data_path=CONSTANTS_PATH).load("GFDL_1M-constants")
+
+    GFDL_1M_config = GFDL1MConfig(
+        PHYS_HYDROSTATIC=bool(constants["LPHYS_HYDROSTATIC"]),
+        HYDROSTATIC=bool(constants["LHYDROSTATIC"]),
+        DT_MOIST=constants["DT_MOIST"],
+        MP_TIME=constants["MP_TIME"],
+        T_MIN=constants["T_MIN"],
+        T_SUB=constants["T_SUB"],
+        TAU_R2G=constants["TAU_R2G"],
+        TAU_SMLT=constants["TAU_SMLT"],
+        TAU_G2R=constants["TAU_G2R"],
+        DW_LAND=constants["DW_LAND"],
+        DW_OCEAN=constants["DW_OCEAN"],
+        VI_FAC=constants["VI_FAC"],
+        VR_FAC=constants["VR_FAC"],
+        VS_FAC=constants["VS_FAC"],
+        VG_FAC=constants["VG_FAC"],
+        QL_MLT=constants["QL_MLT"],
+        DO_QA=bool(constants["DO_QA"]),
+        FIX_NEGATIVE=bool(constants["FIX_NEGATIVE"]),
+        VI_MAX=constants["VI_MAX"],
+        VS_MAX=constants["VS_MAX"],
+        VG_MAX=constants["VG_MAX"],
+        VR_MAX=constants["VR_MAX"],
+        QS_MLT=constants["QS_MLT"],
+        QS0_CRT=constants["QS0_CRT"],
+        QI_GEN=constants["QI_GEN"],
+        QL0_MAX=constants["QL0_MAX"],
+        QI0_MAX=constants["QI0_MAX"],
+        QI0_CRT=constants["QI0_CRT"],
+        QR0_CRT=constants["QR0_CRT"],
+        FAST_SAT_ADJ=bool(constants["FAST_SAT_ADJ"]),
+        RH_INC=constants["RH_INC"],
+        RH_INS=constants["RH_INS"],
+        RH_INR=constants["RH_INR"],
+        CONST_VI=bool(constants["CONST_VI"]),
+        CONST_VS=bool(constants["CONST_VS"]),
+        CONST_VG=bool(constants["CONST_VG"]),
+        CONST_VR=bool(constants["CONST_VR"]),
+        USE_CCN=bool(constants["USE_CCN"]),
+        RTHRESHU=constants["RTHRESHU"],
+        RTHRESHS=constants["RTHRESHS"],
+        CCN_L=constants["CCN_L"],
+        CCN_O=constants["CCN_O"],
+        QC_CRT=constants["QC_CRT"],
+        TAU_G2V=constants["TAU_G2V"],
+        TAU_V2G=constants["TAU_V2G"],
+        TAU_S2V=constants["TAU_S2V"],
+        TAU_V2S=constants["TAU_V2S"],
+        TAU_REVP=constants["TAU_REVP"],
+        TAU_FRZ=constants["TAU_FRZ"],
+        DO_BIGG=bool(constants["DO_BIGG"]),
+        DO_EVAP=bool(constants["DO_EVAP"]),
+        DO_SUBL=bool(constants["DO_SUBL"]),
+        SAT_ADJ0=constants["SAT_ADJ0"],
+        C_PIACR=constants["C_PIACR"],
+        TAU_IMLT=constants["TAU_IMLT"],
+        TAU_V2L=constants["TAU_V2L"],
+        TAU_L2V=constants["TAU_L2V"],
+        TAU_I2V=constants["TAU_I2V"],
+        TAU_I2S=constants["TAU_I2S"],
+        TAU_L2R=constants["TAU_L2R"],
+        QI_LIM=constants["QI_LIM"],
+        QL_GEN=constants["QL_GEN"],
+        C_PAUT=constants["C_PAUT"],
+        C_PSACI=constants["C_PSACI"],
+        C_PGACS=constants["C_PGACS"],
+        C_PGACI=constants["C_PGACI"],
+        Z_SLOPE_LIQ=bool(constants["Z_SLOPE_LIQ"]),
+        Z_SLOPE_ICE=bool(constants["Z_SLOPE_ICE"]),
+        PROG_CCN=bool(constants["PROG_CCN"]),
+        C_CRACW=constants["C_CRACW"],
+        ALIN=constants["ALIN"],
+        CLIN=constants["CLIN"],
+        PRECIPRAD=bool(constants["PRECIPRAD"]),
+        CLD_MIN=constants["CLD_MIN"],
+        USE_PPM=bool(constants["USE_PPM"]),
+        MONO_PROF=bool(constants["MONO_PROF"]),
+        DO_SEDI_HEAT=bool(constants["DO_SEDI_HEAT"]),
+        SEDI_TRANSPORT=bool(constants["SEDI_TRANSPORT"]),
+        DO_SEDI_W=bool(constants["DO_SEDI_W"]),
+        DE_ICE=bool(constants["DE_ICE"]),
+        ICLOUD_F=constants["ICLOUD_F"],
+        IRAIN_F=constants["IRAIN_F"],
+        MP_PRINT=bool(constants["MP_PRINT"]),
+        MELTFRZ=bool(constants["LMELTFRZ"]),
+        USE_BERGERON=bool(constants["USE_BERGERON"]),
+        TURNRHCRIT_PARAM=constants["TURNRHCRIT_PARAM"],
+        PDF_SHAPE=constants["PDFSHAPE"],
+        ANV_ICEFALL=constants["ANV_ICEFALL"],
+        LS_ICEFALL=constants["LS_ICEFALL"],
+        LIQ_RADII_PARAM=constants["LIQ_RADII_PARAM"],
+        ICE_RADII_PARAM=constants["ICE_RADII_PARAM"],
+        FAC_RI=constants["FAC_RI"],
+        MIN_RI=constants["MIN_RI"],
+        MAX_RI=constants["MAX_RI"],
+        FAC_RL=constants["FAC_RL"],
+        MIN_RL=constants["MIN_RL"],
+        MAX_RL=constants["MAX_RL"],
+        CCW_EVAP_EFF=constants["CCW_EVAP_EFF"],
+        CCI_EVAP_EFF=constants["CCI_EVAP_EFF"],
+    )
+    microphys = MicrophysicsDriver(
         stencil_factory,
         quantity_factory,
-        UW_config,
+        GFDL_1M_config,
     )
 
     # The above garbage because of serialize data if the data was captured
@@ -326,8 +337,9 @@ with progress("🤸 Setup user code"):
 
     # TODO: turn this on to get orchestration tested without the overhead
     if BENCH_WITHOUT_ORCHESTRATION_OVERHEAD:
-        benchy = BenchmarkUW(uw=uw, dace_config=stencil_factory.config.dace_config)
-        inputs.update(BenchmarkUW.outputs(quantity_factory))
+        benchy = BenchmarkMicrophysics(
+            microphys=microphys, dace_config=stencil_factory.config.dace_config
+        )
 
 with progress(f"🚀 Bench ({BENCH_ITERATION} times)"):
     timings = {}
@@ -337,7 +349,7 @@ with progress(f"🚀 Bench ({BENCH_ITERATION} times)"):
     else:
         for _ in range(BENCH_ITERATION):
             with TimedCUDAProfiler("topline", timings):
-                uw(**inputs)
+                microphys(**inputs)
 
 with progress("📋 Making report"):
     # Header
@@ -357,7 +369,12 @@ with progress("📋 Making report"):
     qty_zero = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], units="na")
     report += f"Memory strides (IJK): {[s // 8 for s in qty_zero.data.strides]}\n"
     if "dace" in BACKEND:
-        report += f"Backend: {'orch:' if ORCHESTRATION in [DaCeOrchestration.Run, DaCeOrchestration.BuildAndRun] else 'gt:'}{BACKEND}\n"
+        prefix = (
+            "orch:"
+            if ORCHESTRATION in [DaCeOrchestration.Run, DaCeOrchestration.BuildAndRun]
+            else "gt:"
+        )
+        report += f"Backend: {prefix}{BACKEND}\n"
     else:
         report += f"Backend: {BACKEND}\n"
     report += "\n"
