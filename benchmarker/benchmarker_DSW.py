@@ -1,5 +1,6 @@
 """Benchmark script, valid for serial or parallel code"""
 
+
 # TODO list
 # - How to expand the dataset knowing we need the Namelist (so GEOS is not an option)
 #   - Re-use the C12 namelist and use data from another resolution
@@ -16,6 +17,7 @@ os.environ["GT4PY_COMPILE_OPT_LEVEL"] = "3"
 if MONO_CORE:
     os.environ["OMP_NUM_THREADS"] = "1"
 
+import pyitt.compatibility_layers.itt_python as itt
 from datetime import datetime
 import enum
 import platform
@@ -153,8 +155,8 @@ NAMELIST = config[BENCH_NAME]["namelist"]
 IS_SERIALIZE_DATA = True
 """Flag that our data comes from Fortran and therefore need special love."""
 
-BACKEND = "gt:cpu_kfirst"  # ""gt:cpu_ifirst""
-# BACKEND = "dace:cpu"
+# BACKEND = "gt:cpu_kfirst"  # ""gt:cpu_ifirst""
+BACKEND = "dace:cpu"
 """The One to bring them and in darkness speed them up."""
 
 ORCHESTRATION = (
@@ -169,11 +171,12 @@ BENCH_WITHOUT_ORCHESTRATION_OVERHEAD = True
 BENCH_ITERATION = 3000 if xp is Exp.C12_AI2 else 1000
 """How many execution to measure."""
 
-PERTUBATE_DATA_MODE = False
-"""Copy the data BENCH_ITERATION time and apply a small sigma-noise on it.
-This will slow down benchmarks and scale time with BENCH_ITERATION but probably be more
-realistic.
-"""
+USE_ITT = True
+"""Narrow vtune reads with ITT markers"""
+
+if USE_ITT:
+    itt_domain = itt.domain_create(f"benchy.{BENCH_NAME}")
+    itt.pause()
 
 
 # ---- GLOBAL MESS ----#
@@ -257,11 +260,19 @@ with progress("🤸 Setup user code"):
             d_sw=d_sw, dace_config=stencil_factory.config.dace_config
         )
 
+with progress(f"🔥 Warm bench ({BENCH_ITERATION} times)"):
+    benchy(inputs, BENCH_ITERATION, inputs["dt"])
+
 with progress(f"🚀 Bench ({BENCH_ITERATION} times)"):
     timings = {}
     if BENCH_WITHOUT_ORCHESTRATION_OVERHEAD:
+        if USE_ITT:
+            itt.resume()
+            itt.task_begin(itt_domain, "task_main_dsw")
         benchy(inputs, BENCH_ITERATION, inputs["dt"])
         timings = benchy.timings
+        if USE_ITT:
+            itt.task_end(itt_domain)
     else:
         for _ in range(BENCH_ITERATION):
             with TimedCUDAProfiler("topline", timings):
@@ -272,14 +283,6 @@ with progress("📋 Making report"):
     report = f"{BENCH_NAME} benchmark.\n\n"
     report += f"Timestamp: {datetime.now().strftime('%Y-%m-%d_%H:%M:%S')}\n"
     report += f"Machine: {platform.system()} / {platform.machine()}\n"
-    # report += "CPU: extract CPU info with `lscpu` on Linux and `sysctl -a` on Darwin\n"
-    # if GPU_AVAILABLE:
-    #     report += "GPU: to extract with cupy\n"
-    # report += "Code versions\n"
-    # report += "  ndsl: git hash\n"
-    # report += "  gt4py: git hash\n"
-    # report += "  dace: git hash\n"
-    # report += "Compiler: read in CC?\n"
     report += f"Tile resolution: {grid_shape[0:3]} w/ halo={grid_shape[3]} "
     report += f"({grid_shape[0] * grid_shape[1] * grid_shape[2]} grid points per compute domain)\n"
     qty_zero = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], units="na")
