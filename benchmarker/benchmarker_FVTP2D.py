@@ -9,6 +9,7 @@
 import enum
 import os
 
+import pyitt.compatibility_layers.itt_python as itt
 from datetime import datetime
 import platform
 import numpy as np
@@ -17,7 +18,7 @@ from pathlib import Path
 import xarray as xr
 import yaml
 from setup_cube_sphere import setup_fv_cube_grid
-from cuda_timer import TimedCUDAProfiler, GPU_AVAILABLE
+from cuda_timer import TimedCUDAProfiler
 from progress import TimedProgress
 from data_ingester import raw_data_to_quantity
 from ndsl.constants import X_DIM, Y_DIM, Z_DIM
@@ -137,12 +138,12 @@ NAMELIST = config[BENCH_NAME]["namelist"]
 IS_SERIALIZE_DATA = True
 """Flag that our data comes from Fortran and therefore need special love."""
 
-# BACKEND = "gt:cpu_kfirst"  # ""gt:cpu_ifirst""
-BACKEND = "dace:cpu"
+BACKEND = "gt:cpu_kfirst"  # ""gt:cpu_ifirst""
+# BACKEND = "dace:cpu_kfirst"
 """The One to bring them and in darkness speed them up."""
 
 ORCHESTRATION = (
-    DaCeOrchestration.BuildAndRun
+    DaCeOrchestration.Python
 )  # DaCeOrchestration.Run  # DaCeOrchestration.BuildAndRun # None
 # ORCHESTRATION = DaCeOrchestration.BuildAndRun
 """Tune the orchestration strategy. Set to `None` if you are running `gt:X` backends for comparison."""
@@ -150,13 +151,16 @@ ORCHESTRATION = (
 BENCH_WITHOUT_ORCHESTRATION_OVERHEAD = True
 """Wrap the bench iteration."""
 
-BENCH_ITERATION = 1000
+BENCH_ITERATION = 3000 if xp is Exp.C12_AI2 else 1000
 """How many execution to measure."""
 
 
 # ---- GLOBAL MESS ----#
 
 # Clean up environment
+
+itt_domain = itt.domain_create("benchy.fvtp2d")
+itt.pause()
 
 progress = TimedProgress()
 
@@ -258,7 +262,10 @@ with progress("🤸 Setup user code"):
 with progress(f"🚀 Bench ({BENCH_ITERATION} times)"):
     timings = {}
     if BENCH_WITHOUT_ORCHESTRATION_OVERHEAD:
+        itt.resume()
+        itt.task_begin(itt_domain, "all_loops")
         benchy(inputs, BENCH_ITERATION)
+        itt.task_end(itt_domain)
         timings = benchy.timings
     else:
         for _ in range(BENCH_ITERATION):
@@ -270,20 +277,17 @@ with progress("📋 Making report"):
     report = f"{BENCH_NAME} benchmark.\n\n"
     report += f"Timestamp: {datetime.now().strftime('%Y-%m-%d_%H:%M:%S')}\n"
     report += f"Machine: {platform.system()} / {platform.machine()}\n"
-    # report += "CPU: extract CPU info with `lscpu` on Linux and `sysctl -a` on Darwin\n"
-    # if GPU_AVAILABLE:
-    #     report += "GPU: to extract with cupy\n"
-    # report += "Code versions\n"
-    # report += "  ndsl: git hash\n"
-    # report += "  gt4py: git hash\n"
-    # report += "  dace: git hash\n"
-    # report += "Compiler: read in CC?\n"
     report += f"Tile resolution: {grid_shape[0:3]} w/ halo={grid_shape[3]} "
     report += f"({grid_shape[0] * grid_shape[1] * grid_shape[2]} grid points per compute domain)\n"
     qty_zero = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], units="na")
     report += f"Memory strides (IJK): {[s // 8 for s in qty_zero.data.strides]}\n"
     if "dace" in BACKEND:
-        report += f"Backend: {'orch:' if ORCHESTRATION in [DaCeOrchestration.Run, DaCeOrchestration.BuildAndRun] else 'gt:'}{BACKEND}\n"
+        prefix = (
+            "orch:"
+            if ORCHESTRATION in [DaCeOrchestration.Run, DaCeOrchestration.BuildAndRun]
+            else "gt:"
+        )
+        report += f"Backend: {prefix}{BACKEND}\n"
     else:
         report += f"Backend: {BACKEND}\n"
     report += "\n"
