@@ -1,15 +1,17 @@
-# Benchmarker script
+# Benchmarker scripts
 
-Entry point: `benchmarker.py`
+This folder contains a bunch of benchmarking scripts held together by duct-tape. This is "just for now" and systematic tooling for profiling will be added cleanly in the future at the NDSL level.
 
-All variables between the
+## Setup
 
-```python
-# ---- GLOBAL MESS ---- #
-```
+Create a local (conda, venv) environment and install packages manually as needed. Point your environment to (local) versions of PyFV3, NDSL, ... as it suits you.
 
-comments are to be changed to match local URL and bench needs.
+Copy `0_config.yaml` to `.config.yaml` and edit the (hard-coded) paths in there to match your setup.
 
-This is hardcoded to bench D_SW.
+## Run scripts
 
-The `xarray_to_quantity` functions only exists because we use Serialized data. In a world where we bench after capturing data, none of the data and/or name manipulation in the NetCDFs is needed.
+Entry points for running benchmarks are `run_[component].sh` scripts. Use them to run a specific component. They can also be used together with vtune (see below).
+
+## Intel VTune
+
+Use `vtune.sh` (together with one of the `run_[component].sh`) to gather performance data. We integrate ITT timers in the benchmarkers such that only relevant things show up in profile.
