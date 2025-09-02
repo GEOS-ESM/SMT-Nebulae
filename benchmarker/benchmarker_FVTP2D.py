@@ -282,11 +282,7 @@ with progress("📋 Making report"):
     qty_zero = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], units="na")
     report += f"Memory strides (IJK): {[s // 8 for s in qty_zero.data.strides]}\n"
     if "dace" in BACKEND:
-        prefix = (
-            "orch:"
-            if ORCHESTRATION in [DaCeOrchestration.Run, DaCeOrchestration.BuildAndRun]
-            else "gt:"
-        )
+        prefix = "orch:" if ORCHESTRATION != DaCeOrchestration.Python else "gt:"
         report += f"Backend: {prefix}{BACKEND}\n"
     else:
         report += f"Backend: {BACKEND}\n"

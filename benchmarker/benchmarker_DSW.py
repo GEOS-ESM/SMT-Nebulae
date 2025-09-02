@@ -9,14 +9,6 @@
 
 import os
 
-MONO_CORE = True
-"""Deactivate threading to test the code in a single-core/thread capacity to mimicking
-the hyperscaling strategy of GEOS"""
-os.environ["GT4PY_EXTRA_COMPILE_ARGS"] = "-g"
-os.environ["GT4PY_COMPILE_OPT_LEVEL"] = "3"
-if MONO_CORE:
-    os.environ["OMP_NUM_THREADS"] = "1"
-
 import pyitt.compatibility_layers.itt_python as itt
 from datetime import datetime
 import enum
@@ -27,7 +19,7 @@ from pathlib import Path
 import xarray as xr
 import yaml
 from setup_cube_sphere import setup_fv_cube_grid
-from cuda_timer import TimedCUDAProfiler, GPU_AVAILABLE
+from cuda_timer import TimedCUDAProfiler
 from progress import TimedProgress
 from data_ingester import raw_data_to_quantity
 from ndsl.constants import X_DIM, Y_DIM, Z_DIM
@@ -39,7 +31,14 @@ import pyfv3
 
 import dace
 from ndsl.dsl.dace.orchestration import orchestrate, dace_inhibitor
-from cuda_timer import TimedCUDAProfiler
+
+MONO_CORE = True
+"""Deactivate threading to test the code in a single-core/thread capacity to mimicking
+the hyperscaling strategy of GEOS"""
+os.environ["GT4PY_EXTRA_COMPILE_ARGS"] = "-g"
+os.environ["GT4PY_COMPILE_OPT_LEVEL"] = "3"
+if MONO_CORE:
+    os.environ["OMP_NUM_THREADS"] = "1"
 
 
 class BenchmarkD_SW:
@@ -117,8 +116,8 @@ class Exp(enum.Enum):
 
 BENCH_NAME = "D_SW"
 """Benchmark name & config key."""
-xp = Exp.C12_AI2
-# xp = Exp.C24_GEOS
+# xp = Exp.C12_AI2
+xp = Exp.C24_GEOS
 
 if xp == Exp.C12_AI2:
     c12_config = config[BENCH_NAME]["c12_AI2"]
@@ -155,13 +154,11 @@ NAMELIST = config[BENCH_NAME]["namelist"]
 IS_SERIALIZE_DATA = True
 """Flag that our data comes from Fortran and therefore need special love."""
 
-# BACKEND = "gt:cpu_kfirst"  # ""gt:cpu_ifirst""
-BACKEND = "dace:cpu"
+BACKEND = "gt:cpu_kfirst"  # "gt:cpu_ifirst"
+# BACKEND = "dace:cpu_kfirst"
 """The One to bring them and in darkness speed them up."""
 
-ORCHESTRATION = (
-    DaCeOrchestration.BuildAndRun
-)  # DaCeOrchestration.Run  # DaCeOrchestration.BuildAndRun # None
+ORCHESTRATION = DaCeOrchestration.Python
 # ORCHESTRATION = DaCeOrchestration.BuildAndRun
 """Tune the orchestration strategy. Set to `None` if you are running `gt:X` backends for comparison."""
 
@@ -270,9 +267,9 @@ with progress(f"🚀 Bench ({BENCH_ITERATION} times)"):
             itt.resume()
             itt.task_begin(itt_domain, "task_main_dsw")
         benchy(inputs, BENCH_ITERATION, inputs["dt"])
-        timings = benchy.timings
         if USE_ITT:
             itt.task_end(itt_domain)
+        timings = benchy.timings
     else:
         for _ in range(BENCH_ITERATION):
             with TimedCUDAProfiler("topline", timings):
@@ -288,7 +285,8 @@ with progress("📋 Making report"):
     qty_zero = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], units="na")
     report += f"Memory strides (IJK): {[s // 8 for s in qty_zero.data.strides]}\n"
     if "dace" in BACKEND:
-        report += f"Backend: {'orch:' if ORCHESTRATION else 'gt:'}{BACKEND}\n"
+        prefix = "orch:" if ORCHESTRATION != DaCeOrchestration.Python else "gt:"
+        report += f"Backend: {prefix}{BACKEND}\n"
     else:
         report += f"Backend: {BACKEND}"
     report += "\n"

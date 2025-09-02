@@ -3,6 +3,7 @@
 import enum
 import os
 
+import pyitt.compatibility_layers.itt_python as itt
 from datetime import datetime
 import platform
 import numpy as np
@@ -152,13 +153,11 @@ IS_SERIALIZE_DATA = True
 """Flag that our data comes from Fortran and therefore need special love."""
 
 # BACKEND = "gt:cpu_kfirst"  # ""gt:cpu_ifirst""
-BACKEND = "dace:cpu"
+BACKEND = "dace:cpu_kfirst"
 """The One to bring them and in darkness speed them up."""
 
-ORCHESTRATION = (
-    DaCeOrchestration.Python
-)  # DaCeOrchestration.Run  # DaCeOrchestration.BuildAndRun # None
-# ORCHESTRATION = DaCeOrchestration.BuildAndRun
+ORCHESTRATION = DaCeOrchestration.BuildAndRun
+# ORCHESTRATION = DaCeOrchestration.Run  # DaCeOrchestration.BuildAndRun
 """Tune the orchestration strategy. Set to `None` if you are running `gt:X` backends for comparison."""
 
 BENCH_WITHOUT_ORCHESTRATION_OVERHEAD = True
@@ -171,7 +170,8 @@ BENCH_ITERATION = 1000
 # ---- GLOBAL MESS ----#
 
 # Clean up environment
-
+itt.pause()
+itt_domain = itt.domain_create("benchy.microphys")
 progress = TimedProgress()
 
 with progress("🔁 Load data and de-serialize"):
@@ -344,7 +344,11 @@ with progress("🤸 Setup user code"):
 with progress(f"🚀 Bench ({BENCH_ITERATION} times)"):
     timings = {}
     if BENCH_WITHOUT_ORCHESTRATION_OVERHEAD:
+        itt.resume()
+        itt.task_begin(itt_domain, "task_driver_microphys")
         benchy(inputs, BENCH_ITERATION)
+        itt.task_end()
+        itt.pause()
         timings = benchy.timings
     else:
         for _ in range(BENCH_ITERATION):

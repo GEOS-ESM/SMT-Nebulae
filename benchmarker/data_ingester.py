@@ -1,4 +1,5 @@
 from ndsl import Quantity, QuantityFactory
+from ndsl.buffer import safe_assign_array
 from ndsl.constants import (
     X_DIM,
     Y_DIM,
@@ -78,6 +79,6 @@ def raw_data_to_quantity(
             units="BENCH!",
         )
 
-    qty.data[tuple(slc)] = data[:]
+    safe_assign_array(qty.data[tuple(slc)], data)
 
     return qty

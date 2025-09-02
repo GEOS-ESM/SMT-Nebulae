@@ -3,6 +3,7 @@
 import enum
 import os
 
+import pyitt.compatibility_layers.itt_python as itt
 from datetime import datetime
 import platform
 import numpy as np
@@ -170,6 +171,8 @@ class BenchmarkUW:
                 qisub_inv=inputs["qisub_inv"],
                 tpert_out=inputs["tpert_out"],
                 qpert_out=inputs["qpert_out"],
+                # TMP
+                testvar3D=inputs["qpert_out"],
             )
             self._end_timer()
 
@@ -243,13 +246,11 @@ IS_SERIALIZE_DATA = True
 """Flag that our data comes from Fortran and therefore need special love."""
 
 # BACKEND = "gt:cpu_kfirst"  # ""gt:cpu_ifirst""
-BACKEND = "dace:cpu"
+BACKEND = "dace:cpu_kfirst"
 """The One to bring them and in darkness speed them up."""
 
-ORCHESTRATION = (
-    DaCeOrchestration.Python
-)  # DaCeOrchestration.Run  # DaCeOrchestration.BuildAndRun # None
-# ORCHESTRATION = DaCeOrchestration.BuildAndRun
+# ORCHESTRATION = DaCeOrchestration.Python
+ORCHESTRATION = DaCeOrchestration.BuildAndRun  # DaCeOrchestration.Run
 """Tune the orchestration strategy. Set to `None` if you are running `gt:X` backends for comparison."""
 
 BENCH_WITHOUT_ORCHESTRATION_OVERHEAD = True
@@ -263,6 +264,9 @@ BENCH_ITERATION = 1000
 
 # Clean up environment
 
+itt.pause()
+itt_domain = itt.domain_create("benchy.microphys")
+progress = TimedProgress()
 progress = TimedProgress()
 
 with progress("🔁 Load data and de-serialize"):
@@ -324,6 +328,10 @@ with progress("🤸 Setup user code"):
     for name in INPUTS_TO_REMOVE:
         inputs.pop(name)
 
+    inputs["testvar3D"] = quantity_factory.zeros(
+        dims=[X_DIM, Y_DIM, Z_DIM], units="n/a"
+    )
+
     # TODO: turn this on to get orchestration tested without the overhead
     if BENCH_WITHOUT_ORCHESTRATION_OVERHEAD:
         benchy = BenchmarkUW(uw=uw, dace_config=stencil_factory.config.dace_config)
@@ -332,7 +340,11 @@ with progress("🤸 Setup user code"):
 with progress(f"🚀 Bench ({BENCH_ITERATION} times)"):
     timings = {}
     if BENCH_WITHOUT_ORCHESTRATION_OVERHEAD:
+        itt.resume()
+        itt.task_begin(itt_domain, "task_driver_microphys")
         benchy(inputs, BENCH_ITERATION)
+        itt.task_end()
+        itt.pause()
         timings = benchy.timings
     else:
         for _ in range(BENCH_ITERATION):
@@ -357,7 +369,12 @@ with progress("📋 Making report"):
     qty_zero = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], units="na")
     report += f"Memory strides (IJK): {[s // 8 for s in qty_zero.data.strides]}\n"
     if "dace" in BACKEND:
-        report += f"Backend: {'orch:' if ORCHESTRATION in [DaCeOrchestration.Run, DaCeOrchestration.BuildAndRun] else 'gt:'}{BACKEND}\n"
+        prefix = (
+            "orch:"
+            if ORCHESTRATION in [DaCeOrchestration.Run, DaCeOrchestration.BuildAndRun]
+            else "gt:"
+        )
+        report += f"Backend: {prefix}{BACKEND}\n"
     else:
         report += f"Backend: {BACKEND}\n"
     report += "\n"
