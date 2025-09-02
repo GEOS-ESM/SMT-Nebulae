@@ -4,7 +4,9 @@ export OMP_NUM_THREADS=1
 
 VTUNE=/home/fgdeconi/intel/oneapi/vtune/latest/bin64/vtune
 
-$VTUNE -collect hpc-performance -r DSW__gt_cpu_kfirst python benchmarker_DSW.py 
+BENCH=MicrophysicsDriver
+
+$VTUNE -collect hpc-performance -r ./.vtune_results/$BENCH python benchmarker_$BENCH.py 
 
 # $VTUNE -collect hotspots python benchmarker_DSW.py 
 

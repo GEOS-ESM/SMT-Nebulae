@@ -347,7 +347,7 @@ with progress(f"🚀 Bench ({BENCH_ITERATION} times)"):
         itt.resume()
         itt.task_begin(itt_domain, "task_driver_microphys")
         benchy(inputs, BENCH_ITERATION)
-        itt.task_end()
+        itt.task_end(itt_domain)
         itt.pause()
         timings = benchy.timings
     else:
