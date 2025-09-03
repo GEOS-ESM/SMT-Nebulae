@@ -1,6 +1,11 @@
 #!/bin/sh
 
-export NDSL_LOGLEVEL=Debug
+if [ -f "./.local.env" ]; then
+    echo "Sourcing local environment in './.local.env'"
+    source ./.local.env
+fi
+
+export NDSL_LOGLEVEL=DEBUG
 export OMP_NUM_THREADS=1
 
 python benchmarker_UW.py

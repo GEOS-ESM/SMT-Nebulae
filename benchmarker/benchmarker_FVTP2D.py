@@ -85,7 +85,7 @@ config_yaml = Path(__file__).absolute().parent / ".config.yaml"
 if not config_yaml.exists():
     raise FileNotFoundError(
         f"Couldn't file config file. Expected one at path {config_yaml}. "
-        "You can copy `.config-example.yaml` as a starting point."
+        "You can copy `0_config.yaml` as a starting point."
     )
 
 with open(config_yaml, "r") as config_file:
