@@ -30,3 +30,4 @@ benchmarker/.config.yaml
 
 # Fortran-ism
 *.mod
+.vtune_results/
