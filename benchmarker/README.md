@@ -10,7 +10,7 @@ Copy `0_config.yaml` to `.config.yaml` and edit the (hard-coded) paths in there 
 
 ## Run scripts
 
-Entry points for running benchmarks are `run_[component].sh` scripts. Use them to run a specific component. They can also be used together with vtune (see below).
+Entry points for running benchmarks are `run_[component].sh` scripts. Use them to run a specific component. They can also be used together with vtune (see below). Run script can source a local environment. All run scripts check for a file `.local.env` and source it if found. You can copy `0_local.env` as a starting point.
 
 ## Intel VTune
 
