@@ -156,7 +156,7 @@ IS_SERIALIZE_DATA = True
 BACKEND = "dace:cpu_kfirst"
 """The One to bring them and in darkness speed them up."""
 
-ORCHESTRATION = DaCeOrchestration.BuildAndRun
+ORCHESTRATION = DaCeOrchestration.Run
 # ORCHESTRATION = DaCeOrchestration.Run  # DaCeOrchestration.BuildAndRun
 """Tune the orchestration strategy. Set to `None` if you are running `gt:X` backends for comparison."""
 
@@ -340,6 +340,9 @@ with progress("🤸 Setup user code"):
         benchy = BenchmarkMicrophysics(
             microphys=microphys, dace_config=stencil_factory.config.dace_config
         )
+
+with progress(f"🔥 Warm bench ({BENCH_ITERATION} times)"):
+    benchy(inputs, BENCH_ITERATION)
 
 with progress(f"🚀 Bench ({BENCH_ITERATION} times)"):
     timings = {}

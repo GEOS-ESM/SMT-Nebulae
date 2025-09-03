@@ -337,6 +337,9 @@ with progress("🤸 Setup user code"):
         benchy = BenchmarkUW(uw=uw, dace_config=stencil_factory.config.dace_config)
         inputs.update(BenchmarkUW.outputs(quantity_factory))
 
+with progress(f"🔥 Warm bench ({BENCH_ITERATION} times)"):
+    benchy(inputs, BENCH_ITERATION)
+
 with progress(f"🚀 Bench ({BENCH_ITERATION} times)"):
     timings = {}
     if BENCH_WITHOUT_ORCHESTRATION_OVERHEAD:
