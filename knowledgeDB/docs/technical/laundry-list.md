@@ -184,6 +184,8 @@ Issues:
 - <https://github.com/GridTools/gt4py/issues/2083>
 - <https://github.com/NOAA-GFDL/NDSL/issues/70>
 
+We should double-check everything, but it seems like the gt4py/dace bridge based on schedule tree fixed that (at least for the moment - not that it's not still fragile).
+
 ### NDSL constants system 📋
 
 There are a bunch of issue floating around (in NDSL) about constants and that they should be refactored into a new/better system.
@@ -199,7 +201,7 @@ Issues:
 ### Multi-compiler native support ⚒️
 
 - `clang` compilation fails on `dace:cpu` because of `-fopenmp` default flag
-- `icc`/`ifx` support (never tried)
+- `icc`/`ifx` support (NOAA tried and Frank has an [old branch from Xingqiu](https://github.com/xyuan/pace/blob/xyuan/symbol/examples/build_scripts/build_ppan_intel.sh))
 
 ### Reflect orchestration in backend name 🎼
 

@@ -27,6 +27,8 @@ knowledgeDB/site
 
 # benchmarker
 benchmarker/.config.yaml
+benchmarker/.local.env
 
 # Fortran-ism
 *.mod
+.vtune_results/

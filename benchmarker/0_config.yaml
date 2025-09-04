@@ -1,0 +1,107 @@
+# copy this file to `.config.yaml` and edit the paths as necessary
+
+D_SW:
+  namelist: "/home/fgdeconi/work/git/pyfv3/test_data/8.1.3/c12_6ranks_standard/dycore/input.nml"
+  c12_AI2:
+    data: "/home/fgdeconi/work/git/pyfv3/test_data/8.1.3/c12_6ranks_standard/dycore/D_SW-In.nc"
+    eta_file: "/home/fgdeconi/work/git/pace/eta79.nc"
+    inputs_name_to_code_name : {
+        "ucd": "uc",
+        "vcd": "vc",
+        "wd": "w",
+        "delpcd": "delpc",
+        "delpd": "delp",
+        "ud": "u",
+        "vd": "v",
+        "xfxd": "xfx",
+        "crxd": "crx",
+        "yfxd": "yfx",
+        "cryd": "cry",
+        "mfxd": "mfx",
+        "mfyd": "mfy",
+        "cxd": "cx",
+        "cyd": "cy",
+        "heat_sourced": "heat_source",
+        "diss_estd": "diss_est",
+        "q_cond": "q_con",
+        "ptd": "pt",
+        "uad": "ua",
+        "vad": "va",
+        "zhd": "zh",
+        "divgdd": "divgd",
+    }
+    inputs_to_remove : ["nq", "nord_v", "damp_vt", "zvir", "ptcd"]
+  c24_GEOS:
+    data: "/home/fgdeconi/work/git/pyfv3/test_data/geos/11.5.2/x86_GNU/Dycore/TBC_C24_L72_Debug/D_SW-In.nc"
+    eta_ak_bk_file: "/home/fgdeconi/work/git/pyfv3/test_data/geos/11.5.2/x86_GNU/Dycore/TBC_C24_L72_Debug/Ak_Bk.nc"
+    inputs_name_to_code_name : {
+        "ucd": "uc",
+        "vcd": "vc",
+        "wd": "w",
+        "delpcd": "delpc",
+        "delpd": "delp",
+        "ud": "u",
+        "vd": "v",
+        "xfxd": "xfx",
+        "crxd": "crx",
+        "yfxd": "yfx",
+        "cryd": "cry",
+        "mfxd_R8": "mfx",
+        "mfyd_R8": "mfy",
+        "cxd_R8": "cx",
+        "cyd_R8": "cy",
+        "heat_sourced": "heat_source",
+        "diss_estd": "diss_est",
+        "q_cond": "q_con",
+        "ptd": "pt",
+        "uad": "ua",
+        "vad": "va",
+        "zhd": "zh",
+        "divgdd": "divgd",
+    }
+    inputs_to_remove : ["nq", "nord_v", "damp_vt", "zvir", "ptcd", "dpx"]
+
+FvTp2d:
+  namelist: "/home/fgdeconi/work/git/pyfv3/test_data/8.1.3/c12_6ranks_standard/dycore/input.nml"
+  c12_AI2:
+    data: "/home/fgdeconi/work/git/pyfv3/test_data/8.1.3/c12_6ranks_standard/dycore/FvTp2d-In.nc"
+    eta_file: "/home/fgdeconi/work/git/pace/eta79.nc"
+    inputs_name_to_code_name : {
+      "xfx": "x_area_flux",
+      "yfx": "y_area_flux",
+      "mfx": "x_mass_flux",
+      "mfy": "y_mass_flux",
+      "fx": "q_x_flux",
+      "fy": "q_y_flux",
+
+    }
+    inputs_to_remove : []
+
+UW:
+  namelist: ""
+  c24_GEOS:
+    data: "/home/fgdeconi/work/git/fp/savepoints/moist/ComputeUwshcuInv-In.nc"
+    eta_ak_bk_file: "/home/fgdeconi/work/git/pyfv3/test_data/geos/11.5.2/x86_GNU/Dycore/TBC_C24_L72_Debug/Ak_Bk.nc"
+    inputs_name_to_code_name: {}
+    inputs_to_remove : ["ncnst", "idim", "tr0", "tr0_out"]
+
+Microphys:
+  namelist: ""
+  c24_GEOS:
+    data: "/home/fgdeconi/work/git/fp/savepoints/moist/from_charles/GFDL_1M_driver-In.nc"
+    data_constants: "/home/fgdeconi/work/git/fp/savepoints/moist/from_charles/"
+    eta_ak_bk_file: "/home/fgdeconi/work/git/pyfv3/test_data/geos/11.5.2/x86_GNU/Dycore/TBC_C24_L72_Debug/Ak_Bk.nc"
+    inputs_name_to_code_name: {}
+    inputs_to_remove : []
+
+XTPU:
+  namelist: "/home/fgdeconi/work/git/pyfv3/test_data/8.1.3/c12_6ranks_standard/dycore/input.nml"
+  c12_AI2:
+    data: "/home/fgdeconi/work/git/pyfv3/test_data/8.1.3/c12_6ranks_standard/dycore/XTP_U-In.nc"
+    eta_file: "/home/fgdeconi/work/git/pace/eta79.nc"
+    inputs_name_to_code_name : {
+      "ub": "c",
+      "vb": "flux",
+
+    }
+    inputs_to_remove : []

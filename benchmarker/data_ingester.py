@@ -1,4 +1,5 @@
 from ndsl import Quantity, QuantityFactory
+from ndsl.buffer import safe_assign_array
 from ndsl.constants import (
     X_DIM,
     Y_DIM,
@@ -20,8 +21,6 @@ def raw_data_to_quantity(
     quantity_factory: QuantityFactory,
 ) -> Quantity | np.float32 | np.float64 | np.int32 | np.int64:
     shp = data.shape
-    if len(shp) > 3:
-        raise NotImplementedError(f"Can't to >3D {len(shp)}")
 
     if len(data.shape) == 0:
         return data
@@ -31,6 +30,8 @@ def raw_data_to_quantity(
     slc = []
     halo = grid_shape[3]
     for i, s in enumerate(shp):
+        if i > 2:
+            break  # Data Dimensions
         if s == grid_shape[i]:
             dims.append(base_dims[i])
             slc.append(slice(halo, -(halo + 1)))
@@ -53,10 +54,31 @@ def raw_data_to_quantity(
         else:
             slc[2] = slice(None, None)
 
-    qty = quantity_factory.empty(
-        dims=dims,
-        units="BENCH!",
-    )
-    qty.data[tuple(slc)] = data[:]
+    # Append full slice for all other dims (data dims)
+    if len(shp) > 4:
+        raise NotImplementedError(
+            "4D but not more. Change the qty factory and slicing code"
+        )
+
+    for _ in range(0, len(shp) - len(slc)):
+        slc.append(slice(None, None))
+        dims.append("wot")
+
+    if len(shp) > 3:
+        import copy
+
+        ddim_quantity_factory = copy.deepcopy(quantity_factory)
+        ddim_quantity_factory.set_extra_dim_lengths(wot=shp[3])
+        qty = ddim_quantity_factory.empty(
+            dims=dims,
+            units="BENCH!",
+        )
+    else:
+        qty = quantity_factory.empty(
+            dims=dims,
+            units="BENCH!",
+        )
+
+    safe_assign_array(qty.data[tuple(slc)], data)
 
     return qty

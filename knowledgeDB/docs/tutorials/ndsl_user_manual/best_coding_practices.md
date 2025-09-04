@@ -79,13 +79,6 @@ class Temporaries:
         )
 ```
 
-## Object-oriented Coding
-
-Object-oriented coding is strongly encouraged when writing code using NDSL.
-GIVE A FEW REASONS WHY WE PREFER OBJECT ORIENTED CODING.
-
-INTRODUCE CLASSES AND WHY WE USE THEM (someone else should probably do this).
-
 ## General structure of NDSL repositories
 
 Now that we have covered pretty much all of the topics needed to start learning and developing
