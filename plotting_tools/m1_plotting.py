@@ -11,21 +11,21 @@ plot_rmse_diagnostics = False
 plot_box_diagnostics = False
 plot_hist_diagnostics = True
 plot_rmse_mixing_ratios = False
-plot_details = False
-directory = "/Users/ckropiew/data"
+plot_details = True
+directory = "/Users/kfandric/data"
 # backend = "dacegpu"
 # backend_label = "NDSL GPU (dace:gpu)"
-backend = "gtcpukfirst"
-backend_label = "NDSL CPU (gt:cpu_kfirst)"
+backend = "fortran_perturbed"
+backend_label = "NDSL CPU (dace:cpu)"
 benchmark_call = False
 
 
 if __name__ == "__main__":
     python_data = xr.open_dataset(
-        f"{directory}/{backend}/stock-v11.5.2-1day-GNU-NH-GDATA-RRTMGP-GFDL-GF2020-OPS-c180-L137.geosgcm_prog.20150421_1800z.nc4"
+        f"{directory}/{backend}/TBC_C24_L72.geosgcm_prog.20000503_0600z.nc4"
     )
     fortran_data = xr.open_dataset(
-        f"{directory}/fortran/stock-v11.5.2-1day-GNU-NH-GDATA-RRTMGP-GFDL-GF2020-OPS-c180-L137.geosgcm_prog.20150421_1800z.nc4"
+        f"{directory}/fortran/TBC_C24_L72.geosgcm_prog.20000503_0600z.nc4"
     )
     difference = python_data - fortran_data
 
@@ -224,7 +224,8 @@ if __name__ == "__main__":
         # Create a figure with subplots to display the histograms with a smaller x-axis range
         fig = plt.figure(figsize=(10, 12))
         fig.suptitle(
-            f"Distribution of differences between {backend_label} and Fortran", size=18
+            f"Distribution of differences between Fortran and Fortran Perturbed",
+            size=18,
         )
 
         # Temperature Difference Histogram with smaller x-axis range
@@ -290,197 +291,198 @@ if __name__ == "__main__":
         # WORST PERFORMANCE AREA
 
         lons, lats = np.meshgrid(lon, lat)
-        cmap_levels = [-20, -15, -10, -5, -2, -1, 0, 1, 2, 5, 10, 15, 20]
+        # cmap_levels = [-20, -15, -10, -5, -2, -1, 0, 1, 2, 5, 10, 15, 20]
+        cmap_levels = [260, 265, 270, 275, 280, 285, 290, 295, 300, 305, 310, 315, 320]
 
-        # Plot the region of interest
+        # # Plot the region of interest
 
-        # observed
-        plt.figure(figsize=(10, 7), dpi=300)
-        ax = plt.axes(projection=ccrs.PlateCarree())
-        # ax.stock_img()
+        # # observed
+        # plt.figure(figsize=(10, 7), dpi=300)
+        # ax = plt.axes(projection=ccrs.PlateCarree())
+        # # ax.stock_img()
 
-        ax.coastlines()
-        ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
+        # ax.coastlines()
+        # ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
 
-        ax.set_extent([-50, -15, -35, -20])
+        # ax.set_extent([-50, -15, -35, -20])
 
-        contour = ax.contourf(
-            lons,
-            lats,
-            python_data["U"][0, 0, :, :],
-            levels=cmap_levels,
-            cmap="seismic",
-            extend="both",
-        )
-        cbar = plt.colorbar(
-            contour,
-            ax=ax,
-            orientation="horizontal",
-            shrink=0.7,
-            pad=0.01,
-            label="Wind Difference (m/s)",
-        )
+        # contour = ax.contourf(
+        #     lons,
+        #     lats,
+        #     python_data["U"][0, 0, :, :],
+        #     levels=cmap_levels,
+        #     cmap="seismic",
+        #     extend="both",
+        # )
+        # cbar = plt.colorbar(
+        #     contour,
+        #     ax=ax,
+        #     orientation="horizontal",
+        #     shrink=0.7,
+        #     pad=0.01,
+        #     label="Wind Difference (m/s)",
+        # )
 
-        plt.title("NDSL U Field", size=25)
-        plt.tight_layout()
-        plt.savefig("U_NDSL_brazil.png")
+        # plt.title("NDSL U Field", size=25)
+        # plt.tight_layout()
+        # plt.savefig("U_NDSL_brazil.png")
 
-        # reference
-        plt.figure(figsize=(10, 7), dpi=300)
-        ax = plt.axes(projection=ccrs.PlateCarree())
-        # ax.stock_img()
+        # # reference
+        # plt.figure(figsize=(10, 7), dpi=300)
+        # ax = plt.axes(projection=ccrs.PlateCarree())
+        # # ax.stock_img()
 
-        ax.coastlines()
-        ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
+        # ax.coastlines()
+        # ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
 
-        ax.set_extent([-50, -15, -35, -20])
+        # ax.set_extent([-50, -15, -35, -20])
 
-        contour = ax.contourf(
-            lons,
-            lats,
-            fortran_data["U"][0, 0, :, :],
-            levels=cmap_levels,
-            cmap="seismic",
-            extend="both",
-        )
-        cbar = plt.colorbar(
-            contour,
-            ax=ax,
-            orientation="horizontal",
-            shrink=0.7,
-            pad=0.01,
-            label="Wind Difference (m/s)",
-        )
+        # contour = ax.contourf(
+        #     lons,
+        #     lats,
+        #     fortran_data["U"][0, 0, :, :],
+        #     levels=cmap_levels,
+        #     cmap="seismic",
+        #     extend="both",
+        # )
+        # cbar = plt.colorbar(
+        #     contour,
+        #     ax=ax,
+        #     orientation="horizontal",
+        #     shrink=0.7,
+        #     pad=0.01,
+        #     label="Wind Difference (m/s)",
+        # )
 
-        plt.title("Fortran U Field", size=25)
-        plt.tight_layout()
-        plt.savefig("U_Fortran_brazil.png")
+        # plt.title("Fortran U Field", size=25)
+        # plt.tight_layout()
+        # plt.savefig("U_Fortran_brazil.png")
 
-        # difference
-        plt.figure(figsize=(10, 7), dpi=300)
-        ax = plt.axes(projection=ccrs.PlateCarree())
-        # ax.stock_img()
+        # # difference
+        # plt.figure(figsize=(10, 7), dpi=300)
+        # ax = plt.axes(projection=ccrs.PlateCarree())
+        # # ax.stock_img()
 
-        ax.coastlines()
-        ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
+        # ax.coastlines()
+        # ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
 
-        ax.set_extent([-50, -15, -35, -20])
+        # ax.set_extent([-50, -15, -35, -20])
 
-        contour = ax.contourf(
-            lons,
-            lats,
-            difference["U"][0, 0, :, :],
-            levels=cmap_levels,
-            cmap="seismic",
-            extend="both",
-        )
-        cbar = plt.colorbar(
-            contour,
-            ax=ax,
-            orientation="horizontal",
-            shrink=0.7,
-            pad=0.01,
-            label="Wind Difference (m/s)",
-        )
+        # contour = ax.contourf(
+        #     lons,
+        #     lats,
+        #     difference["U"][0, 0, :, :],
+        #     levels=cmap_levels,
+        #     cmap="seismic",
+        #     extend="both",
+        # )
+        # cbar = plt.colorbar(
+        #     contour,
+        #     ax=ax,
+        #     orientation="horizontal",
+        #     shrink=0.7,
+        #     pad=0.01,
+        #     label="Wind Difference (m/s)",
+        # )
 
-        plt.title("Difference (Fortran - NDSL) U Field", size=25)
-        plt.tight_layout()
-        plt.savefig("U_difference_brazil.png")
+        # plt.title("Difference (Fortran - NDSL) U Field", size=25)
+        # plt.tight_layout()
+        # plt.savefig("U_difference_brazil.png")
 
-        ## BETTER PERFORMANCE AREA chosen semi-randomly (numbers chosen without looking at data)
+        # ## BETTER PERFORMANCE AREA chosen semi-randomly (numbers chosen without looking at data)
 
-        # observed
-        plt.figure(figsize=(10, 7), dpi=300)
-        ax = plt.axes(projection=ccrs.PlateCarree())
-        # ax.stock_img()
+        # # observed
+        # plt.figure(figsize=(10, 7), dpi=300)
+        # ax = plt.axes(projection=ccrs.PlateCarree())
+        # # ax.stock_img()
 
-        ax.coastlines()
-        ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
+        # ax.coastlines()
+        # ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
 
-        ax.set_extent([-180, -145, 45, 30])
+        # ax.set_extent([-180, -145, 45, 30])
 
-        contour = ax.contourf(
-            lons,
-            lats,
-            python_data["U"][0, 0, :, :],
-            levels=cmap_levels,
-            cmap="seismic",
-            extend="both",
-        )
-        cbar = plt.colorbar(
-            contour,
-            ax=ax,
-            orientation="horizontal",
-            shrink=0.7,
-            pad=0.01,
-            label="Wind Difference (m/s)",
-        )
+        # contour = ax.contourf(
+        #     lons,
+        #     lats,
+        #     python_data["U"][0, 0, :, :],
+        #     levels=cmap_levels,
+        #     cmap="seismic",
+        #     extend="both",
+        # )
+        # cbar = plt.colorbar(
+        #     contour,
+        #     ax=ax,
+        #     orientation="horizontal",
+        #     shrink=0.7,
+        #     pad=0.01,
+        #     label="Wind Difference (m/s)",
+        # )
 
-        plt.title("NDSL U Field", size=25)
-        plt.tight_layout()
-        plt.savefig("U_NDSL_northpacific.png")
+        # plt.title("NDSL U Field", size=25)
+        # plt.tight_layout()
+        # plt.savefig("U_NDSL_northpacific.png")
 
-        # reference
-        plt.figure(figsize=(10, 7), dpi=300)
-        ax = plt.axes(projection=ccrs.PlateCarree())
-        # ax.stock_img()
+        # # reference
+        # plt.figure(figsize=(10, 7), dpi=300)
+        # ax = plt.axes(projection=ccrs.PlateCarree())
+        # # ax.stock_img()
 
-        ax.coastlines()
-        ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
+        # ax.coastlines()
+        # ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
 
-        ax.set_extent([-180, -145, 45, 30])
+        # ax.set_extent([-180, -145, 45, 30])
 
-        contour = ax.contourf(
-            lons,
-            lats,
-            fortran_data["U"][0, 0, :, :],
-            levels=cmap_levels,
-            cmap="seismic",
-            extend="both",
-        )
-        cbar = plt.colorbar(
-            contour,
-            ax=ax,
-            orientation="horizontal",
-            shrink=0.7,
-            pad=0.01,
-            label="Wind Difference (m/s)",
-        )
+        # contour = ax.contourf(
+        #     lons,
+        #     lats,
+        #     fortran_data["U"][0, 0, :, :],
+        #     levels=cmap_levels,
+        #     cmap="seismic",
+        #     extend="both",
+        # )
+        # cbar = plt.colorbar(
+        #     contour,
+        #     ax=ax,
+        #     orientation="horizontal",
+        #     shrink=0.7,
+        #     pad=0.01,
+        #     label="Wind Difference (m/s)",
+        # )
 
-        plt.title("Fortran U Field", size=25)
-        plt.tight_layout()
-        plt.savefig("U_Fortran_northpacific.png")
+        # plt.title("Fortran U Field", size=25)
+        # plt.tight_layout()
+        # plt.savefig("U_Fortran_northpacific.png")
 
-        # difference
-        plt.figure(figsize=(10, 7), dpi=300)
-        ax = plt.axes(projection=ccrs.PlateCarree())
-        # ax.stock_img()
+        # # difference
+        # plt.figure(figsize=(10, 7), dpi=300)
+        # ax = plt.axes(projection=ccrs.PlateCarree())
+        # # ax.stock_img()
 
-        ax.coastlines()
-        ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
+        # ax.coastlines()
+        # ax.add_feature(cfeature.BORDERS, linestyle="-", alpha=1)
 
-        ax.set_extent([-180, -145, 45, 30])
+        # ax.set_extent([-180, -145, 45, 30])
 
-        contour = ax.contourf(
-            lons,
-            lats,
-            difference["U"][0, 0, :, :],
-            levels=cmap_levels,
-            cmap="seismic",
-            extend="both",
-        )
-        cbar = plt.colorbar(
-            contour,
-            ax=ax,
-            orientation="horizontal",
-            shrink=0.7,
-            pad=0.01,
-            label="Wind Difference (m/s)",
-        )
+        # contour = ax.contourf(
+        #     lons,
+        #     lats,
+        #     difference["U"][0, 0, :, :],
+        #     levels=cmap_levels,
+        #     cmap="seismic",
+        #     extend="both",
+        # )
+        # cbar = plt.colorbar(
+        #     contour,
+        #     ax=ax,
+        #     orientation="horizontal",
+        #     shrink=0.7,
+        #     pad=0.01,
+        #     label="Wind Difference (m/s)",
+        # )
 
-        plt.title("Difference (Fortran - NDSL) U Field", size=25)
-        plt.tight_layout()
-        plt.savefig("U_diff_northpacific.png")
+        # plt.title("Difference (Fortran - NDSL) U Field", size=25)
+        # plt.tight_layout()
+        # plt.savefig("U_diff_northpacific.png")
 
         # difference whole map
         plt.figure(figsize=(10, 7), dpi=300)
@@ -495,7 +497,7 @@ if __name__ == "__main__":
         contour = ax.contourf(
             lons,
             lats,
-            difference["U"][0, 0, :, :],
+            difference["T"][0, 0, :, :],
             levels=cmap_levels,
             cmap="seismic",
             extend="both",
@@ -506,69 +508,69 @@ if __name__ == "__main__":
             orientation="horizontal",
             shrink=0.7,
             pad=0.01,
-            label="Wind (m/s)",
+            label="Temperature (K)",
         )
 
         plt.title(
-            f"Zonal Wind U Field Differences (Fortran - {backend_label})", size=18
+            f"Temperature Field Differences (Fortran - Fortran Perturbed)", size=18
         )
         plt.tight_layout()
-        plt.savefig("U_diff_world.png")
+        plt.savefig("T_diff_world.png")
 
         contour = ax.contourf(
             lons,
             lats,
-            fortran_data["U"][0, 0, :, :],
+            fortran_data["T"][0, 0, :, :],
             levels=cmap_levels,
             cmap="seismic",
             extend="both",
         )
 
-        plt.title("Zonal Wind U Field from reference Fortran", size=18)
+        plt.title("Temperature Field from reference Fortran", size=18)
         plt.tight_layout()
-        plt.savefig("U_fortran_world.png")
+        plt.savefig("T_fortran_world.png")
 
         contour = ax.contourf(
             lons,
             lats,
-            python_data["U"][0, 0, :, :],
+            python_data["T"][0, 0, :, :],
             levels=cmap_levels,
             cmap="seismic",
             extend="both",
         )
-        plt.title(f"Zonal Wind U Field from {backend_label}", size=18)
+        plt.title(f"Temperature Field from Fortran perturbed", size=18)
         plt.tight_layout()
-        plt.savefig("U_dacegpu_world.png")
+        plt.savefig("T_fortran_perturbed_world.png")
 
-    # Plot benchmark numbers
-    if benchmark_call:
-        numeric_const_pattern = (
-            "[-+]? (?: (?: \d* \. \d+ ) | (?: \d+ \.? ) )(?: [Ee] [+-]? \d+ ) ?"  # noqa
-        )
-        rx = re.compile(numeric_const_pattern, re.VERBOSE)
+    # # Plot benchmark numbers
+    # if benchmark_call:
+    #     numeric_const_pattern = (
+    #         "[-+]? (?: (?: \d* \. \d+ ) | (?: \d+ \.? ) )(?: [Ee] [+-]? \d+ ) ?"  # noqa
+    #     )
+    #     rx = re.compile(numeric_const_pattern, re.VERBOSE)
 
-        observed_timings = []
-        observed_median_timings = 0
-        with open(f"{directory}/{backend}/BENCH.{backend}.timings.out") as f:
-            for line in f.readlines():
-                observed_timings.append((float(rx.findall(line)[2])))
+    #     observed_timings = []
+    #     observed_median_timings = 0
+    #     with open(f"{directory}/{backend}/BENCH.{backend}.timings.out") as f:
+    #         for line in f.readlines():
+    #             observed_timings.append((float(rx.findall(line)[2])))
 
-        reference_timings = []
-        reference_median = 0
-        with open(f"{directory}/fortran/BENCH.fortran.timings.out") as f:
-            for line in f.readlines():
-                reference_timings.append((float(rx.findall(line)[2])))
+    #     reference_timings = []
+    #     reference_median = 0
+    #     with open(f"{directory}/fortran/BENCH.fortran.timings.out") as f:
+    #         for line in f.readlines():
+    #             reference_timings.append((float(rx.findall(line)[2])))
 
-        reference_median = np.percentile(
-            reference_timings, 95, method="median_unbiased"
-        )
-        python_data = np.percentile(observed_timings, 95, method="median_unbiased")
+    #     reference_median = np.percentile(
+    #         reference_timings, 95, method="median_unbiased"
+    #     )
+    #     python_data = np.percentile(observed_timings, 95, method="median_unbiased")
 
-        print(f"Fortran {reference_median}")
-        print(f"{backend_label} {python_data}")
+    #     print(f"Fortran {reference_median}")
+    #     print(f"{backend_label} {python_data}")
 
-        if reference_median < python_data:
-            speed_up = -1.0 * (python_data / reference_median)
-        else:
-            speed_up = reference_median / python_data
-        print("Speed up:", speed_up)
+    #     if reference_median < python_data:
+    #         speed_up = -1.0 * (python_data / reference_median)
+    #     else:
+    #         speed_up = reference_median / python_data
+    #     print("Speed up:", speed_up)
