@@ -67,7 +67,7 @@ on that data.
 
 ## Benefits of using a Class
 
-**Organization: Grouping Related Data and Behavior**
+**Organization**
 
 A class brings data and the functions that operate on it together in one place.
 
@@ -79,7 +79,7 @@ These things belong together logically. Instead of keeping temperature and dew p
 variables and writing separate functions, the class keeps them bundled as one logical unit.
 
 
-**Reusability: Create Many Independent Instances**
+**Reusability**
 
 You can reuse the same class to create multiple objects representing different conditions — 
 without repeating code.
@@ -99,7 +99,7 @@ Without a class, you'd have to manage multiple sets of variables manually and pa
 functions every time — more error-prone and harder to manage.
 
 
-**Extensibility: Easy to Add New Features**
+**Easy to Add New Features**
 
 When your code grows in complexity, classes make it easy to add new functionality without breaking 
 existing logic.

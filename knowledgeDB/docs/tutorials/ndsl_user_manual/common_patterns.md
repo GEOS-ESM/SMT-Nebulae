@@ -15,8 +15,7 @@ point. The easiest way to achieve this is by declaring your `compute_dims` to op
 the `Z_INTERFACE_DIM` instead of the `Z_DIM`, and then restrict your interval and offset `Z_DIM`
 stencil reads accordingly:
 
-??? Example "Fortran Code"
-
+Example "Fortran code":
     ``` fortran linenums="1"
     program compute_height
         implicit none
@@ -58,7 +57,7 @@ stencil reads accordingly:
     end program compute_height
     ```
 
-??? Example "NDSL Code"
+Example "NDSL Code"
 
     ``` py linenums="1"
     from ndsl.dsl.gt4py import (
@@ -141,7 +140,7 @@ stencil reads accordingly:
 In weather and climate modeling, it is often necessary to identify a specific level, then perform
 one or more operations based on that level (e.g. identify LCL, compute convective parameters).
 
-??? Example "Fortran Code"
+Example "Fortran Code":
 
     ``` fortran linenums="1"
     program average_below_level
@@ -205,7 +204,7 @@ one or more operations based on that level (e.g. identify LCL, compute convectiv
     end program average_below_level
     ```
 
-??? Example "NDSL Code"
+Example "NDSL Code"
 
     ``` py linenums="1"
     from ndsl.dsl.gt4py import (
@@ -314,7 +313,7 @@ unconventional use of systems. The following example is an adaptation of code us
 of the saturation vapor pressure tables in the GEOS model, and displays the flexibility of
 NDSL systems:
 
-??? Example "Fortran Code"
+Example "Fortran Code"
 
     ``` fortran linenums="1"
     program make_table
@@ -342,7 +341,7 @@ NDSL systems:
     end program make_table
     ```
 
-??? Example "NDSL Code"
+Example "NDSL Code"
 
     ``` py linenums="1"
     from ndsl.dsl.gt4py import (
@@ -461,7 +460,7 @@ These tables must be subsequently referenced as a local variant of the `GlobalTa
 informing the system that the object features a single off-grid axis, and may not conform
 to the larger model grid specifications:
 
-??? Example "NDSL Code"
+Example "NDSL Code"
 
     This type is defined using the following pattern:
     ``` py
@@ -491,7 +490,7 @@ For scalar inputs, the notation is quite similar to that of traditional Python. 
 that all scalars - if not suppled - have a default value, and that default value must be of the declared type
 (see line 19 of the example below):
 
-??? Example "NDSL Code"
+Example "NDSL Code"
 
     ``` py linenums="1"
 
@@ -555,7 +554,7 @@ water present). In Fortran, this can be done easily with an `exit` statement. In
 way to control execution of different coordinates on the X/Y plane is by using two dimensional boolean fields,
 which act as masks to turn on/off chunks of code on a per-point basis.
 
-??? Example "Fortran Code"
+Example "Fortran Code"
 
     ``` fortran linenums="1"
     program conditional_calculation
@@ -612,7 +611,7 @@ which act as masks to turn on/off chunks of code on a per-point basis.
     end program conditional_calculation
     ```
 
-??? Example "NDSL Code"
+Example "NDSL Code"
 
     ``` py linenums="1"
     from ndsl.dsl.gt4py import PARALLEL, FORWARD, computation, interval, exp, function
@@ -703,7 +702,7 @@ currently possible in NDSL to nest a `with computation(PARALLEL)` within a
 `with computation(PARALLEL)`, however a `while`loop can be used to create a nested K loop 
 (lines x-x).
 
-??? Example "Fortran Code"
+Example "Fortran Code"
 
     ```fortran linenums="1"
     program nested_k_loop
@@ -750,7 +749,7 @@ currently possible in NDSL to nest a `with computation(PARALLEL)` within a
     end program nested_k_loop
     ```
 
-??? Example "NDSL Code"
+Example "NDSL Code"
 
     ``` py linenums="1"
     from ndsl.dsl.gt4py import (
@@ -838,7 +837,7 @@ that the rules put in place by NDSL are not necessarily as restrictive as they m
 ## Goto Statements
 
 In Fortran, the `goto` construct allows the user to jump to another portion of the code. NDSL is
-incapable of of "jumping" from one portion of code to another; stencils are always executed linearly
+incapable of "jumping" from one portion of code to another; stencils are always executed linearly
 and completely. Since `goto` statement are tremendously flexile, there is no "standard" way of translating
 a piece of code with a `goto` statement into NDSL. Indeed, the presence of `goto` statements often signals
 a non-parallelizable code structure, which requires refactoring to be implemented in NDSL. During this
