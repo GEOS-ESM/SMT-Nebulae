@@ -11,21 +11,21 @@ plot_rmse_diagnostics = False
 plot_box_diagnostics = False
 plot_hist_diagnostics = True
 plot_rmse_mixing_ratios = False
-plot_details = True
+plot_details = False
 directory = "/Users/kfandric/data"
 # backend = "dacegpu"
 # backend_label = "NDSL GPU (dace:gpu)"
-backend = "fortran_perturbed"
+backend = "dace_cpu_C180"
 backend_label = "NDSL CPU (dace:cpu)"
 benchmark_call = False
 
 
 if __name__ == "__main__":
     python_data = xr.open_dataset(
-        f"{directory}/{backend}/TBC_C24_L72.geosgcm_prog.20000503_0600z.nc4"
+        f"{directory}/{backend}/HBC_C180_L181.geosgcm_prog.20150421_1800z.nc4"
     )
     fortran_data = xr.open_dataset(
-        f"{directory}/fortran/TBC_C24_L72.geosgcm_prog.20000503_0600z.nc4"
+        f"{directory}/fortran_C180/HBC_C180_L181.geosgcm_prog.20150421_1800z-2.nc4"
     )
     difference = python_data - fortran_data
 
@@ -224,7 +224,7 @@ if __name__ == "__main__":
         # Create a figure with subplots to display the histograms with a smaller x-axis range
         fig = plt.figure(figsize=(10, 12))
         fig.suptitle(
-            f"Distribution of differences between Fortran and Fortran Perturbed",
+            f"Distribution of differences between NDSL CPU (dace:cpu) and Fortran",
             size=18,
         )
 

@@ -17,7 +17,7 @@ Below are the distribution of differences between the reference Fortran and the 
 We start with an histogram showing the distribution of differences between the reference Fortran. While a good portion of the differences are centered around zero,
 there are still a larger number of non-zero outliers. especially for relative humidity and wind. These outliers are most likely due to numerical differences that still exist between the Fortran and NDSL in the UW shallow convection scheme. Alhough these errors are relatively small, they can become quite large over a 7 day simulation:
 
-![Histograms of diagnostic variables differences](../img/UW_hist__dace_cpu_C180_v_Fortran__sfc.png)
+![Histograms of diagnostic variables differences](../img/hist__dace_cpu_C180_v_Fortran__sfc.png)
 
 Looking at temperature in particular to explore the outliers, we show below the reference Fortran and the NDSL performance backend:
 
