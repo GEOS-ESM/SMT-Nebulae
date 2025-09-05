@@ -17,17 +17,17 @@ stencil_factory, quantity_factory = get_factories_single_tile(
 
 but we have thus far glossed over what "backend" means. It is now time to address that term.
 
-"Backend" refers to the underlying infrastructure that NDSL uses to construct and execute your stencils.
-Each backend approaches acceleration a slightly different way, and by extention has different benefits
-and drawbacks. NDSL has a total of four backends:
+"Backend" refers to the underlying infrastructure that NDSL uses to construct and execute stencils.
+Each backend approaches acceleration in a slightly different way, and by extention has different 
+benefits and drawbacks. NDSL has a total of four backends:
 
 - `dace:cpu`: stencils are compiled in C and has multiple optimization passes tailored to CPU execution.
 longest compilation time, but best performance gain
 - `dace:gpu`: stencils are compiled in C and has multiple optimization passes tailored to GPU execution.
 longest compilation time, but best performance gain
-- `numpy`: stencils are compiled in python with minimal optimization, moderate combilation time, moderate
+- `numpy`: stencils are compiled in Python with minimal optimization, moderate compilation time, moderate
 performance gain
-- `debug`: code is executed as written in plain python, no optimization, no performance gain 
+- `debug`: code is executed as written in plain Python, no optimization, no performance gain 
 
 A couple of notes from this list: `dace` provides the best performance gain, but may come with a significant
 compilation time that makes debugging difficult. For this reason, we advise that you work in `numpy` when

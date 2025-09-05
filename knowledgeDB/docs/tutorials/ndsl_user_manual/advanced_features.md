@@ -5,7 +5,6 @@ NDSL has a number of features which are designed to streamline development.
 To help illustrate them, let's create a simple stencil where we convert temperature from Celsius
 to Kelvin:
 
-??? Example
 
     ``` py linenums="1"
     from ndsl.dsl.gt4py import PARALLEL, computation, interval
@@ -70,7 +69,7 @@ to Kelvin:
 
 ## Externals
 
-NDSL has the ability build a stencil with immutable constants (called "externals") that can be
+NDSL has the ability build a stencil with immutable constants, called "externals", that can be
 referenced only within that instance of the stencil. In this example, we can pass 273.15 to the
 stencil as an external called `C_TO_K` and reference that throughout the stencil.
 
@@ -168,11 +167,40 @@ It is possible to create a four dimensional field in NDSL. This is constructed a
 three dimensional field plus a fourth "data dimension". This fourth dimension cannot be
 parallelized, and therefore cannot be iterated over like the primary three dimensions.
 
-METHOD FOR CREATING FOUR DIMENSIONAL FIELDS WILL GO HERE ONCE IT IS FINALIZED
-(if we are sticking with the current method let me know and I will put that here, but I think
-we should have it more streamlined at some point)
+The example below shows how to create a four dimensional field, where the fourth dimension
+has size 36. 
 
-These fields have a unique accessing method: `field.A[0, 0, 0][0]`. The first three indexes are
+```py
+
+class example_4D_fields:
+    def __init__(
+        self,
+        stencil_factory: StencilFactory,
+        quantity_factory: QuantityFactory,
+    ) -> None:
+
+        self.field_4D_quantity_factory = self.make_4D_quantity_factory(
+            self.quantity_factory,
+        )
+
+        self.field4D = self.field_4D_quantity_factory.zeros(
+            [X_DIM, Y_DIM, Z_DIM, "extra_dim"], "n/a"
+        )
+
+    @staticmethod
+    def make_4D_quantity_factory(
+        ijk_quantity_factory: QuantityFactory,
+    ):
+        field_4D_quantity_factory = copy.deepcopy(ijk_quantity_factory)
+        field_4D_quantity_factory.set_extra_dim_lengths(
+            **{
+                "extra_dim": 36,
+            }
+        )
+        return field_4D_quantity_factory
+```
+
+These fields have a unique accessing method: `field4D[0, 0, 0][0]`. The first three indexes are
 the standard relative indexing method, while the fourth is an *absolute* index corresponding to the
 desired location along the additional axis that you want to reference.
 
@@ -203,7 +231,9 @@ necessary (i.e. do not rely on this when relative offsetting is sufficient).
 The proper nomenclature is `field.at(K=level)` where level is a `Int` type number, variable, or
 expression which corresponds to a level present in the accessed field.
 
-NOTE: add information about four dimensional fields once we have updated that
+Similarly, absolute K-Indexing can be used on a four-dimensional field as follows: 
+`field4D.at(K=level, ddim=[n])`, where `n` represents the index being accessed along the fourth
+dimension.
 
 ## Summary
 
