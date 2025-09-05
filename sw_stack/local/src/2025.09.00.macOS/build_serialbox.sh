@@ -11,14 +11,10 @@ echo " === Serialbox === "
 [ ! -d "serialbox" ] && git clone https://github.com/GridTools/serialbox.git serialbox
 cd serialbox
 # Add remote only if it doesn't exist
-git remote | grep -q "^$DSLSW_SERIALBOX_REMOTE_NAME$" || git remote add $DSLSW_SERIALBOX_REMOTE_NAME https://github.com/GridTools/serialbox.git
+git remote | grep -q "^$DSLSW_SERIALBOX_REMOTE_NAME$" || git remote add $DSLSW_SERIALBOX_REMOTE_NAME https://github.com/$DSLSW_SERIALBOX_REMOTE_NAME/serialbox.git
+git fetch --all
 # Checkout the branch safely
-if git show-ref --quiet refs/heads/feature/data_ijkbuff; then
-    git checkout feature/data_ijkbuff
-else
-    git checkout -b feature/data_ijkbuff
-fi
-cd $DSLSW_BASE
+git checkout feature/data_ijkbuff
 
 cd $DSLSW_BASE/serialbox
 mkdir build
