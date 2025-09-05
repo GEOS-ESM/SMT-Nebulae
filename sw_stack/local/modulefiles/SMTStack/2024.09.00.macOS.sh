@@ -2,7 +2,6 @@
 
 install_dir=${DSLSW_custom_install_path:-$(dirname "$PWD")/2025.09.00.macOS/install}
 
-source
 # OMPI #
 # ompi_pkgdir="$install_dir/ompi"
 
