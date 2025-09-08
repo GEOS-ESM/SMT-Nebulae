@@ -1,4 +1,4 @@
-# Early UW Shallow Convection results (May)
+# Early UW Shallow Convection results (August)
 
 !!! abstract ""
     [Back to M2 results summary](summary.md)
