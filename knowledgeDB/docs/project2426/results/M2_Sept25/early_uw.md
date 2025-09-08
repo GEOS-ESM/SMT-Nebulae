@@ -3,7 +3,7 @@
 !!! abstract ""
     [Back to M2 results summary](summary.md)
 
-Project call for the porting of the [UW Shallow Convection scheme (UW)](../../../GEOS/components/moist/UW.md). The work was concluded in May with validation on performance backends and early pre-optimization benchmarks.
+Project call for the porting of the [UW Shallow Convection scheme (UW)](../../../GEOS/components/moist/UW.md). The work was concluded in August with validation on performance backends and early pre-optimization benchmarks.
 
 ## Validation
 
@@ -25,21 +25,13 @@ Looking at temperature in particular to explore the outliers, we show below the 
 
 ![Temperature Field - NDSL CPU (dace:cpu)](../img/UW_T_dacecpu_world_C180.png)
 
-The temperature patterns look very similar between the Fortran and Python. However some differences do exist at places where the temperature gradient is slightly misplaced in the NDSL. Below we graph the difference between Fortran and NDSL to show generally good spatial agreement of the runs, however some large errors do exist at several places. Again, these errors are most likely due to the numerical differences that still exists between the Fortan and the NDSL in the UW shallow convection scheme:
+The temperature patterns look very similar between the Fortran and Python. However some differences do exist at places where the temperature gradient is slightly misplaced in the NDSL. Below we graph the difference between Fortran and NDSL to show generally good spatial agreement of the runs, however some large errors do exist at several places. Again, these errors are most likely due to the numerical differences that still exist between the Fortan and the NDSL in the UW shallow convection scheme:
 
 ![Temperature Field Diffs - NDSL CPU (dace:cpu)](../img/UW_T_diff_world_C180.png)
 
 ### Benchmark
 
-Benchmark is done by measuring CPU time (post sync for GPU) at the Fortran level (overhead of going to GPU from CPU is included in the number). This mirrors the real life application of the technology running an "hybrid" GEOS.
-
-Times are given in seconds. Positive speed up means NDSL is faster, negative means original Fortran is faster.
-
-** Still need to do UW runs on C180**
-
-| Resolution   | Layout | Fortran | NDSL GPU (dace:gpu) | NDSL CPU (dace:cpu) | Speed up CPU/GPU | Speed up CPU/CPU |
-| ----------   | ------ | ------- | ------------------- | ------------------------ | ---------------- | ---------------- |
-| C180 (~51km) | 4x4    | 0.XXs   | 0.XXs               | 0.XXs                    | X.XXx            | -X.XXx           |
+Benchmarking in progress...
 
 
 ## Perturbed initial condition Fortran runs
