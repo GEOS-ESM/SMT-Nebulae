@@ -171,8 +171,6 @@ class BenchmarkUW:
                 qisub_inv=inputs["qisub_inv"],
                 tpert_out=inputs["tpert_out"],
                 qpert_out=inputs["qpert_out"],
-                # TMP
-                testvar3D=inputs["qpert_out"],
             )
             self._end_timer()
 
@@ -327,10 +325,6 @@ with progress("🤸 Setup user code"):
 
     for name in INPUTS_TO_REMOVE:
         inputs.pop(name)
-
-    inputs["testvar3D"] = quantity_factory.zeros(
-        dims=[X_DIM, Y_DIM, Z_DIM], units="n/a"
-    )
 
     # TODO: turn this on to get orchestration tested without the overhead
     if BENCH_WITHOUT_ORCHESTRATION_OVERHEAD:
