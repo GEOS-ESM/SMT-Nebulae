@@ -1,0 +1,25 @@
+
+# PCHEM NOTES
+
+- All the code is in one file: GEOS_PChemGridComp.F90
+- Pchem is a simple parameterization of the Aerochem species
+- Work on three types of species: chemical species (oxygen, nitrous oxide, CFC-11, CFC-12, CFC-22, methane, water vapor), diagnostic species (age-of-air), and aerosols
+- Chemical species can be treated in one of two ways: 
+    - parameterized prediction from tabled zonally-symmetric production and loss (P-L) data
+    - or specification from zonally-symmetric values (see Resources section)
+    - A single flat file containing both the P-L and climatology data must be provided
+- Aerosols are set to 3-dimensional climatological values.
+- The ``age-of-air'' is predicted by setting the surface values of this tracer to the to zero and advancing other levels by dt
+  - All of these quantities except water vapor are INTERNAL state variables of PCHEM 
+- Water vapor is assumed to be a Friendly Import and PChem leaves it unmodified below the tropopause, or the 200 hPa level if the tropopause is below this level
+- For chemical species, the production rate is tabled directly. For the loss, a rate coefficient is tabled.
+- See summary at top of GEOS_PChemGridComp.F90 for description of how species are updated based on P-L rates
+- Ozone is diagnosed from $O_x$ by assuming that it accounts for all $O_x$ at pressures greater than 100 Pa (1 hPa) during the day and at all pressures at night. For those day lit cells where pressures are less than 1 hPa, we assume that the ozone fraction in $O_x$ decreases exponentially with decreasing pressure.
+- Aerosols are read from 3-dimensional data files that have to be on model levels but may be on any regular lat-lon grid. These are hdf files and horizontal interpolation is done through CFIO. The aerosols are read into a bundle that is exported, and the number and names of the aerosols in the bundle are set from the CFIO file. 
+- Resources section contains names/descriptions of files/variables that are needed to run PChem
+
+# QUESTIONS/CONCERNS
+
+1. Can’t find any of the files that are needed to run PChem - where are they??
+2. Is this code even portable? There’s not a lot of math, its really just a bunch of MAPL and ESMF stuff.
+3. What do we want to port? Everything in GEOS_PChemGridComp.F90 or just the stuff in Run?
