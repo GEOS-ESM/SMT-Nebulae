@@ -24,7 +24,7 @@ Executions: 3000.
 Timings in seconds (median [mean / min / max]):
   Topline: 0.00645 [0.0065/ 0.00617 / 0.0139]
 
-### C24
+### C24 (64bit)
 
 _Reference Fortan_: 0.0116 - with corner code
 
