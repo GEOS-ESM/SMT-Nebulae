@@ -26,7 +26,7 @@ Timings in seconds (median [mean / min / max]):
 
 ### C24 (64bit)
 
-_Reference Fortan_: 0.0116 - with corner code
+_Reference Fortran_: 0.0116 - with corner code
 
 Memory strides (IJK): [2263, 73, 1]
 Backend: orch:dace:cpu_kfirst
