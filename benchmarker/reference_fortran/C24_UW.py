@@ -1,60 +1,28 @@
+import re
 import numpy as np
 
-UW_timings = [
-    3.01170349e-02,
-    4.82654572e-02,
-    2.68697739e-02,
-    2.45895386e-02,
-    4.78992462e-02,
-    5.25798798e-02,
-    5.39054871e-02,
-    5.52539825e-02,
-    5.82695007e-02,
-    5.57823181e-02,
-    5.95321655e-02,
-    6.23855591e-02,
-    6.16989136e-02,
-    5.96427917e-02,
-    6.17790222e-02,
-    6.22253418e-02,
-    6.29463196e-02,
-    6.54907227e-02,
-    6.56051636e-02,
-    6.51397705e-02,
-    6.48040771e-02,
-    6.73141479e-02,
-    6.92672729e-02,
-    7.18154907e-02,
-    7.90252686e-02,
-    7.55386353e-02,
-    7.86895752e-02,
-    8.05053711e-02,
-    8.32824707e-02,
-    8.94775391e-02,
-    8.88671875e-02,
-    9.62295532e-02,
-    0.100357056,
-    0.103034973,
-    0.101135254,
-    0.103866577,
-    9.70306396e-02,
-    9.49707031e-02,
-    8.93096924e-02,
-    8.76007080e-02,
-    8.49151611e-02,
-    8.23211670e-02,
-    8.08105469e-02,
-    7.80639648e-02,
-    7.86743164e-02,
-    7.52868652e-02,
-    7.47375488e-02,
-    7.61108398e-02,
-    7.42340088e-02,
-]
 
-median = np.median(UW_timings)
-mean = np.mean(UW_timings)
-min_ = np.min(UW_timings)
-max_ = np.max(UW_timings)
+def _read_numbers(log_file) -> list:
+    with open(log_file, "r") as f:
+        numbers = []
+        log_data = f.readlines()
+        for line in log_data:
+            if "All ranks: UW: time taken" in line:
+                numbers_as_str = re.findall(
+                    r"[+-]?\d+(?:[.]\d+)?(?:[Ee][+-]?\d+)?", line
+                )
+                numbers.append(float(numbers_as_str[-1]))
+    return numbers
 
-print(f"Fortran UW: {median:.3} [{mean:.3}/{min_:.3}/{max_:.3}]")
+
+ranks: dict[int, list[float]] = {}
+
+for rank in range(0, 6):
+    log_path = f"/home/fgdeconi/work/git/smt/benchmarker/reference_fortran/logs_florian_machine/rank.{rank}/stdout"
+    ranks[rank] = _read_numbers(log_path)
+
+for rank in range(0, 6):
+    ftn = ranks[rank]
+    print(
+        f"UW (rank {rank}): {np.median(ftn):.3} [{np.mean(ftn):.3}/{np.min(ftn):.3}/{np.max(ftn):.3}]"
+    )
