@@ -1,7 +1,7 @@
 
 ### C24 (64bit)
 
-_Reference Fortan_: 0.0116
+_Reference Fortran_: 0.0116
 
 Memory strides (IJK): [1131, 36, 0]
 Backend: orch:dace:cpu_kfirst

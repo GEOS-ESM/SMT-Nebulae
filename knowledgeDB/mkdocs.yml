@@ -67,6 +67,8 @@ nav:
         - GFDL_1M: GEOS/components/moist/GFDL_1M.md
         - RAS: GEOS/components/moist/RAS.md
         - UW: GEOS/components/moist/UW.md
+      - Chemistry:
+        - PChem: GEOS/components/chemistry/pchem.md
   - Tutorials:
     - Start Here!: tutorials/index.md
     - NDSL:
