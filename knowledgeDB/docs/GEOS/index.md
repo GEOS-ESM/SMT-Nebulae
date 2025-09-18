@@ -35,3 +35,12 @@ The following table "translates" Cxxx to approximate horizontal resolution in ki
     'C5760': 1.61
 }
 ```
+
+## Vertical pressure level data ("eta files")
+
+FV3, the dynamical core in GEOS, requires so called "eta files" as input to run. These files contain pressure at every level. According to Lucas Harris,
+
+!!! quote " "
+    the values are typically hard-coded as there is no real formula for generating "good" level setups.
+
+NDSL ships two eta files (79 and 91 levels) in its test data, which are required to run NDSL tests and re-used in PyFV3 tests and examples. FV3 has many more pre-defined pressure-level configurations. If we ever get to a point that we need them, start re-reading [in this issue](https://github.com/NOAA-GFDL/pace/pull/149#issuecomment-3304212098) on how to extract that information from the fortran files.
