@@ -1,0 +1,1326 @@
+      MAPL: No configure file specified for logging layer.  Using defaults.
+ Starting pFIO input server on Clients
+ Starting pFIO output server on Clients
+      MAPL: Running with MOAB library for ESMF Mesh: F
+     SHMEM: NumCores per Node = 6
+     SHMEM: NumNodes in use   = 1
+     SHMEM: Total PEs         = 6
+     SHMEM: NumNodes in use  = 1
+ Integer*4 Resource Parameter: BEG_DATE:18910301 0
+ Integer*4 Resource Parameter: END_DATE:29990302 210000
+ Integer*4 Resource Parameter: JOB_SGMT:7 3501
+ Integer*4 Resource Parameter: HEARTBEAT_DT:1800
+ NOT using buffer I/O for file: cap_restart
+       CAP: Read CAP restart properly, Current Date =   2000/04/14
+       CAP:                            Current Time =   21/00/00
+ Character Resource Parameter: ROOT_CF:AGCM.rc
+ Character Resource Parameter: ROOT_NAME:GCM
+ Character Resource Parameter: HIST_CF:HISTORY.rc
+ Character Resource Parameter: MAPL_ENABLE_TIMERS:YES
+ Logical Resource Parameter: USE_EXTDATA2G:T
+ Integer*4 Resource Parameter: USE_CICE_Thermo:0, (default value)
+ Integer*4 Resource Parameter: USE_OCEANOBIOGEOCHEM:0, (default value)
+ Logical Resource Parameter: USE_DATA_ATM4OCN:F, (default value)
+ Integer*4 Resource Parameter: USE_DATASEA:1, (default value)
+ Logical Resource Parameter: SEAICE_THICKNESS_EXT_DATA:F, (default value)
+ Integer*4 Resource Parameter: USE_WAVES:0, (default value)
+ Integer*4 Resource Parameter: USE_SEA_SPRAY:0, (default value)
+ Character Resource Parameter: REPLAY_MODE:NoReplay, (default value)
+ Integer*4 Resource Parameter: DUAL_OCEAN:0, (default value)
+ Character Resource Parameter: CONVPAR_OPTION:GF
+ Character Resource Parameter: AERO_PROVIDER:GOCART2G
+ Integer*4 Resource Parameter: ANALYZE_TS:0, (default value)
+ Integer*4 Resource Parameter: SCM_SL:0, (default value)
+ Character Resource Parameter: DYCORE:FV3, (default value)
+ Character Resource Parameter: LAYOUT:fvcore_layout.rc, (default value)
+NOTE from PE     0: MPP_DOMAINS_SET_STACK_SIZE: stack size set to    32768.
+&MPP_IO_NML
+ HEADER_BUFFER_VAL=16384      ,
+ GLOBAL_FIELD_ON_ROOT_PE=T,
+ IO_CLOCKS_ON=F,
+ SHUFFLE=0          ,
+ DEFLATE_LEVEL=-1         ,
+ CF_COMPLIANCE=F,
+ /
+NOTE from PE     0: MPP_IO_SET_STACK_SIZE: stack size set to     131072.
+NOTE from PE     0: MPP_DOMAINS_SET_STACK_SIZE: stack size set to 24000000.
+ Integer*4 Resource Parameter: AGCM_IM:24
+ Integer*4 Resource Parameter: AGCM_JM:144
+ Integer*4 Resource Parameter: AGCM_LM:72, (default value)
+ Real*4 Resource Parameter: AGCM.STRETCH_FACTOR:1.000000, (default value)
+ Real*8 Resource Parameter: FIXED_LATS:15.000000, (default value)
+ Integer*4 Resource Parameter: NX:1
+ Integer*4 Resource Parameter: NY:6
+ Integer*4 Resource Parameter: RUN_DT:1800
+ Integer*4 Resource Parameter: AdvCore_Advection:0, (default value)
+ Logical Resource Parameter: ADJUST_DT:F, (default value)
+ Integer*4 Resource Parameter: fix_mass:1, (default value)
+ Integer*4 Resource Parameter: check_mass:0, (default value)
+ Integer*4 Resource Parameter: ADIABATIC:0, (default value)
+ Integer*4 Resource Parameter: FV_OFF:0, (default value)
+ Character Resource Parameter: FV3_CONFIG:HWT
+ For k_split (remapping)=           1
+n_split is set to 04 for resolution-dt=0025x0025x6- 1800.000
+ Off center implicit scheme param=   1.00000000    
+  p_fac=   5.00000007E-02
+  dz_min=   6.00000000    
+Using n_sponge : 000
+Using non_ortho :       T
+ Starting PEs :            6
+ Starting Threads :            1
+ Cubic: cubed-sphere domain decomposition
+whalo =    3, ehalo =    3, shalo =    3, nhalo =    3
+  X-AXIS =   24
+  Y-AXIS =   24
+ Cubic: cubed-sphere domain decomposition
+whalo =    1, ehalo =    1, shalo =    1, nhalo =    1
+  X-AXIS =   24
+  Y-AXIS =   24
+NOTE from PE     0: tracer_manager_init : No tracers are available to be registered.
+NOTE from PE     0: tracer_manager_init : No tracers are available to be registered.
+NOTE from PE     0: tracer_manager_init : No tracers are available to be registered.
+NOTE from PE     0: tracer_manager_init : No tracers are available to be registered.
+NOTE from PE     0: tracer_manager_init : No tracers are available to be registered.
+ ncnst=           0  num_prog=           0  pnats=           0  dnats=           0  num_family=           0
+ 
+ Grid distance at face edge (km)=   326768.438    
+RADIUS (m): 0.63710000000000E+07
+PI: 0.31415926535898E+01
+MAX    AREA (m*m): 0.21280966055028E+12          MIN AREA (m*m): 0.95959708752531E+11
+GLOBAL AREA (m*m): 0.51006447190982E+15 IDEAL GLOBAL AREA (m*m): 0.51006447190979E+15
+ 
+  Cubed-Sphere Grid Stats :           25 x          25 x           6
+      Grid Length               : min: 326768.44 max: 461715.97 avg: 386515.92 min/max:      0.71
+      Deviation from Orthogonal : min:      0.00 max:     28.13 avg:      8.60
+      Aspect Ratio              : min:      1.00 max:      1.08 avg:      1.03
+ 
+ Corner interpolation coefficient=   1.4728933553306158     
+ da_max/da_min=   2.2176980663737886     
+ da_max_c/da_min_c=   2.2606506684926582     
+  
+ Divergence damping Coefficients
+ For small dt=   450.000000    
+ External mode del-2 (m**2/s)=   0.0000000000000000     
+ Internal mode del-2 SMAG dimensionless coeff=  0.200000003    
+ Internal mode del-2 background diff=   0.0000000000000000     
+ Internal mode del-6 background diff=  0.119999997    
+ tracer del-2 diff=   0.00000000    
+ Vorticity del-4 (m**4/s)=   2046281170.8845143     
+ beta=   0.00000000    
+  
+ Dynamics PE Layout 
+NPES_X  :   1
+NPES_Y  :   1
+Resolution of dynamics restart     =   25   25   72
+                 stretch_fac       =    1.0000
+ Integer*4 Resource Parameter: RUN_PYFV3:0, (default value)
+ Integer*4 Resource Parameter: REFRESH_INTERVAL:1800, (default value)
+ Integer*4 Resource Parameter: AVERAGING_INTERVAL:1800, (default value)
+ Character Resource Parameter: SHALLOW_OPTION:UW, (default value)
+ Character Resource Parameter: CLDMICR_OPTION:GFDL_1M
+ Character Resource Parameter: GF_ENV_SETTING:DYNAMICS, (default value)
+ Integer*4 Resource Parameter: PDFSHAPE:1, (default value)
+ Integer*4 Resource Parameter: CONVECTION_TRACER:0, (default value)
+ HEMCO::SetServices - number of HEMCO instances:            1
+--> HEMCO instance 001: HEMCOgocart2g_Config.rc
+  
+Reading entire HEMCO configuration file: HEMCOgocart2g_Config.rc
+ Reading HEMCO configuration file: HEMCOgocart2g_Config.rc
+ adding HEMCO export: OC_ISOPRENE
+ adding HEMCO export: OC_MTPA
+ adding HEMCO export: OC_MTPO
+ adding HEMCO export: OC_LIMO
+ adding HEMCO export: OC_SESQ
+ ACHEM::SetServices: Configuration
+ ACHEM::SetServices:     gas chemistry =  F
+ ACHEM::SetServices: aqueous chemistry =  F
+ ACHEM::SetServices:     VOC chemistry =  T
+ ACHEM::SetServices:     OCS chemistry =  F
+ 
+ GOCART::SetServices: ACTIVE
+  
+ CO_GridCompSetServices: fewer CO bins than possible CO instances:           10           1
+ DU2G_instance_DU.data.rc does not exist! Loading DU2G_GridComp_DU.rc instead
+ DU.data::SetServices: Dust emission scheme is ginoux
+ SS2G_instance_SS.data.rc does not exist! loading SS2G_instance_SS.rc instead
+ CA2G_instance_CA.oc.data.rc does not exist! Loading CA2G_instance_CA.oc.rc instead
+ CA2G_instance_CA.bc.data.rc does not exist! Loading CA2G_instance_CA.bc.rc instead
+ CA2G_instance_CA.br.data.rc does not exist! Loading CA2G_instance_CA.br.rc instead
+ SU2G_instance_SU.data.rc does not exist! loading SU2G_instance_SU.rc instead
+ NI2G_instance_NI.data.rc does not exist! Loading NI2G_instance_NI.rc instead
+  
+ CHEMISTRY::SetServices: RATs Provider List
+   OX: PCHEM
+   O3: PCHEM
+   O3PPMV: PCHEM
+   CH4: PCHEM
+   N2O: PCHEM
+   CFC11: PCHEM
+   CFC12: PCHEM
+   HCFC22: PCHEM
+  
+ CHEMISTRY::SetServices:
+  AERO Provider is GOCART2G
+  
+ CHEMsetup - number of HEMCO instances:            1
+--> HEMCO instance 001: HEMCOgocart2g_Config.rc
+ -->    GMI_instance_of_HEMCO:  F
+ --> GOCART_instance_of_HEMCO:  T
+ Character Resource Parameter: SURFRC:GEOS_SurfaceGridComp.rc, (default value)
+ Integer*4 Resource Parameter: LSM_CHOICE:1, (default value)
+ Integer*4 Resource Parameter: ATM_CO2:2, (default value)
+ Integer*4 Resource Parameter: N_CONST_LAND4SNWALB:0, (default value)
+ Integer*4 Resource Parameter: N_CONST_LANDICE4SNWALB:0, (default value)
+ Character Resource Parameter: LAND_PARAMS:NRv7.2, (default value)
+ Integer*4 Resource Parameter: CHOOSEMOSFC:1, (default value)
+ Logical Resource Parameter: FIRE_DANGER:F, (default value)
+ Integer*4 Resource Parameter: USE_SKIN_LAYER:1
+ Integer*4 Resource Parameter: AEROSOL_DEPOSITION:0, (default value)
+ Integer*4 Resource Parameter: NUM_LDAS_ENSEMBLE:1, (default value)
+ Integer*4 Resource Parameter: ENS_ID_WIDTH:0, (default value)
+ Integer*4 Resource Parameter: RUN_ROUTE:0, (default value)
+ Integer*4 Resource Parameter: CATCHMENT_OFFLINE:0, (default value)
+ Integer*4 Resource Parameter: CATCHMENT_SPINUP:0, (default value)
+ Real*4 Resource Parameter: SURFLAY:50.000000, (default value)
+ Integer*4 Resource Parameter: USE_ASCATZ0:0, (default value)
+ Logical Resource Parameter: USE_FWET_FOR_RUNOFF:F, (default value)
+ Integer*4 Resource Parameter: Z0_FORMULATION:4, (default value)
+ Real*4 Resource Parameter: FWETC:.020000, (default value)
+ Real*4 Resource Parameter: FWETL:.020000, (default value)
+ Integer*4 Resource Parameter: SNOW_ALBEDO_INFO:0, (default value)
+ Integer*4 Resource Parameter: RUN_IRRIG:0, (default value)
+ Integer*4 Resource Parameter: IRRIG_METHOD:0, (default value)
+ Real*4 Resource Parameter: SOLAR_DT:3600.000000, (default value)
+ Real*4 Resource Parameter: SOLARAvrg:.000000, (default value)
+ Real*4 Resource Parameter: USE_RRTMGP_SORAD:.000000, (default value)
+ Real*4 Resource Parameter: USE_RRTMG_SORAD:1.000000
+ Integer*4 Resource Parameter: USE_SATSIM:0, (default value)
+ Integer*4 Resource Parameter: USE_SATSIM_ISCCP:1
+ Integer*4 Resource Parameter: USE_SATSIM_MODIS:0, (default value)
+ Integer*4 Resource Parameter: USE_SATSIM_RADAR:0, (default value)
+ Integer*4 Resource Parameter: USE_SATSIM_LIDAR:0, (default value)
+ Integer*4 Resource Parameter: USE_SATSIM_MISR:0, (default value)
+ Parsing of satsim.rc
+ Real*4 Resource Parameter: SYNCTQ:1.000000, (default value)
+ ORBIT::SetServices: ACTIVE
+ Logical Resource Parameter: REPLAY_BLEND_AT_PBL:F, (default value)
+ Integer*4 Resource Parameter: USE_DATASEAICE:1, (default value)
+ Character Resource Parameter: OCEAN_NAME:MOM, (default value)
+ Logical Resource Parameter: OCEAN_EXT_DATA:F, (default value)
+ Logical Resource Parameter: OCEAN_SSS_DATA:F, (default value)
+ Real*4 Resource Parameter: OGCM_TOP_LAYER:10.000000, (default value)
+ Integer*4 Resource Parameter: ASSIMILATION_CYCLE:-999, (default value)
+ Setting ASSIMILATION_CYCLE to        21600
+ Integer*4 Resource Parameter: CORRECTOR_DURATION:-999, (default value)
+ Setting CORRECTOR_DURATION, to        21600
+ Integer*4 Resource Parameter: REPLAY_FILE_FREQUENCY:-999, (default value)
+ Integer*4 Resource Parameter: REPLAY_FILE_REFERENCE_TIME:-999, (default value)
+ Integer*4 Resource Parameter: MKIAU_FREQUENCY:-999, (default value)
+ Integer*4 Resource Parameter: MKIAU_REFERENCE_TIME:-999, (default value)
+ Setting MKIAU_FREQUENCY, to        21600
+ Setting REPLAY_FILE_FREQUENCY, to        21600
+ Setting MKIAU_REFERENCE_TIME, to            0
+ Setting REPLAY_FILE_REFERENCE_TIME, to            0
+ Character Resource Parameter: COMPONENT_TO_RECORD:[Empty formatted value], (default value)
+ Character Resource Parameter: TILING_FILE:tile.bin
+ NOT using buffer I/O for file: tile.bin
+ NOT using buffer I/O for file: tile.bin
+ Integer*4 Resource Parameter: REPLAY_SHUTOFF:-3600, (default value)
+ Integer*4 Resource Parameter: REPLAY_STARTDATE:20000414, (default value)
+ Integer*4 Resource Parameter: REPLAY_STARTTIME:210000, (default value)
+ Integer*4 Resource Parameter: PREDICTOR_DURATION:-999, (default value)
+ Setting PREDICTOR_DURATION based on IAU Frequency:        10800
+ Integer*4 Resource Parameter: MKIAU_RingDate:-999, (default value)
+ Setting MKIAU_RingDate/Time to     20000415           0
+ Logical Resource Parameter: TEST_FRAMEWORK:F, (default value)
+ Logical Resource Parameter: TEST_FRAMEWORK_DRIVER:F, (default value)
+ Integer*4 Resource Parameter: NUM_READERS:1, (default value)
+ Integer*4 Resource Parameter: NUM_WRITERS:1, (default value)
+ Character Resource Parameter: WRITE_RESTART_BY_FACE:NO, (default value)
+ Character Resource Parameter: WRITE_RESTART_BY_OSERVER:YES
+ Character Resource Parameter: READ_RESTART_BY_FACE:NO, (default value)
+ Character Resource Parameter: CHECKPOINT_POSITIVE:down, (default value)
+ Real*4 Resource Parameter: DT:1800.000000, (default value)
+ Logical Resource Parameter: RUN_AT_INTERVAL_START:F, (default value)
+ Integer*4 Resource Parameter: REFERENCE_DATE:20000414, (default value)
+ Integer*4 Resource Parameter: REFERENCE_TIME:0, (default value)
+ Character Resource Parameter: DYN_INTERNAL_RESTART_FILE:fvcore_internal_rst
+ Integer*4 Resource Parameter: DYN_INTERNAL_HEADER:1
+ Character Resource Parameter: MAPL_ENABLE_BOOTSTRAP:YES
+ Character Resource Parameter: ROMIO_CB_READ:automatic, (default value)
+ Character Resource Parameter: ROMIO_CB_WRITE:enable, (default value)
+ Character Resource Parameter: CB_BUFFER_SIZE:16777216, (default value)
+ Using parallel NetCDF to read file: fvcore_internal_rst
+ Logical Resource Parameter: RESTORE_EXPORT_STATE:F, (default value)
+ Logical Resource Parameter: DO_ADD_INCS:T, (default value)
+ Integer*4 Resource Parameter: COLDSTART:0, (default value)
+  
+Dynamics time step :  1800.0000
+  
+Number of true pressure levels =   40
+  
+INITIALIZED ALARM: DYN_TIME_TO_RUN EVERY    1800.0 secs.
+  
+ FV3 being run Non-Hydrostatic
+ FV3 water species nwat=           0
+  
+
+  + denotes a layer within the "dz-filter" of the dynamics
+  * denotes a layer within the "sponge-layer" of the dynamics
+   k       A(k)       B(k)       Pref        DelP
+ ----   ----------  --------  ----------  ---------
+*     1    0.010000    0.0000      0.0100
+      2    0.020000    0.0000      0.0200     0.0100
+      3    0.032700    0.0000      0.0327     0.0127
+      4    0.047585    0.0000      0.0476     0.0149
+      5    0.066000    0.0000      0.0660     0.0184
+      6    0.089345    0.0000      0.0893     0.0233
+      7    0.119703    0.0000      0.1197     0.0304
+      8    0.159495    0.0000      0.1595     0.0398
+      9    0.211349    0.0000      0.2113     0.0519
+     10    0.278526    0.0000      0.2785     0.0672
+     11    0.365041    0.0000      0.3650     0.0865
+     12    0.475806    0.0000      0.4758     0.1108
+     13    0.616779    0.0000      0.6168     0.1410
+     14    0.795134    0.0000      0.7951     0.1784
+     15    1.019440    0.0000      1.0194     0.2243
+     16    1.300510    0.0000      1.3005     0.2811
+     17    1.650790    0.0000      1.6508     0.3503
+     18    2.084970    0.0000      2.0850     0.4342
+     19    2.620211    0.0000      2.6202     0.5352
+     20    3.276431    0.0000      3.2764     0.6562
+     21    4.076571    0.0000      4.0766     0.8001
+     22    5.046801    0.0000      5.0468     0.9702
+     23    6.216801    0.0000      6.2168     1.1700
+     24    7.619842    0.0000      7.6198     1.4030
+     25    9.292942    0.0000      9.2929     1.6731
+     26   11.276902    0.0000     11.2769     1.9840
+     27   13.643402    0.0000     13.6434     2.3665
+     28   16.457103    0.0000     16.4571     2.8137
+     29   19.791604    0.0000     19.7916     3.3345
+     30   23.730405    0.0000     23.7304     3.9388
+     31   28.367805    0.0000     28.3678     4.6374
+     32   33.810007    0.0000     33.8100     5.4422
+     33   40.175409    0.0000     40.1754     6.3654
+     34   47.643910    0.0000     47.6439     7.4685
+     35   56.387909    0.0000     56.3879     8.7440
+     36   66.603412    0.0000     66.6034    10.2155
+     37   78.512313    0.0000     78.5123    11.9089
+     38   92.365721    0.0000     92.3657    13.8534
+     39  108.663015    0.0000    108.6630    16.2973
+     40  127.837028    0.0000    127.8370    19.1740
+     41  150.393024    0.0000    150.3930    22.5560
+     42  176.930035    0.0000    176.9300    26.5370
+     43  201.192007    0.0070    208.1520    31.2220
+     44  216.865015    0.0280    244.8751    36.7230
+     45  224.363003    0.0637    288.0831    43.2080
+     46  223.898003    0.1136    337.5001    49.4170
+     47  218.775972    0.1562    375.0001    37.5000
+     48  212.149976    0.2004    412.5001    37.5000
+     49  203.258980    0.2467    450.0001    37.5000
+     50  193.096949    0.2944    487.5001    37.5000
+     51  181.618961    0.3434    525.0001    37.5000
+     52  169.608961    0.3929    562.5001    37.5000
+     53  156.259957    0.4437    600.0001    37.5000
+     54  142.909948    0.4946    637.5001    37.5000
+     55  128.695935    0.5463    675.0001    37.5000
+     56  118.958620    0.5810    700.0001    25.0000
+     57  109.181707    0.6158    725.0001    25.0000
+     58   99.365213    0.6506    750.0002    25.0000
+     59   89.099920    0.6859    774.9998    24.9997
+     60   78.834217    0.7212    800.0002    25.0003
+     61   70.621981    0.7494    820.0002    20.0000
+     62   64.362635    0.7706    835.0001    15.0000
+     63   58.053212    0.7919    850.0002    15.0000
+     64   51.696107    0.8133    865.0001    14.9999
+     65   45.339008    0.8347    880.0000    14.9999
+     66   38.982008    0.8560    895.0000    15.0001
+     67   32.570807    0.8774    909.9998    14.9998
+     68   26.092006    0.8989    925.0000    15.0002
+     69   19.613105    0.9204    940.0001    15.0001
+     70   13.134803    0.9419    954.9998    14.9997
+     71    6.593752    0.9634    969.9998    14.9999
+     72    0.048048    0.9850    985.0000    15.0002
+     73    0.000000    1.0000   1000.0000    15.0000
+
+ Integer*4 Resource Parameter: FV3_STANDALONE:0, (default value)
+ Character Resource Parameter: GWD_IMPORT_RESTART_FILE:gwd_import_rst
+ Bootstrapping gwd_import_rst
+ Character Resource Parameter: GWD_INTERNAL_RESTART_FILE:gwd_internal_rst
+ Integer*4 Resource Parameter: INTERNAL_HEADER:0, (default value)
+ Using parallel NetCDF to read file: gwd_internal_rst
+   Bootstrapping Variable: EFFRDG in gwd_internal_rst
+   Bootstrapping Variable: KWVRDG in gwd_internal_rst
+ Character Resource Parameter: AGCM.GRIDNAME:PE24x144-CF
+ Logical Resource Parameter: JASON_BKG:T, (default value)
+ Integer*4 Resource Parameter: GEOS_PGWV:4, (default value)
+ Real*4 Resource Parameter: GEOS_BGSTRESS:.900000, (default value)
+ Real*4 Resource Parameter: GEOS_EFFGWBKG:.125000, (default value)
+ Real*4 Resource Parameter: NCAR_EFFGWBKG:.000000, (default value)
+ Real*4 Resource Parameter: RAYLEIGH_TAU1:.000000
+ Logical Resource Parameter: JASON_ORO:T, (default value)
+ Real*4 Resource Parameter: GEOS_EFFGWORO:.250000, (default value)
+ Real*4 Resource Parameter: NCAR_EFFGWORO:.000000, (default value)
+ Integer*4 Resource Parameter: NCAR_NRDG:0, (default value)
+ Logical Resource Parameter: NCAR_TAU_TOP_ZERO:T, (default value)
+ Real*4 Resource Parameter: NCAR_PRNDL:.500000, (default value)
+ Real*4 Resource Parameter: NCAR_QBO_HDEPTH_SCALING:.750000, (default value)
+ Real*4 Resource Parameter: NCAR_HR_CF:30.000000, (default value)
+ Character Resource Parameter: BERES_FILE_NAME:/home/fgdeconi/work/data/TinyBCs-GitV10/scripts/../../TinyBCs-GitV10/chem/g5gcm/gwd/newmfspectra40_dc25.nc
+ Integer*4 Resource Parameter: NCAR_BKG_PGWV:32, (default value)
+ Real*4 Resource Parameter: NCAR_BKG_GW_DC:2.500000, (default value)
+ Real*4 Resource Parameter: NCAR_BKG_FCRIT2:1.000000, (default value)
+ Real*4 Resource Parameter: NCAR_BKG_WAVELENGTH:100000.000000, (default value)
+ Real*4 Resource Parameter: NCAR_ET_TAUBGND:3.200000, (default value)
+ Logical Resource Parameter: NCAR_ET_USELATS:T, (default value)
+ Real*4 Resource Parameter: NCAR_BKG_TNDMAX:800.000000, (default value)
+ Real*4 Resource Parameter: NCAR_DC_BERES_SRC_LEVEL:70000.000000, (default value)
+ Logical Resource Parameter: NCAR_DC_BERES:T, (default value)
+ Integer*4 Resource Parameter: NCAR_ORO_PGWV:0, (default value)
+ Real*4 Resource Parameter: NCAR_ORO_GW_DC:2.500000, (default value)
+ Real*4 Resource Parameter: NCAR_ORO_FCRIT2:1.000000, (default value)
+ Real*4 Resource Parameter: NCAR_ORO_WAVELENGTH:100000.000000, (default value)
+ Real*4 Resource Parameter: NCAR_ORO_SOUTH_FAC:2.000000, (default value)
+ Character Resource Parameter: MOIST_IMPORT_RESTART_FILE:moist_import_rst
+ Bootstrapping moist_import_rst
+ Character Resource Parameter: MOIST_INTERNAL_RESTART_FILE:moist_internal_rst
+ Using parallel NetCDF to read file: moist_internal_rst
+   Bootstrapping Variable: CUSH in moist_internal_rst
+   Bootstrapping Variable: QGRAUPEL in moist_internal_rst
+   Bootstrapping Variable: QRAIN in moist_internal_rst
+   Bootstrapping Variable: QSNOW in moist_internal_rst
+ Logical Resource Parameter: DIAGNOSE_PRECIP_TYPE:F, (default value)
+ Logical Resource Parameter: UPDATE_PRECIP_TYPE:F, (default value)
+ Logical Resource Parameter: HYDROSTATIC:F
+ Logical Resource Parameter: USE_AEROSOL_NN:T, (default value)
+ Logical Resource Parameter: USE_BERGERON:T, (default value)
+ Logical Resource Parameter: USE_AERO_BUFFER:T, (default value)
+ INITIALIZED aer_cloud_init
+ Real*4 Resource Parameter: NCCN_OCN:100.000000, (default value)
+ Real*4 Resource Parameter: NCCN_LND:300.000000, (default value)
+ Real*4 Resource Parameter: GF_DT:1800.000000, (default value)
+ Integer*4 Resource Parameter: USE_GF2020:1
+ Integer*4 Resource Parameter: ZERO_DIFF:0, (default value)
+ Integer*4 Resource Parameter: DEEP:1, (default value)
+ Integer*4 Resource Parameter: SHALLOW:0, (default value)
+ Integer*4 Resource Parameter: CONGESTUS:1, (default value)
+ Integer*4 Resource Parameter: CLOSURE_DEEP:0, (default value)
+ Integer*4 Resource Parameter: CLOSURE_SHALLOW:7, (default value)
+ Integer*4 Resource Parameter: CLOSURE_CONGESTUS:3, (default value)
+ Integer*4 Resource Parameter: ENTRVERSION:1, (default value)
+ Real*4 Resource Parameter: MIN_ENTR_RATE:.000030, (default value)
+ Real*4 Resource Parameter: ENTR_DP:.000100, (default value)
+ Real*4 Resource Parameter: ENTR_MD:.000100, (default value)
+ Real*4 Resource Parameter: ENTR_SH:.000100, (default value)
+ Integer*4 Resource Parameter: SGS_W_TIMESCALE:1, (default value)
+ Real*4 Resource Parameter: FADJ_MASSFLX_DP:1.000000, (default value)
+ Real*4 Resource Parameter: FADJ_MASSFLX_SH:1.000000, (default value)
+ Real*4 Resource Parameter: FADJ_MASSFLX_MD:1.000000, (default value)
+ Integer*4 Resource Parameter: USE_TRACER_TRANSP:1, (default value)
+ Integer*4 Resource Parameter: USE_TRACER_SCAVEN:1, (default value)
+ Integer*4 Resource Parameter: USE_SCALE_DEP:1, (default value)
+ Integer*4 Resource Parameter: USE_MOMENTUM_TRANSP:1, (default value)
+ Integer*4 Resource Parameter: DICYCLE:1, (default value)
+ Integer*4 Resource Parameter: OUTPUT_SOUND:0, (default value)
+ Integer*4 Resource Parameter: USE_MEMORY:-1, (default value)
+ Real*4 Resource Parameter: TAU_OCEA_CP:21600.000000, (default value)
+ Real*4 Resource Parameter: TAU_LAND_CP:21600.000000, (default value)
+ Integer*4 Resource Parameter: DOWNDRAFT:1, (default value)
+ Integer*4 Resource Parameter: USE_FLUX_FORM:1, (default value)
+ Integer*4 Resource Parameter: USE_TRACER_EVAP:1, (default value)
+ Integer*4 Resource Parameter: APPLY_SUB_MP:0, (default value)
+ Real*4 Resource Parameter: ALP1:1.000000, (default value)
+ Integer*4 Resource Parameter: LIGHTNING_DIAG:0, (default value)
+ Real*4 Resource Parameter: OVERSHOOT:.000000, (default value)
+ Integer*4 Resource Parameter: USE_WETBULB:0, (default value)
+ Real*4 Resource Parameter: LAMBAU_SHDN:2.000000, (default value)
+ Real*4 Resource Parameter: MAX_TQ_TEND:100.000000, (default value)
+ Real*4 Resource Parameter: USE_CLOUD_DISSIPATION:1.000000, (default value)
+ Integer*4 Resource Parameter: USE_SMOOTH_TEND:1, (default value)
+ Real*4 Resource Parameter: BETA_SH:2.200000, (default value)
+ Integer*4 Resource Parameter: USE_LINEAR_SUBCL_MF:0, (default value)
+ Real*4 Resource Parameter: CAP_MAXS:50.000000, (default value)
+ Real*4 Resource Parameter: STOCH_TOP:2.500000, (default value)
+ Real*4 Resource Parameter: STOCH_BOT:.750000, (default value)
+ Logical Resource Parameter: STOCHASTIC_CNV:F, (default value)
+ Real*4 Resource Parameter: GF_MIN_AREA:.000000, (default value)
+ Real*4 Resource Parameter: TAU_MID:5400.000000, (default value)
+ Real*4 Resource Parameter: TAU_DEEP:10800.000000, (default value)
+ Integer*4 Resource Parameter: CLEV_GRID:1, (default value)
+ Integer*4 Resource Parameter: VERT_DISCR:1, (default value)
+ Integer*4 Resource Parameter: USE_FCT:0, (default value)
+ Integer*4 Resource Parameter: SATUR_CALC:1, (default value)
+ Integer*4 Resource Parameter: BC_METH:1, (default value)
+ Integer*4 Resource Parameter: USE_REBCB:1, (default value)
+ Integer*4 Resource Parameter: AUTOCONV:1, (default value)
+ Real*4 Resource Parameter: LAMBAU_DEEP:.000000, (default value)
+ Integer*4 Resource Parameter: MOIST_TRIGGER:0, (default value)
+ Integer*4 Resource Parameter: FRAC_MODIS:1, (default value)
+ Integer*4 Resource Parameter: EVAP_FIX:1, (default value)
+ Integer*4 Resource Parameter: ADV_TRIGGER:0, (default value)
+ Real*4 Resource Parameter: AVE_LAYER_DP:40.000000, (default value)
+ Real*4 Resource Parameter: AVE_LAYER_SH:30.000000, (default value)
+ Real*4 Resource Parameter: AVE_LAYER_MD:40.000000, (default value)
+ Integer*4 Resource Parameter: USE_EXCESS_DP:2, (default value)
+ Integer*4 Resource Parameter: USE_EXCESS_SH:3, (default value)
+ Integer*4 Resource Parameter: USE_EXCESS_MD:2, (default value)
+ Real*4 Resource Parameter: C0_DEEP:.002000, (default value)
+ Real*4 Resource Parameter: C0_MID:.002000, (default value)
+ Real*4 Resource Parameter: C0_SHAL:.000000, (default value)
+ Real*4 Resource Parameter: QRC_CRIT_OCN:.000200, (default value)
+ Real*4 Resource Parameter: QRC_CRIT_LND:.000200, (default value)
+ Real*4 Resource Parameter: C1:.000000, (default value)
+ Real*4 Resource Parameter: HEI_DOWN_LAND_DP:.300000, (default value)
+ Real*4 Resource Parameter: HEI_DOWN_LAND_SH:.000000, (default value)
+ Real*4 Resource Parameter: HEI_DOWN_LAND_MD:.300000, (default value)
+ Real*4 Resource Parameter: HEI_DOWN_OCEAN_DP:.600000, (default value)
+ Real*4 Resource Parameter: HEI_DOWN_OCEAN_SH:.000000, (default value)
+ Real*4 Resource Parameter: HEI_DOWN_OCEAN_MD:.600000, (default value)
+ Real*4 Resource Parameter: HEI_UPDF_LAND_DP:.400000, (default value)
+ Real*4 Resource Parameter: HEI_UPDF_LAND_SH:.200000, (default value)
+ Real*4 Resource Parameter: HEI_UPDF_LAND_MD:.400000, (default value)
+ Real*4 Resource Parameter: HEI_UPDF_OCEAN_DP:.400000, (default value)
+ Real*4 Resource Parameter: HEI_UPDF_OCEAN_SH:.200000, (default value)
+ Real*4 Resource Parameter: HEI_UPDF_OCEAN_MD:.400000, (default value)
+ Real*4 Resource Parameter: MIN_EDT_LAND_DP:.100000, (default value)
+ Real*4 Resource Parameter: MIN_EDT_LAND_SH:.000000, (default value)
+ Real*4 Resource Parameter: MIN_EDT_LAND_MD:.100000, (default value)
+ Real*4 Resource Parameter: MIN_EDT_OCEAN_DP:.100000, (default value)
+ Real*4 Resource Parameter: MIN_EDT_OCEAN_SH:.000000, (default value)
+ Real*4 Resource Parameter: MIN_EDT_OCEAN_MD:.100000, (default value)
+ Real*4 Resource Parameter: MAX_EDT_LAND_DP:.400000, (default value)
+ Real*4 Resource Parameter: MAX_EDT_LAND_SH:.000000, (default value)
+ Real*4 Resource Parameter: MAX_EDT_LAND_MD:.400000, (default value)
+ Real*4 Resource Parameter: MAX_EDT_OCEAN_DP:.300000, (default value)
+ Real*4 Resource Parameter: MAX_EDT_OCEAN_SH:.000000, (default value)
+ Real*4 Resource Parameter: MAX_EDT_OCEAN_MD:.300000, (default value)
+ Real*4 Resource Parameter: SCLM_DEEP:1.000000, (default value)
+ Logical Resource Parameter: FIX_CNV_CLOUD:F, (default value)
+ Real*4 Resource Parameter: UW_DT:1800.000000, (default value)
+ Integer*4 Resource Parameter: USE_TRACER_TRANSP_UW:1, (default value)
+ Logical Resource Parameter: JASON_UW:T, (default value)
+ Integer*4 Resource Parameter: WINDSRCAVG:0, (default value)
+ Real*4 Resource Parameter: MIXSCALE:.000000, (default value)
+ Real*4 Resource Parameter: CRIQC:.001000, (default value)
+ Real*4 Resource Parameter: THLSRC_FAC:.000000, (default value)
+ Real*4 Resource Parameter: FRC_RASN:.000000, (default value)
+ Real*4 Resource Parameter: RKM:12.000000, (default value)
+ Real*4 Resource Parameter: RPEN:3.000000, (default value)
+ Real*4 Resource Parameter: SCLM_SHALLOW:1.000000, (default value)
+ Integer*4 Resource Parameter: NITER_XC:2, (default value)
+ Integer*4 Resource Parameter: ITER_CIN:2, (default value)
+ Integer*4 Resource Parameter: USE_CINCIN:1, (default value)
+ Integer*4 Resource Parameter: CRIDIST_OPT:0, (default value)
+ Integer*4 Resource Parameter: USE_SELF_DETRAIN:0, (default value)
+ Integer*4 Resource Parameter: USE_MOMENFLX:1, (default value)
+ Integer*4 Resource Parameter: USE_CUMPENENT:1, (default value)
+ Integer*4 Resource Parameter: SCVERBOSE:0, (default value)
+ Real*4 Resource Parameter: RLE:.100000, (default value)
+ Real*4 Resource Parameter: RMAXFRAC:.100000, (default value)
+ Real*4 Resource Parameter: MUMIN1:.906000, (default value)
+ Real*4 Resource Parameter: RBUOY:1.000000, (default value)
+ Real*4 Resource Parameter: RDRAG:1.000000, (default value)
+ Real*4 Resource Parameter: EPSVARW:.000500, (default value)
+ Real*4 Resource Parameter: PGFC:.700000, (default value)
+ Real*4 Resource Parameter: KEVP:.000002, (default value)
+ Real*4 Resource Parameter: SHLW_RDROP:.000008, (default value)
+ Real*4 Resource Parameter: DETRHGT:1800.000000, (default value)
+ Real*4 Resource Parameter: QTSRC_FAC:.000000, (default value)
+ Real*4 Resource Parameter: QTSRCHGT:40.000000, (default value)
+ Logical Resource Parameter: PHYS_HYDROSTATIC:T, (default value)
+ Logical Resource Parameter: MELTFRZ:T, (default value)
+  ================================================================== 
+ gfdl_cloud_microphys_mod
+&GFDL_CLOUD_MICROPHYSICS_NML
+ MP_TIME=  150.000000    ,
+ T_MIN=  178.000000    ,
+ T_SUB=  184.000000    ,
+ TAU_R2G=  900.000000    ,
+ TAU_SMLT=  900.000000    ,
+ TAU_G2R=  600.000000    ,
+ DW_LAND=  5.00000007E-02,
+ DW_OCEAN= 0.100000001    ,
+ VI_FAC=  1.00000000    ,
+ VR_FAC=  1.00000000    ,
+ VS_FAC=  1.00000000    ,
+ VG_FAC=  1.00000000    ,
+ QL_MLT=  2.00000009E-03,
+ DO_QA=F,
+ FIX_NEGATIVE=T,
+ VI_MAX=  1.00000000    ,
+ VS_MAX=  2.00000000    ,
+ VG_MAX=  12.0000000    ,
+ VR_MAX=  12.0000000    ,
+ QS_MLT=  9.99999997E-07,
+ QS0_CRT=  1.00000005E-03,
+ QI_GEN=  9.82678976E-05,
+ QL0_MAX=  2.00000009E-03,
+ QI0_MAX=  9.99999975E-05,
+ QI0_CRT=  7.99999980E-05,
+ QR0_CRT=  9.99999975E-05,
+ FAST_SAT_ADJ=F,
+ RH_INC= 0.300000012    ,
+ RH_INS= 0.250000000    ,
+ RH_INR= 0.300000012    ,
+ CONST_VI=F,
+ CONST_VS=F,
+ CONST_VG=F,
+ CONST_VR=F,
+ USE_CCN=T,
+ RTHRESHU=  7.00000010E-06,
+ RTHRESHS=  9.99999975E-06,
+ CCN_L=  300.000000    ,
+ CCN_O=  100.000000    ,
+ QC_CRT=  5.00000006E-08,
+ TAU_G2V=  300.000000    ,
+ TAU_V2G=  21600.0000    ,
+ TAU_S2V=  300.000000    ,
+ TAU_V2S=  21600.0000    ,
+ TAU_REVP=  300.000000    ,
+ TAU_FRZ=  300.000000    ,
+ DO_BIGG=F,
+ DO_EVAP=F,
+ DO_SUBL=F,
+ SAT_ADJ0= 0.899999976    ,
+ C_PIACR=  5.00000000    ,
+ TAU_IMLT=  600.000000    ,
+ TAU_V2L=  150.000000    ,
+ TAU_L2V=  300.000000    ,
+ TAU_I2V=  300.000000    ,
+ TAU_I2S=  1000.00000    ,
+ TAU_L2R=  900.000000    ,
+ QI_LIM=  1.00000000    ,
+ QL_GEN=  1.00000005E-03,
+ C_PAUT=  1.00000000    ,
+ C_PSACI=  5.00000007E-02,
+ C_PGACS=  9.99999978E-03,
+ C_PGACI=  5.00000007E-02,
+ Z_SLOPE_LIQ=T,
+ Z_SLOPE_ICE=T,
+ PROG_CCN=T,
+ C_CRACW=  1.00000000    ,
+ ALIN=  842.000000    ,
+ CLIN=  4.80000019    ,
+ PRECIPRAD=T,
+ CLD_MIN=  5.00000007E-02,
+ USE_PPM=F,
+ MONO_PROF=T,
+ DO_SEDI_HEAT=F,
+ SEDI_TRANSPORT=T,
+ DO_SEDI_W=F,
+ DE_ICE=F,
+ ICLOUD_F=3          ,
+ IRAIN_F=0          ,
+ MP_PRINT=F,
+ /
+  ================================================================== 
+ INITIALIZED GFDL_1M microphysics in non-generic GC INIT
+ Logical Resource Parameter: SH_MD_DP:T, (default value)
+ Real*4 Resource Parameter: TURNRHCRIT:-9999.000000, (default value)
+ Real*4 Resource Parameter: ANV_ICEFALL:1.000000, (default value)
+ Real*4 Resource Parameter: LS_ICEFALL:1.000000, (default value)
+ Integer*4 Resource Parameter: LIQ_RADII_PARAM:2, (default value)
+ Integer*4 Resource Parameter: ICE_RADII_PARAM:1, (default value)
+ Real*4 Resource Parameter: FAC_RI:1.000000, (default value)
+ Real*4 Resource Parameter: MIN_RI:.000005, (default value)
+ Real*4 Resource Parameter: MAX_RI:.000100, (default value)
+ Real*4 Resource Parameter: FAC_RL:1.000000, (default value)
+ Real*4 Resource Parameter: MIN_RL:.000002, (default value)
+ Real*4 Resource Parameter: MAX_RL:.000060, (default value)
+ Real*4 Resource Parameter: CCW_EVAP_EFF:.010000, (default value)
+ Real*4 Resource Parameter: CCI_EVAP_EFF:.010000, (default value)
+ Real*4 Resource Parameter: CNV_FRACTION_MIN:500.000000, (default value)
+ Real*4 Resource Parameter: CNV_FRACTION_MAX:1500.000000, (default value)
+ Real*4 Resource Parameter: CNV_FRACTION_EXP:1.000000, (default value)
+ Logical Resource Parameter: USE_PYMOIST_GFDL_1M:F, (default value)
+ Logical Resource Parameter: USE_PYMOIST:F, (default value)
+ Character Resource Parameter: TURBULENCE_IMPORT_RESTART_FILE:turb_import_rst
+ Bootstrapping turb_import_rst
+ Character Resource Parameter: TURBULENCE_INTERNAL_RESTART_FILE:turb_internal_rst
+ Bootstrapping turb_internal_rst
+ Real*4 Resource Parameter: CHEMISTRY_DT:1800.000000, (default value)
+ Logical Resource Parameter: CHEMISTRY_RUN_AT_INTERVAL_START:T
+ MOIST_flashFactor is    2.00000000    
+ Real*4 Resource Parameter: HEMCO_DT:1800.000000, (default value)
+ Character Resource Parameter: HEMCO_IMPORT_RESTART_FILE:hemco_import_rst
+ Bootstrapping hemco_import_rst
+ Character Resource Parameter: HEMCO_INTERNAL_RESTART_FILE:hemco_internal_rst
+ Bootstrapping hemco_internal_rst
+ Character Resource Parameter: PCHEM_INTERNAL_RESTART_FILE:pchem_internal_rst
+ Using parallel NetCDF to read file: pchem_internal_rst
+ Character Resource Parameter: RATS_PROVIDER:PCHEM, (default value)
+ Character Resource Parameter: pchem_clim:species.data
+ Integer*4 Resource Parameter: pchem_clim_years:39
+ Integer*4 Resource Parameter: H2O_ProdLoss:0, (default value)
+ ACHEM::Initialize_: Starting...
+ 
+ Character Resource Parameter: ACHEM_INTERNAL_RESTART_FILE:achem_internal_rst
+ Bootstrapping achem_internal_rst
+ GOCART::Initialize_: Starting...
+  
+ Real*4 Resource Parameter: GOCART_DT:1800.000000, (default value)
+ Integer*4 Resource Parameter: GOCART_REFERENCE_TIME:-999, (default value)
+ Character Resource Parameter: GOCART_IMPORT_RESTART_FILE:gocart_import_rst
+ Bootstrapping gocart_import_rst
+ Character Resource Parameter: GOCART_INTERNAL_RESTART_FILE:gocart_internal_rst
+ Bootstrapping gocart_internal_rst
+ GOCART::Initialize_: Diurnal Biomass Burning is ON
+ CO_GridCompInitialize: fewer CO bins than possible CO instances:           11           1
+  
+ CO_GridCompInitialize: Initializing instance  [           1 ]
+ GOCART2G::Initialize: Starting...
+  
+ DU2G_instance_DU.data.rc does not exist! Loading DU2G_GridComp_DU.rc instead
+ SS2G_instance_SS.data.rc does not exist! loading SS2G_instance_SS.rc instead
+ CA2G_instance_CA.oc.data.rc does not exist! Loading CA2G_instance_CA.oc.rc instead
+ CA2G_instance_CA.bc.data.rc does not exist! Loading CA2G_instance_CA.bc.rc instead
+ CA2G_instance_CA.br.data.rc does not exist! Loading CA2G_instance_CA.br.rc instead
+ SU2G_instance_SU.data.rc does not exist! loading SU2G_instance_SU.rc instead
+ NI2G_instance_NI.data.rc does not exist! Loading NI2G_instance_NI.rc instead
+ Character Resource Parameter: TR_IMPORT_RESTART_FILE:tr_import_rst
+ Bootstrapping tr_import_rst
+ Character Resource Parameter: TR_INTERNAL_RESTART_FILE:tr_internal_rst
+ Bootstrapping tr_internal_rst
+
+ Simple Bundle: TR_PASSIVE_TRACERS
+ aoa              max =    0.00000000      min =    0.00000000    
+ e90              max =    0.00000000      min =    0.00000000    
+ Rn222            max =    0.00000000      min =    0.00000000    
+ CH3I             max =    0.00000000      min =    0.00000000    
+
+ MASK min and max :        80000      133000
+ MASK min and max :       120000      173000
+ Executing getFriendlies for DU.data
+ Executing getFriendlies for SS.data
+ Executing getFriendlies for CA.oc.data
+ Executing getFriendlies for CA.bc.data
+ Executing getFriendlies for CA.br.data
+ Executing getFriendlies for SU.data
+ Executing getFriendlies for NI.data
+ Character Resource Parameter: SEAICETHERMO_INTERNAL_RESTART_FILE:seaicethermo_internal_rst
+ Using parallel NetCDF to read file: seaicethermo_internal_rst
+ Character Resource Parameter: OPENWATER_INTERNAL_RESTART_FILE:openwater_internal_rst
+ Using parallel NetCDF to read file: openwater_internal_rst
+   Bootstrapping Variable: DELTC in openwater_internal_rst
+   Bootstrapping Variable: TWMTF in openwater_internal_rst
+ Character Resource Parameter: SALTWATER_IMPORT_RESTART_FILE:saltwater_import_rst
+ Bootstrapping saltwater_import_rst
+ Character Resource Parameter: LAKE_INTERNAL_RESTART_FILE:lake_internal_rst
+ Using parallel NetCDF to read file: lake_internal_rst
+ Character Resource Parameter: LANDICE_INTERNAL_RESTART_FILE:landice_internal_rst
+ Using parallel NetCDF to read file: landice_internal_rst
+ Character Resource Parameter: VEGDYN_INTERNAL_RESTART_FILE:vegdyn.data
+ Using parallel NetCDF to read file: vegdyn.data
+ Character Resource Parameter: CATCH_INTERNAL_RESTART_FILE:catch_internal_rst
+ Using parallel NetCDF to read file: catch_internal_rst
+ Integer*4 Resource Parameter: LDAS_INCR:0, (default value)
+ Character Resource Parameter: SURFACE_IMPORT_RESTART_FILE:surf_import_rst
+ Bootstrapping surf_import_rst
+ Character Resource Parameter: ROUTING_FILE:[Empty formatted value], (default value)
+ Character Resource Parameter: SOLAR_INTERNAL_RESTART_FILE:solar_internal_rst
+ Bootstrapping solar_internal_rst
+ Real*4 Resource Parameter: IRRAD_DT:3600.000000
+ Character Resource Parameter: IRRAD_INTERNAL_RESTART_FILE:irrad_internal_rst
+ Bootstrapping irrad_internal_rst
+ Real*4 Resource Parameter: SATSIM_DT:3600.000000
+ Integer*4 Resource Parameter: RAD_CONDENSATE_INHOMOGENEITY:1, (default value)
+ Real*4 Resource Parameter: ADL_AM1:1.431500, (default value)
+ Real*4 Resource Parameter: ADL_AM2:2.121900, (default value)
+ Real*4 Resource Parameter: ADL_AM30:7.000000, (default value)
+ Real*4 Resource Parameter: ADL_AM4:-25.584000, (default value)
+ Real*4 Resource Parameter: RDL_AM1:.721920, (default value)
+ Real*4 Resource Parameter: RDL_AM2:.789960, (default value)
+ Real*4 Resource Parameter: RDL_AM30:8.500000, (default value)
+ Real*4 Resource Parameter: RDL_AM4:40.403999, (default value)
+ ACHEM::VOC: in the TURBULENCE Bundle
+ ACHEM::VOCbiob: in the TURBULENCE Bundle
+ DU.data::DU: in the TURBULENCE Bundle
+ DU.data::DU002: in the TURBULENCE Bundle
+ DU.data::DU003: in the TURBULENCE Bundle
+ DU.data::DU004: in the TURBULENCE Bundle
+ DU.data::DU005: in the TURBULENCE Bundle
+ GOCART::CO: in the TURBULENCE Bundle
+ NI.data::NO3an1: in the TURBULENCE Bundle
+ NI.data::NO3an2: in the TURBULENCE Bundle
+ NI.data::NO3an3: in the TURBULENCE Bundle
+ PCHEM::CFC11: in the TURBULENCE Bundle
+ PCHEM::CFC12: in the TURBULENCE Bundle
+ PCHEM::CH4: in the TURBULENCE Bundle
+ PCHEM::HCFC22: in the TURBULENCE Bundle
+ PCHEM::N2O: in the TURBULENCE Bundle
+ PCHEM::OX: in the TURBULENCE Bundle
+ Q: in the TURBULENCE Bundle
+ QGRAUPEL: in the TURBULENCE Bundle
+ QICN: in the TURBULENCE Bundle
+ QILS: in the TURBULENCE Bundle
+ QLCN: in the TURBULENCE Bundle
+ QLLS: in the TURBULENCE Bundle
+ QRAIN: in the TURBULENCE Bundle
+ QSNOW: in the TURBULENCE Bundle
+ QT2: in the TURBULENCE Bundle
+ QW: in the TURBULENCE Bundle
+ S: in the TURBULENCE Bundle
+ TKESHOC: in the TURBULENCE Bundle
+ TR::CH3I: in the TURBULENCE Bundle
+ TR::Rn222: in the TURBULENCE Bundle
+ TR::aoa: in the TURBULENCE Bundle
+ TR::e90: in the TURBULENCE Bundle
+ U: in the TURBULENCE Bundle
+ V: in the TURBULENCE Bundle
+ ACHEM::VOC: in the DYNAMICS Advection Bundle
+ ACHEM::VOCbiob: in the DYNAMICS Advection Bundle
+ CLCN: in the DYNAMICS Advection Bundle
+ CLLS: in the DYNAMICS Advection Bundle
+ DU.data::DU: in the DYNAMICS Advection Bundle
+ DU.data::DU002: in the DYNAMICS Advection Bundle
+ DU.data::DU003: in the DYNAMICS Advection Bundle
+ DU.data::DU004: in the DYNAMICS Advection Bundle
+ DU.data::DU005: in the DYNAMICS Advection Bundle
+ GOCART::CO: in the DYNAMICS Advection Bundle
+ NI.data::NO3an1: in the DYNAMICS Advection Bundle
+ NI.data::NO3an2: in the DYNAMICS Advection Bundle
+ NI.data::NO3an3: in the DYNAMICS Advection Bundle
+ PCHEM::CFC11: in the DYNAMICS Advection Bundle
+ PCHEM::CFC12: in the DYNAMICS Advection Bundle
+ PCHEM::CH4: in the DYNAMICS Advection Bundle
+ PCHEM::HCFC22: in the DYNAMICS Advection Bundle
+ PCHEM::N2O: in the DYNAMICS Advection Bundle
+ PCHEM::OX: in the DYNAMICS Advection Bundle
+ Q: in the DYNAMICS Advection Bundle
+ QGRAUPEL: in the DYNAMICS Advection Bundle
+ QICN: in the DYNAMICS Advection Bundle
+ QILS: in the DYNAMICS Advection Bundle
+ QLCN: in the DYNAMICS Advection Bundle
+ QLLS: in the DYNAMICS Advection Bundle
+ QRAIN: in the DYNAMICS Advection Bundle
+ QSNOW: in the DYNAMICS Advection Bundle
+ TR::CH3I: in the DYNAMICS Advection Bundle
+ TR::Rn222: in the DYNAMICS Advection Bundle
+ TR::aoa: in the DYNAMICS Advection Bundle
+ TR::e90: in the DYNAMICS Advection Bundle
+ PCHEM::OX: in the ANALYSIS Bundle
+ Q: in the ANALYSIS Bundle
+ ACHEM::VOC: in the MOIST Convective transport Bundle
+ ACHEM::VOCbiob: in the MOIST Convective transport Bundle
+ CNV_TR: in the MOIST Convective transport Bundle
+ DU.data::DU: in the MOIST Convective transport Bundle
+ DU.data::DU002: in the MOIST Convective transport Bundle
+ DU.data::DU003: in the MOIST Convective transport Bundle
+ DU.data::DU004: in the MOIST Convective transport Bundle
+ DU.data::DU005: in the MOIST Convective transport Bundle
+ GOCART::CO: in the MOIST Convective transport Bundle
+ NI.data::NO3an1: in the MOIST Convective transport Bundle
+ NI.data::NO3an2: in the MOIST Convective transport Bundle
+ NI.data::NO3an3: in the MOIST Convective transport Bundle
+ PCHEM::CFC11: in the MOIST Convective transport Bundle
+ PCHEM::CFC12: in the MOIST Convective transport Bundle
+ PCHEM::CH4: in the MOIST Convective transport Bundle
+ PCHEM::HCFC22: in the MOIST Convective transport Bundle
+ PCHEM::N2O: in the MOIST Convective transport Bundle
+ PCHEM::OX: in the MOIST Convective transport Bundle
+ QW: in the MOIST Convective transport Bundle
+ TR::CH3I: in the MOIST Convective transport Bundle
+ TR::Rn222: in the MOIST Convective transport Bundle
+ TR::aoa: in the MOIST Convective transport Bundle
+ TR::e90: in the MOIST Convective transport Bundle
+ NOT using buffer I/O for file: topo_dynave.data
+ NOT using buffer I/O for file: topo_dynave.data
+ Real*4 Resource Parameter: GWDVAR_FACTOR:1.000000, (default value)
+ NOT using buffer I/O for file: topo_gwdvar.data
+ Real*4 Resource Parameter: TRBVAR_FACTOR:1.000000, (default value)
+ NOT using buffer I/O for file: topo_trbvar.data
+ NOT using buffer I/O for file: topo_trbvar.data
+ Real*4 Resource Parameter: PREDICTOR_OFFSET:21600.000000, (default value)
+ Real*4 Resource Parameter: 4DIAU_FREQUENCY:3600.000000, (default value)
+ Character Resource Parameter: AIAU_IMPORT_RESTART_FILE:aiau_import_rst
+ Bootstrapping aiau_import_rst
+ Character Resource Parameter: FILTER_TYPE:NULL, (default value)
+ Real*4 Resource Parameter: OCEAN_DT:1800.000000, (default value)
+ Integer*4 Resource Parameter: INTERPOLATE_SST:0, (default value)
+ Integer*4 Resource Parameter: BYPASS_OGCM:0, (default value)
+  oserver is not split
+
+ EXPSRC:GEOSgcm-v11.5.2
+ EXPID: TBC_C24_L72_NOEXT
+ Descr: TBC_C24_L72_NOEXT
+ DisableSubVmChecks: F
+
+ Reading HISTORY RC Files:
+ -------------------------
+ Real*4 Resource Parameter: ALPHA:.000000, (default value)
+ Real*4 Resource Parameter: BETA:1.000000, (default value)
+ Real*4 Resource Parameter: ALPHAQ:.000000, (default value)
+ Real*4 Resource Parameter: BETAQ:1.000000, (default value)
+ Real*4 Resource Parameter: ALPHAO:.000000, (default value)
+ Real*4 Resource Parameter: BETAO:1.000000, (default value)
+ Real*4 Resource Parameter: TAUANL:21600.000000, (default value)
+ Integer*4 Resource Parameter: IS_FCST:0, (default value)
+ Integer*4 Resource Parameter: CONSTRAIN_DAS:1, (default value)
+ Character Resource Parameter: ANA_IS_WEIGHTED:NO, (default value)
+ Character Resource Parameter: EXCLUDE_ADVECTION_TRACERS:ALWAYS, (default value)
+ Integer*4 Resource Parameter: CONSV:1, (default value)
+ Integer*4 Resource Parameter: FILL:0, (default value)
+FV3 grid_name: Gnomonic                                                                        
+FV3 grid_file: Inline                                                                                                                  
+FV3 grid_type:  0
+ FV3 Momentum (or KE) options:
+FV3 hord_mt:   6
+FV3 kord_mt:   9
+FV3 kord_wz:   9
+ FV3 Vorticity & w transport options:
+FV3 hord_vt:   6
+ FV3 Heat & air mass (delp) transport options:
+FV3 hord_tm:   6
+FV3 hord_dp:  -6
+FV3 kord_tm:   9
+ FV3 Tracer transport options:
+FV3 ncnst:  31
+FV3 hord_tr:   8
+FV3 kord_tr:   9
+FV3 lim_fac: 1.00000
+ FV3 Damping options:
+FV3 nord:   2
+FV3 dddmp: 0.20000
+FV3 d2_bg: 0.00000
+FV3 d4_bg: 0.12000
+FV3 vtdm4: 0.01000
+FV3 d2_bg_k1: 0.20000
+FV3 d2_bg_k2: 0.15000
+FV3 d2_divg_max_k1: 0.15000
+FV3 d2_divg_max_k2: 0.08000
+FV3 damp_k_k1: 0.20000
+FV3 damp_k_k2: 0.12000
+FV3 do_sat_adj: F
+FV3 do_vort_damp: T
+FV3 beta:  0.0000
+FV3 n_zfilter:  -1
+FV3 n_sponge:   0
+FV3 d_ext: 0.00000
+FV3 nwat:   6
+FV3 p_fac: 0.05000
+FV3 a_imp: 1.00000
+FV3 dz_min: 6.00000
+ FV3 Splitting options:
+FV3 n_split:   4
+FV3 m_split: 451
+FV3 k_split:   1
+FV3 q_split:   0
+ FV3 Grid options:
+FV3 npx:   25
+FV3 npy:   25
+FV3 npz:   72
+FV3 ntiles:    6
+ FV3 Additional options:
+FV3 nf_omega:       1
+FV3 fv_sg_adj:      -1
+FV3 na_init:       0
+FV3 d_con: 1.00000
+FV3 consv_te: 1.00000
+FV3 delt_max: 0.00200
+FV3 ke_bg: 0.00000
+ FV3 Rayleigh Damping Options:
+FV3 RF_fast: T
+FV3 tau:  2.0000
+FV3 rf_cutoff:    35.0
+ FV3 Logical options:
+FV3 external_eta: T
+FV3 fill: T
+FV3 fill_dp: F
+FV3 fill_wz: F
+FV3 reproduce_sum: T
+FV3 adjust_dry_mass: T
+FV3 remap_option:    0
+FV3 gmao_remap:    0
+FV3 z_tracer: T
+FV3 hydrostatic: F
+FV3 phys_hydrostatic: T
+FV3 hybrid_z: F
+FV3 Make_NH: F
+FV3 make_hybrid_z: F
+FV3 a2b_ord:    4
+FV3 c2l_ord:    4
+ FV3 is Advecting the following    31 tracers:
+ Q
+ QLIQ
+ QLCNF
+ QCLD
+ CLCNF
+ QICE
+ QICNF
+ QRAIN
+ QSNOW
+ QGRAUPEL
+ --PCHEM::OX
+ --PCHEM::N2O
+ --PCHEM::CFC11
+ --PCHEM::CFC12
+ --PCHEM::HCFC22
+ --PCHEM::CH4
+ --ACHEM::VOC
+ --ACHEM::VOCbiob
+ --GOCART::CO
+ --DU.data::DU
+ --DU.data::DU002
+ --DU.data::DU003
+ --DU.data::DU004
+ --DU.data::DU005
+ --NI.data::NO3an1
+ --NI.data::NO3an2
+ --NI.data::NO3an3
+ --TR::aoa
+ --TR::e90
+ --TR::Rn222
+ --TR::CH3I
+ Real*8 Resource Parameter: PSDRY:98305.000000, (default value)
+ fv_first_run: FV3 is making Non-Hydrostatic W and DZ
+               FV3 will run fwd-bck restart for NH spinup
+ Global Area=   510064471909821.44     
+ delz computed from hydrostatic state
+ Before adiabatic_init W:  max =    0.00000000      min =    0.00000000    
+FV3 adiabatic_init: step       1 of       1
+ Fast Rayleigh friction E-folding time (days):
+           1   1.44269513E-02   2.0533731225094476     
+           2   2.58317664E-02   2.3973318898371807     
+           3   3.96782607E-02   2.9724634316805298     
+           4   5.62914014E-02   3.8317209400213899     
+           5   7.70842507E-02   5.2064147591284478     
+           6  0.103785068       7.6406651942966040     
+           7  0.138648644       12.638868219252950     
+           8  0.184207246       25.546504842750103     
+           9  0.243394375       78.320394158636347     
+          10  0.319835693       1262.0794565876440     
+ k_rf=          11  0.417980254     dm=   46.5806084    
+ Before adiabatic_init W:  max =   0.137500554      min =  -0.146974325    
+ After adiabatic_init W:  max =   0.137500554      min =  -0.146974325    
+ 0: fv_dynamics: time taken =   0.195735931     s
+ Real*4 Resource Parameter: HGT_SURFACE:50.000000, (default value)
+ Logical Resource Parameter: SCM_NO_RAD:F, (default value)
+ Character Resource Parameter: DPEDT_PHYS:YES, (default value)
+ Real*4 Resource Parameter: DOPHYSICS:1.000000, (default value)
+ Logical Resource Parameter: USE_PYMOIST_AER:F, (default value)
+ List of species friendly to MoistGridComp:
+ ACHEM::VOC is transported by Moist
+ ACHEM::VOCbiob is transported by Moist
+ CNV_TR is transported by Moist
+ DU.data::DU ScavengingFractionPerKm: 0.2
+ DU.data::DU002 ScavengingFractionPerKm: 0.2
+ DU.data::DU003 ScavengingFractionPerKm: 0.2
+ DU.data::DU004 ScavengingFractionPerKm: 0.2
+ DU.data::DU005 ScavengingFractionPerKm: 0.2
+ GOCART::CO is transported by Moist
+ NI.data::NO3an1 ScavengingFractionPerKm: 0.4
+ NI.data::NO3an2 ScavengingFractionPerKm: 0.4
+ NI.data::NO3an3 ScavengingFractionPerKm: 0.4
+ PCHEM::CFC11 is transported by Moist
+ PCHEM::CFC12 is transported by Moist
+ PCHEM::CH4 is transported by Moist
+ PCHEM::HCFC22 is transported by Moist
+ PCHEM::N2O is transported by Moist
+ PCHEM::OX is transported by Moist
+ QW is transported by Moist
+ TR::CH3I is transported by Moist
+ TR::Rn222 is transported by Moist
+ TR::aoa is transported by Moist
+ TR::e90 is transported by Moist
+ Logical Resource Parameter: USE_PYMOIST_UW:F, (default value)
+ gfdl_1m: time taken =   0.111300945     s
+ Integer*4 Resource Parameter: INTERPOLATE_ATMLM:0, (default value)
+ Integer*4 Resource Parameter: CHOOSEZ0:3, (default value)
+ Real*4 Resource Parameter: OCEANICEZ0:.001000, (default value)
+ Real*4 Resource Parameter: OCEANZ0:.001000, (default value)
+ Real*4 Resource Parameter: MAX_WATER_DEPTH:2.000000, (default value)
+ Real*4 Resource Parameter: MIN_WATER_DEPTH:2.000000, (default value)
+ Real*4 Resource Parameter: MU_SKIN:.200000, (default value)
+ Character Resource Parameter: T_from_AOIL_to_SFCLAYER:TW_from_internal, (default value)
+ Real*4 Resource Parameter: DEPTH_T_AOIL_to_SFCLAYER:.000000, (default value)
+ Integer*4 Resource Parameter: FIRST_ENS_ID:0, (default value)
+ Character Resource Parameter: LAI_FILE:lai.data
+ Character Resource Parameter: GREEN_FILE:green.data
+ Character Resource Parameter: NDVI_FILE:ndvi.data
+ NOT using buffer I/O for file: lai.data
+ Previous time forLAIs is:
+           1           4           7           0           0           0           1           4          15           0           0           0
+ Integer*4 Resource Parameter: PARALLEL_READFORCING:0, (default value)
+ NOT using buffer I/O for file: green.data
+ NOT using buffer I/O for file: ndvi.data
+ Previous time forNDVIs is:
+           1           4           1           0           0           0           1           4          16           0           0           0
+ I am getLightning, flash source: MOIST
+ MOIST flash rate calculation
+ Real*4 Resource Parameter: MARINE_A0:.013987, (default value)
+ Real*4 Resource Parameter: MARINE_A1:.035876, (default value)
+ Real*4 Resource Parameter: MARINE_A2:-.061021, (default value)
+ Real*4 Resource Parameter: MARINE_A3:-.010232, (default value)
+ Real*4 Resource Parameter: MARINE_A4:.003135, (default value)
+ Real*4 Resource Parameter: MARINE_A5:.034624, (default value)
+ Real*4 Resource Parameter: CONTINENT_A0:-.018317, (default value)
+ Real*4 Resource Parameter: CONTINENT_A1:-.056234, (default value)
+ Real*4 Resource Parameter: CONTINENT_A2:.186274, (default value)
+ Real*4 Resource Parameter: CONTINENT_A3:-.002336, (default value)
+ Real*4 Resource Parameter: CONTINENT_A4:-.001384, (default value)
+ Real*4 Resource Parameter: CONTINENT_A5:.011476, (default value)
+ Real*4 Resource Parameter: X1_DIVISOR:4.360000, (default value)
+ Real*4 Resource Parameter: X2_DIVISOR:9.270000, (default value)
+ Real*4 Resource Parameter: X3_DIVISOR:34.400002, (default value)
+ Real*4 Resource Parameter: X4_DIVISOR:21.400000, (default value)
+ Real*4 Resource Parameter: X5_DIVISOR:14600.000000, (default value)
+ Real*4 Resource Parameter: X5_EXPONENT:3.000000, (default value)
+ Real*4 Resource Parameter: SFC_T_LIMIT:273.000000, (default value)
+ Real*4 Resource Parameter: AIR_T_LIMIT:263.000000, (default value)
+ Real*4 Resource Parameter: CLOUD_TOP_LIMIT:500.000000, (default value)
+ Integer*4 Resource Parameter: TURBULENCE_DO_SHOC:0, (default value)
+ Logical Resource Parameter: JASON_TRB:T, (default value)
+ Integer*4 Resource Parameter: TURBULENCE_PBLHT_OPTION:4, (default value)
+ Real*4 Resource Parameter: TURBULENCE_SMTH_HGT:.000000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_C_B:6.000000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_LOUIS:5.000000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_ALHFAC:1.200000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_ALMFAC:1.200000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_LAMBDADISS:50.000000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_LAMBDAM:160.000000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_LAMBDAM2:1.000000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_LAMBDAH:160.000000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_LAMBDAH2:1.000000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_ZKMENV:3000.000000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_ZKHENV:3000.000000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_MINTHICK:.100000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_MINSHEAR:.003000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_LAMBDA_B:1500.000000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_AKHMMAX:500.000000, (default value)
+ Integer*4 Resource Parameter: TURBULENCE_LOCK_ON:1, (default value)
+ Real*4 Resource Parameter: TURBULENCE_PRANDTLSFC:1.000000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_PRANDTLRAD:.750000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_BETA_SURF:.250000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_BETA_RAD:.200000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_KHRADFAC:.850000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_KHSFCFAC_LND:.600000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_KHSFCFAC_OCN:.300000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_TPFAC_SURF:20.000000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_ENTRATE_SURF:.001500, (default value)
+ Real*4 Resource Parameter: TURBULENCE_PCEFF_SURF:.500000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_VSCALE_SURF:.002500, (default value)
+ Real*4 Resource Parameter: TURBULENCE_PERTOPT_SURF:.000000, (default value)
+ Real*4 Resource Parameter: TURBULENCE_LOUIS_MEMORY:-999.000000, (default value)
+ Integer*4 Resource Parameter: DOPROGQT2:1, (default value)
+ Real*4 Resource Parameter: SL2TUNE:4.000000, (default value)
+ Real*4 Resource Parameter: QT2TUNE:5.000000, (default value)
+ Real*4 Resource Parameter: SLQT2TUNE:7.000000, (default value)
+ Real*4 Resource Parameter: QT3_TSCALE:1600.000000, (default value)
+ Real*4 Resource Parameter: AFRC_TSCALE:1600.000000, (default value)
+ Integer*4 Resource Parameter: DOCANUTO:0, (default value)
+ Integer*4 Resource Parameter: EDMF_DOMF:0, (default value)
+ Character Resource Parameter: PRECIP_FILE:null, (default value)
+ Real*4 Resource Parameter: SOLAR_CONSTANT:-1.000000
+ Character Resource Parameter: SOLAR_CYCLE_FILE_NAME:ExtData/g5gcm/solar/NRLSSI2.txt
+ Logical Resource Parameter: USE_NRLSSI2:T, (default value)
+ Logical Resource Parameter: PERSIST_SOLAR:T, (default value)
+ Integer*4 Resource Parameter: INTERPOLATE_ATMTAU:0, (default value)
+ Integer*4 Resource Parameter: DATALAKE:0, (default value)
+ Real*4 Resource Parameter: LANDICEEMISS:.999990, (default value)
+ Real*4 Resource Parameter: LANDICEALBEDO:.580000, (default value)
+ Real*4 Resource Parameter: LANDICEDEPTH:.070000, (default value)
+ Real*4 Resource Parameter: LANDICECOND:1.200000, (default value)
+ Real*4 Resource Parameter: LANDICETDEEP:230.000000, (default value)
+ Integer*4 Resource Parameter: INCL_LOUIS_EXTRA_DERIVS:1, (default value)
+ Character Resource Parameter: VISDF_FILE:visdf.dat, (default value)
+ Character Resource Parameter: NIRDF_FILE:nirdf.dat, (default value)
+ NOT using buffer I/O for file: visdf.dat
+ Previous time forVISDFs is:
+           1           4           7           0           0           0           1           4          15           0           0           0
+ NOT using buffer I/O for file: nirdf.dat
+ Previous time forNIRDFs is:
+           1           4           7           0           0           0           1           4          15           0           0           0
+ Real*4 Resource Parameter: MAX_SEAICE_DEPTH:.070000
+ Real*4 Resource Parameter: MIN_SEAICE_DEPTH:.070000
+ Real*4 Resource Parameter: CICE_EMSICE:.999990, (default value)
+ Integer*4 Resource Parameter: COOL_SKIN_LAYER_ITERATIONS:3, (default value)
+ Real*4 Resource Parameter: THRESHOLD_ICE_FR_SST:.000000, (default value)
+ Real*4 Resource Parameter: STOKES_VELOCITY:.010000, (default value)
+ Real*4 Resource Parameter: MAX_SALINITY:40.000000, (default value)
+ Real*4 Resource Parameter: MIN_SALINITY:5.000000, (default value)
+ Character Resource Parameter: WARM_LAYER_GRAD_DECAY:no, (default value)
+ Character Resource Parameter: UPDATE_FLUXES_AOIL_SECOND_STEP:no, (default value)
+ Real*4 Resource Parameter: SHVC_EFFECT:.000000, (default value)
+ MASK min and max :        80000      133000
+ MASK min and max :       120000      173000
+  
+ PCHEM::Run: Indices selected from climatology are          255         256
+  
+ Real*4 Resource Parameter: CH4_FIXED_VALUE:-1.000000, (default value)
+ Real*4 Resource Parameter: CH4_RELAXTIME:259200.000000
+ Real*4 Resource Parameter: CH4_DELP:5000.000000, (default value)
+ Real*4 Resource Parameter: CH4_PCRIT:10000000272564224.000000, (default value)
+ Real*4 Resource Parameter: N2O_FIXED_VALUE:-1.000000, (default value)
+ Real*4 Resource Parameter: N2O_RELAXTIME:259200.000000
+ Real*4 Resource Parameter: N2O_DELP:5000.000000, (default value)
+ Real*4 Resource Parameter: N2O_PCRIT:10000000272564224.000000, (default value)
+ Real*4 Resource Parameter: CFC11_FIXED_VALUE:-1.000000, (default value)
+ Real*4 Resource Parameter: CFC11_RELAXTIME:259200.000000
+ Real*4 Resource Parameter: CFC11_DELP:5000.000000, (default value)
+ Real*4 Resource Parameter: CFC11_PCRIT:10000000272564224.000000, (default value)
+ Real*4 Resource Parameter: CFC12_FIXED_VALUE:-1.000000, (default value)
+ Real*4 Resource Parameter: CFC12_RELAXTIME:259200.000000
+ Real*4 Resource Parameter: CFC12_DELP:5000.000000, (default value)
+ Real*4 Resource Parameter: CFC12_PCRIT:10000000272564224.000000, (default value)
+ Real*4 Resource Parameter: HCFC22_FIXED_VALUE:-1.000000, (default value)
+ Real*4 Resource Parameter: HCFC22_RELAXTIME:259200.000000
+ Real*4 Resource Parameter: HCFC22_DELP:5000.000000, (default value)
+ Real*4 Resource Parameter: HCFC22_PCRIT:10000000272564224.000000, (default value)
+ Real*4 Resource Parameter: OX_FIXED_VALUE:-1.000000, (default value)
+ Real*4 Resource Parameter: OX_RELAXTIME:259200.000000
+ Real*4 Resource Parameter: OX_DELP:5000.000000, (default value)
+ Real*4 Resource Parameter: OX_PCRIT:10000000272564224.000000, (default value)
+ Real*4 Resource Parameter: H2O_RELAXTIME:259200.000000
+ Real*4 Resource Parameter: H2O_DELP:5000.000000, (default value)
+ Real*4 Resource Parameter: H2O_PCRIT:20000.000000, (default value)
+ Real*4 Resource Parameter: PRS_LOW_MID_CLOUDS:70000.000000, (default value)
+ Real*4 Resource Parameter: PRS_MID_HIGH_CLOUDS:40000.000000, (default value)
+ Real*4 Resource Parameter: CO2:-1.000000
+ Integer*4 Resource Parameter: SUN_FLAG:0, (default value)
+ Integer*4 Resource Parameter: SOLAR_LOAD_BALANCE:1, (default value)
+ Integer*4 Resource Parameter: SOLAR_LB_MAX_PASSES:100, (default value)
+
+ Updated CO2 in solar for year/day 2000/105 is  0.36854E-03
+
+ Real*4 Resource Parameter: USE_RRTMGP_IRRAD:.000000, (default value)
+ Real*4 Resource Parameter: USE_RRTMG_IRRAD:1.000000
+ Integer*4 Resource Parameter: NUM_BANDS:30
+ Integer*4 Resource Parameter: CALLED_LAST:1, (default value)
+ Character Resource Parameter: KPAR_FILE:SEAWIFS_KPAR_mon_clim.data
+ NOT using buffer I/O for file: SEAWIFS_KPAR_mon_clim.data
+ Character Resource Parameter: DATA_FRT_FILE:fraci.data
+ Integer*4 Resource Parameter: OGCM_IS_FCST:0, (default value)
+ Real*4 Resource Parameter: TAU_SIT:86400.000000, (default value)
+ Real*4 Resource Parameter: CTB:.000100, (default value)
+ Logical Resource Parameter: STRICT_ICE_FRACTION:T, (default value)
+ Character Resource Parameter: DATA_SST_FILE:sst.data
+ Integer*4 Resource Parameter: SST_ADJ_UND_ICE:0, (default value)
+ NOT using buffer I/O for file: sst.data
+ Previous time forSSTs is:
+        2000           4           9           0           0           0        2000           4          16           0           0           0
+ Integer*4 Resource Parameter: INTERPOLATE_OCEAN_ICE_CURRENTS:0, (default value)
+ AGCM Date: 2000/04/14  Time: 21:30:00  Throughput(days/day)[Avg Tot Run]:        578.3        578.3        579.1  TimeRemaining(Est) 000:17:25  154.3% :  57.6% Mem Comm:Used
+ 0: fv_dynamics: time taken =   0.290348053     s
+ gfdl_1m: time taken =   0.103960037     s
+ Integer*4 Resource Parameter: RADSW_BINARY_CLOUDS:0, (default value)
+ Integer*4 Resource Parameter: RRTMG_ICEFLG:3, (default value)
+ Integer*4 Resource Parameter: RRTMG_LIQFLG:1, (default value)
+ Integer*4 Resource Parameter: RRTMGSW_PARTITION_SIZE:0, (default value)
+ Integer*4 Resource Parameter: ISOLVAR:2
+ Real*4 Resource Parameter: SOLCYCFRAC:1.000000, (default value)
+ Integer*4 Resource Parameter: RADLW_BINARY_CLOUDS:0, (default value)
+ Integer*4 Resource Parameter: RRTMGLW_PARTITION_SIZE:4, (default value)
+ Real*4 Resource Parameter: TAUCRIT:.300000, (default value)
+ Character Resource Parameter: AGCM_GRIDNAME:PE24x144-CF
+ Integer*4 Resource Parameter: SATSIM_NCOLUMNS:30, (default value)
+ Integer*4 Resource Parameter: SATSIM_POINTS_PER_ITERATION:-999, (default value)
+ AGCM Date: 2000/04/14  Time: 22:00:00  Throughput(days/day)[Avg Tot Run]:       1037.9        518.9        519.4  TimeRemaining(Est) 000:09:40  154.5% :  58.3% Mem Comm:Used
+ 0: fv_dynamics: time taken =   0.273163795     s
+ gfdl_1m: time taken =    9.05361176E-02 s
+ AGCM Date: 2000/04/14  Time: 22:30:00  Throughput(days/day)[Avg Tot Run]:       1031.0       1017.6       1019.2  TimeRemaining(Est) 000:09:43  154.5% :  58.3% Mem Comm:Used
+ 0: fv_dynamics: time taken =   0.315229416     s
+ gfdl_1m: time taken =    8.98714066E-02 s
+ AGCM Date: 2000/04/14  Time: 23:00:00  Throughput(days/day)[Avg Tot Run]:        834.5        531.0        531.4  TimeRemaining(Est) 000:11:58  154.5% :  58.3% Mem Comm:Used
+ 0: fv_dynamics: time taken =   0.273458481     s
+ gfdl_1m: time taken =   0.105947495     s
+ AGCM Date: 2000/04/14  Time: 23:30:00  Throughput(days/day)[Avg Tot Run]:        868.5       1037.9       1039.5  TimeRemaining(Est) 000:11:28  154.6% :  58.3% Mem Comm:Used
+ 0: fv_dynamics: time taken =   0.284156799     s
+ gfdl_1m: time taken =   0.108263016     s
+ AGCM Date: 2000/04/15  Time: 00:00:00  Throughput(days/day)[Avg Tot Run]:        789.9        544.0        544.4  TimeRemaining(Est) 000:12:34  154.6% :  58.3% Mem Comm:Used
+ 0: fv_dynamics: time taken =   0.278270721     s
+ gfdl_1m: time taken =   0.110727310     s
+  
+ PCHEM::Run: Indices selected from climatology are          255         256
+  
+
+ Updated CO2 in solar for year/day 2000/106 is  0.36855E-03
+
+ AGCM Date: 2000/04/15  Time: 00:30:00  Throughput(days/day)[Avg Tot Run]:        816.8       1025.8       1027.5  TimeRemaining(Est) 000:12:07  154.5% :  58.3% Mem Comm:Used
+ Total surface pressure (mb) =    985.523438    
+ mean dry surface pressure =    983.049927    
+ Total Water (kg/m**2) =   25.2228394    
+ dry mass to be added (pascals) =   7.81250000E-03
+ 0: fv_dynamics: time taken =   0.300895691     s
+ gfdl_1m: time taken =   0.105234146     s
+ AGCM Date: 2000/04/15  Time: 01:00:00  Throughput(days/day)[Avg Tot Run]:        766.3        534.9        535.6  TimeRemaining(Est) 000:12:52  154.5% :  58.3% Mem Comm:Used
+ Total surface pressure (mb) =    985.524963    
+ mean dry surface pressure =    983.050049    
+ Total Water (kg/m**2) =   25.2371788    
+ dry mass to be added (pascals) =  -7.81250000E-03
+ 0: fv_dynamics: time taken =   0.304203033     s
+ gfdl_1m: time taken =   0.110647202     s
+ AGCM Date: 2000/04/15  Time: 01:30:00  Throughput(days/day)[Avg Tot Run]:        789.0       1035.4       1037.0  TimeRemaining(Est) 000:12:28  154.5% :  58.3% Mem Comm:Used
+ 0: fv_dynamics: time taken =   0.290521622     s
+ gfdl_1m: time taken =   0.104896545     s
+ AGCM Date: 2000/04/15  Time: 02:00:00  Throughput(days/day)[Avg Tot Run]:        754.7        542.3        542.8  TimeRemaining(Est) 000:12:59  154.5% :  58.2% Mem Comm:Used
+ Total surface pressure (mb) =    985.527771    
+ mean dry surface pressure =    983.049927    
+ Total Water (kg/m**2) =   25.2674522    
+ dry mass to be added (pascals) =   7.81250000E-03
+ 0: fv_dynamics: time taken =   0.303016663     s
+ gfdl_1m: time taken =   0.112361908     s
+ AGCM Date: 2000/04/15  Time: 02:30:00  Throughput(days/day)[Avg Tot Run]:        773.4       1028.8       1030.6  TimeRemaining(Est) 000:12:38  154.4% :  58.2% Mem Comm:Used
+ Total surface pressure (mb) =    985.529663    
+ mean dry surface pressure =    983.050049    
+ Total Water (kg/m**2) =   25.2849789    
+ dry mass to be added (pascals) =  -7.81250000E-03
+ 0: fv_dynamics: time taken =   0.304805756     s
+ gfdl_1m: time taken =   0.106781006     s
+ AGCM Date: 2000/04/15  Time: 03:00:00  Throughput(days/day)[Avg Tot Run]:        745.7        534.9        535.3  TimeRemaining(Est) 000:13:04  154.3% :  58.1% Mem Comm:Used
+ 0: fv_dynamics: time taken =   0.282878876     s
+ gfdl_1m: time taken =   0.105949402     s
+ AGCM Date: 2000/04/15  Time: 03:30:00  Throughput(days/day)[Avg Tot Run]:        762.3       1039.5       1041.2  TimeRemaining(Est) 000:12:45  154.3% :  58.0% Mem Comm:Used
+ Total surface pressure (mb) =    985.533264    
+ mean dry surface pressure =    983.049927    
+ Total Water (kg/m**2) =   25.3232174    
+ dry mass to be added (pascals) =   7.81250000E-03
+ 0: fv_dynamics: time taken =   0.297229767     s
+ gfdl_1m: time taken =   0.108489990     s
+ AGCM Date: 2000/04/15  Time: 04:00:00  Throughput(days/day)[Avg Tot Run]:        740.3        538.2        538.6  TimeRemaining(Est) 000:13:05  154.3% :  58.0% Mem Comm:Used
+ Total surface pressure (mb) =    985.534912    
+ mean dry surface pressure =    983.050049    
+ Total Water (kg/m**2) =   25.3383541    
+ dry mass to be added (pascals) =  -7.81250000E-03
+ 0: fv_dynamics: time taken =   0.305931091     s
+ gfdl_1m: time taken =   0.106884003     s
+ AGCM Date: 2000/04/15  Time: 04:30:00  Throughput(days/day)[Avg Tot Run]:        754.0       1019.2       1020.9  TimeRemaining(Est) 000:12:48  154.3% :  57.8% Mem Comm:Used
+ Total surface pressure (mb) =    985.536438    
+ mean dry surface pressure =    983.049927    
+ Total Water (kg/m**2) =   25.3558807    
+ dry mass to be added (pascals) =   7.81250000E-03
+ 0: fv_dynamics: time taken =   0.298049927     s
+ gfdl_1m: time taken =   0.105438232     s
+ AGCM Date: 2000/04/15  Time: 05:00:00  Throughput(days/day)[Avg Tot Run]:        735.7        539.4        539.9  TimeRemaining(Est) 000:13:05  154.1% :  57.6% Mem Comm:Used
+ 0: fv_dynamics: time taken =   0.283157349     s
+ gfdl_1m: time taken =   0.104656219     s
+ AGCM Date: 2000/04/15  Time: 05:30:00  Throughput(days/day)[Avg Tot Run]:        748.4       1032.6       1034.3  TimeRemaining(Est) 000:12:49  154.3% :  57.8% Mem Comm:Used
+ 0: fv_dynamics: time taken =   0.285720825     s
+ gfdl_1m: time taken =   0.103851318     s
+ AGCM Date: 2000/04/15  Time: 06:00:00  Throughput(days/day)[Avg Tot Run]:        732.4        537.1        537.5  TimeRemaining(Est) 000:13:04  154.1% :  57.7% Mem Comm:Used
+ 0: fv_dynamics: time taken =   0.281082153     s
+ gfdl_1m: time taken =   0.104846954     s
+ AGCM Date: 2000/04/15  Time: 06:30:00  Throughput(days/day)[Avg Tot Run]:        743.7       1032.9       1034.4  TimeRemaining(Est) 000:12:49  154.3% :  57.8% Mem Comm:Used
+ 0: fv_dynamics: time taken =   0.286510468     s
+ gfdl_1m: time taken =   0.119335175     s
+ AGCM Date: 2000/04/15  Time: 07:00:00  Throughput(days/day)[Avg Tot Run]:        729.3        532.3        532.7  TimeRemaining(Est) 000:13:02  154.2% :  57.7% Mem Comm:Used
+ 0: fv_dynamics: time taken =   0.288516998     s
+ gfdl_1m: time taken =   0.110054016     s
+ AGCM Date: 2000/04/15  Time: 07:30:00  Throughput(days/day)[Avg Tot Run]:        739.2       1016.6       1018.1  TimeRemaining(Est) 000:12:49  154.3% :  57.8% Mem Comm:Used
+ Total surface pressure (mb) =    985.546326    
+ mean dry surface pressure =    983.049927    
+ Total Water (kg/m**2) =   25.4562588    
+ dry mass to be added (pascals) =   7.81250000E-03
+ 0: fv_dynamics: time taken =   0.299148560     s
+ gfdl_1m: time taken =   0.106712341     s
+ AGCM Date: 2000/04/15  Time: 08:00:00  Throughput(days/day)[Avg Tot Run]:        726.4        533.1        533.5  TimeRemaining(Est) 000:13:00  154.2% :  57.7% Mem Comm:Used
+ 0: fv_dynamics: time taken =   0.290390015     s
+ gfdl_1m: time taken =   0.108837128     s
+ AGCM Date: 2000/04/15  Time: 08:30:00  Throughput(days/day)[Avg Tot Run]:        735.1        994.8        996.2  TimeRemaining(Est) 000:12:48  154.4% :  57.9% Mem Comm:Used
+ 0: fv_dynamics: time taken =   0.294151306     s
+ gfdl_1m: time taken =   0.107353210     s
+ AGCM Date: 2000/04/15  Time: 09:00:00  Throughput(days/day)[Avg Tot Run]:        723.5        532.0        532.4  TimeRemaining(Est) 000:12:58  154.4% :  57.7% Mem Comm:Used
+ 0: fv_dynamics: time taken =   0.288940430     s
+ gfdl_1m: time taken =   0.108283997     s
+ AGCM Date: 2000/04/15  Time: 09:30:00  Throughput(days/day)[Avg Tot Run]:        731.8       1010.1       1011.7  TimeRemaining(Est) 000:12:47  154.3% :  57.8% Mem Comm:Used
+ 0: fv_dynamics: time taken =   0.288673401     s
+ gfdl_1m: time taken =   0.108062744     s

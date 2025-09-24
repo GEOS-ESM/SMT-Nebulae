@@ -1,0 +1,35 @@
+ Cubic: cubed-sphere domain decomposition
+whalo =    3, ehalo =    3, shalo =    3, nhalo =    3
+  X-AXIS =   24
+  Y-AXIS =   24
+ Cubic: cubed-sphere domain decomposition
+whalo =    1, ehalo =    1, shalo =    1, nhalo =    1
+  X-AXIS =   24
+  Y-AXIS =   24
+ Corner interpolation coefficient=   1.4728933553306158     
+ gfdl_1m: time taken =   0.124547958     s
+ gfdl_1m: time taken =   0.124268532     s
+ gfdl_1m: time taken =   0.111283302     s
+ gfdl_1m: time taken =   0.104503632     s
+ gfdl_1m: time taken =   0.124462128     s
+ gfdl_1m: time taken =   0.125925064     s
+ gfdl_1m: time taken =   0.135601044     s
+ gfdl_1m: time taken =   0.134489059     s
+ gfdl_1m: time taken =   0.133245468     s
+ gfdl_1m: time taken =   0.138597488     s
+ gfdl_1m: time taken =   0.149192810     s
+ gfdl_1m: time taken =   0.138988495     s
+ gfdl_1m: time taken =   0.139308929     s
+ gfdl_1m: time taken =   0.132148743     s
+ gfdl_1m: time taken =   0.133510590     s
+ gfdl_1m: time taken =   0.134082794     s
+ gfdl_1m: time taken =   0.133377075     s
+ gfdl_1m: time taken =   0.138648987     s
+ gfdl_1m: time taken =   0.134963989     s
+ gfdl_1m: time taken =   0.131324768     s
+ gfdl_1m: time taken =   0.133773804     s
+ gfdl_1m: time taken =   0.136192322     s
+ gfdl_1m: time taken =   0.139862061     s
+ gfdl_1m: time taken =   0.137779236     s
+ gfdl_1m: time taken =   0.139328003     s
+ gfdl_1m: time taken =   0.136955261     s
