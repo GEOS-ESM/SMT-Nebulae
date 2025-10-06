@@ -24,6 +24,7 @@ def setup_fv_cube_grid(
     eta_file: str | None,
     eta_ak_bk_file: str | None,
     orchestrate: DaCeOrchestration | None,
+    compute_grid_data: bool = True,
 ):
     """
 
@@ -60,21 +61,26 @@ def setup_fv_cube_grid(
     # set up the metric terms and grid data, we filter warnings because in single tile
     # mode where communicator is NullComm we know we are doing bad calculation on edge of the
     # grid...
-    if eta_ak_bk_file is not None:
-        ak_bk_data = xr.open_dataset(eta_ak_bk_file)
-        metric_terms = MetricTerms(
-            quantity_factory=quantity_factory,
-            communicator=communicator,
-            ak=ak_bk_data["ak"].data,
-            bk=ak_bk_data["bk"].data,
-        )
+    if compute_grid_data:
+        if eta_ak_bk_file is not None:
+            ak_bk_data = xr.open_dataset(eta_ak_bk_file)
+            metric_terms = MetricTerms(
+                quantity_factory=quantity_factory,
+                communicator=communicator,
+                ak=ak_bk_data["ak"].data,
+                bk=ak_bk_data["bk"].data,
+            )
+        else:
+            metric_terms = MetricTerms(
+                quantity_factory=quantity_factory,
+                communicator=communicator,
+                eta_file=eta_file,
+            )
+        grid_data = GridData.new_from_metric_terms(metric_terms)
+        damping_coefficients = DampingCoefficients.new_from_metric_terms(metric_terms)
     else:
-        metric_terms = MetricTerms(
-            quantity_factory=quantity_factory,
-            communicator=communicator,
-            eta_file=eta_file,
-        )
-    grid_data = GridData.new_from_metric_terms(metric_terms)
+        grid_data = None
+        damping_coefficients = None
 
     stencil_config = StencilConfig(
         compilation_config=CompilationConfig(
@@ -98,7 +104,5 @@ def setup_fv_cube_grid(
         sizer=_sizer, comm=communicator
     )
     stencil_factory = StencilFactory(config=stencil_config, grid_indexing=grid_indexing)
-
-    damping_coefficients = DampingCoefficients.new_from_metric_terms(metric_terms)
 
     return stencil_factory, quantity_factory, grid_data, damping_coefficients

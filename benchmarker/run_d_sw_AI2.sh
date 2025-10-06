@@ -7,10 +7,6 @@ fi
 
 export NDSL_LOGLEVEL=DEBUG
 export OMP_NUM_THREADS=1
-export NDSL_LITERAL_PRECISION=32
-export GT4PY_COMPILE_OPT_LEVEL=3
+export NDSL_LITERAL_PRECISION=64
 
-rm -f stdout.log
-rm -f stderr.log
-
-python benchmarker_UW.py # > stdout.log 2> stderr.log
+python benchmarker_DSW.py

@@ -7,5 +7,6 @@ fi
 
 export NDSL_LOGLEVEL=DEBUG
 export OMP_NUM_THREADS=1
+export NDSL_LITERAL_PRECISION=64
 
 python benchmarker_FVTP2D.py
