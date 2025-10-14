@@ -22,6 +22,23 @@ There are a bunch of optimizations that we have planned with the [schedule tree 
 - In the previous bridge, we'd [split horizontal execution regions](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/gtc/dace/expansion/expansion.py#L149). This was also used for [orchestration in NDSL](https://github.com/NOAA-GFDL/NDSL/blob/2986b450386b5006d847f246ff6e8b23abdc9190/ndsl/dsl/dace/sdfg_opt_passes.py). To be re-evaluated.
 - When orchestrating a lot of the fields that are held by the classes (the `self.tmp_field`) are transient to the local object (could be multiple stencils!) but those are flagged as global memory anyway. Re-scoping them to proper transients could lead to better memory & scalarization. At the `stree` level we don't scope the arrays to any space, we just flag them and the STREE-to-SDFG bridge deals with localizing them. Could we just write a pass scoping the containers post parsing and let the bridge do it?
 - ✅ For stencils only we are missing a `simplify` (and potentially a `validate`?) right before [going to code generation](https://github.com/romanc/gt4py/blob/06cd753135d1a6caaabe0aca37cf735fb1d96c52/src/gt4py/cartesian/backend/dace_backend.py#L407)
+- Initialization code is not recognized as a special case and badly optimized. Code like this
+
+```python
+    with computation(PARALLEL), interval(...):
+        # Initialize output variables defined for all grid points
+        dcm_out = 0.0
+        cufrc_out = 0.0
+        fer_out = constants.MAPL_UNDEF
+        fdr_out = constants.MAPL_UNDEF
+        qldet_out = 0.0
+        qidet_out = 0.0
+        qlsub_out = 0.0
+        qisub_out = 0.0
+        ndrop_out = 0.0
+```
+
+will cache miss given enough fields when they are, in truth, a `memcopy` away from being optimized.
 
 ### Allocation lifetime of temporaries 🗑️
 
