@@ -86,6 +86,9 @@ We might want to centralize hardware detection. We currently
 - ChrisH and Katrina report that `.at(K=...)` only works with 64-bit integers. 2D integer fields (e.g. `IntFieldIJ`) also seem to make problems. Sounds like this is related to the bug above.
 - Missing integer divide operator (`//`) in GT4Py ([issue](https://github.com/NOAA-GFDL/NDSL/issues/179))
 - Support for `pass` inside stencils
+- Support for use of `Enum` within the stencils to allow for modes, errors, and other integer based identifiers to be readable
+- Introduce type hints that would help see which fields are `Interface`, e.g. a `FloatField_KInterface` or equivalent
+- Rename the `X|Y|Z_DIM` into `I|J|K_DIM` and overall flush `X|Y|Z` from the middleware
 
 ## 🐞 Debug
 
