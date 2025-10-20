@@ -40,7 +40,7 @@ There are a bunch of optimizations that we have planned with the [schedule tree 
 
 will cache miss given enough fields when they are, in truth, a `memcopy` away from being optimized.
 
-### Allocation lifetime of temporaries 🗑️
+### Allocation lifetime of temporaries (in stencils) 🗑️
 
 IN the OIR -> Schedule Tree bridge, we allocate temporary fields with `AllocationLifetime.Persistent`. This has been done before (in the initial GT4Py-DaCe bridge). This isn't a good default and we tried to change it. Ideally we'd like to keep the scope of temporary fields as small as possible. `AllocationLifetime.Global` seems like a good default (since `AllocationLifetime.Scope`is too small for temporaries that are populated in one `with computation(..)` block and re-used subsequent ones).
 
@@ -79,6 +79,12 @@ We might want to centralize hardware detection. We currently
 - and plan to use HW-dependent tiling (in NDSL/gt4py).
 
 ## </\> Frontend
+
+### Locals
+
+- See [PR description](https://github.com/NOAA-GFDL/NDSL/pull/266)
+
+### Pot-pourri
 
 - 🐞: Unable to do operation in absolute indexer in stencils.
     - This WORKS: `field.at(K=k22 - k_index)` with `k22` and `k_index` as `IntField32`
