@@ -95,6 +95,7 @@ We might want to centralize hardware detection. We currently
 - Support for use of `Enum` within the stencils to allow for modes, errors, and other integer based identifiers to be readable
 - Introduce type hints that would help see which fields are `Interface`, e.g. a `FloatField_KInterface` or equivalent
 - Rename the `X|Y|Z_DIM` into `I|J|K_DIM` and overall flush `X|Y|Z` from the middleware
+- Grell-Freitas Deep Convection scheme implemented a small perturbation per grid point: we need a way to generate randomness per point
 
 ## 🐞 Debug
 
