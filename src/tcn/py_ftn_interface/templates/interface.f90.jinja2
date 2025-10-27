@@ -1,6 +1,6 @@
 module {{prefix}}_interface_mod
 
-    use iso_c_binding, only: c_int, c_float, c_double
+    use iso_c_binding, only: c_int, c_float, c_double, c_bool
 
     {% for validation in validations -%}
     use {{validation.reference_mod}}, only: {{validation.reference_call}}
@@ -16,46 +16,89 @@ module {{prefix}}_interface_mod
 
     private
     {% for function in functions -%}
-    public :: {{prefix}}_{{function.name}}_f
+    public :: {{prefix}}_f_{{function.name}}
+    {% endfor -%}
+    {% for new_type in derived_types -%}
+    public :: {{new_type.name}}_interface_type
+    public :: make_{{new_type.name}}_C_interop
+    {% endfor -%}
+
+    {% for validation in validations -%}
     {% endfor -%}
     {% for validation in validations -%}
-    public :: validate_{{prefix}}_{{validation.candidate}}_f
+    public :: validate_{{prefix}}_f_{{validation.candidate}}
     {% endfor -%}
+
+    {% for new_type in derived_types -%}
+    type, bind(c) :: {{new_type.name}}_interface_type
+        {% for variable in new_type.variables -%}
+            {{variable.type}} :: {{variable.name}}
+        {% endfor -%}
+    end type
+    {% endfor %}
+
     interface
     {% for function in functions %}
-        subroutine {{prefix}}_{{function.name}}_f( &
+        subroutine {{prefix}}_f_{{function.name}}( &
             !inputs
             {% for input in function.inputs -%}
-                {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 else "" }}{{"&\n" if (loop.index % 10) == 0 else ""}}
-            {%- endfor %}{{ "&" if function.inputs|length > 0 else "" }}
+                {% if "dimension(*)" in input.type %}
+            {{input.name}}, {{input.name}}_dim_sizes, {{input.name}}_rank{{ ", &" if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else " &" }}
+                {%- else %}
+            {{input.name}}{{ ", &" if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else " &" }}
+                {%- endif -%}{{"\n" if loop.last}}
+            {%- endfor %}
             !inouts
             {% for inout in function.inouts -%}
-                {{inout.name}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}{{"&\n" if loop.index % 10 == 0 else ""}}
-            {%- endfor %}{{ "&" if function.inouts|length > 0 else "" }}
+                {% if "dimension(*)" in inout.type %}
+                {{inout.name}}, {{inout.name}}_dim_sizes, {{inout.name}}_rank{{ ", &" if not loop.last or function.outputs|length > 0 else " &" }}
+                {%- else %}
+                {{inout.name}}{{ ", &" if not loop.last or function.outputs|length > 0 else " &" }}
+                {%- endif -%}
+            {%- endfor %}{{"\n" if loop.last}}
             !outputs
             {% for output in function.outputs -%}
-                {{output.name}}{{ ", " if not loop.last }}{{"&\n" if loop.index % 10 == 0 else ""}}
-            {%- endfor -%}{{ "&" if function.outputs|length > 0 else "" }}
-        ) bind(c, name='{{prefix}}_{{function.name}}_c')
+                {% if "dimension(*)" in output.type %}
+            {{output.name}}, {{output.name}}_dim_sizes, {{output.name}}_rank{{ ", &" if not loop.last else " &" }}
+                {%- else %}
+            {{output.name}}{{ ", &" if not loop.last else " &" }}
+                {%- endif -%}{{"\n" if loop.last}}
+            {%- endfor -%}{{"\n" if loop.last}}
+        ) bind(c, name='{{prefix}}_c_{{function.name}}')
             import c_int, c_float, c_double
+            {% for new_type in derived_types -%}
+            import {{new_type.name}}_interface_type ! This may be extraneous in some cases
+            {% endfor -%}
             implicit none
 
             {% for input in function.inputs -%}
             {{input.type}}, intent(in) :: {{input.name}}
+                {% if "dimension(*)" in input.type -%}
+                    integer(kind=c_int), dimension(*), intent(in) :: {{input.name}}_dim_sizes
+                    integer(kind=c_int), value, intent(in) :: {{input.name}}_rank
+                {%- endif -%}{{"\n"}}
             {% endfor -%}
 
             {% for inout in function.inouts -%}
             {{inout.type}}, intent(inout) :: {{inout.name}}
+            {% if "dimension(*)" in inout.type -%}
+                    integer(kind=c_int), dimension(*), intent(in) :: {{inout.name}}_dim_sizes
+                    integer(kind=c_int), value, intent(in) :: {{inout.name}}_rank
+                {%- endif -%}{{"\n"}}
             {% endfor -%}
 
             {% for output in function.outputs -%}
             {{output.type}}, intent(out) :: {{output.name}}
+            {% if "dimension(*)" in output.type -%}
+                integer(kind=c_int), dimension(*), intent(in) :: {{output.name}}_dim_sizes
+                integer(kind=c_int), value, intent(in) :: {{output.name}}_rank
+                {%- endif -%}{{"\n"}}
             {% endfor -%}
 
-        end subroutine {{prefix}}_{{function.name}}_f
+        end subroutine {{prefix}}_f_{{function.name}}
     {% endfor %}
     {% for validation in validations -%}
-        subroutine v_{{prefix}}_{{validation.candidate}}_f( &
+        subroutine v_{{prefix}}_f_{{validation.candidate}}( &
             !inouts as input
             {% for inout in validation.inouts -%}
                 f90_{{inout.name}}, py_{{inout.name}}{{ ", " if not loop.last or validation.outputs|length > 0 else "" }}{{"&\n" if loop.index % 10 == 0 else ""}}
@@ -64,7 +107,7 @@ module {{prefix}}_interface_mod
             {% for output in validation.outputs -%}
                 f90_{{output.name}}, py_{{output.name}}{{ ", " if not loop.last }}{{"&\n" if loop.index % 10 == 0 else ""}}
             {%- endfor -%}{{ "&" if validation.outputs|length > 0 else "" }}
-        ) bind(c, name='v_{{prefix}}_{{validation.candidate}}_c')
+        ) bind(c, name='v_{{prefix}}_c_{{validation.candidate}}')
             import c_int, c_float, c_double
             implicit none
 
@@ -82,8 +125,20 @@ module {{prefix}}_interface_mod
     end interface
 
     contains
+
+    {% for new_type in derived_types -%}
+    subroutine make_{{new_type.name}}_C_interop({{new_type.name}}, c_{{new_type.name}})
+        type(<INSERT FORTRAN DERIVED TYPE>), intent(in) :: {{new_type.name}}
+        type({{new_type.name}}_interface_type), intent(out) :: c_{{new_type.name}}
+
+        {% for variable in new_type.variables -%}
+            c_{{new_type.name}}%{{variable.name}} = {{new_type.name}}%{{variable.name}}
+        {% endfor -%}
+    end subroutine make_{{new_type.name}}_C_interop
+    {% endfor %}
+
     {% for validation in validations -%}
-    subroutine validate_{{prefix}}_{{validation.candidate}}_f( &
+    subroutine validate_{{prefix}}_f_{{validation.candidate}}( &
         !inputs
         {% for input in validation.inputs -%}
             {{input.name}}{{ ", " if not loop.last or validation.inouts|length > 0 else "" }}{{"&\n" if (loop.index % 10) == 0 else ""}}
@@ -139,7 +194,7 @@ module {{prefix}}_interface_mod
                 {{output.name}}{{ ", " if not loop.last }}{{"&\n" if loop.index % 10 == 0 else ""}}
             {%- endfor -%}{{ "&" if validation.outputs|length > 0 else "" }}
         )
-        call {{prefix}}_{{validation.candidate}}_f( &
+        call {{prefix}}_f_{{validation.candidate}}( &
             !inputs
             {% for input in validation.inputs -%}
                 {{input.name}}{{ ", " if not loop.last or validation.inouts|length > 0 else "" }}{{"&\n" if (loop.index % 10) == 0 else ""}}
@@ -155,7 +210,7 @@ module {{prefix}}_interface_mod
         )
 
         ! Validation
-        call v_{{prefix}}_{{validation.candidate}}_f( &
+        call v_{{prefix}}_f_{{validation.candidate}}( &
             !inouts as input
             {% for inout in validation.inouts -%}
                 {{inout.name}}, tmp_{{inout.name}},{{inout.f90_dims_and_size}}{{ ", " if not loop.last or validation.outputs|length > 0 else "" }}{{"&\n" if loop.index % 10 == 0 else ""}}
@@ -167,7 +222,7 @@ module {{prefix}}_interface_mod
         )
 
 
-    end subroutine validate_{{prefix}}_{{validation.candidate}}_f
+    end subroutine validate_{{prefix}}_f_{{validation.candidate}}
     {% endfor -%}
 
 

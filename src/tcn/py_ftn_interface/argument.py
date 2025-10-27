@@ -55,7 +55,31 @@ class Argument:
         if self._type.startswith("array_"):
             return self._type[len("array_") :] + "*"
         if self._type.startswith("MPI"):
-            return "void*"
+            return "MPI_Fint"
+        return self._type
+    
+    @property
+    def c_type_input_only(self) -> str:
+        if self._type.startswith("array_"):
+            return "const " + self._type[len("array_") :] + "*"
+        if self._type.startswith("MPI"):
+            return "MPI_Fint"
+        return self._type
+    
+    @property
+    def c_prototype_input_only(self) -> str:
+        if self._type.startswith("array_"):
+            return "const " + self._type[len("array_") :] + "*"
+        if self._type.startswith("MPI"):
+            return "void *"
+        return self._type
+    
+    @property
+    def c_prototype(self) -> str:
+        if self._type.startswith("array_"):
+            return self._type[len("array_") :] + "*"
+        if self._type.startswith("MPI"):
+            return "void *"
         return self._type
 
     @property
@@ -66,14 +90,16 @@ class Argument:
             return "MPI.Intercomm"
         return self._type
 
-    @property
-    def f90_type_definition(self) -> str:
+    # @property
+    def f90_type_definition_inputs(self, derived_type_names=[]) -> str:
         if self._type == "int":
             return "integer(kind=c_int), value"
         elif self._type == "float":
             return "real(kind=c_float), value"
         elif self._type == "double":
             return "real(kind=c_double), value"
+        elif self._type == "bool":
+            return "logical(kind=c_bool), value"
         elif self._type == "array_int":
             return "integer(kind=c_int), dimension(*)"
         elif self._type == "array_float":
@@ -82,9 +108,33 @@ class Argument:
             return "real(kind=c_double), dimension(*)"
         elif self._type == "MPI":
             return "integer(kind=c_int), value"
+        elif self._type in derived_type_names:
+            return "type("+ self._type + "_interface_type)"
         else:
             raise RuntimeError(f"ERROR_DEF_TYPE_TO_FORTRAN: {self._type}")
 
+    # @property
+    def f90_type_definition_with_output(self,derived_type_names) -> str:
+        if self._type == "int":
+            return "integer(kind=c_int)"
+        elif self._type == "float":
+            return "real(kind=c_float)"
+        elif self._type == "double":
+            return "real(kind=c_double)"
+        elif self._type == "bool":
+            return "logical(kind=c_bool)"
+        elif self._type == "array_int":
+            return "integer(kind=c_int), dimension(*)"
+        elif self._type == "array_float":
+            return "real(kind=c_float), dimension(*)"
+        elif self._type == "array_double":
+            return "real(kind=c_double), dimension(*)"
+        elif self._type == "MPI":
+            return "integer(kind=c_int)"
+        elif self._type in derived_type_names:
+            return self._type + "_interface_type"
+        else:
+            raise RuntimeError(f"ERROR_DEF_TYPE_TO_FORTRAN: {self._type}")
 
 def argument_constructor(
     loader: yaml.SafeLoader, node: yaml.nodes.MappingNode

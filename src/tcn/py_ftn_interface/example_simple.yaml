@@ -1,0 +1,17 @@
+type: py_ftn_interface
+name: geos_pyfv3
+functions:
+    add_scalar_to_3D_quantity:
+        inputs:
+            int_scalar : int
+            float_scalar : float
+        inouts:
+            int_3D : array_int
+            float_3D : array_float
+    add_2D_quantity_to_3D_quantity:
+        inputs:
+            int_2D : array_int
+            float_2D : array_float
+        inouts:
+            int_3D : array_int
+            float_3D : array_float

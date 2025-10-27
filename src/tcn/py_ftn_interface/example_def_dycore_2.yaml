@@ -1,5 +1,48 @@
 type: py_ftn_interface
 name: geos_pyfv3
+functions:
+    function1:
+        inputs:
+            comm_in: MPI
+            v1: int
+            v2: float
+            v3: double
+            v4: array_int
+            v5: array_float
+            v6: array_double
+        inouts:
+            comm_io: MPI
+            w1: int
+            w2: float
+            w3: double
+            w4: array_int
+            w5: array_float
+            w6: array_double
+        outputs: 
+            comm_o: MPI
+            x1: int
+            x2: float
+            x3: double
+            x4: array_int
+            x5: array_float
+            x6: array_double
+    function2:
+        inputs:
+            comm_in: MPI
+            v1: int
+            v2: float
+            v3: double
+            v4: array_int
+            v5: array_float
+            v6: array_double
+        inouts:
+            comm_io: MPI
+            w1: int
+            w2: float
+            w3: double
+            w4: array_int
+            w5: array_float
+            w6: array_double
 derived_types: 
     fv_flags:
         grid_type : int
@@ -146,73 +189,4 @@ derived_types:
         layout_x : int
         layout_y : int
         mn_123456789 : int
-functions:
-    init:
-        inputs:
-            fv_flags: fv_flags
-            comm: MPI
-            npx: int
-            npy: int
-            npz: int
-            ntiles: int
-            is: int
-            ie: int
-            js: int
-            je: int
-            isd: int
-            ied: int
-            jsd: int
-            jed: int
-            bdt: float
-            nq_tot: int
-    run:
-        inputs:
-            comm: MPI
-            npx: int
-            npy: int
-            npz: int
-            ntiles: int
-            is: int
-            ie: int
-            js: int
-            je: int
-            isd: int
-            ied: int
-            jsd: int
-            jed: int
-            bdt: float
-            nq_tot: int
-            ng: int
-            ptop: float
-            ks: int
-            layout_1: int
-            layout_2: int
-            adiabatic: int
-            ak: array_float
-            bk: array_float
-        inouts:
-            u: array_float
-            v: array_float
-            w: array_float
-            delz: array_float
-            pt: array_float
-            delp: array_float
-            q: array_float
-            ps: array_float
-            pe: array_float
-            pk: array_float
-            peln: array_float
-            pkz: array_float
-            phis: array_float
-            q_con: array_float
-            omga: array_float
-            ua: array_float
-            va: array_float
-            uc: array_float
-            vc: array_float
-            mfx: array_float
-            mfy: array_float
-            cx: array_float
-            cy: array_float
-            diss_est: array_float
-    finalize: None
+    

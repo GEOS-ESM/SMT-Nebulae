@@ -36,11 +36,35 @@ class Function:
         return self._inputs + self._inouts + self._outputs
 
     @staticmethod
-    def c_arguments_for_jinja2(arguments: List[Argument]) -> List[Dict[str, Any]]:
+    def c_arguments_for_jinja2(arguments: List[Argument], inputOnly=False) -> List[Dict[str, Any],]:
         """Transform yaml input for the template renderer"""
         return [
             {
-                "type": argument.c_type,
+                "type": argument.c_type if not inputOnly else argument.c_type_input_only,
+                "name": argument.name,
+                "dims": argument._dims,
+            }
+            for argument in arguments
+        ]
+    
+    @staticmethod
+    def header_arguments_for_jinja2(arguments: List[Argument], inputOnly=False) -> List[Dict[str, Any],]:
+        """Transform yaml input for the template renderer"""
+        return [
+            {
+                "type": argument.c_type if not inputOnly else argument.c_type_input_only,
+                "name": argument.name,
+                "dims": argument._dims,
+            }
+            for argument in arguments
+        ]
+    
+    @staticmethod
+    def c_prototype_for_jinja2(arguments: List[Argument], inputOnly=False) -> List[Dict[str, Any],]:
+        """Transform yaml input for the template renderer"""
+        return [
+            {
+                "type": argument.c_prototype if not inputOnly else argument.c_prototype_input_only,
                 "name": argument.name,
                 "dims": argument._dims,
             }
@@ -48,12 +72,15 @@ class Function:
         ]
 
     @staticmethod
-    def fortran_arguments_for_jinja2(arguments: List[Argument]) -> List[Dict[str, str]]:
+    def fortran_arguments_for_jinja2(arguments: List[Argument], derived_types: List[Dict], containsIntentOut=False) -> List[Dict[str, str]]:
         """Transform yaml input for the template renderer"""
+        derived_type_names = [
+            derived_type["name"] for derived_type in derived_types
+        ]
         return [
             {
                 "name": argument.name,
-                "type": argument.f90_type_definition,
+                "type": argument.f90_type_definition_inputs(derived_type_names) if not containsIntentOut else argument.f90_type_definition_with_output(derived_type_names),
                 "dims_f90_defs": argument.f90_dims_definition,
                 "size_f90_per_dims": argument.f90_size_per_dims,
                 "f90_dims_and_size": argument.f90_dims_and_size,
@@ -132,3 +159,12 @@ class InterfaceConfig:
         self._hook_class = prefix.upper()
         self._functions = function_defines
         self._template_env = template_env
+
+class Derived_Type:
+    def __init__(
+        self,
+        name: str,
+        variable_list: List[Argument],
+    ) -> None:
+        self.name = name
+        self._variable_list = variable_list

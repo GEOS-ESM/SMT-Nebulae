@@ -1,0 +1,73 @@
+#pragma once
+
+#include <stdbool.h>
+#include <stdlib.h>
+
+{% for new_type in derived_types -%}
+
+  typedef struct 
+  {
+    {% for variable in new_type.variables -%}
+      {{variable.type}} {{variable.name}};
+    {%- endfor %}
+  } {{new_type.name}}_t;
+
+{% endfor %}
+
+typedef union
+{
+    int comm_int;
+    void *comm_ptr;
+} MPI_Comm_t;
+
+{% for function in functions %}
+
+  extern void {{prefix}}_py_{{function.name}}(
+      // inputs
+      {% for input in function.inputs -%}
+        {% if "void *" not in input.type -%}
+          {%- if "*" in input.type -%}
+          {{input.type}} {{input.name}},
+          int * {{input.name}}_dim_sizes,
+          int {{input.name}}_rank{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+          {%- else -%}
+            {%- if "int" not in input.type and "float" not in input.type -%}
+               {{input.type}}_t {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+            {%- else -%}
+              {{input.type}} {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+            {%- endif %}
+          {%- endif %}
+        {%- else -%}
+          {{input.type}} {{input.name}}_c{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+        {%- endif %}
+      {%- endfor %}
+      // inputs-outputs
+      {% for inout in function.inouts -%}
+        {% if "void *" not in inout.type -%}
+          {%- if "*" in inout.type -%}
+          {{inout.type}} {{inout.name}},
+          int * {{inout.name}}_dim_sizes,
+          int {{inout.name}}_rank{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+          {%- else -%}
+          {{inout.type}} {{inout.name}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+          {%- endif %}
+        {%- else -%}
+          {{inout.type}} {{inout.name}}_c{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+        {%- endif %}
+      {%- endfor %}
+      // outputs
+      {% for output in function.outputs -%}
+        {% if "void *" not in output.type -%}
+          {%- if "*" in output.type -%}
+          {{output.type}} {{output.name}},
+          int * {{output.name}}_dim_sizes,
+          int {{output.name}}_rank{{ ", " if not loop.last else "" }}
+          {%- else -%}
+          {{output.type}} {{output.name}}{{ ", " if not loop.last else "" }}
+          {%- endif %}
+        {%- else -%}
+          {{output.type}} {{output.name}}_c{{ ", " if not loop.last else "" }}
+        {%- endif %}
+      {%- endfor %}
+  );
+{% endfor %}

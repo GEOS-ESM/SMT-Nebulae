@@ -5,35 +5,104 @@
 
 {% for function in functions -%}
 
-  void {{prefix}}_{{function.name}}_c(
+  void {{prefix}}_c_{{function.name}}(
       // inputs
       {% for input in function.inputs -%}
-        {{input.type}} {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 else "" }}
+        {%- if "*" in input.type -%}
+        {{input.type}} {{input.name}},
+        int * {{input.name}}_dim_sizes,
+        int {{input.name}}_rank{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+        {%- else -%}
+          {%- if "int" not in input.type and "float" not in input.type and "bool" not in input.type -%}
+        {{input.type}}_t {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+          {%- else -%}
+        {{input.type}} {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+          {%- endif -%}
+        {%- endif -%}
       {%- endfor %}
       // inputs-outputs
       {% for inout in function.inouts -%}
+        {%- if "*" in inout.type -%}
+        {{inout.type}} {{inout.name}},
+        int * {{inout.name}}_dim_sizes,
+        int {{inout.name}}_rank{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+        {%- else -%}
+          {%- if "int" not in inout.type and "float" not in inout.type and "bool" not in inout.type -%}
+        {{inout.type}}_t {{inout.name}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+          {%- else -%}
         {{inout.type}} {{inout.name}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+          {%- endif -%}
+        {%- endif -%}
       {%- endfor %}
       // outputs
       {% for output in function.outputs -%}
-        {{output.type}} {{output.name}}{{ ", " if not loop.last else "" }}
+      {%- if "*" in output.type -%}
+        {{output.type}} {{output.name}},
+        int * {{output.name}}_dim_sizes,
+        int {{output.name}}_rank{{ ", " if not loop.last else "" }}
+        {%- else -%}
+          {%- if "int" not in output.type and "float" not in output.type and "bool" not in output.type -%}
+        {{output.type}}_t {{output.name}}{{ ", " if not loop.last else "" }}
+          {%- else -%}
+        {{outout.type}} {{outout.name}}{{ ", " if not loop.last else "" }}
+          {%- endif -%}
+        {%- endif -%}
       {%- endfor %}
   ) {
     {%- for init_code in function.arguments_init -%}
         {{init_code}}
     {%- endfor -%}
-    {{prefix}}_{{function.name}}_py(
-      {%- for arg in function.arguments -%}
-          {{arg.name}}{{ ", " if not loop.last else "" }}
-      {%- endfor -%}
+    {{prefix}}_py_{{function.name}}(
+      {% for input in function.inputs -%}
+        {% if "MPI" not in input.type -%}
+          {%- if "*" in input.type -%}
+           {{input.name}},
+          {{input.name}}_dim_sizes, {{input.name}}_rank{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+          {%- else -%}
+          {{input.name}}{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+          {%- endif -%}
+        {%- else -%}
+          {{input.name}}_c{{ ", " if not loop.last or function.inouts|length > 0 or function.outputs|length > 0 else "" }}
+        {%- endif %}
+      {% endfor %}
+      {%- for inout in function.inouts -%}
+        {% if "MPI" not in inout.type -%}
+          {%- if "*" in inout.type -%}
+          {{inout.name}},
+          {{inout.name}}_dim_sizes, {{inout.name}}_rank{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+          {%- else -%}
+          {{inout.name}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+          {%- endif -%}
+        {%- else -%}
+          {{inout.name}}_c{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
+        {%- endif %}
+      {% endfor -%}
+      {%- for output in function.outputs -%}
+        {% if "MPI" not in output.type -%}
+          {%- if "*" in output.type -%}
+          {{output.name}},
+          {{output.name}}_dim_sizes, {{output.name}}_rank{{ ", " if not loop.last else "" }}
+          {%- else -%}
+          {{output.name}}{{ ", " if not loop.last else "" }}
+          {%- endif -%}
+        {%- else -%}
+          {{output.name}}_c{{ ", " if not loop.last else "" }}
+        {%- endif %}
+      {% endfor %}
+
     );
+
+    //if (return_code < 0)
+    //{
+    //    exit(return_code);
+    //}
   }
 
 {% endfor %}
 
 {% for validation in validations -%}
 
-  void v_{{prefix}}_{{validation.candidate}}_c(
+  void v_{{prefix}}_c_{{validation.candidate}}(
       // inputs-outputs
       {% for inout in validation.inouts -%}
         {{inout.type}} f90_{{inout.name}}, {{inout.type}} py_{{inout.name}}, int {{inout.name}}_dims,
@@ -69,7 +138,7 @@
     {% endfor %}
     {%- endfor %}
 
-    v_{{prefix}}_{{validation.candidate}}_py(
+    v_{{prefix}}_py_{{validation.candidate}}(
       {% for inout in validation.inouts -%}
         {{inout.name}}_wrapped{{ ", " if not loop.last or validation.outputs|length > 0 else "" }}
       {%- endfor %}

@@ -17,27 +17,45 @@ source = f"""
 from {TMPFILEBASE} import ffi
 from datetime import datetime
 from mpi4py import MPI
-
+import traceback
 
 from {{prefix}}_hook import {{hook_obj}}
 
 
 {% for function in functions %}
 @ffi.def_extern()
-def {{prefix}}_{{function.name}}_py(
+def {{prefix}}_py_{{function.name}}(
       # inputs
       {% for input in function.inputs -%}
-        {{input.name}}:{{input.type}}{{ ", " if not loop.last or function.inouts|length > 0 else "" }}
-      {%- endfor %}
+      {% if "CData" in input.type -%}
+      {{input.name}}:{{input.type}},
+      {{input.name}}_dim_sizes:{{input.type}},
+      {{input.name}}_rank:int,
+      {%- else -%}
+      {{input.name}}:{{input.type}},
+      {%- endif %}
+      {% endfor %}
       # inputs-outputs
       {% for inout in function.inouts -%}
-        {{inout.name}}:{{inout.type}}{{ ", " if not loop.last or function.outputs|length > 0 else "" }}
-      {%- endfor %}
+      {% if "CData" in inout.type -%}
+      {{inout.name}}:{{inout.type}},
+      {{inout.name}}_dim_sizes:{{inout.type}},
+      {{inout.name}}_rank:int,
+      {%- else -%}
+      {{inout.name}}:{{inout.type}},
+      {%- endif %}
+      {% endfor %}
       # outputs
       {% for output in function.outputs -%}
-        {{output.name}}:{{output.type}}{{ ", " if not loop.last else "" }}
-      {%- endfor %}
-    ):
+        {% if "CData" in output.type -%}
+      {{output.name}}:{{output.type}},
+      {{output.name}}_dim_sizes:{{output.type}},
+      {{output.name}}_rank:int,
+      {%- else -%}
+      {{output.name}}:{{output.type}},
+      {%- endif %}
+      {% endfor %}
+    ) -> int:
 
     # Transform init code
     {% for code in function.init_code %}
@@ -45,14 +63,39 @@ def {{prefix}}_{{function.name}}_py(
     {% endfor %}
 
     {{hook_obj}}.{{function.name}}(
-        {%- for name in function.all_arguments_name -%}
-          {{name}}={{name}}{{ ", " if not loop.last else "" }}
+        
+      {% for input in function.inputs -%}
+      {% if "CData" in input.type -%}
+      {{input.name}}={{input.name}},
+      {{input.name}}_dim_sizes={{input.name}}_dim_sizes,
+      {{input.name}}_rank={{input.name}}_rank,
+      {%- else -%}
+      {{input.name}}={{input.name}},
+      {%- endif %}
+      {% endfor %}
+      {% for inout in function.inouts -%}
+      {% if "CData" in inout.type -%}
+      {{inout.name}}={{inout.name}},
+      {{inout.name}}_dim_sizes={{inout.name}}_dim_sizes,
+      {{inout.name}}_rank={{inout.name}}_rank,
+      {%- else -%}
+      {{inout.name}}={{inout.name}},
+      {%- endif %}
+      {% endfor %}
+      {% for output in function.outputs -%}
+      {% if "CData" in output.type -%}
+      {{output.name}}={{output.name}},
+      {{output.name}}_dim_sizes={{output.name}}_dim_sizes,
+      {{output.name}}_rank={{output.name}}_rank,
+      {%- else -%}
+      {{output.name}}={{output.name}},
+      {%- endif %}
       {% endfor %}
     )
 {% endfor %}
 {% for validation in validations %}
 @ffi.def_extern()
-def v_{{prefix}}_{{validation.candidate}}_py(
+def v_{{prefix}}_py_{{validation.candidate}}(
       # inputs-outputs
       {% for inout in validation.inouts -%}
         f90_{{inout.name}}:{{inout.type}}, py_{{inout.name}}:{{inout.type}}{{ ", " if not loop.last or validation.outputs|length > 0 else "" }}
@@ -74,17 +117,24 @@ def v_{{prefix}}_{{validation.candidate}}_py(
 
 """
 
+{#
 header = f"""
 
 {% for function in functions -%}
-extern void {{prefix}}_{{function.name}}_py(
+extern void {{prefix}}_py_{{function.name}}(
     {%- for arg in function.c_arguments -%}
-        {{arg.type}} {{arg.name}}{{ ", " if not loop.last else "" }}
+      {%- if "*" in arg.type -%}
+    {{arg.type}} {{arg.name}},
+    int * {{arg.name}}_dim_sizes,
+    int {{arg.name}}_rank{{ ", " if not loop.last else "" }}
+      {%- else -%}
+    {{arg.type}} {{arg.name}}{{ ", " if not loop.last else "" }}
+      {%- endif -%}
     {%- endfor -%}
 );
 {% endfor %}
 {% for validation in validations %}
-extern void v_{{prefix}}_{{validation.candidate}}_py(
+extern void v_{{prefix}}_py_{{validation.candidate}}(
     {% for inout in validation.inouts_c -%}
       {{inout.type}} f90_{{inout.name}}, {{inout.type}} py_{{inout.name}}{{ ", " if not loop.last or validation.outputs|length > 0 else "" }}
     {%- endfor %}
@@ -94,6 +144,7 @@ extern void v_{{prefix}}_{{validation.candidate}}_py(
 );
 {% endfor %}
 """
+
 
 with open(f"{TMPFILEBASE}.h", "w") as f:
     f.write(header)
@@ -108,3 +159,14 @@ with open(f"{TMPFILEBASE}.h", "w") as f:
 header_path = os.path.join(os.path.dirname(__file__), f"./{TMPFILEBASE}.h")
 with open(header_path, "w") as f:
     f.write(header)
+#}
+
+with open(f"{TMPFILEBASE}.h") as f:
+    data = "".join([line for line in f if not line.startswith("#")])
+    data = data.replace("CFFI_DLLEXPORT", "")
+    ffi.embedding_api(data)
+
+ffi.set_source(TMPFILEBASE, f'#include "{TMPFILEBASE}.h"')
+
+ffi.embedding_init_code(source)
+ffi.compile(target="lib" + TMPFILEBASE + ".so", verbose=True)

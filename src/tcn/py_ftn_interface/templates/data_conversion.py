@@ -58,18 +58,20 @@ class FortranPythonConversion:
 
     def fortran_to_python(
         self,
-        fptr: np.ndarray,
-        dim: List[int],
+        fptr: "cffi.FFI.CData",
+        dim: "cffi.FFI.CData",
+        rank: int,
         swap_axes: Optional[Tuple[int, int]] = None,
     ) -> PythonArray:
         """Move fortran memory into python space"""
-        np_array = self._fortran_pointer_to_numpy_buffer(fptr, dim)
+        dim_list = [dim[dim_index] for dim_index in range(rank)]
+        np_array = self._fortran_pointer_to_numpy_buffer(fptr, dim_list, rank)
         if self._python_targets_gpu:
-            return self._upload_and_transform(np_array, dim, swap_axes)
+            return self._upload_and_transform(np_array, dim_list, swap_axes)
         else:
             return self._transform_from_fortran_layout(
                 np_array,
-                dim,
+                dim_list,
                 swap_axes,
             )
 
@@ -98,6 +100,7 @@ class FortranPythonConversion:
         self,
         fptr: "cffi.FFI.CData",
         dim: List[int],
+        num_dims: int,
     ) -> np.ndarray:
         """
         Input: Fortran data pointed to by fptr and of shape dim = (i, j, k)
