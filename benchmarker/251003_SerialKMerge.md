@@ -14,7 +14,7 @@ Executions: 1000.
     Timings in seconds (median [mean / min / max]):
         Topline: 0.112 [0.113s/ 0.105 / 0.146]
 
-**sBackend: orch:dace:cpu_kfirst**
+**Backend: orch:dace:cpu_kfirst**
 
 - _With all K looped merged down_
     Timings in seconds (median [mean / min / max]):

@@ -8,5 +8,6 @@ fi
 export NDSL_LOGLEVEL=DEBUG
 export OMP_NUM_THREADS=1
 export NDSL_LITERAL_PRECISION=32
+export GT4PY_COMPILE_OPT_LEVEL=3
 
 python benchmarker_MicrophysicsDriver.py
