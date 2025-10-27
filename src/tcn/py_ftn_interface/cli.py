@@ -8,11 +8,9 @@ import click
 import jinja2
 import yaml
 
-from tcn.py_ftn_interface.argument import get_argument_yaml_loader
+from tcn.py_ftn_interface.argument import Argument, get_argument_yaml_loader
 from tcn.py_ftn_interface.base import Function, InterfaceConfig
 from tcn.py_ftn_interface.bridge import Bridge
-
-from argument import Argument
 
 ###############
 # TODO:
@@ -139,10 +137,8 @@ def cli(definition_json_filepath: str, directory: str, hook: str, build: str):
     #     directory, template_env, defs
     # ).generate_c().generate_fortran().generate_python().generate_hook(hook)
 
-    bridge_construct = Bridge.make_from_yaml(
-        directory, template_env, defs
-    )
-    
+    bridge_construct = Bridge.make_from_yaml(directory, template_env, defs)
+
     bridge_construct.generate_fortran()
     bridge_construct.generate_c()
     bridge_construct.generate_python()

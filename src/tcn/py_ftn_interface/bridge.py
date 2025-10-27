@@ -11,6 +11,7 @@ from tcn.py_ftn_interface.argument import Argument
 
 import fprettify
 
+
 class Bridge(InterfaceConfig):
     def __init__(
         self,
@@ -18,7 +19,7 @@ class Bridge(InterfaceConfig):
         prefix: str,
         function_defines: List[Function],
         template_env: jinja2.Environment,
-        derived_types: List[Derived_Type] = [], 
+        derived_types: List[Derived_Type] = [],
         validations: List[Validation] = [],
     ) -> None:
         super().__init__(
@@ -29,6 +30,7 @@ class Bridge(InterfaceConfig):
         )
         self._validations = validations
         self._derived_types = derived_types
+
     @classmethod
     def make_from_yaml(
         cls,
@@ -62,8 +64,9 @@ class Bridge(InterfaceConfig):
                     for key, value in args["outputs"].items():
                         # print(key, value)
                         outputs.append(Argument(key, value))
-            functions.append(Function(
-                # function["name"],
+            functions.append(
+                Function(
+                    # function["name"],
                     function_name,
                     (inputs if "inputs" in args.keys() else []) if args else [],
                     (inouts if "inouts" in args.keys() else []) if args else [],
@@ -88,15 +91,20 @@ class Bridge(InterfaceConfig):
         if "derived_types" in configuration.keys():
             for derived_type_name in configuration["derived_types"]:
                 derived_type_data_list = []
-                for key, value in configuration["derived_types"][derived_type_name].items():
+                for key, value in configuration["derived_types"][
+                    derived_type_name
+                ].items():
                     derived_type_data_list.append(Argument(key, value))
-                derived_types.append(Derived_Type(
-                    name=derived_type_name,
-                    variable_list=derived_type_data_list,
+                derived_types.append(
+                    Derived_Type(
+                        name=derived_type_name,
+                        variable_list=derived_type_data_list,
                     )
                 )
 
-        return cls(directory, prefix, functions, template_env, derived_types, validations)
+        return cls(
+            directory, prefix, functions, template_env, derived_types, validations
+        )
 
     def generate_c(self) -> "Bridge":
         # Transform data for Jinja2 template
@@ -105,7 +113,9 @@ class Bridge(InterfaceConfig):
             functions.append(
                 {
                     "name": function.name,
-                    "inputs": Function.c_arguments_for_jinja2(function.inputs, inputOnly=True),
+                    "inputs": Function.c_arguments_for_jinja2(
+                        function.inputs, inputOnly=True
+                    ),
                     "inouts": Function.c_arguments_for_jinja2(function.inouts),
                     "outputs": Function.c_arguments_for_jinja2(function.outputs),
                     "arguments": Function.c_arguments_for_jinja2(function.arguments),
@@ -129,7 +139,7 @@ class Bridge(InterfaceConfig):
         with open(c_source_filepath, "w+") as f:
             f.write(code)
 
-        subprocess.call([cf._get_executable("clang-format"), "-i", c_source_filepath])
+        subprocess.call([cf.get_executable("clang-format"), "-i", c_source_filepath])
 
         return self
 
@@ -141,19 +151,26 @@ class Bridge(InterfaceConfig):
                 {
                     "name": derived_type.name,
                     # Current assumption is that "variables" does not contain any arrays
-                    "variables": Function.fortran_arguments_for_jinja2(derived_type._variable_list, [], containsIntentOut=True),
+                    "variables": Function.fortran_arguments_for_jinja2(
+                        derived_type._variable_list, [], containsIntentOut=True
+                    ),
                 }
             )
-
 
         functions = []
         for function in self._functions:
             functions.append(
                 {
                     "name": function.name,
-                    "inputs": Function.fortran_arguments_for_jinja2(function.inputs, derived_types),
-                    "inouts": Function.fortran_arguments_for_jinja2(function.inouts, derived_types, containsIntentOut=True),
-                    "outputs": Function.fortran_arguments_for_jinja2(function.outputs, derived_types, containsIntentOut=True),
+                    "inputs": Function.fortran_arguments_for_jinja2(
+                        function.inputs, derived_types
+                    ),
+                    "inouts": Function.fortran_arguments_for_jinja2(
+                        function.inouts, derived_types, containsIntentOut=True
+                    ),
+                    "outputs": Function.fortran_arguments_for_jinja2(
+                        function.outputs, derived_types, containsIntentOut=True
+                    ),
                 }
             )
 
@@ -231,7 +248,7 @@ class Bridge(InterfaceConfig):
             h.generate_blank()
         else:
             raise NotImplementedError(f"No hook '{hook}'")
-        
+
     def generate_header(self) -> "Bridge":
         # Generate Header File list
         derived_types = []
@@ -239,17 +256,21 @@ class Bridge(InterfaceConfig):
             derived_types.append(
                 {
                     "name": derived_type.name,
-                    "variables": Function.header_arguments_for_jinja2(derived_type._variable_list),
+                    "variables": Function.header_arguments_for_jinja2(
+                        derived_type._variable_list
+                    ),
                 }
             )
-        
+
         # Generate C extern prototypes list
         functions = []
         for function in self._functions:
             functions.append(
                 {
                     "name": function.name,
-                    "inputs": Function.c_prototype_for_jinja2(function.inputs, inputOnly=True),
+                    "inputs": Function.c_prototype_for_jinja2(
+                        function.inputs, inputOnly=True
+                    ),
                     "inouts": Function.c_prototype_for_jinja2(function.inouts),
                     "outputs": Function.c_prototype_for_jinja2(function.outputs),
                 }
@@ -273,6 +294,6 @@ class Bridge(InterfaceConfig):
         with open(h_source_filepath, "w+") as f:
             f.write(code)
 
-        subprocess.call([cf._get_executable("clang-format"), "-i", h_source_filepath])
+        subprocess.call([cf.get_executable("clang-format"), "-i", h_source_filepath])
 
         return self
