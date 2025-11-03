@@ -80,12 +80,6 @@ We might want to centralize hardware detection. We currently
 
 ## </\> Frontend
 
-### Locals
-
-- See [PR description](https://github.com/NOAA-GFDL/NDSL/pull/266)
-
-### Pot-pourri
-
 - 🐞: Unable to do operation in absolute indexer in stencils.
     - This WORKS: `field.at(K=k22 - k_index)` with `k22` and `k_index` as `IntField32`
     - This FAILS: `field.at(K=kbcon - 1)` with `kbcon` as `IntField32`
