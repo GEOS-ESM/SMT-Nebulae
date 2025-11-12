@@ -112,6 +112,65 @@ They have solved some and/or all of it for `Icon4Py` - can we integrate?
 
 ## Examples
 
+### PChem - Interpolator
+
+Linear interpolation from a larger field to a smaller one, with variou checks on third fields and calculation post interpolation.
+
+=== "Pseudo code"
+
+    ```text
+    For all latitudes on SMALL FIELD grid
+        For all levels on SMALL FIELD grid
+            Find the two value of BIG FIELD that surrounds the given level at lat
+            Interpolate linearly BIG FIELD value
+                Clamp if needed
+        For all longitudes on SMALL FIELD grid
+            Find the two value of BIG FIELD that surrounds the given level at long
+            Interpolate linearly BIG FIELD value
+                Clamp if needed
+    ```
+
+=== "Python "
+
+    ```python
+    for j in range(jm):
+        for k in range(n_levs):
+            self.temporaries.PROD.field[:, j, k] = interp.interp_no_extrap(
+                OX_list=lats.field[:, j],
+                IY=prod1[:, k],
+                IX=pchem_lats[:],
+            )
+        for i in range(im):
+            self.temporaries.PROD_INT.field[i, j, :] = interp.interp_no_extrap(
+                OX_list=self.temporaries.PL.field[i, j, :],
+                IY=self.temporaries.PROD.field[i, j, :],
+                IX=pchem_levs.field[:],
+            )
+    
+    def interp_no_extra():
+        max_index = len(IX)
+        OY = []
+
+        for i, ox in enumerate(OX_list):
+            # Find the interval index J such that IX[J] <= OX <= IX[J+1]
+            J = min(max(np.count_nonzero(IX <= OX), 1), IX.size - 1) - 1
+
+            # Linear interpolation
+            if IX[J + 1] != IX[J]:
+                OY = IY[J] + ((OX - IX[J]) / (IX[J + 1] - IX[J])) * (IY[J + 1] - IY[J])
+
+            else:
+                OY = IY[J]
+           
+            if OX_list[i] <= IX[0]:
+                OY[i] = IY[0]
+
+            if OX_list[i] >= IX[max_index - 1]:
+                OY[i] = IY[max_index - 1]
+        
+        return OY
+    ```
+
 ### GF Small solver
 
 === "Pseudo code"
