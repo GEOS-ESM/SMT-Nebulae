@@ -26,7 +26,8 @@ for i, j in [I, J]:
 
 On top of this, we would need a system capable of:
 
-- breaking into seperate stencils.
+- breaking into seperate stencils,
+- dealing with different grids (interpolation).
 
 Questions:
 
