@@ -22,6 +22,8 @@ nav:
   - Technical:
     - Overview: technical/index.md
     - The Laundry List 👕: technical/laundry-list.md
+    - Brainstorm:
+      - Colume Solver: technical/brainstorm/column-solver.md
     - Dev setup:
       - Overview: technical/dev-setup/index.md
       - Tech stack: technical/dev-setup/tech-stack.md
@@ -128,6 +130,8 @@ markdown_extensions:
   # support for task list of the form `- [ ] task name`
   - pymdownx.tasklist:
       custom_checkbox: false
+  - pymdownx.tabbed:
+      alternate_style: true
 plugins:
   # use drawio diagrams as if they were images
   - drawio
