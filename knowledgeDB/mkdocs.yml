@@ -23,7 +23,8 @@ nav:
     - Overview: technical/index.md
     - The Laundry List 👕: technical/laundry-list.md
     - Brainstorm:
-      - Colume Solver: technical/brainstorm/column-solver.md
+      - Column Solver: technical/brainstorm/column-solver.md
+      - Column Solver UW example: technical/brainstorm/column-solver-UW-example.md
     - Dev setup:
       - Overview: technical/dev-setup/index.md
       - Tech stack: technical/dev-setup/tech-stack.md
