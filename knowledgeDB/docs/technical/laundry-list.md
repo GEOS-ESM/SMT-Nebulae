@@ -264,3 +264,8 @@ Issues:
 ### Issue duplication / fragmentation 📄
 
 For [milestone 1](../project2426/milestone1.md), we were using a GitHub project in the `GEOS-ESM` organization. This forced us to have a fork of NDSL under that organization, which lead to issue fragmentation / duplication on that fork. We should find the time to clean [these issues](https://github.com/GEOS-ESM/NDSL/issues).
+
+
+# Stencil QA / error message cleanup 🧹
+
+We have started a running list of gt4py error messages that need cleanup: <https://docs.google.com/document/d/1Ec0vwCTKFPxVoaAeewt-fgtxNgfmSuA1AnD_d-hDocQ/edit?pli=1&tab=t.0>
