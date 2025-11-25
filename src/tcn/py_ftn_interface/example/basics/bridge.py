@@ -19,8 +19,8 @@ ffibuilder.embedding_init_code(
     from runtime_code import check_function
 
     @ffi.def_extern()
-    def python_function(data:"data_t", union_v: "union_t"):
-        check_function(data)
+    def python_function(data:"data_t", value: "int", array: "int*"):
+        check_function(data, value, array)
 
 """
 )
