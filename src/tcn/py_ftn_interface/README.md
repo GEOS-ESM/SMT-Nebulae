@@ -54,7 +54,7 @@ functions:
 An example lives is available
 
 ```bash
-cd ./example/basics
+cd ./example/interface_generator
 tcn-fpy example_simple.yaml # This will generate the interface files
 ./build_and_run
 ```
