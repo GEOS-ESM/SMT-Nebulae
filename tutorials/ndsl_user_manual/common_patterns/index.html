@@ -1,0 +1,4411 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://geos-esm.github.io/SMT-Nebulae/tutorials/ndsl_user_manual/common_patterns/">
+      
+      
+        <link rel="prev" href="../backends/">
+      
+      
+        <link rel="next" href="../why_use_classes/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>6. Common Patterns - SMT Knowledge Base</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#common-patterns" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="SMT Knowledge Base" class="md-header__button md-logo" aria-label="SMT Knowledge Base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SMT Knowledge Base
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              6. Common Patterns
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="SMT Knowledge Base" class="md-nav__button md-logo" aria-label="SMT Knowledge Base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    SMT Knowledge Base
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project 2426
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project 2426
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../project2426/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../project2426/milestone1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Milestone 1
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../project2426/milestone2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Milestone 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../project2426/milestone3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Milestone 3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../project2426/milestone4/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Milestone 4
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Results
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Results
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../project2426/results/M2_Sept25/summary/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Milestone 2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../project2426/results/SC23/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Supercomputing 23
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../project2426/results/science-targets/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Science Targets
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../project2426/results/hpc-metrics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HPC Metrics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/laundry-list/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Laundry List 👕
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Brainstorm
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Brainstorm
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/brainstorm/column-solver/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Column Solver
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/brainstorm/column-solver-UW-example/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Column Solver UW example
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dev setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dev setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/dev-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/dev-setup/tech-stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tech stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/dev-setup/vscode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VSCode config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frontend
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Frontend
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/frontend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/frontend/ndsl_features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NDSL features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/frontend/experimental_features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Experimental "physics" features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5_4" id="__nav_3_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADRs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ADRs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/frontend/ADRs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/frontend/ADRs/fields_bundle/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fields Bundle
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Porting
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Porting
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/porting/translate_test/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Translate tests
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backend work
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Backend work
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/backend/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/backend/schedule-tree/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule Tree bridge
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/backend/coding-guidelines/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Coding guidelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/backend/orchestration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orchestration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_7_5" id="__nav_3_7_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repositories
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_7_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Repositories
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/backend/repositories/ndsl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NDSL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/backend/repositories/gt4py/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GT4Py
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/backend/repositories/dace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DaCe
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_7_6" id="__nav_3_7_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADRs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_7_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    ADRs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/backend/ADRs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/backend/ADRs/stree/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule tree
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/backend/ADRs/stree_dace-version/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule tree (DaCe version)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/backend/ADRs/stree_ndsl-integration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Schedule tree (NDSL integration)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_7_7" id="__nav_3_7_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_7_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical/backend/dace-bridge/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GT4Py/DaCe bridge via expansion
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GEOS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GEOS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../GEOS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../GEOS/local_build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local build
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../GEOS/discover_build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Discover
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../GEOS/gh200/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PRISM (GH200)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../GEOS/validation_basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Component documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Component documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../GEOS/components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6_2" id="__nav_4_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dynamics
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Dynamics
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../GEOS/components/dynamics/pyFV3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    pyFV3
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6_3" id="__nav_4_6_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Moist
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Moist
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../GEOS/components/moist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../GEOS/components/moist/GF/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GF
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../GEOS/components/moist/GFDL_1M/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GFDL_1M
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../GEOS/components/moist/RAS/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RAS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../GEOS/components/moist/UW/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UW
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_6_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_6_4" id="__nav_4_6_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chemistry
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_6_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_6_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Chemistry
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../GEOS/components/chemistry/pchem/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PChem
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Here!
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    NDSL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    NDSL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ndsl_introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    1. Introduction to NDSL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    2. Data Types and Storage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../writing_ndsl_code/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    3. Writing Code with NDSL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../advanced_features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    4. Advanced Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../backends/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    5. Backends
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Common Patterns
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    6. Common Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#writing-to-a-z_interface_dim-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Writing to a Z_INTERFACE_DIM Variable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#k-dimension-dependent-computations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        K-Dimension Dependent Computations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#global-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global Tables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional Inputs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit-statements-and-internal-masks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exit Statements and Internal Masks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nested-k-loops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nested K Loops
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#goto-statements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goto Statements
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../why_use_classes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    7. Why Use Classes?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../best_coding_practices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    8. Best Coding Practices
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GEOS
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GEOS
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../geos_with_ndsl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction to GEOS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model Development with NDSL
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Model Development with NDSL
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developing_with_ndsl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Model Development with NDSL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The Code Nebula
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    The Code Nebula
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tcn/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tcn/packages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Packages
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tcn/results/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Results
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Satellite work
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Satellite work
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../satellite-work/pace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#writing-to-a-z_interface_dim-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Writing to a Z_INTERFACE_DIM Variable
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#k-dimension-dependent-computations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        K-Dimension Dependent Computations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#global-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global Tables
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optional-inputs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optional Inputs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exit-statements-and-internal-masks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exit Statements and Internal Masks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nested-k-loops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nested K Loops
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#goto-statements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Goto Statements
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="common-patterns">Common Patterns</h1>
+<p>Now that we have introduced the core features of <abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr> and highlighted features which enable more
+complex coding structures, it is prudent to provide examples of how <abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr> is implemented.</p>
+<p>Below are a plethora of patterns which may be useful when developing code for weather and
+climate models. These examples have been generalized, but should be broadly applicable to a
+variety of situations. Each example has a "source" Fortran program, and a "ported" <abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr>
+implementation.</p>
+<h2 id="writing-to-a-z_interface_dim-variable">Writing to a <code>Z_INTERFACE_DIM</code> Variable</h2>
+<p>If working with <code>Z_INTERFACE_DIM</code> quantities, one will inevitably need to write to the "extra"
+point. The easiest way to achieve this is by declaring your <code>compute_dims</code> to operate on
+the <code>Z_INTERFACE_DIM</code> instead of the <code>Z_DIM</code>, and then restrict your interval and offset <code>Z_DIM</code>
+stencil reads accordingly:</p>
+<p>Example "Fortran code":
+    <div class="language-fortran highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#__codelineno-0-38">38</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="k">program </span><span class="n">compute_height</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">    </span><span class="k">implicit none</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="w">    </span><span class="c">! setup domain</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">X_DIM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Y_DIM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w">    </span><span class="kt">integer</span><span class="p">,</span><span class="w"> </span><span class="k">parameter</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">Z_DIM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8"></a>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="w">    </span><span class="c">! allocate scalars</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="kt">integer</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">p_crit</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="w">    </span><span class="kt">real</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">seed</span><span class="p">,</span><span class="w"> </span><span class="n">total</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="w">    </span><span class="c">! allocate arrays</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="w">    </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">X_DIM</span><span class="p">,</span><span class="w"> </span><span class="n">Y_DIM</span><span class="p">,</span><span class="w"> </span><span class="n">Z_DIM</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">d_height</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="w">    </span><span class="kt">real</span><span class="p">,</span><span class="w"> </span><span class="k">dimension</span><span class="p">(</span><span class="n">X_DIM</span><span class="p">,</span><span class="w"> </span><span class="n">Y_DIM</span><span class="p">,</span><span class="w"> </span><span class="n">Z_DIM</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="kd">::</span><span class="w"> </span><span class="n">height</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16"></a>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="w">    </span><span class="c">! initalize data</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="w">    </span><span class="k">do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">X_DIM</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Y_DIM</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="w">            </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Z_DIM</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="w">                </span><span class="k">call </span><span class="nb">RANDOM_NUMBER</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="w">                </span><span class="c">! generate a random change in height for each layer in the range 125:175</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="w">                </span><span class="n">d_height</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">125</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">FLOOR</span><span class="p">(</span><span class="mi">51</span><span class="o">*</span><span class="n">seed</span><span class="p">)</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="w">            </span><span class="k">enddo</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="k">        enddo</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="k">    enddo</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27"></a>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="k">    do </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">X_DIM</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="w">        </span><span class="k">do </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">Y_DIM</span>
+</span><span id="__span-0-30"><a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="w">            </span><span class="k">do </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">Z_DIM</span><span class="o">+</span><span class="mi">1</span>
+</span><span id="__span-0-31"><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="w">                </span><span class="n">height</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">height</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">d_height</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="w">            </span><span class="k">enddo</span>
+</span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="k">        enddo</span>
+</span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="k">    enddo</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="k">    PRINT</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">height</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="p">:)</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="k">end program </span><span class="n">compute_height</span>
+</span></code></pre></div></td></tr></table></div></p>
+<p>Example "<abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr> Code"</p>
+<div class="language-text highlight"><pre><span></span><code>``` py linenums=&quot;1&quot;
+from ndsl.dsl.gt4py import (
+    computation,
+    interval,
+    PARALLEL,
+)
+from ndsl import StencilFactory
+from ndsl.boilerplate import get_factories_single_tile
+from ndsl.constants import X_DIM, Y_DIM, Z_DIM, Z_INTERFACE_DIM
+from ndsl.dsl.typing import FloatField
+import random
+
+
+def compute_height(
+    height: FloatField,
+    d_height: FloatField,
+):
+
+    with computation(PARALLEL), interval(1, None):
+        # d_height is offset down one because this field operates on the Z_DIM,
+        # while the stencil is computing on the Z_INTERFACE_DIM
+        height = height[0, 0, -1] + d_height[0, 0, -1]
+
+
+class Code:
+    def __init__(self, stencil_factory: StencilFactory):
+
+        # build stencil
+        self.constructed_stencil = stencil_factory.from_dims_halo(
+            func=compute_height,
+            compute_dims=[X_DIM, Y_DIM, Z_INTERFACE_DIM],
+        )
+
+    def __call__(
+        self,
+        height: FloatField,
+        d_height: FloatField,
+    ):
+        # execute stencil
+        self.constructed_stencil(
+            height,
+            d_height,
+        )
+
+
+if __name__ == &quot;__main__&quot;:
+
+    # setup domain and generate factories
+    domain = (10, 10, 10)
+    nhalo = 0
+    stencil_factory, quantity_factory = get_factories_single_tile(
+        domain[0],
+        domain[1],
+        domain[2],
+        nhalo,
+        backend=&quot;dace:cpu&quot;,
+    )
+
+    # initialize data
+    height = quantity_factory.zeros([X_DIM, Y_DIM, Z_INTERFACE_DIM], &quot;n/a&quot;)
+
+    d_height = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], &quot;n/a&quot;)
+    for i in range(d_height.field.shape[0]):
+        for j in range(d_height.field.shape[1]):
+            for k in range(d_height.field.shape[2]):
+                d_height.field[i, j, k] = round(random.uniform(125, 175))
+
+    # build stencil
+    code = Code(stencil_factory)
+
+    # execute stencil
+    code(height, d_height)
+
+    print(height.field[0, 0, :])
+```
+</code></pre></div>
+<h2 id="k-dimension-dependent-computations">K-Dimension Dependent Computations</h2>
+<p>In weather and climate modeling, it is often necessary to identify a specific level, then perform
+one or more operations based on that level (e.g. identify LCL, compute convective parameters).</p>
+<p>Example "Fortran Code":</p>
+<div class="language-text highlight"><pre><span></span><code>``` fortran linenums=&quot;1&quot;
+program average_below_level
+    implicit none
+
+    ! setup domain
+    integer, parameter :: X_DIM = 10
+    integer, parameter :: Y_DIM = 10
+    integer, parameter :: Z_DIM = 10
+
+    ! allocate scalars
+    integer :: i, j, k, p_crit
+    real :: seed, total
+
+    ! allocate arrays
+    integer, dimension(X_DIM, Y_DIM, Z_DIM) :: temperature, pressure
+    integer, dimension(X_DIM, Y_DIM) :: desired_level
+    real, dimension(X_DIM, Y_DIM) :: average_temperature
+
+    ! initalize data
+    p_crit = 500
+    do k = 1, Z_DIM
+        pressure(:, :, k) = 1000 - (k-1) * 100 ! pressure decreases by 100mb per level
+        do j = 1, Y_DIM
+            do i = 1, X_DIM
+                call RANDOM_NUMBER(seed)
+                ! generate a random temperature in the range 20:30
+                temperature(i, j, k) = 20 + FLOOR(11*seed)
+            enddo
+        enddo
+    enddo
+
+
+    ! determine k level where pressure meets a critical value
+    do i = 1, X_DIM
+        do j = 1, Y_DIM
+            do k = 1, Z_DIM
+                if (pressure(i, j, k) &lt; p_crit) then
+                    desired_level(i, j) = k
+                    ! in this simplified example desired level is the same everywhere, but one can
+                    ! imagine a case where this is spatially variable (e.g. determine LCL or LFC)
+                    exit
+                endif
+            enddo
+        enddo
+    enddo
+
+    ! calculate average based on desired_level
+    do i = 1, X_DIM
+        do j = 1, Y_DIM
+            total = 0
+            do k = 1, desired_level(i, j)
+                total = total + temperature(i, j, k)
+            enddo
+            average_temperature(i, j) = total/desired_level(i, j)
+        enddo
+    enddo
+
+    PRINT *, average_temperature
+
+end program average_below_level
+```
+</code></pre></div>
+<p>Example "<abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr> Code"</p>
+<div class="language-text highlight"><pre><span></span><code>``` py linenums=&quot;1&quot;
+from ndsl.dsl.gt4py import (
+    FORWARD,
+    computation,
+    interval,
+)
+from gt4py.cartesian.gtscript import THIS_K
+from ndsl import StencilFactory
+from ndsl.boilerplate import get_factories_single_tile
+from ndsl.constants import X_DIM, Y_DIM, Z_DIM
+from ndsl.dsl.typing import FloatField, FloatFieldIJ, IntFieldIJ, Int, Float
+import random
+
+
+def average_layers(
+    temperature: FloatField,
+    pressure: FloatField,
+    average_temperature: FloatFieldIJ,
+    desired_level: IntFieldIJ,
+):
+    from __externals__ import p_crit, k_end
+
+    with computation(FORWARD), interval(...):
+        # determine critical level
+        if pressure &gt; p_crit:
+            desired_level = THIS_K
+
+    with computation(FORWARD), interval(...):
+        # sum all temperatures below critical level
+        if THIS_K &lt;= desired_level:
+            average_temperature = average_temperature + temperature
+        # calculate the average on the final level
+        if THIS_K == k_end:
+            average_temperature = average_temperature / desired_level
+
+
+class Code:
+    def __init__(self, stencil_factory: StencilFactory):
+
+        self.constructed_stencil = stencil_factory.from_dims_halo(
+            func=average_layers,
+            compute_dims=[X_DIM, Y_DIM, Z_DIM],
+            externals={
+                &quot;p_crit&quot;: 500,
+            },
+        )
+
+    def __call__(
+        self,
+        temperature: FloatField,
+        pressure: FloatField,
+        average_temperature: FloatFieldIJ,
+        desired_level: IntFieldIJ,
+    ):
+        self.constructed_stencil(
+            temperature,
+            pressure,
+            average_temperature,
+            desired_level,
+        )
+
+
+if __name__ == &quot;__main__&quot;:
+
+    # setup domain and generate factories
+    domain = (10, 10, 10)
+    nhalo = 0
+    stencil_factory, quantity_factory = get_factories_single_tile(
+        domain[0],
+        domain[1],
+        domain[2],
+        nhalo,
+        backend=&quot;dace:cpu&quot;,
+    )
+
+    # initialize data
+    temperature = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], &quot;n/a&quot;)
+    for i in range(temperature.field.shape[0]):
+        for j in range(temperature.field.shape[1]):
+            for k in range(temperature.field.shape[2]):
+                temperature.field[i, j, k] = round(random.uniform(20, 30))
+
+    pressure = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], &quot;n/a&quot;)
+    for k in range(pressure.field.shape[2]):
+        pressure.field[:, :, k] = 1000 - k * 100
+
+    average_temperature = quantity_factory.zeros([X_DIM, Y_DIM], &quot;n/a&quot;)
+    desired_level = quantity_factory.zeros([X_DIM, Y_DIM], &quot;n/a&quot;, dtype=Int)
+
+    # build stencil
+    code = Code(stencil_factory)
+
+    # execute stencil
+    code(temperature, pressure, average_temperature, desired_level)
+
+    print(average_temperature.field)
+```
+</code></pre></div>
+<h2 id="global-tables">Global Tables</h2>
+<p>There may be situations where a table is needed for referencing throughout the execution of a
+component/model. It is highly unlikely that these tables will conform to the grid system used by
+the rest of the model in any way. Generating these tables, therefore, requires a somewhat
+unconventional use of systems. The following example is an adaptation of code used to generate one
+of the saturation vapor pressure tables in the <abbr title="Goddard Earth Observing System">GEOS</abbr> model, and displays the flexibility of
+<abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr> systems:</p>
+<p>Example "Fortran Code"</p>
+<div class="language-text highlight"><pre><span></span><code>``` fortran linenums=&quot;1&quot;
+program make_table
+
+    implicit none
+
+    integer, parameter :: size = 1000 ! dimension not related to the size of the encompassing model
+
+    real :: constant_one, constant_two
+    real, dimension(size) :: table
+
+    integer :: l
+
+    constant_one = 10
+    constant_two = 2
+
+    ! construct a table based on temperature input
+
+    do l = 1, size
+        table(l) = log(0.1 * (l-1) / constant_one) + constant_two
+    enddo
+
+    print *, table
+
+end program make_table
+```
+</code></pre></div>
+<p>Example "<abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr> Code"</p>
+<div class="language-text highlight"><pre><span></span><code>``` py linenums=&quot;1&quot;
+from ndsl.dsl.gt4py import (
+    computation,
+    interval,
+    log,
+    PARALLEL,
+    GlobalTable,
+)
+from ndsl import StencilFactory, QuantityFactory
+from ndsl.boilerplate import get_factories_single_tile
+from ndsl.constants import X_DIM, Y_DIM, Z_DIM
+from ndsl.dsl.typing import FloatField, Float
+from gt4py.cartesian.gtscript import THIS_K
+
+
+# NOTE Ideally, these next two statements should be done elsewhere (perhaps
+# in a constants and types file, respectively) and imported
+# declare table size
+table_size = 1000
+# define table type
+GlobalTable_local_type = GlobalTable[(Float, int(table_size))]
+
+
+def _compute_table(table: FloatField):
+    from __externals__ import constant_one, constant_two
+
+    with computation(PARALLEL), interval(1, None):
+        table = log(0.1 * THIS_K / constant_one) + constant_two
+
+
+def _use_table(out_field: FloatField, table: GlobalTable_local_type):
+    with computation(PARALLEL), interval(...):
+        out_field = 2 * table.A[150]
+
+
+class ConstructTable:
+    def __init__(self, stencil_factory: StencilFactory, quantity_factory: QuantityFactory):
+
+        # build stencil
+        self.compute_table = stencil_factory.from_dims_halo(
+            func=_compute_table,
+            compute_dims=[X_DIM, Y_DIM, Z_DIM],
+            externals={
+                &quot;constant_one&quot;: 10,
+                &quot;constant_two&quot;: 2,
+            },
+        )
+
+        self._table = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], &quot;n/a&quot;)
+
+    def __call__(self):
+        # execute stencil
+        self.compute_table(
+            self._table,
+        )
+
+        # return a GlobalTable object
+
+    @property
+    def table(self):
+        return self._table.field[0, 0, :]
+
+
+if __name__ == &quot;__main__&quot;:
+    # consider the following model domain and factories are presnet
+    domain = (10, 10, 10)
+    nhalo = 0
+    stencil_factory, quantity_factory = get_factories_single_tile(
+        domain[0],
+        domain[1],
+        domain[2],
+        nhalo,
+        backend=&quot;dace:cpu&quot;,
+    )
+
+    # we must create a new set for this table calculation, because we require an off-grid dimension
+    domain_table = (1, 1, table_size)
+    nhalo_table = 0
+    stencil_factory_table, quantity_factory_table = get_factories_single_tile(
+        domain_table[0],
+        domain_table[1],
+        domain_table[2],
+        nhalo_table,
+        backend=&quot;debug&quot;,
+    )
+
+    # initialize data
+    temperature = quantity_factory_table.zeros([X_DIM, Y_DIM, Z_DIM], &quot;n/a&quot;)
+
+    for l in range(temperature.field.shape[2]):
+        temperature.field[:, :, l] = 10 + 0.01 * (l + 1)
+
+    # build stencil
+    construct_table = ConstructTable(stencil_factory_table, quantity_factory_table)
+
+    # execute stencil
+    construct_table()
+
+    # construct stencil that will use the table
+    use_table = stencil_factory.from_dims_halo(
+        func=_use_table,
+        compute_dims=[X_DIM, Y_DIM, Z_DIM],
+    )
+
+    # # initalize array for calculation using table
+    out_field = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], &quot;n/a&quot;)
+
+    use_table(out_field, construct_table.table)
+
+    print(construct_table.table)
+    print(&quot;Done 🚀&quot;)
+```
+</code></pre></div>
+<p>These tables must be subsequently referenced as a local variant of the <code>GlobalTable</code> type,
+informing the system that the object features a single off-grid axis, and may not conform
+to the larger model grid specifications:</p>
+<p>Example "<abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr> Code"</p>
+<div class="language-text highlight"><pre><span></span><code>This type is defined using the following pattern:
+``` py
+GlobalTable_local_type = GlobalTable[(&lt;data type (Float/Int/Bool)&gt;, int(table_size))]
+```
+
+And accurately typed and referenced within the stencil:
+``` py
+def stencil(data: FloatField, table: GlobalTable_local_type):
+    with computation(PARALLEL), interval(...):
+        data = table.A[desired_index]
+```
+</code></pre></div>
+<h2 id="optional-inputs">Optional Inputs</h2>
+<p>In Fortran - and in traditional Python - it is possible to have optional inputs to a function. <abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr> does not
+support optional field inputs (a quantity with one or more dimensions) but it is possible to create 
+optional scalar inputs.</p>
+<p>For a field, the best way to create an "optional" input in <abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr> is to create a situation where an input
+(which is always suppled) has the option of being used - a calculation tied to some boolean, perhaps.
+Furthermore, the field supplied need not be relevant. If the option will never be used, a dummy
+field can be passed to satisfy the API of the function and simply never touched (or touched, with the result
+discarded upon completion of the function).</p>
+<p>For scalar inputs, the notation is quite similar to that of traditional Python. Note that <abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr> requires
+that all scalars - if not suppled - have a default value, and that default value must be of the declared type
+(see line 19 of the example below):</p>
+<p>Example "<abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr> Code"</p>
+<div class="language-text highlight"><pre><span></span><code>``` py linenums=&quot;1&quot;
+
+from ndsl.dsl.gt4py import (
+    computation,
+    interval,
+    PARALLEL,
+)
+from ndsl.boilerplate import get_factories_single_tile
+from ndsl.constants import X_DIM, Y_DIM, Z_DIM
+from ndsl.dsl.typing import FloatField, Float
+from ndsl import StencilFactory, orchestrate
+import numpy as np
+
+domain = (2, 2, 5)
+
+stencil_factory, quantity_factory = get_factories_single_tile(
+    domain[0], domain[1], domain[2], 0, backend=&quot;numpy&quot;
+)
+
+
+def the_stencil(in_field: FloatField, out_field: FloatField, factor: Float = 2.0):
+    with computation(PARALLEL), interval(...):
+        out_field = in_field * factor
+
+
+class Code:
+    def __init__(self, stencil_factory: StencilFactory):
+        orchestrate(obj=self, config=stencil_factory.config.dace_config)
+        self._the_stencil = stencil_factory.from_dims_halo(
+            func=the_stencil,
+            compute_dims=[X_DIM, Y_DIM, Z_DIM],
+        )
+
+    def __call__(self, in_field: FloatField, out_field: FloatField):
+        self._the_stencil(in_field, out_field)
+
+
+if __name__ == &quot;__main__&quot;:
+    in_arr = quantity_factory.zeros(
+        dims=[X_DIM, Y_DIM, Z_DIM],
+        units=&quot;inputs&quot;,
+    )
+    sz = domain[0] * domain[1] * domain[2]
+    in_arr.view[:] = np.arange(sz, dtype=Float).reshape(domain)
+
+    out_arr = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], units=&quot;outputs&quot;)
+
+    code = Code(stencil_factory)
+    code(in_arr, out_arr)
+
+    print(&quot;Done 🚀&quot;)
+```
+</code></pre></div>
+<h2 id="exit-statements-and-internal-masks">Exit Statements and Internal Masks</h2>
+<p>Often there are times where it is necessary to control the execution of specific code paths
+dynamically within code execution (e.g. computing precipitation if there is sufficient liquid
+water present). In Fortran, this can be done easily with an <code>exit</code> statement. In <abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr>, the Python equivalent
+<code>break</code> statement is strictly forbidden, as there is no way to stop a computation early. Instead, the correct
+way to control execution of different coordinates on the X/Y plane is by using two dimensional boolean fields,
+which act as masks to turn on/off chunks of code on a per-point basis.</p>
+<p>Example "Fortran Code"</p>
+<div class="language-text highlight"><pre><span></span><code>``` fortran linenums=&quot;1&quot;
+program conditional_calculation
+    implicit none
+
+    ! setup domain
+    integer, parameter :: X_DIM = 5
+    integer, parameter :: Y_DIM = 5
+    integer, parameter :: Z_DIM = 3
+
+    ! allocate scalars
+    integer :: i, j, k
+    real :: seed, critical_value
+
+    ! allocate arrays
+    integer, dimension(X_DIM, Y_DIM, Z_DIM) :: in_data, out_data
+    logical, dimension(X_DIM, Y_DIM) :: mask
+
+    critical_value = 5
+    ! initalize data
+    do i = 1, X_DIM
+        do j = 1, Y_DIM
+            do k = 1, Z_DIM
+                call RANDOM_NUMBER(seed)
+                ! generate a random number between 0 and 10
+                in_data(i, j, k) = nint(10*seed)
+            enddo
+        enddo
+    enddo
+
+
+    do i = 1, X_DIM
+        do j = 1, Y_DIM
+            do k = 1, Z_DIM
+                ! if data is above a critical value anywhere in the column
+                ! perform the subsequenc calculation on the entire column
+                if (in_data(i, j, k) &gt; critical_value) then
+                    mask(i, j) = .true.
+                    exit
+                endif
+            enddo
+            if (mask(i,j) .eqv. .true.) then
+                out_data(i,j,:) = 10*in_data
+            else
+                out_data(i,j,:) = -999
+            endif
+        enddo
+    enddo
+
+    PRINT *, &quot;Input data: &quot;, in_data
+    PRINT *, &quot;Mask data: &quot;, mask
+    PRINT *, &quot;Output data: &quot;, out_data
+
+end program conditional_calculation
+```
+</code></pre></div>
+<p>Example "<abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr> Code"</p>
+<div class="language-text highlight"><pre><span></span><code>``` py linenums=&quot;1&quot;
+from ndsl.dsl.gt4py import PARALLEL, FORWARD, computation, interval, exp, function
+from ndsl import StencilFactory
+from ndsl.boilerplate import get_factories_single_tile
+from ndsl.constants import X_DIM, Y_DIM, Z_DIM
+from ndsl.dsl.typing import FloatField, BoolFieldIJ, Bool
+import random
+
+
+def check_value(data: FloatField, mask: BoolFieldIJ):
+    from __externals__ import critical_value
+
+    with computation(FORWARD), interval(...):
+        # if the data surpasses a critical value anywhere in the column, set the mask to true
+        if data &gt; critical_value:
+            mask = True
+
+
+def computation_stencil(data_in: FloatField, data_out: FloatField, mask: BoolFieldIJ):
+    with computation(PARALLEL), interval(...):
+        if mask == True:
+            data_out = 2 * exp(data_in)
+        else:
+            data_out = -999
+
+
+class DoSomeMath:
+    def __init__(self, stencil_factory: StencilFactory):
+
+        self.check_value = stencil_factory.from_dims_halo(
+            func=check_value,
+            compute_dims=[X_DIM, Y_DIM, Z_DIM],
+            externals={
+                &quot;critical_value&quot;: 5,
+            },
+        )
+
+        self.computation_stencil = stencil_factory.from_dims_halo(
+            func=computation_stencil,
+            compute_dims=[X_DIM, Y_DIM, Z_DIM],
+        )
+
+    def __call__(self, in_field: FloatField, out_field: FloatField, mask_field: BoolFieldIJ):
+        self.check_value(in_field, mask_field)
+        self.computation_stencil(in_field, out_field, mask_field)
+
+
+if __name__ == &quot;__main__&quot;:
+
+    domain = (5, 5, 3)
+    nhalo = 0
+    stencil_factory, quantity_factory = get_factories_single_tile(
+        domain[0],
+        domain[1],
+        domain[2],
+        nhalo,
+    )
+
+    do_some_math = DoSomeMath(stencil_factory)
+
+    in_field = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], &quot;n/a&quot;)
+    for i in range(in_field.field.shape[0]):
+        for j in range(in_field.field.shape[1]):
+            for k in range(in_field.field.shape[2]):
+                in_field.field[i, j, k] = round(random.uniform(0, 10), 2)
+
+    out_field = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], &quot;n/a&quot;)
+
+    mask_field = quantity_factory.zeros([X_DIM, Y_DIM], &quot;n/a&quot;, dtype=Bool)
+
+    do_some_math(in_field, out_field, mask_field)
+
+    print(f&quot;Input data: {in_field.field}&quot;)
+    print(f&quot;Mask data: {mask_field.field}&quot;)
+    print(f&quot;Output data: {out_field.field}&quot;)
+```
+</code></pre></div>
+<h2 id="nested-k-loops">Nested K Loops</h2>
+<p>Occasionally there may be situations when a nested K loop is required (such as
+accumulating precipitation in a column). <abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr> does not have the ability to nest computation/interval
+statements; however, such a calculation can be performed using a <code>while</code> loop and clever indexing within
+a single computation/iteration statement:</p>
+<p>Below is an example of a nested K loop from the lagrangian_contributions stencil. It is not 
+currently possible in <abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr> to nest a <code>with computation(PARALLEL)</code> within a 
+<code>with computation(PARALLEL)</code>, however a <code>while</code>loop can be used to create a nested K loop 
+(lines x-x).</p>
+<p>Example "Fortran Code"</p>
+<div class="language-text highlight"><pre><span></span><code>```fortran linenums=&quot;1&quot;
+program nested_k_loop
+    implicit none
+
+    ! setup domain
+    integer, parameter :: X_DIM = 5
+    integer, parameter :: Y_DIM = 5
+    integer, parameter :: Z_DIM = 10
+
+    ! allocate scalars
+    integer :: i, j, k, kk
+    real :: seed
+
+    ! allocate arrays
+    integer, dimension(X_DIM, Y_DIM, Z_DIM) :: in_data, out_data
+
+    ! initalize data
+    do i = 1, X_DIM
+        do j = 1, Y_DIM
+            do k = 1, Z_DIM
+                call RANDOM_NUMBER(seed)
+                ! generate a random value between 0 and 10
+                in_data(i, j, k) = nint(10*seed)
+            enddo
+        enddo
+    enddo
+
+    out_data(:,:,:) = 0
+    do i = 1, X_DIM
+        do j = 1, Y_DIM
+            do k = 1, Z_DIM
+                do kk = 1, k
+                    ! sum all values at and below the current point
+                    out_data(i,j,k) = out_data(i,j,k) + in_data(i,j,kk)
+                enddo
+            enddo
+        enddo
+    enddo
+
+    PRINT *, &quot;Input data: &quot;, in_data(1,1,:)
+    PRINT *, &quot;Output data: &quot;, out_data(1,1,:)
+
+end program nested_k_loop
+```
+</code></pre></div>
+<p>Example "<abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr> Code"</p>
+<div class="language-text highlight"><pre><span></span><code>``` py linenums=&quot;1&quot;
+from ndsl.dsl.gt4py import (
+    computation,
+    interval,
+    PARALLEL,
+)
+from gt4py.cartesian.gtscript import THIS_K
+from ndsl import StencilFactory
+from ndsl.boilerplate import get_factories_single_tile
+from ndsl.constants import X_DIM, Y_DIM, Z_DIM
+from ndsl.dsl.typing import FloatField
+import random
+
+
+def nested_k_calculation(
+    in_data: FloatField,
+    out_data: FloatField,
+):
+
+    with computation(PARALLEL), interval(...):
+        nested_k_index = 0
+        while nested_k_index &lt;= THIS_K:
+            out_data = out_data + in_data.at(K=nested_k_index)
+            nested_k_index += 1
+
+
+class Code:
+    def __init__(self, stencil_factory: StencilFactory):
+
+        # build stencil
+        self.constructed_stencil = stencil_factory.from_dims_halo(
+            func=nested_k_calculation,
+            compute_dims=[X_DIM, Y_DIM, Z_DIM],
+        )
+
+    def __call__(
+        self,
+        in_data: FloatField,
+        out_data: FloatField,
+    ):
+        # execute stencil
+        self.constructed_stencil(
+            in_data,
+            out_data,
+        )
+
+
+if __name__ == &quot;__main__&quot;:
+
+    # setup domain and generate factories
+    domain = (5, 5, 10)
+    nhalo = 0
+    stencil_factory, quantity_factory = get_factories_single_tile(
+        domain[0],
+        domain[1],
+        domain[2],
+        nhalo,
+        backend=&quot;debug&quot;,
+    )
+
+    # initialize data
+    out_data = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], &quot;n/a&quot;)
+
+    in_data = quantity_factory.zeros([X_DIM, Y_DIM, Z_DIM], &quot;n/a&quot;)
+    for i in range(in_data.field.shape[0]):
+        for j in range(in_data.field.shape[1]):
+            for k in range(in_data.field.shape[2]):
+                in_data.field[i, j, k] = round(random.uniform(0, 10))
+
+    # build stencil
+    code = Code(stencil_factory)
+
+    # execute stencil
+    code(in_data, out_data)
+
+    print(in_data.field[0, 0, :])
+    print(out_data.field[0, 0, :])
+```
+</code></pre></div>
+<p>Nested K loops provide an excellent example of how thinking outside the box - and possessing a willingness
+to re-approach traditional coding practices - allows for a much wider application of the software and reveals
+that the rules put in place by <abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr> are not necessarily as restrictive as they may seem.</p>
+<h2 id="goto-statements">Goto Statements</h2>
+<p>In Fortran, the <code>goto</code> construct allows the user to jump to another portion of the code. <abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr> is
+incapable of "jumping" from one portion of code to another; stencils are always executed linearly
+and completely. Since <code>goto</code> statement are tremendously flexile, there is no "standard" way of translating
+a piece of code with a <code>goto</code> statement into <abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr>. Indeed, the presence of <code>goto</code> statements often signals
+a non-parallelizable code structure, which requires refactoring to be implemented in <abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr>. During this
+process, however, the aforementioned patterns - particularly the use of masks - may be extremely useful.</p>
+<!-- institutions / groups / teams -->
+
+<!-- technology -->
+
+<!-- GEOS Fortran names -->
+
+<!-- other -->
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["search.suggest", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+    
+  </body>
+</html>

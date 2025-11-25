@@ -1,0 +1,1636 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="https://geos-esm.github.io/SMT-Nebulae/project2426/milestone2/" rel="canonical"/>
+<link href="../milestone1/" rel="prev"/>
+<link href="../milestone3/" rel="next"/>
+<link href="../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.6.1, mkdocs-material-9.7.0" name="generator"/>
+<title>Milestone 2 - SMT Knowledge Base</title>
+<link href="../../assets/stylesheets/main.618322db.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<link href="../../stylesheets/extra.css" rel="stylesheet"/>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#milestone-2">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="SMT Knowledge Base" class="md-header__button md-logo" data-md-component="logo" href="../.." title="SMT Knowledge Base">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            SMT Knowledge Base
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              Milestone 2
+            
+          </span>
+</div>
+</div>
+</div>
+<script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<a aria-label="Share" class="md-search__icon md-icon" data-clipboard="" data-clipboard-text="" data-md-component="search-share" href="javascript:void(0)" tabindex="-1" title="Share">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"></path></svg>
+</a>
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"></path></svg>
+</button>
+</nav>
+<div class="md-search__suggest" data-md-component="search-suggest"></div>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="" tabindex="0">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="SMT Knowledge Base" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="SMT Knowledge Base">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"></path></svg>
+</a>
+    SMT Knowledge Base
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../..">
+<span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Project 2426
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Project 2426
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../">
+<span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../milestone1/">
+<span class="md-ellipsis">
+    
+  
+    Milestone 1
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    Milestone 2
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    Milestone 2
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#branches-setup">
+<span class="md-ellipsis">
+      
+        Branches setup
+      
+    </span>
+</a>
+<nav aria-label="Branches setup" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ndsl">
+<span class="md-ellipsis">
+      
+        NDSL
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#taskboard">
+<span class="md-ellipsis">
+      
+        TaskBoard
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../milestone3/">
+<span class="md-ellipsis">
+    
+  
+    Milestone 3
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../milestone4/">
+<span class="md-ellipsis">
+    
+  
+    Milestone 4
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_6" id="__nav_2_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Results
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_2_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Results
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../results/M2_Sept25/summary/">
+<span class="md-ellipsis">
+    
+  
+    Milestone 2
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../results/SC23/">
+<span class="md-ellipsis">
+    
+  
+    Supercomputing 23
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../results/science-targets/">
+<span class="md-ellipsis">
+    
+  
+    Science Targets
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../results/hpc-metrics/">
+<span class="md-ellipsis">
+    
+  
+    HPC Metrics
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Technical
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/">
+<span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/laundry-list/">
+<span class="md-ellipsis">
+    
+  
+    The Laundry List 👕
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Brainstorm
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Brainstorm
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/brainstorm/column-solver/">
+<span class="md-ellipsis">
+    
+  
+    Column Solver
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/brainstorm/column-solver-UW-example/">
+<span class="md-ellipsis">
+    
+  
+    Column Solver UW example
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Dev setup
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Dev setup
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/dev-setup/">
+<span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/dev-setup/tech-stack/">
+<span class="md-ellipsis">
+    
+  
+    Tech stack
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/dev-setup/vscode/">
+<span class="md-ellipsis">
+    
+  
+    VSCode config
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Frontend
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Frontend
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/frontend/">
+<span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/frontend/ndsl_features/">
+<span class="md-ellipsis">
+    
+  
+    NDSL features
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/frontend/experimental_features/">
+<span class="md-ellipsis">
+    
+  
+    Experimental "physics" features
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3_5_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_5_4" id="__nav_3_5_4_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    ADRs
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_5_4_label" class="md-nav" data-md-level="3">
+<label class="md-nav__title" for="__nav_3_5_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    ADRs
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/frontend/ADRs/">
+<span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/frontend/ADRs/fields_bundle/">
+<span class="md-ellipsis">
+    
+  
+    Fields Bundle
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Porting
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Porting
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/porting/translate_test/">
+<span class="md-ellipsis">
+    
+  
+    Translate tests
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Backend work
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_7_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Backend work
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/backend/">
+<span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/backend/schedule-tree/">
+<span class="md-ellipsis">
+    
+  
+    Schedule Tree bridge
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/backend/coding-guidelines/">
+<span class="md-ellipsis">
+    
+  
+    Coding guidelines
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/backend/orchestration/">
+<span class="md-ellipsis">
+    
+  
+    Orchestration
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3_7_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_7_5" id="__nav_3_7_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Repositories
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_7_5_label" class="md-nav" data-md-level="3">
+<label class="md-nav__title" for="__nav_3_7_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Repositories
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/backend/repositories/ndsl/">
+<span class="md-ellipsis">
+    
+  
+    NDSL
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/backend/repositories/gt4py/">
+<span class="md-ellipsis">
+    
+  
+    GT4Py
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/backend/repositories/dace/">
+<span class="md-ellipsis">
+    
+  
+    DaCe
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3_7_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_7_6" id="__nav_3_7_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    ADRs
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_7_6_label" class="md-nav" data-md-level="3">
+<label class="md-nav__title" for="__nav_3_7_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    ADRs
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/backend/ADRs/">
+<span class="md-ellipsis">
+    
+  
+    Index
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/backend/ADRs/stree/">
+<span class="md-ellipsis">
+    
+  
+    Schedule tree
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/backend/ADRs/stree_dace-version/">
+<span class="md-ellipsis">
+    
+  
+    Schedule tree (DaCe version)
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/backend/ADRs/stree_ndsl-integration/">
+<span class="md-ellipsis">
+    
+  
+    Schedule tree (NDSL integration)
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3_7_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_7_7" id="__nav_3_7_7_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Archive
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_7_7_label" class="md-nav" data-md-level="3">
+<label class="md-nav__title" for="__nav_3_7_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Archive
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../technical/backend/dace-bridge/">
+<span class="md-ellipsis">
+    
+  
+    GT4Py/DaCe bridge via expansion
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    GEOS
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    GEOS
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../GEOS/">
+<span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../GEOS/local_build/">
+<span class="md-ellipsis">
+    
+  
+    Local build
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../GEOS/discover_build/">
+<span class="md-ellipsis">
+    
+  
+    Discover
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../GEOS/gh200/">
+<span class="md-ellipsis">
+    
+  
+    PRISM (GH200)
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../GEOS/validation_basics/">
+<span class="md-ellipsis">
+    
+  
+    Validation
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Component documentation
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_4_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Component documentation
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../GEOS/components/">
+<span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4_6_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4_6_2" id="__nav_4_6_2_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Dynamics
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_6_2_label" class="md-nav" data-md-level="3">
+<label class="md-nav__title" for="__nav_4_6_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Dynamics
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../GEOS/components/dynamics/pyFV3/">
+<span class="md-ellipsis">
+    
+  
+    pyFV3
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4_6_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4_6_3" id="__nav_4_6_3_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Moist
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_6_3_label" class="md-nav" data-md-level="3">
+<label class="md-nav__title" for="__nav_4_6_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Moist
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../GEOS/components/moist/">
+<span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../GEOS/components/moist/GF/">
+<span class="md-ellipsis">
+    
+  
+    GF
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../GEOS/components/moist/GFDL_1M/">
+<span class="md-ellipsis">
+    
+  
+    GFDL_1M
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../GEOS/components/moist/RAS/">
+<span class="md-ellipsis">
+    
+  
+    RAS
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../GEOS/components/moist/UW/">
+<span class="md-ellipsis">
+    
+  
+    UW
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4_6_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4_6_4" id="__nav_4_6_4_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Chemistry
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_6_4_label" class="md-nav" data-md-level="3">
+<label class="md-nav__title" for="__nav_4_6_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Chemistry
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../GEOS/components/chemistry/pchem/">
+<span class="md-ellipsis">
+    
+  
+    PChem
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tutorials/">
+<span class="md-ellipsis">
+    
+  
+    Start Here!
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    NDSL
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5_2">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    NDSL
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tutorials/ndsl_user_manual/ndsl_introduction/">
+<span class="md-ellipsis">
+    
+  
+    1. Introduction to NDSL
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tutorials/ndsl_user_manual/data/">
+<span class="md-ellipsis">
+    
+  
+    2. Data Types and Storage
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tutorials/ndsl_user_manual/writing_ndsl_code/">
+<span class="md-ellipsis">
+    
+  
+    3. Writing Code with NDSL
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tutorials/ndsl_user_manual/advanced_features/">
+<span class="md-ellipsis">
+    
+  
+    4. Advanced Features
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tutorials/ndsl_user_manual/backends/">
+<span class="md-ellipsis">
+    
+  
+    5. Backends
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tutorials/ndsl_user_manual/common_patterns/">
+<span class="md-ellipsis">
+    
+  
+    6. Common Patterns
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tutorials/ndsl_user_manual/why_use_classes/">
+<span class="md-ellipsis">
+    
+  
+    7. Why Use Classes?
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tutorials/ndsl_user_manual/best_coding_practices/">
+<span class="md-ellipsis">
+    
+  
+    8. Best Coding Practices
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    GEOS
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    GEOS
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tutorials/geos_with_ndsl/">
+<span class="md-ellipsis">
+    
+  
+    Introduction to GEOS
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Model Development with NDSL
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Model Development with NDSL
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tutorials/developing_with_ndsl/">
+<span class="md-ellipsis">
+    
+  
+    Model Development with NDSL
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tutorials/faq/">
+<span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    The Code Nebula
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    The Code Nebula
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tcn/">
+<span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tcn/packages/">
+<span class="md-ellipsis">
+    
+  
+    Packages
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../tcn/results/">
+<span class="md-ellipsis">
+    
+  
+    Results
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Satellite work
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Satellite work
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../satellite-work/pace/">
+<span class="md-ellipsis">
+    
+  
+    Pace
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#branches-setup">
+<span class="md-ellipsis">
+      
+        Branches setup
+      
+    </span>
+</a>
+<nav aria-label="Branches setup" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#ndsl">
+<span class="md-ellipsis">
+      
+        NDSL
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#taskboard">
+<span class="md-ellipsis">
+      
+        TaskBoard
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="milestone-2">Milestone 2</h1>
+<p>Milestone 2 was started on March 2025 and will run until the end of August 2025.</p>
+<p>Results can be found in the <a href="../results/M2_Sept25/summary/">results section</a>.</p>
+<h2 id="branches-setup">Branches setup</h2>
+<p>Not all features that we use in the results for milestone 2 are/were merged to mainline at the time. We have/had the following setup:</p>
+<h3 id="ndsl"><abbr title="NOAA/NASA Domain Specific Language middleware">NDSL</abbr></h3>
+<p>Follows branch <a href="https://github.com/NOAA-GFDL/NDSL/tree/nasa/milestone2"><code>nasa/milestone2</code></a> (see <a href="https://github.com/NOAA-GFDL/NDSL/pull/189">PR #189</a>). This branch includes</p>
+<ul>
+<li>a hard-coded <abbr title="Data-Centric Parallel Programming">DaCe</abbr> version with the new schedule tree bridge and</li>
+<li>a hardcoded <abbr title="GridTools for Python">GT4Py</abbr> version with the following experimental features (in the <code>dace:*</code> backends only)<ul>
+<li>Hybrid indexing, i.e. absolute indexes in K via <code>field.at(K=absolute_index)</code></li>
+<li>Access to the iteration variable through <code>K</code>, working title <code>THIS_K</code></li>
+<li>Access to the <code>round()</code> function in stencils</li>
+</ul>
+</li>
+</ul>
+<details class="note">
+<summary><code>int</code> / <code>float</code> literal precision, working title "mixed precision work"</summary>
+<p>The "mixed precision work" made it into mainline <abbr title="GridTools for Python">GT4Py</abbr> with <a href="https://github.com/GridTools/gt4py/pull/2187">this PR</a>. There was only one major change compared to previous versions: the names of type annotations and casts changed in the following way</p>
+<ul>
+<li><code>i32</code> -&gt; <code>int32</code></li>
+<li><code>i64</code> -&gt; <code>int64</code></li>
+<li><code>f32</code> -&gt; <code>float32</code></li>
+<li><code>f64</code> -&gt; <code>float64</code></li>
+</ul>
+<p>If you get issues/errors about <code>i32</code>, <code>i64</code>, <code>f32</code>, <code>f64</code> not being defined, update your code with the above mapping.</p>
+</details>
+<h2 id="taskboard">TaskBoard</h2>
+<p>As of March 2nd:</p>
+<p><div class="mxgraph" data-mxgraph='{"toolbar": "zoom", "tooltips": "1", "border": 5, "resize": "1", "edit": "_blank", "highlight": null, "xml": "&lt;mxfile host=\"65bd71144e\"&gt;\n    &lt;diagram id=\"Oi6eNHbNN4b7aSkW7Dm6\" name=\"Page-1\"&gt;\n        &lt;mxGraphModel dx=\"3380\" dy=\"5073\" grid=\"1\" gridSize=\"10\" guides=\"1\" tooltips=\"1\" connect=\"1\" arrows=\"1\" fold=\"1\" page=\"0\" pageScale=\"1\" pageWidth=\"1169\" pageHeight=\"827\" math=\"0\" shadow=\"0\"&gt;\n            &lt;root&gt;\n                &lt;mxCell id=\"0\"/&gt;\n                &lt;mxCell id=\"1\" parent=\"0\"/&gt;\n                &lt;mxCell id=\"356\" value=\"\" style=\"rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#FF00FF,#B3FF66);dashed=1;fillColor=none;strokeWidth=3;opacity=50;fontColor=light-dark(#000000,#FF3333);\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-1110\" y=\"981\" width=\"510\" height=\"239\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"352\" value=\"\" style=\"rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#FF00FF,#FF3333);dashed=1;fillColor=none;strokeWidth=3;opacity=50;fontColor=light-dark(#000000,#FF3333);\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"60\" y=\"780\" width=\"410\" height=\"240\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"346\" value=\"\" style=\"rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#FF00FF,#007FFF);dashed=1;fillColor=none;strokeWidth=3;opacity=50;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"3430\" y=\"-30\" width=\"330\" height=\"1430\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"350\" value=\"\" style=\"rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#FF00FF,#FF9933);dashed=1;fillColor=none;strokeWidth=3;opacity=50;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-570\" y=\"960\" width=\"640\" height=\"560\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"340\" value=\"\" style=\"rounded=1;whiteSpace=wrap;html=1;strokeColor=light-dark(#FF00FF,#66FFFF);dashed=1;fillColor=none;strokeWidth=3;opacity=50;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"2050\" y=\"600\" width=\"1160\" height=\"797\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"323\" value=\"\" style=\"rounded=1;whiteSpace=wrap;html=1;strokeColor=#FF00FF;dashed=1;fillColor=none;strokeWidth=3;opacity=50;movable=0;resizable=0;rotatable=0;deletable=0;editable=0;locked=1;connectable=0;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"605\" y=\"810\" width=\"1160\" height=\"870\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"31\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"2\" target=\"3\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"2\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;UW Numerical Validation\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"230\" y=\"-70\" width=\"130\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"29\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"3\" target=\"4\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"67\" style=\"edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;\" parent=\"1\" source=\"4\" target=\"2\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"400\" y=\"-130\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"3\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;UW &amp;lt;br&amp;gt;integration\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"230\" y=\"-160\" width=\"130\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"25\" style=\"edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;\" parent=\"1\" source=\"4\" target=\"14\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"290\" y=\"-410\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"4\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;UW &amp;lt;br&amp;gt;Scientific&amp;amp;nbsp;Validation\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"210\" y=\"-240\" width=\"160\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"32\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"5\" target=\"6\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"5\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;GFDL 1M Numerical Validation\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"420\" y=\"-70\" width=\"130\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"28\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"6\" target=\"7\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"66\" style=\"edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;\" parent=\"1\" source=\"7\" target=\"5\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"600\" y=\"-120\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"6\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;GFDL 1M&amp;amp;nbsp;GEOS&amp;lt;br&amp;gt;integration\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"420\" y=\"-160\" width=\"130\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"26\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"7\" target=\"318\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"485\" y=\"-280\" as=\"targetPoint\"/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"7\" value=\"\ud83c\udf0f - GEOS&amp;lt;span style=&amp;quot;color: rgba(0, 0, 0, 0); font-family: monospace; font-size: 0px; text-align: start;&amp;quot;&amp;gt;%3CmxGraphModel%3E%3Croot%3E%3CmxCell%20id%3D%220%22%2F%3E%3CmxCell%20id%3D%221%22%20parent%3D%220%22%2F%3E%3CmxCell%20id%3D%222%22%20value%3D%22%F0%9F%8C%8F%26lt%3Bbr%26gt%3BGFDL%201M%26amp%3Bnbsp%3BGEOS%26lt%3Bbr%26gt%3BScientific%26amp%3Bnbsp%3BVadlidation%22%20style%3D%22shape%3Dhexagon%3Bperimeter%3DhexagonPerimeter2%3BwhiteSpace%3Dwrap%3Bhtml%3D1%3BfixedSize%3D1%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22320%22%20y%3D%2210%22%20width%3D%22160%22%20height%3D%2260%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3CmxCell%20id%3D%223%22%20value%3D%22%F0%9F%8C%8F%26lt%3Bbr%26gt%3BGF%20GEOS%26lt%3Bbr%26gt%3BScientific%26amp%3Bnbsp%3BVadlidation%22%20style%3D%22shape%3Dhexagon%3Bperimeter%3DhexagonPerimeter2%3BwhiteSpace%3Dwrap%3Bhtml%3D1%3BfixedSize%3D1%3B%22%20vertex%3D%221%22%20parent%3D%221%22%3E%3CmxGeometry%20x%3D%22505%22%20y%3D%2210%22%20width%3D%22160%22%20height%3D%2260%22%20as%3D%22geometry%22%2F%3E%3C%2FmxCell%3E%3C%2Froot%3E%3C%2FmxGraphModel%3E&amp;lt;/span&amp;gt;&amp;lt;br&amp;gt;GFDL 1M&amp;lt;br&amp;gt;Scientific&amp;amp;nbsp;Vadlidation\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"405\" y=\"-240\" width=\"160\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"33\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"8\" target=\"9\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"8\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;GF&amp;amp;nbsp;Numerical Validation\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"630\" y=\"-70\" width=\"130\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"34\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"9\" target=\"10\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"68\" style=\"edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;\" parent=\"1\" source=\"10\" target=\"8\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"810\" y=\"-120\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"9\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;GF&amp;amp;nbsp;&amp;lt;br&amp;gt;integration\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"630\" y=\"-160\" width=\"130\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"27\" style=\"edgeStyle=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;\" parent=\"1\" source=\"10\" target=\"14\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"690\" y=\"-410\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"10\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;GF &amp;lt;br&amp;gt;Scientific&amp;amp;nbsp;Vadlidation\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"610\" y=\"-240\" width=\"160\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"22\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"13\" target=\"15\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"13\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;Moist&amp;lt;br&amp;gt;Scientific&amp;amp;nbsp;Validation\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"405\" y=\"-520\" width=\"160\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"23\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"14\" target=\"13\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"14\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;Moist&amp;lt;br&amp;gt;Integration (not optimized)\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"370\" y=\"-440\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"20\" style=\"edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" parent=\"1\" source=\"15\" target=\"17\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"485\" y=\"-660\"/&gt;\n                            &lt;mxPoint x=\"600\" y=\"-660\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"21\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"15\" target=\"16\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"485\" y=\"-660\"/&gt;\n                            &lt;mxPoint x=\"370\" y=\"-660\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"15\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;Moist&amp;lt;br&amp;gt;Optimized Integration\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"370\" y=\"-610\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"121\" style=\"edgeStyle=none;html=1;strokeColor=#F0F0F0;\" parent=\"1\" source=\"16\" target=\"186\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"210\" y=\"-1400\" as=\"targetPoint\"/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"16\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;Moist&amp;lt;br&amp;gt;Scientific&amp;amp;nbsp;Validation\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"290\" y=\"-950\" width=\"160\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"124\" style=\"edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" parent=\"1\" source=\"17\" target=\"52\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"600\" y=\"-920\"/&gt;\n                            &lt;mxPoint x=\"820\" y=\"-920\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"160\" style=\"edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" parent=\"1\" source=\"17\" target=\"166\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"600\" y=\"-1180\" as=\"targetPoint\"/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"17\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;Moist&amp;lt;br&amp;gt;Benchmark\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"520\" y=\"-760\" width=\"160\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"19\" style=\"edgeStyle=none;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;\" parent=\"1\" source=\"18\" target=\"15\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"18\" value=\"&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt; - pyMoist&amp;lt;br&amp;gt;Port&amp;lt;br&amp;gt;Glue code\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"760\" y=\"-610\" width=\"120\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"84\" style=\"edgeStyle=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;\" parent=\"1\" source=\"35\" target=\"82\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"125\" style=\"edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#F0F0F0;\" parent=\"1\" source=\"35\" target=\"52\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1480\" y=\"-1040\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"138\" style=\"edgeStyle=none;html=1;strokeColor=#F0F0F0;\" parent=\"1\" source=\"35\" target=\"139\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"2130\" y=\"-880\" as=\"targetPoint\"/&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1675\" y=\"-280\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"35\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;Dynamics (FV3)&amp;lt;br&amp;gt;Benchmark\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1360\" y=\"-170\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"38\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"36\" target=\"35\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"41\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"36\" target=\"40\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"85\" style=\"edgeStyle=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;\" parent=\"1\" source=\"36\" target=\"82\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"1730\" y=\"-1010\" as=\"targetPoint\"/&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1280\" y=\"-110\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"36\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;Dynamics (FV3)&amp;lt;br&amp;gt;Scientific Validation\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1360\" y=\"-70\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"39\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"37\" target=\"36\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"37\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;Dynamics (FV3)&amp;lt;br&amp;gt;Numerical Validation\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1360\" y=\"60\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"176\" style=\"edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" parent=\"1\" source=\"40\" target=\"109\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1235\" y=\"-310\"/&gt;\n                            &lt;mxPoint x=\"1025\" y=\"-310\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"40\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\ud83d\udd00 - pyFV3&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Merge back to mainline\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1140\" y=\"-60\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"86\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"42\" target=\"35\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"42\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\ud83d\ude80&amp;amp;nbsp;- pyFV3&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Optimize MPP Global domain\" style=\"rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1680\" y=\"-170\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"232\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"44\" target=\"109\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"44\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\ud83d\ude80&amp;amp;nbsp;- pyFV3&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Optimize orchestration build for Tracers\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"930\" y=\"-290\" width=\"190\" height=\"70\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"101\" style=\"edgeStyle=none;html=1;strokeColor=#F0F0F0;\" parent=\"1\" source=\"45\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"2713.196721311476\" y=\"120.20491803278674\" as=\"targetPoint\"/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"255\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"45\" target=\"47\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"2245\" y=\"70\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"289\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"45\" target=\"290\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"2870\" y=\"230\" as=\"targetPoint\"/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"344\" style=\"edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;\" parent=\"1\" source=\"45\" target=\"243\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"2640\" y=\"70\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"345\" style=\"edgeStyle=none;html=1;exitX=0.625;exitY=1;exitDx=0;exitDy=0;\" parent=\"1\" source=\"45\" target=\"244\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"2484\" y=\"750\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"45\" value=\"\ud83d\ude80&amp;amp;nbsp;- NDSL&amp;lt;br&amp;gt;Performance&amp;lt;br&amp;gt;CPU for dynamics\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"2340\" y=\"40\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"256\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"47\" target=\"48\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"47\" value=\"\ud83d\ude80&amp;amp;nbsp;- NDSL&amp;lt;br&amp;gt;Performance&amp;lt;br&amp;gt;CPU for physics\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"2130\" y=\"-160\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"48\" value=\"\ud83d\ude80&amp;amp;nbsp;- NDSL&amp;lt;br&amp;gt;Performance&amp;lt;br&amp;gt;GPU for physics\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"2130\" y=\"-290\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"99\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"49\" target=\"222\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"322\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"49\" target=\"321\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"49\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - GT4Py/DaCe&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Refactor to expose control-flow to DaCe\" style=\"rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"2130\" y=\"1250\" width=\"220\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"254\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"50\" target=\"45\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"2455\" y=\"1030\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"50\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - DaCe&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;SDFG -&amp;amp;gt; STREE bridge\" style=\"rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"2150\" y=\"1000\" width=\"220\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"52\" value=\"\ud83d\udd8b - Docs&amp;lt;br&amp;gt;GEOS vDSL&amp;lt;br&amp;gt;Accelerated GEOS under NDSL\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"705\" y=\"-1070\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"56\" style=\"edgeStyle=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;\" parent=\"1\" source=\"54\" target=\"17\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"770\" y=\"-730\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"54\" value=\"\ud83d\udc1e&amp;amp;nbsp;- DaCe&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;GFDL 1M write back to 2D\" style=\"rounded=0;whiteSpace=wrap;html=1;strokeColor=#82b366;fillColor=#d5e8d4;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"830\" y=\"-710\" width=\"180\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"59\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"58\" target=\"258\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"58\" value=\"&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp;- pyMoist&amp;lt;br&amp;gt;Port&amp;lt;br&amp;gt;UW compute code\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"235\" y=\"210\" width=\"120\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"65\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"64\" target=\"8\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"64\" value=\"&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp;- pyMoist&amp;lt;br&amp;gt;Port&amp;lt;br&amp;gt;GF Interface\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"635\" y=\"40\" width=\"120\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"80\" style=\"edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;\" parent=\"1\" source=\"323\" target=\"58\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1185\" y=\"520\"/&gt;\n                            &lt;mxPoint x=\"295\" y=\"520\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"182\" style=\"edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;dashed=1;dashPattern=8 8;\" parent=\"1\" source=\"323\" target=\"5\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1185\" y=\"520\"/&gt;\n                            &lt;mxPoint x=\"490\" y=\"520\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"82\" value=\"\ud83d\udd8b - Docs&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;pyFV3 capacties (with NOAA)\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"870\" y=\"-170\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"293\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"109\" target=\"292\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"109\" value=\"\ud83c\udf0f&amp;amp;nbsp;- pyFV3&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;pyFV3 1.0\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"910\" y=\"-400\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"122\" style=\"edgeStyle=none;html=1;strokeColor=#F0F0F0;\" parent=\"1\" source=\"113\" target=\"119\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;object label=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp;- pyMoist&amp;lt;br&amp;gt;UW&amp;lt;br&amp;gt;Update to v12\" id=\"113\"&gt;\n                    &lt;mxCell style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                        &lt;mxGeometry x=\"1227\" y=\"-1480\" width=\"110\" height=\"60\" as=\"geometry\"/&gt;\n                    &lt;/mxCell&gt;\n                &lt;/object&gt;\n                &lt;mxCell id=\"123\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"119\" target=\"120\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"119\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;Moist (v12)&amp;lt;br&amp;gt;Validation\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1332\" y=\"-1660\" width=\"160\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"197\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"120\" target=\"196\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1412\" y=\"-1830\"/&gt;\n                            &lt;mxPoint x=\"1537\" y=\"-1830\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"120\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;Moist (v12)&amp;lt;br&amp;gt;Benchmark\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1332\" y=\"-1790\" width=\"160\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"229\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"126\" target=\"170\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"126\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\ud83d\udc1e&amp;amp;nbsp; - GT4Py&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;2D gt4py.storages available?\" style=\"rounded=0;whiteSpace=wrap;html=1;strokeColor=#b85450;fillColor=#f8cecc;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"260\" y=\"910\" width=\"170\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"140\" style=\"edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;\" parent=\"1\" source=\"128\" target=\"141\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"2382.564227764423\" y=\"-480\" as=\"targetPoint\"/&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1270\" y=\"-670\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"319\" style=\"edgeStyle=none;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;\" parent=\"1\" source=\"128\" target=\"318\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"820\" y=\"-320\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"128\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - GEOS&amp;lt;br&amp;gt;Integration&amp;lt;br&amp;gt;MAPLPy\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"760\" y=\"-510\" width=\"120\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"131\" style=\"edgeStyle=none;html=1;dashed=1;dashPattern=8 8;\" parent=\"1\" source=\"130\" target=\"14\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"130\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - GEOS&amp;lt;br&amp;gt;Integration&amp;lt;br&amp;gt;Generator of 3-way bridge\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"60\" y=\"-440\" width=\"170\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"133\" style=\"edgeStyle=none;html=1;dashed=1;dashPattern=8 8;\" parent=\"1\" source=\"132\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"680\" y=\"-730\" as=\"targetPoint\"/&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"770\" y=\"-730\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"132\" value=\"&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt; - GEOS&amp;lt;br&amp;gt;Integration&amp;lt;br&amp;gt;Benchmark tooling\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"830\" y=\"-800\" width=\"180\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"142\" style=\"edgeStyle=none;html=1;strokeColor=#F0F0F0;\" parent=\"1\" source=\"139\" target=\"141\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"139\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt; - pyFV3/GEOS&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Port glue code\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1461\" y=\"-545\" width=\"190\" height=\"70\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"144\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"141\" target=\"143\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"141\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;FVGridComp&amp;lt;br&amp;gt;Numerical Validation\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1650\" y=\"-700\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"145\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"143\" target=\"146\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"2990\" y=\"-880.0000000000002\" as=\"targetPoint\"/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"317\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"143\" target=\"186\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"143\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;FVGridComp&amp;lt;br&amp;gt;Scientific Validation\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1650\" y=\"-950\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"146\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;FVGridComp&amp;lt;br&amp;gt;Benchmark\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1650\" y=\"-1120\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"148\" value=\"\ud83d\udd8b - Docs&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;User Manual\" style=\"shape=hexagon;perimeter=rectanglePerimeter;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-650\" y=\"-730\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"152\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt; - NDSL&amp;lt;br&amp;gt;Orchestration&amp;lt;br&amp;gt;Expand on Quantity\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-160\" y=\"1100\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"158\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"153\" target=\"148\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"-755\" y=\"-540\"/&gt;\n                            &lt;mxPoint x=\"-535\" y=\"-540\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"153\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\ud83d\udd8b - Docs&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;How to stencils / to model\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-850\" y=\"-450\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"157\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"154\" target=\"148\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"-640\" y=\"-360\" as=\"targetPoint\"/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"154\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\ud83d\udd8b - Docs&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;How to Port / Translate\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-630\" y=\"-450\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"156\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"155\" target=\"148\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"-630\" y=\"-380\" as=\"targetPoint\"/&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"-305\" y=\"-540\"/&gt;\n                            &lt;mxPoint x=\"-535\" y=\"-540\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"155\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\ud83d\udd8b - Docs&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Quickstart / Setup\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-400\" y=\"-450\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"165\" style=\"edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;\" parent=\"1\" source=\"159\" target=\"166\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"680\" y=\"-1210\" as=\"targetPoint\"/&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint y=\"960\"/&gt;\n                            &lt;mxPoint y=\"-1195\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"159\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt; - NDSL&amp;lt;br&amp;gt;Orchestration&amp;lt;br&amp;gt;How to do loop unrolling on tracers or any 4D arrays\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-160\" y=\"1010\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"162\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;Moist&amp;lt;br&amp;gt;Benchmark\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"520\" y=\"-1340\" width=\"160\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"167\" value=\"\" style=\"edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;\" parent=\"1\" source=\"166\" target=\"162\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"166\" value=\"\ud83d\ude80&amp;amp;nbsp;- pyMoist&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Orchestrate&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"515\" y=\"-1220\" width=\"170\" height=\"50\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"299\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"170\" target=\"297\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"345\" y=\"680\"/&gt;\n                            &lt;mxPoint x=\"160\" y=\"480\"/&gt;\n                            &lt;mxPoint x=\"-740\" y=\"480\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"170\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\ud83d\udc1e&amp;amp;nbsp; - GT4Py&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Temporaries are bugged ?\" style=\"rounded=0;whiteSpace=wrap;html=1;strokeColor=#b85450;fillColor=#f8cecc;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"260\" y=\"810\" width=\"170\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"174\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt; - NDSL&amp;lt;br&amp;gt;Pipeline&amp;lt;br&amp;gt;Simplify configuration &amp;amp;amp; backends\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-160\" y=\"1280\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"337\" value=\"\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"175\" target=\"152\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"175\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt; - NDSL&amp;lt;br&amp;gt;Pipeline&amp;lt;br&amp;gt;Move GT4Py/DaCe import in NDSL\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-160\" y=\"1190\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"178\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"177\" target=\"36\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"177\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;{...} - pyFV3&amp;lt;br&amp;gt;Orchestration&amp;lt;br&amp;gt;MPI All Reduce /&amp;amp;nbsp;&amp;lt;span&amp;gt;&amp;lt;font style=&amp;quot;color: light-dark(rgb(255, 255, 255), rgb(255, 255, 255));&amp;quot;&amp;gt;MPP global domains&amp;lt;/font&amp;gt;&amp;lt;/span&amp;gt;\" style=\"rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1680\" y=\"-75\" width=\"190\" height=\"70\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"190\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"186\" target=\"189\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"1220\" y=\"-1730\" as=\"targetPoint\"/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"186\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;Accelerate FP&amp;lt;br&amp;gt;Scientific Validation\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1070\" y=\"-950\" width=\"160\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"201\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"189\" target=\"214\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"1000\" y=\"-1260\" as=\"sourcePoint\"/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"189\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;Accelerate FP&amp;lt;br&amp;gt;Benchmark\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1070\" y=\"-1290\" width=\"160\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"195\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"192\" target=\"194\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"192\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;Dynamics (v12)&amp;lt;br&amp;gt;Validation\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1595\" y=\"-1670\" width=\"160\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"198\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"194\" target=\"196\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1675\" y=\"-1830\"/&gt;\n                            &lt;mxPoint x=\"1537\" y=\"-1830\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"194\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;Dynamics (v12)&amp;lt;br&amp;gt;Benchmark\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1595\" y=\"-1800\" width=\"160\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"200\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"196\" target=\"199\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"196\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;FP (v12)&amp;lt;br&amp;gt;Scientific Validation\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1457\" y=\"-1930\" width=\"160\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"199\" value=\"\ud83c\udf0f - GEOS&amp;lt;br&amp;gt;FP (v12)&amp;lt;br&amp;gt;Benchmark\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1457\" y=\"-2030\" width=\"160\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"203\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"202\" target=\"119\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;object label=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp;- pyMoist&amp;lt;br&amp;gt;GFDL&amp;lt;br&amp;gt;Update to v12\" id=\"202\"&gt;\n                    &lt;mxCell style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                        &lt;mxGeometry x=\"1357\" y=\"-1480\" width=\"110\" height=\"60\" as=\"geometry\"/&gt;\n                    &lt;/mxCell&gt;\n                &lt;/object&gt;\n                &lt;mxCell id=\"206\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"204\" target=\"119\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1542\" y=\"-1530\"/&gt;\n                            &lt;mxPoint x=\"1412\" y=\"-1530\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;object label=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp;- pyMoist&amp;lt;br&amp;gt;GF&amp;lt;br&amp;gt;Update to v12\" id=\"204\"&gt;\n                    &lt;mxCell style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                        &lt;mxGeometry x=\"1487\" y=\"-1480\" width=\"110\" height=\"60\" as=\"geometry\"/&gt;\n                    &lt;/mxCell&gt;\n                &lt;/object&gt;\n                &lt;mxCell id=\"208\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"207\" target=\"192\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;object label=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp;- pyFV3&amp;lt;br&amp;gt;Dynamics&amp;lt;br&amp;gt;Update to v12\" id=\"207\"&gt;\n                    &lt;mxCell style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                        &lt;mxGeometry x=\"1620\" y=\"-1480\" width=\"110\" height=\"60\" as=\"geometry\"/&gt;\n                    &lt;/mxCell&gt;\n                &lt;/object&gt;\n                &lt;mxCell id=\"215\" style=\"edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;\" parent=\"1\" source=\"214\" target=\"113\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1490\" y=\"-1330\"/&gt;\n                            &lt;mxPoint x=\"1280\" y=\"-1330\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"376\" style=\"edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;\" parent=\"1\" source=\"214\" target=\"207\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1490\" y=\"-1330\"/&gt;\n                            &lt;mxPoint x=\"1675\" y=\"-1330\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"214\" value=\"GMAO Release&amp;lt;br&amp;gt;v12\" style=\"shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1430\" y=\"-1290\" width=\"120\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"223\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"222\" target=\"45\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"2455\" y=\"1190\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"222\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - GT4Py/DaCe&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Update to Dace main\" style=\"rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"2130\" y=\"1160\" width=\"220\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"228\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"224\" target=\"45\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"2455\" y=\"851\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"225\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - DaCe&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Stree Trivial Axis Merge\" style=\"rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"2150\" y=\"910\" width=\"220\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"285\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"233\" target=\"297\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"-741\" y=\"430\" as=\"targetPoint\"/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"287\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"233\" target=\"234\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"-740\" y=\"530\"/&gt;\n                            &lt;mxPoint x=\"-905\" y=\"530\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"233\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt; - Serialbox&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Serialize string\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-846\" y=\"1041\" width=\"210\" height=\"70\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"234\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\ud83d\udd00&amp;amp;nbsp;- Serialbox&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Merge ppser to mainline\" style=\"rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-1010\" y=\"310\" width=\"210\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"286\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"235\" target=\"297\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"-970\" y=\"650\"/&gt;\n                            &lt;mxPoint x=\"-740\" y=\"650\"/&gt;\n                        &lt;/Array&gt;\n                        &lt;mxPoint x=\"-740.8790322580644\" y=\"432\" as=\"targetPoint\"/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"235\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\ud83d\udc1e&amp;amp;nbsp;- Serialbox&amp;lt;br&amp;gt;To NetCDF&amp;lt;br&amp;gt;Ranks Inconsistency\" style=\"rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-1074\" y=\"1042\" width=\"210\" height=\"68\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"236\" value=\"\ud83d\udd8b - Docs&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Technical documentation\" style=\"shape=hexagon;perimeter=rectanglePerimeter;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-1470\" y=\"-720\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"237\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"238\" target=\"236\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"-1465\" y=\"-520\"/&gt;\n                            &lt;mxPoint x=\"-1355\" y=\"-520\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"238\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\ud83d\udd8b - Docs&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Orchestration\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-1560\" y=\"-450\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"239\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"240\" target=\"236\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"-1350\" y=\"-360\" as=\"targetPoint\"/&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"-1245\" y=\"-520\"/&gt;\n                            &lt;mxPoint x=\"-1355\" y=\"-520\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"240\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\ud83d\udd8b - Docs&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;DaCe stencil Backend&amp;amp;nbsp;\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-1340\" y=\"-450\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"241\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"242\" target=\"236\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"-1340\" y=\"-380\" as=\"targetPoint\"/&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"-1015\" y=\"-520\"/&gt;\n                            &lt;mxPoint x=\"-1355\" y=\"-520\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"242\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\ud83d\udd8b - Docs&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Debug/Numpy Backend\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-1110\" y=\"-450\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"243\" value=\"\ud83d\ude80&amp;amp;nbsp;- NDSL&amp;lt;br&amp;gt;Performance&amp;lt;br&amp;gt;GPU for dynamics\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"2525\" y=\"170\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"246\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"244\" target=\"243\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"2650\" y=\"-230\" as=\"targetPoint\"/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"252\" value=\"`\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"247\" target=\"251\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"2995\" y=\"860\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"247\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - DaCe&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;OpenMP scheudling w/ hardware look\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"2530\" y=\"830\" width=\"220\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"253\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"248\" target=\"251\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"2995\" y=\"970\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"248\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - DaCe&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;JIT tiling with hardware look\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"2530\" y=\"940\" width=\"220\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"251\" value=\"\ud83d\ude80&amp;amp;nbsp;- NDSL&amp;lt;br&amp;gt;Performance&amp;lt;br&amp;gt;Advanced strategies\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"2880\" y=\"170\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"260\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"257\" target=\"2\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"257\" value=\"&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp;- pyMoist&amp;lt;br&amp;gt;Port&amp;lt;br&amp;gt;UW driver&amp;amp;nbsp;code\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"235\" y=\"30\" width=\"120\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"259\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"258\" target=\"257\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"258\" value=\"&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp;- pyMoist&amp;lt;br&amp;gt;Port&amp;lt;br&amp;gt;UW compute inv code\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"220\" y=\"120\" width=\"150\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"279\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"261\" target=\"276\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"-199\" y=\"1041\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"261\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt; - NDSL&amp;lt;br&amp;gt;Translate&amp;lt;br&amp;gt;Test orchestration parsing\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-520\" y=\"1010\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"280\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"262\" target=\"276\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"-200\" y=\"1130\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"262\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt; - NDSL&amp;lt;br&amp;gt;Translate&amp;lt;br&amp;gt;Quantity Wrapper\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-520\" y=\"1100\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"264\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"263\" target=\"141\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"336\" value=\"\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"263\" target=\"139\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"263\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt; - pyFV3/GEOS&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Integrate SubGridZ\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1671\" y=\"-545\" width=\"190\" height=\"70\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"266\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"265\" target=\"263\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"265\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt; - pyFV3/GEOS&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;SubGridZ - expand to N tracers\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1671\" y=\"-445\" width=\"190\" height=\"70\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"268\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"267\" target=\"37\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"267\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;{...} - pyFV3&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Tracers as 4D / Accessible\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1380\" y=\"210\" width=\"190\" height=\"70\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"271\" style=\"edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;\" parent=\"1\" source=\"269\" target=\"267\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"560\" y=\"1400\"/&gt;\n                            &lt;mxPoint x=\"560\" y=\"600\"/&gt;\n                            &lt;mxPoint x=\"1475\" y=\"600\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"269\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;{...} - NDSL&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;4D / Tracers utils\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-160\" y=\"1370\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"281\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"272\" target=\"276\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"-200\" y=\"1220\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"272\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;\ud83d\udd8b&amp;amp;nbsp;- NDSL&amp;lt;br&amp;gt;Translate&amp;lt;br&amp;gt;Check (and doc) 4D array\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-520\" y=\"1190\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"282\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"273\" target=\"276\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"-200\" y=\"1310\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"273\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;\ud83d\udd8b&amp;amp;nbsp;- NDSL&amp;lt;br&amp;gt;Translate&amp;lt;br&amp;gt;Extend Success &amp;amp;amp; Failures results\" style=\"rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-520\" y=\"1280\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"283\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"274\" target=\"276\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"-200\" y=\"1400\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"274\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;\ud83d\udd8b&amp;amp;nbsp;- NDSL&amp;lt;br&amp;gt;Translate&amp;lt;br&amp;gt;Callable without the pytest harness\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-520\" y=\"1370\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"277\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"276\" target=\"154\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"-530\" y=\"400\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"278\" style=\"edgeStyle=none;html=1;dashed=1;dashPattern=8 8;\" parent=\"1\" source=\"276\" target=\"313\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"695\" y=\"400\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"276\" value=\"\ud83d\udd8b&amp;amp;nbsp;- Docs&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Translate\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-310\" y=\"370\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"288\" style=\"edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;\" parent=\"1\" source=\"297\" target=\"154\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"-531\" y=\"152\"/&gt;\n                        &lt;/Array&gt;\n                        &lt;mxPoint x=\"-715.7999999999993\" y=\"372\" as=\"sourcePoint\"/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"290\" value=\"\ud83d\udde3&amp;amp;nbsp;- Nvidia&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Examples of model code w/ opt\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"3490\" y=\"40\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"291\" value=\"\ud83d\udde3&amp;amp;nbsp;- Team Meeting&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Goddard 2025\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-1440\" y=\"1046\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"292\" value=\"\ud83d\udde3&amp;amp;nbsp;- GISS&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;pyFV3 for Model E\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1210\" y=\"-400\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"295\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"294\" target=\"236\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"-1715\" y=\"-520\"/&gt;\n                            &lt;mxPoint x=\"-1355\" y=\"-520\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"294\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\ud83d\udd8b - Docs&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;GT4Py =&amp;amp;gt; DaCe bridge\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-1810\" y=\"-450\" width=\"190\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"298\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"296\" target=\"297\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"165\" y=\"480\"/&gt;\n                            &lt;mxPoint x=\"-740\" y=\"480\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"296\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\ud83d\udc1e&amp;amp;nbsp; - GT4Py&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Offset write in K\" style=\"rounded=0;whiteSpace=wrap;html=1;strokeColor=#b85450;fillColor=#f8cecc;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"85\" y=\"810\" width=\"160\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"300\" style=\"edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;dashed=1;dashPattern=8 8;\" parent=\"1\" source=\"297\" target=\"5\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"110\" y=\"200\"/&gt;\n                            &lt;mxPoint x=\"110\" y=\"460\"/&gt;\n                            &lt;mxPoint x=\"400\" y=\"460\"/&gt;\n                            &lt;mxPoint x=\"400\" y=\"50\"/&gt;\n                            &lt;mxPoint x=\"400\" y=\"-40\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"301\" style=\"edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;dashed=1;dashPattern=8 8;\" parent=\"1\" source=\"297\" target=\"2\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"110\" y=\"200\"/&gt;\n                            &lt;mxPoint x=\"110\" y=\"460\"/&gt;\n                            &lt;mxPoint x=\"400\" y=\"460\"/&gt;\n                            &lt;mxPoint x=\"400\" y=\"60\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"302\" style=\"edgeStyle=none;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;dashed=1;dashPattern=8 8;\" parent=\"1\" source=\"297\" target=\"8\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"110\" y=\"200\"/&gt;\n                            &lt;mxPoint x=\"110\" y=\"460\"/&gt;\n                            &lt;mxPoint x=\"400\" y=\"460\"/&gt;\n                            &lt;mxPoint x=\"400\" y=\"60\"/&gt;\n                            &lt;mxPoint x=\"570\" y=\"60\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"297\" value=\"\ud83d\udd8b&amp;amp;nbsp;- Docs&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Validation of numerical stability\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-856\" y=\"170\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"303\" value=\"\" style=\"swimlane;startSize=0;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-720\" y=\"-1870\" width=\"576\" height=\"350\" as=\"geometry\"&gt;\n                        &lt;mxRectangle x=\"-1056\" y=\"-1930\" width=\"50\" height=\"40\" as=\"alternateBounds\"/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"306\" value=\"Deliverables / Demo / Product\" style=\"shape=hexagon;perimeter=rectanglePerimeter;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"303\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"43\" y=\"50\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"308\" value=\"Task&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"303\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"43\" y=\"150\" width=\"227\" height=\"50\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"309\" value=\"&amp;lt;font style=&amp;quot;font-size: 20px;&amp;quot;&amp;gt;&amp;lt;b&amp;gt;KEYS&amp;lt;/b&amp;gt;&amp;lt;/font&amp;gt;\" style=\"text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;\" parent=\"303\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"111\" y=\"-5\" width=\"80\" height=\"40\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"310\" value=\"External Blocker\" style=\"shape=parallelogram;perimeter=parallelogramPerimeter;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"303\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"40\" y=\"250\" width=\"240\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"361\" value=\"T1 &amp;amp;amp; T2 : ToDo&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\" style=\"rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"303\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"290\" y=\"150\" width=\"120\" height=\"20\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"363\" value=\"T1 &amp;amp;amp; T2 : Done&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\" style=\"rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;\" parent=\"303\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"290\" y=\"180\" width=\"120\" height=\"20\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"364\" value=\"T3 &amp;amp;amp; T4 : Done&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;\" style=\"rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;\" parent=\"303\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"430\" y=\"150\" width=\"120\" height=\"20\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"311\" value=\"&amp;lt;h1&amp;gt;&amp;lt;span style=&amp;quot;background-color: initial;&amp;quot;&amp;gt;Software Modernization Team - Taskboard&amp;lt;/span&amp;gt;&amp;lt;/h1&amp;gt;&amp;lt;h1 style=&amp;quot;line-height: 100%;&amp;quot;&amp;gt;&amp;lt;span style=&amp;quot;background-color: initial; font-size: 20px; font-weight: normal; line-height: 100%;&amp;quot;&amp;gt;All tasks and deliverable mapped sufficiently to be executed now.&amp;lt;/span&amp;gt;&amp;lt;/h1&amp;gt;&amp;lt;div style=&amp;quot;line-height: 100%;&amp;quot;&amp;gt;&amp;lt;span style=&amp;quot;background-color: initial; font-size: 20px; font-weight: normal;&amp;quot;&amp;gt;Current for Milestone 2 - March 2025 / August 2025 (inclusive)&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;span style=&amp;quot;background-color: initial;&amp;quot;&amp;gt;&amp;lt;br&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;div&amp;gt;&amp;lt;span style=&amp;quot;background-color: initial; line-height: 100%;&amp;quot;&amp;gt;Do not contain further objectives, ideas and refactors deemed a later priority.&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;\" style=\"text;html=1;strokeColor=none;fillColor=none;spacing=5;spacingTop=-20;whiteSpace=wrap;overflow=hidden;rounded=0;fontSize=20;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-130\" y=\"-1870\" width=\"1160\" height=\"350\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"316\" style=\"edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;fontSize=20;\" parent=\"1\" source=\"312\" target=\"64\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"312\" value=\"&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp;- pyMoist&amp;lt;br&amp;gt;Port&amp;lt;br&amp;gt;GF driver\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"635\" y=\"120\" width=\"120\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"315\" style=\"edgeStyle=none;html=1;fontSize=20;\" parent=\"1\" source=\"313\" target=\"312\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"313\" value=\"&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp;- pyMoist&amp;lt;br&amp;gt;Port&amp;lt;br&amp;gt;GF Cup - Make Rain\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"635\" y=\"210\" width=\"120\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"320\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"318\" target=\"14\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"318\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - GEOS&amp;lt;br&amp;gt;GFDL1M&amp;lt;br&amp;gt;One call Microphsyics\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"425\" y=\"-350\" width=\"120\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"321\" value=\"\ud83d\udde3&amp;amp;nbsp;- Nvidia&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Examples of model code (pre opt)\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#d5e8d4;strokeColor=#82b366;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"3490\" y=\"1250\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"51\" value=\"\ud83d\udd8b - Docs&amp;lt;br&amp;gt;GT4Py&amp;lt;br&amp;gt;Cartesian for Physics\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1140\" y=\"981\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"60\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - GT4Py&amp;lt;br&amp;gt;Common DSL&amp;lt;br&amp;gt;2D Temporaries\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1490\" y=\"1020\" width=\"220\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"61\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - GT4Py&amp;lt;br&amp;gt;Physics DSL&amp;lt;br&amp;gt;Runtime interval\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"990\" y=\"1201\" width=\"220\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"62\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - GT4Py&amp;lt;br&amp;gt;Physics DSL&amp;lt;br&amp;gt;Nested K-Loop\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1480\" y=\"1200\" width=\"220\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"71\" style=\"edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" parent=\"1\" source=\"63\" target=\"70\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"860\" y=\"1121\"/&gt;\n                            &lt;mxPoint x=\"960\" y=\"1121\"/&gt;\n                        &lt;/Array&gt;\n                        &lt;mxPoint x=\"720\" y=\"1201\" as=\"sourcePoint\"/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"111\" style=\"edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;strokeColor=#F0F0F0;\" parent=\"1\" source=\"70\" target=\"51\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"365\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"70\" target=\"51\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"70\" value=\"&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp;- GT4Py&amp;lt;br&amp;gt;Physics DSL&amp;lt;br&amp;gt;Experimental feature set\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"845\" y=\"981\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"72\" style=\"edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" parent=\"1\" source=\"60\" target=\"70\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1600\" y=\"1121\"/&gt;\n                            &lt;mxPoint x=\"960\" y=\"1121\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"73\" style=\"edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" parent=\"1\" source=\"61\" target=\"70\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1100\" y=\"1121\"/&gt;\n                            &lt;mxPoint x=\"960\" y=\"1121\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"74\" style=\"edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" parent=\"1\" source=\"62\" target=\"70\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1590\" y=\"1121\"/&gt;\n                            &lt;mxPoint x=\"960\" y=\"1121\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"76\" style=\"edgeStyle=none;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;\" parent=\"1\" source=\"75\" target=\"70\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1347\" y=\"1121\"/&gt;\n                            &lt;mxPoint x=\"960\" y=\"1121\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"75\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - GT4Py&amp;lt;br&amp;gt;Common DSL&amp;lt;br&amp;gt;nD Field Creation\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1237\" y=\"1201\" width=\"220\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"77\" value=\"\ud83d\udd00&amp;amp;nbsp;- GT4Py&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Merge back to mainline\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1140\" y=\"881\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"79\" style=\"edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;\" parent=\"1\" source=\"70\" target=\"77\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"960\" y=\"911\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"324\" value=\"GT4Py.cartesian&amp;lt;br style=&amp;quot;font-size: 24px;&amp;quot;&amp;gt;Physics\" style=\"text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;dashed=1;strokeWidth=3;opacity=50;fontSize=24;fontFamily=Courier New;fontColor=#FF00FF;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1528.5\" y=\"1540.0045901639346\" width=\"143\" height=\"85.57377049180329\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"329\" style=\"edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;fontFamily=Courier New;fontSize=24;fontColor=#FF00FF;\" parent=\"1\" source=\"275\" target=\"328\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"760\" y=\"1400\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"332\" style=\"edgeStyle=none;html=1;fontFamily=Courier New;fontSize=24;fontColor=#FF00FF;\" parent=\"1\" source=\"275\" target=\"70\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"760\" y=\"1400\"/&gt;\n                            &lt;mxPoint x=\"680\" y=\"1400\"/&gt;\n                            &lt;mxPoint x=\"680\" y=\"1010\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"275\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt; - GT4Py/NDSL&amp;lt;br&amp;gt;Debug&amp;lt;br&amp;gt;Code flow\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"650\" y=\"1523.11\" width=\"220\" height=\"50.89\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"330\" style=\"edgeStyle=none;html=1;fontFamily=Courier New;fontSize=24;fontColor=#FF00FF;\" parent=\"1\" source=\"181\" target=\"328\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"985\" y=\"1400\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"334\" style=\"edgeStyle=none;html=1;fontFamily=Courier New;fontSize=24;fontColor=#FF00FF;\" parent=\"1\" source=\"181\" target=\"70\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"985\" y=\"1400\"/&gt;\n                            &lt;mxPoint x=\"680\" y=\"1400\"/&gt;\n                            &lt;mxPoint x=\"680\" y=\"1011\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"181\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt; - GT4Py/NDSL&amp;lt;br&amp;gt;Debug&amp;lt;br&amp;gt;Code source location\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"875\" y=\"1523.11\" width=\"220\" height=\"50.89\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"331\" style=\"edgeStyle=none;html=1;fontFamily=Courier New;fontSize=24;fontColor=#FF00FF;\" parent=\"1\" source=\"179\" target=\"328\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1225\" y=\"1400\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"335\" style=\"edgeStyle=none;html=1;fontFamily=Courier New;fontSize=24;fontColor=#FF00FF;\" parent=\"1\" source=\"179\" target=\"70\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1225\" y=\"1400\"/&gt;\n                            &lt;mxPoint x=\"680\" y=\"1400\"/&gt;\n                            &lt;mxPoint x=\"680\" y=\"1011\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"179\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt; - GT4Py/NDSL&amp;lt;br&amp;gt;Debug&amp;lt;br&amp;gt;Numerical prints/dump\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1130\" y=\"1523.11\" width=\"190\" height=\"50.89\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;object label=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - GT4Py&amp;lt;br&amp;gt;Physics DSL&amp;lt;br&amp;gt;Computation-wide conditional (mask)\" id=\"63\"&gt;\n                    &lt;mxCell style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                        &lt;mxGeometry x=\"750\" y=\"1201\" width=\"220\" height=\"60\" as=\"geometry\"/&gt;\n                    &lt;/mxCell&gt;\n                &lt;/object&gt;\n                &lt;mxCell id=\"328\" value=\"\ud83d\udd8b - Docs&amp;lt;br&amp;gt;GT4Py&amp;lt;br&amp;gt;Debugging stencils\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"1427\" y=\"1370\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"341\" value=\"DaCe Optimization\" style=\"text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;dashed=1;strokeWidth=3;opacity=50;fontSize=24;fontFamily=Courier New;fontColor=light-dark(#FF00FF,#66FFFF);\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"3007\" y=\"1284.4245901639345\" width=\"143\" height=\"85.57377049180329\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"244\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - DaCe&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Stree Aggresive Merge\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"2530\" y=\"720\" width=\"220\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"343\" value=\"\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"225\" target=\"224\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"2286\" y=\"950\" as=\"sourcePoint\"/&gt;\n                        &lt;mxPoint x=\"2459\" y=\"70\" as=\"targetPoint\"/&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"359\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"224\" target=\"358\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"224\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - DaCe&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;Stree Trivial Merge\" style=\"rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"2150\" y=\"821\" width=\"220\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"347\" value=\"Nvidia\" style=\"text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;dashed=1;strokeWidth=3;opacity=50;fontSize=24;fontFamily=Courier New;fontColor=light-dark(#FF00FF,#007FFF);\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"3600\" y=\"624.4245901639345\" width=\"143\" height=\"85.57377049180329\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"351\" value=\"NDSL\" style=\"text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;dashed=1;strokeWidth=3;opacity=50;fontSize=24;fontFamily=Courier New;fontColor=light-dark(#FF00FF,#FF9933);\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-130\" y=\"1437.5345901639346\" width=\"143\" height=\"85.57377049180329\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"353\" value=\"GT4Py Bugs\" style=\"text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;dashed=1;strokeWidth=3;opacity=50;fontSize=24;fontFamily=Courier New;fontColor=light-dark(#FF00FF,#FF3333);\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"273.5\" y=\"956.4300000000001\" width=\"193\" height=\"85.57\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"357\" value=\"Tools\" style=\"text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;dashed=1;strokeWidth=3;opacity=50;fontSize=24;fontFamily=Courier New;fontColor=light-dark(#FF00FF,#B3FF66);\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-779\" y=\"1134.4245901639347\" width=\"143\" height=\"85.57377049180329\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"358\" value=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - DaCe&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;InlineThreadLocalTransients\" style=\"rounded=0;whiteSpace=wrap;html=1;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"2150\" y=\"720\" width=\"220\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"360\" value=\"\ud83d\ude86&amp;amp;nbsp;- Training&amp;lt;br&amp;gt;&amp;lt;br&amp;gt;How to HPC for junior atmos scientists\" style=\"shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;fillColor=#f8cecc;strokeColor=#b85450;\" parent=\"1\" vertex=\"1\"&gt;\n                    &lt;mxGeometry x=\"-1690\" y=\"1046\" width=\"230\" height=\"60\" as=\"geometry\"/&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"368\" style=\"edgeStyle=none;html=1;\" parent=\"1\" source=\"367\" target=\"70\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"710\" y=\"1314\"/&gt;\n                            &lt;mxPoint x=\"710\" y=\"1120\"/&gt;\n                            &lt;mxPoint x=\"960\" y=\"1120\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;object label=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - GT4Py&amp;lt;br&amp;gt;Physics DSL&amp;lt;br&amp;gt;Absolute K index + data dim on numpy\" id=\"367\"&gt;\n                    &lt;mxCell style=\"rounded=0;whiteSpace=wrap;html=1;fillColor=#fad9d5;strokeColor=#ae4132;\" parent=\"1\" vertex=\"1\"&gt;\n                        &lt;mxGeometry x=\"750\" y=\"1284.42\" width=\"220\" height=\"60\" as=\"geometry\"/&gt;\n                    &lt;/mxCell&gt;\n                &lt;/object&gt;\n                &lt;mxCell id=\"370\" style=\"edgeStyle=none;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;\" parent=\"1\" source=\"369\" target=\"70\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1100\" y=\"1380\"/&gt;\n                            &lt;mxPoint x=\"710\" y=\"1380\"/&gt;\n                            &lt;mxPoint x=\"710\" y=\"1120\"/&gt;\n                            &lt;mxPoint x=\"960\" y=\"1120\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;object label=\"&amp;lt;div&amp;gt;&amp;lt;/div&amp;gt;&amp;lt;b&amp;gt;{...}&amp;lt;/b&amp;gt;&amp;amp;nbsp; - GT4Py&amp;lt;br&amp;gt;Physics DSL&amp;lt;br&amp;gt;Int/Float cast\" id=\"369\"&gt;\n                    &lt;mxCell style=\"rounded=0;whiteSpace=wrap;html=1;fillColor=#fad9d5;strokeColor=#ae4132;\" parent=\"1\" vertex=\"1\"&gt;\n                        &lt;mxGeometry x=\"990\" y=\"1284.42\" width=\"220\" height=\"60\" as=\"geometry\"/&gt;\n                    &lt;/mxCell&gt;\n                &lt;/object&gt;\n                &lt;mxCell id=\"373\" style=\"edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;\" parent=\"1\" source=\"214\" target=\"202\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"1487\" y=\"-1290\" as=\"sourcePoint\"/&gt;\n                        &lt;mxPoint x=\"1379\" y=\"-1420\" as=\"targetPoint\"/&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1490\" y=\"-1330\"/&gt;\n                            &lt;mxPoint x=\"1412\" y=\"-1330\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n                &lt;mxCell id=\"374\" style=\"edgeStyle=none;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;\" parent=\"1\" source=\"214\" target=\"204\" edge=\"1\"&gt;\n                    &lt;mxGeometry relative=\"1\" as=\"geometry\"&gt;\n                        &lt;mxPoint x=\"1488\" y=\"-1290\" as=\"sourcePoint\"/&gt;\n                        &lt;mxPoint x=\"1529\" y=\"-1420\" as=\"targetPoint\"/&gt;\n                        &lt;Array as=\"points\"&gt;\n                            &lt;mxPoint x=\"1490\" y=\"-1330\"/&gt;\n                            &lt;mxPoint x=\"1542\" y=\"-1330\"/&gt;\n                        &lt;/Array&gt;\n                    &lt;/mxGeometry&gt;\n                &lt;/mxCell&gt;\n            &lt;/root&gt;\n        &lt;/mxGraphModel&gt;\n    &lt;/diagram&gt;\n&lt;/mxfile&gt;"}' style="max-width:100%;border:1px solid transparent;"></div></p>
+<!-- institutions / groups / teams -->
+<!-- technology -->
+<!-- GEOS Fortran names -->
+<!-- other -->
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["search.suggest", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+<script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+<script src="https://viewer.diagrams.net/js/viewer-static.min.js"></script></body>
+</html>
