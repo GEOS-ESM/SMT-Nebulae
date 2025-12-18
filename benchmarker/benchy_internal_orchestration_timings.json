@@ -1,0 +1,12 @@
+[
+    {
+        "BenchmarkUWWithState___call__.ArgMarshalling": 0.07391223699960392,
+        "BenchmarkUWWithState___call__.Runtime": 5.689631328001269,
+        "BenchmarkUWWithState___call__.Call": 5.76401449200057
+    },
+    {
+        "BenchmarkUWWithState___call__.ArgMarshalling": 0.07840528099768562,
+        "BenchmarkUWWithState___call__.Runtime": 5.660468727000989,
+        "BenchmarkUWWithState___call__.Call": 5.739480801999889
+    }
+]
