@@ -183,7 +183,7 @@ gcc -o pex \
     -L/home/fgdeconi/.pyenv/versions/3.11.9/lib -lpython3.11
 ```
 
-Then run `./pex`. This will print the python `sys.path` which _should_ have your virtual environement `sites-packages` in there. If it doesn't then it's the bug.
+Then run `./pex`. This will print the python `sys.path` which _should_ have your virtual environment `sites-packages` in there. If it doesn't then it's the bug.
 
 Our workaround is to use `conda` which seems to use a different approach, more sandboxy, which goes around the issue.
 
