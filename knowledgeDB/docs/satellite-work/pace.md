@@ -18,7 +18,7 @@ Here the temperature at 850mb for the reference Fortran model and Pace:
 
 The 9 days simulation was stable and produced rain as expected. Below is a plot of rain, cloud cover and pressure gradients after 9 days.
 
-![Rain, clouds and pressure after 9 days of barcolinic wave](./img/PACE-9days.png)
+![Rain, clouds and pressure after 9 days of baroclinic wave](./img/PACE-9days.png)
 
 ## Benchmark
 

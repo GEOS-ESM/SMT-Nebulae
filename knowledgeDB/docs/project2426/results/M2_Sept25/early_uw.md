@@ -33,8 +33,8 @@ The temperature patterns look very similar between the Fortran and Python. Howev
 
 Benchmarking in progress...
 
-
 ## Perturbed initial condition Fortran runs
+
 To demonstrate how small errors can grow into larger errors throughout a 7-day Fortran simulation, we experimented by applying small perturbations to several UW inputs (e.g., T, Q, U, V) at initialization. We then ran the model for 7 days. The differences (Fortran - Fortran Perturbed) after the 7 day run are shown below:
 
 ![Histograms of diagnostic variables differences](../img/hist__fortran_perturbed_v_Fortran__sfc.png)
