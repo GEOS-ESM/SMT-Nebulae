@@ -10,18 +10,15 @@ There are a bunch of optimizations that we have planned with the [schedule tree 
 
 - Different loops per target hardware: like [previously](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/backend/dace_backend.py#L75-L120), but less confusing
 - Tiling: like [previously](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/backend/dace_backend.py#L123-L132), but hardware dependent. More details in [this file](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/gtc/dace/expansion_specification.py#L237-L240).
-- CPU: temps are allocated & de-allocated on the fly
-- Axis-split merge
-- Over-computation merge
-- Local caching
+- CPU: transients are stored in `State` (one time allocation at .so load). Memory pressure reducing could be done by implementing a pool for CPU dace code generation.
 - Inline thread-local transients: like [previously](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/gtc/dace/transformations.py#L36).
 - Optimize OpenMP pragmas: Check which of the [previous optimizations](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/backend/dace_backend.py#L162-L182) still make sense.
 - We ran a [special version](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/gtc/dace/transformations.py#L15-L33) of `TrivialMapElimination` with more condition to when it applies.
 - Special cases for stencils without effect? They were treated separately in [the previous bridge](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/backend/dace_backend.py#L148-L152).
-- In the previous bridge, we'd [merge a horizontal region with the loop bounds](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/gtc/dace/expansion/daceir_builder.py#L1042-L1053) in case the horizontal region was the only thing inside that loop.
+- Degenerate loops passes:
+    - [merge a horizontal region with the loop bounds](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/gtc/dace/expansion/daceir_builder.py#L1042-L1053) in case the horizontal region was the only thing inside that loop.
+    - `interval(0, 1)` or `interval(0, -1)` can be made into a one liner
 - In the previous bridge, we'd [split horizontal execution regions](https://github.com/GridTools/gt4py/blob/a2687f9126d1d27e7caaebf629f9e41035766bb5/src/gt4py/cartesian/gtc/dace/expansion/expansion.py#L149). This was also used for [orchestration in NDSL](https://github.com/NOAA-GFDL/NDSL/blob/2986b450386b5006d847f246ff6e8b23abdc9190/ndsl/dsl/dace/sdfg_opt_passes.py). To be re-evaluated.
-- When orchestrating a lot of the fields that are held by the classes (the `self.tmp_field`) are transient to the local object (could be multiple stencils!) but those are flagged as global memory anyway. Re-scoping them to proper transients could lead to better memory & scalarization. At the `stree` level we don't scope the arrays to any space, we just flag them and the STREE-to-SDFG bridge deals with localizing them. Could we just write a pass scoping the containers post parsing and let the bridge do it?
-- ✅ For stencils only we are missing a `simplify` (and potentially a `validate`?) right before [going to code generation](https://github.com/romanc/gt4py/blob/06cd753135d1a6caaabe0aca37cf735fb1d96c52/src/gt4py/cartesian/backend/dace_backend.py#L407)
 - Initialization code is not recognized as a special case and badly optimized. Code like this
 
 ```python
@@ -75,7 +72,6 @@ Run the orchestrated translate test for `D_SW` from the PyFV3 repository. Build 
 We might want to centralize hardware detection. We currently
 
 - detect HW for CPU/GPU through the presence of cupy,
-- check for [GH200 nodes explicitly](https://github.com/NOAA-GFDL/NDSL/pull/183) to build a valid DaCe config in NDSL,
 - and plan to use HW-dependent tiling (in NDSL/gt4py).
 
 ## </\> Frontend
@@ -84,10 +80,10 @@ We might want to centralize hardware detection. We currently
 - Support for `pass` inside stencils
 - Support for use of `Enum` within the stencils to allow for modes, errors, and other integer based identifiers to be readable
 - Introduce type hints that would help see which fields are `Interface`, e.g. a `FloatField_KInterface` or equivalent
-- Rename the `X|Y|Z_DIM` into `I|J|K_DIM` and overall flush `X|Y|Z` from the middleware
 - Grell-Freitas Deep Convection scheme implemented a small perturbation per grid point: we need a way to generate randomness per point
 
 ### Stencil QA / error message cleanup 🧹
+
 We have started a running list of gt4py error messages that need cleanup: <https://docs.google.com/document/d/1Ec0vwCTKFPxVoaAeewt-fgtxNgfmSuA1AnD_d-hDocQ/edit?pli=1&tab=t.0>
 
 ## 🐞 Debug
@@ -169,21 +165,11 @@ Issues:
 
 - <https://github.com/GridTools/gt4py/issues/727> (mentions "add issue (and fix) for negative origins in DaCe-orchestrated context")
 
-### Python version and numpy support 🐍
-
-NDSL python version support is currently hard-coded to 3.11. Moving on to 3.12 reportedly breaks things. To be investigated.
-
-Bottom line, this will come in the future as 3.12 is the last to support numpy < 2.0. DaCe and GT4Py (next) moved to support numpy 2.0. Python version 3.12 (see discussion above) is the last python version to support 1.26.4.
-
 ### Stabilize schedule tree and move to DaCe 2.0 🌳
 
 DaCe stopped feature development on the v1 branch (only critical fixes can go in) and is working actively on shaping the next major version. According to Tal, DaCe 2.0 will be much nicer and fix everything ;)
 
 We built the schedule tree on top of the v1 branch [see here why](./backend/ADRs/stree_dace-version.md) and are thus currently in limbo between versions. We'll need to update once DaCe 2.0 gets stable or - at least - takes shape.
-
-### Storing compressed SDFGs 🗜️
-
-DaCe has the option to store SDFGs in compressed format. Since SDFGs are stored as (human readable) plain-text json, this can reduce file sizes drastically. To be evaluated if this has a negative impact on save & load times. The hypothesis is no, but it's always better to check and there are probably a bunch of hard-coded `.sdfg` extension that need to be adapted.
 
 ### Interval context: drop explicit `PARALLEL` 🟰
 
@@ -222,16 +208,8 @@ Issues:
 
 ## 🏗️ Build system
 
-### Multi-compiler native support ⚒️
-
-- `clang` compilation fails on `dace:cpu` because of `-fopenmp` default flag
-- `icc`/`ifx` support (NOAA tried and Frank has an [old branch from Xingqiu](https://github.com/xyuan/pace/blob/xyuan/symbol/examples/build_scripts/build_ppan_intel.sh))
-
-### Reflect orchestration in backend name 🎼
-
-Currently, orchestration (or not) defined as a combination of backend name `dace:{cpu, gpu}` and the environment variable `FV3_DACEMODE`.
-
-Issue: <https://github.com/NOAA-GFDL/NDSL/issues/46>
+- Multi-process stencil compiler
+- Orchestration `hash` and common work on full program optimizer with SPCL/LLNL
 
 ### Move dace cache into gt4py cache folder ♻️
 
@@ -267,4 +245,3 @@ Issues:
 ### Issue duplication / fragmentation 📄
 
 For [milestone 1](../project2426/milestone1.md), we were using a GitHub project in the `GEOS-ESM` organization. This forced us to have a fork of NDSL under that organization, which lead to issue fragmentation / duplication on that fork. We should find the time to clean [these issues](https://github.com/GEOS-ESM/NDSL/issues).
-
