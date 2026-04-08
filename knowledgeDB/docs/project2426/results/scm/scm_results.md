@@ -1,0 +1,51 @@
+# SCM results 
+##### Last updated: April 8th, 2026
+
+
+Early scientific validation results using the SCM.
+
+## UW Shallow Convection
+
+#### Results: `bomex` [6 hr, 72 levels]
+![Hovmoller](../img/scm_bomex_hovmoller_uw72.png)
+
+
+#### Results: `arm_97jun` [12 hr, 72 levels]
+![Profiles](../img/scm_arm_97jun_profiles_uw72.png)
+
+![Timeseries](../img/scm_arm_97jun_timeseries_uw72.png)
+
+![Hovmoller](../img/scm_arm_97jun_hovmoller_uw72.png)
+
+
+#### Results: `arm_97jun` [12 hr, 181 levels]
+![Profiles](../img/scm_arm_97jun_profiles_uw181.png)
+
+![Timeseries](../img/scm_arm_97jun_timeseries_uw181.png)
+
+![Hovmoller](../img/scm_arm_97jun_hovmoller_uw181.png)
+
+
+
+## GFDL1M Microphysics
+
+
+#### Results: `armtwp_ice` [6 days, 72 levels]
+
+![T](../img/scm_armtwp_ice_multi_layer_T.png)
+
+![QV](../img/scm_armtwp_ice_multi_layer_QV.png)
+
+![QL](../img/scm_armtwp_ice_multi_layer_QL.png)
+
+![CLOUD](../img/scm_armtwp_ice_multi_layer_CLOUD.png)
+
+![TSAIR](../img/scm_armtwp_ice_surface_TSAIR.png)
+
+![PS](../img/scm_armtwp_ice_surface_PS.png)
+
+![SH](../img/scm_armtwp_ice_surface_SH.png)
+
+
+
+

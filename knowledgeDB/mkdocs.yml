@@ -19,6 +19,7 @@ nav:
       - Supercomputing 23: project2426/results/SC23.md
       - Science Targets: project2426/results/science-targets.md
       - HPC Metrics: project2426/results/hpc-metrics.md
+      - SCM: project2426/results/scm/scm_results.md
   - Technical:
     - Overview: technical/index.md
     - The Laundry List 👕: technical/laundry-list.md
