@@ -18,12 +18,13 @@ module stub_interface_mod
 
    interface
 
-      subroutine python_function_f(data, value) bind(c, name='python_function')
+      subroutine python_function_f(type_data, value, array) bind(c, name='python_function')
          import data_t, c_int
 
          implicit none
-         type(data_t), intent(in) :: data
+         type(data_t), intent(in) :: type_data
          integer(kind=c_int), intent(in) :: value
+         integer(kind=c_int), dimension(*), intent(in) :: array
 
       end subroutine python_function_f
 

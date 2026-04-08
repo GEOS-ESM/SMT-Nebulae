@@ -1,5 +1,4 @@
 import os
-import shutil
 import site
 import sys
 from typing import List
@@ -80,8 +79,7 @@ class Build(InterfaceConfig):
 @click.command()
 @click.argument("definition_json_filepath")
 @click.option(
-    "--directory",
-    help="Directory name to drop interface files in",
+    "--directory", help="Directory name to drop interface files in", default="./"
 )
 @click.option("--hook", default="blank")
 @click.option("--build", default="cmake")
@@ -96,7 +94,6 @@ def cli(definition_json_filepath: str, directory: str, hook: str, build: str):
 
     # Make bridge - this our "translation-only" layer
     # that move data "as-is" between fortran and python (through c)
-    prefix = defs["name"]
     functions = []
     # for function in defs["bridge"]:
     for function in defs["functions"]:
@@ -146,6 +143,7 @@ def cli(definition_json_filepath: str, directory: str, hook: str, build: str):
     bridge_construct.generate_header()
 
     # The build script is not fully functional - it is meant as a hint
+    # prefix = defs["name"]
     # b = Build(
     #     directory,
     #     prefix,
