@@ -4,12 +4,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import TwoSlopeNorm
 
-plt_profiles=False
-timeseries=False
-hovmoller = False
+plt_profiles=True
+timeseries=True
+hovmoller = True
 
 exp = "bomex"
 PATH = "/Users/kfandric/data/scm/discover/"
+#PATH = "/Users/kfandric/data/scm/uw"
 
 f90 = xr.open_dataset(PATH+"/"+exp+"_uw_multi_fortran_hpc.nc4")
 UW =  xr.open_dataset(PATH+"/"+exp+"_uw_multi_dsl_hpc.nc4")
@@ -217,6 +218,8 @@ ds2 = xr.open_dataset(PATH+"/"+exp+"_uw_surf_dsl_hpc.nc4")
 # ds1 = xr.open_dataset(PATH+"/fortran_surface_linux.nc4")
 # ds2 = xr.open_dataset(PATH+"/python_surface_linux_gpu.nc4")
 # ds3 =  xr.open_dataset(PATH+"/python_surface_linux_cpu.nc4")
+
+
 
 olr1 = -ds1["FLNT"]
 olr2 = -ds2["FLNT"]
