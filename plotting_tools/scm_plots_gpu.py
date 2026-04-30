@@ -19,9 +19,9 @@ plt_profiles = True
 timeseries = True
 hovmoller = True
 
-exp = "armtwp_ice"
+exp = "arm_97jun"
 levs = "72"
-param = "gf"
+param = "moist"
 
 GPU_PATH = "/Users/kfandric/data/scm/discover/" + exp + "_dsl_" + levs
 CPU_PATH = "/Users/kfandric/data/scm/discover/"
@@ -94,199 +94,199 @@ def profile(ax, x, z, label, color,
 # ===============================
 # TIME MEAN PROFILES
 # ===============================
-variables = ["QV", "MU", "CLOUD", "QL", "PL", "T"]
+# variables = ["QV", "MU", "CLOUD", "QL", "PL", "T"]
 
-t_start = time[0]
-t_end = time[-1]
+# t_start = time[0]
+# t_end = time[-1]
 
-profiles = {}
+# profiles = {}
 
-for name, ds in runs.items():
+# for name, ds in runs.items():
 
-    profiles[name] = {}
+#     profiles[name] = {}
 
-    for var in variables:
+#     for var in variables:
 
-        profiles[name][var] = time_mean(
-            ds,
-            var,
-            t_start,
-            t_end
-        )
+#         profiles[name][var] = time_mean(
+#             ds,
+#             var,
+#             t_start,
+#             t_end
+#         )
 
-# ===============================
-# DERIVED VARIABLES
-# ===============================
-R_d = 287
-C_p = 1004
-Lv = 2.5E6
+# # ===============================
+# # DERIVED VARIABLES
+# # ===============================
+# R_d = 287
+# C_p = 1004
+# Lv = 2.5E6
 
-derived = {}
+# derived = {}
 
-for name in runs.keys():
+# for name in runs.keys():
 
-    PL = profiles[name]["PL"][:, 0, 0]
-    T  = profiles[name]["T"][:, 0, 0]
-    QL = profiles[name]["QL"][:, 0, 0]
-    QV = profiles[name]["QV"][:, 0, 0]
+#     PL = profiles[name]["PL"][:, 0, 0]
+#     T  = profiles[name]["T"][:, 0, 0]
+#     QL = profiles[name]["QL"][:, 0, 0]
+#     QV = profiles[name]["QV"][:, 0, 0]
 
-    rho = PL / (R_d * T)
+#     rho = PL / (R_d * T)
 
-    LWC = QL * rho
-    QT  = QL + QV
+#     LWC = QL * rho
+#     QT  = QL + QV
 
-    p_adj = (100000 / PL) ** (R_d / C_p)
+#     p_adj = (100000 / PL) ** (R_d / C_p)
 
-    theta = T * p_adj
-    theta_l = theta - ((Lv / C_p) * QL)
+#     theta = T * p_adj
+#     theta_l = theta - ((Lv / C_p) * QL)
 
-    derived[name] = {
-        "LWC": LWC,
-        "QT": QT,
-        "theta_l": theta_l
-    }
+#     derived[name] = {
+#         "LWC": LWC,
+#         "QT": QT,
+#         "theta_l": theta_l
+#     }
 
-colors = {
-    "Fortran": "k",
-    "CPU": "red",
-    "GPU": "blue"
-}
+# colors = {
+#     "Fortran": "k",
+#     "CPU": "red",
+#     "GPU": "blue"
+# }
 
-# ===============================
-# PROFILE PLOTS
-# ===============================
-if plt_profiles and exp == "bomex":
+# # ===============================
+# # PROFILE PLOTS
+# # ===============================
+# if plt_profiles and exp == "bomex":
 
-    fig, axs = plt.subplots(
-        2,
-        3,
-        figsize=(14, 12),
-        sharey=True
-    )
+#     fig, axs = plt.subplots(
+#         2,
+#         3,
+#         figsize=(14, 12),
+#         sharey=True
+#     )
 
-    axs = axs.flatten()
+#     axs = axs.flatten()
 
-    # θl
-    ax = axs[0]
+#     # θl
+#     ax = axs[0]
 
-    for name in runs:
+#     for name in runs:
 
-        profile(
-            ax,
-            derived[name]["theta_l"][::-1],
-            z,
-            name,
-            colors[name],
-            marker="o"
-        )
+#         profile(
+#             ax,
+#             derived[name]["theta_l"][::-1],
+#             z,
+#             name,
+#             colors[name],
+#             marker="o"
+#         )
 
-    ax.set_title(r"$\theta_l$")
-    ax.invert_yaxis()
-    ax.legend()
-    ax.grid(alpha=0.3)
+#     ax.set_title(r"$\theta_l$")
+#     ax.invert_yaxis()
+#     ax.legend()
+#     ax.grid(alpha=0.3)
 
-    # qt
-    ax = axs[1]
+#     # qt
+#     ax = axs[1]
 
-    for name in runs:
+#     for name in runs:
 
-        profile(
-            ax,
-            derived[name]["QT"][::-1],
-            z,
-            name,
-            colors[name],
-            marker="o"
-        )
+#         profile(
+#             ax,
+#             derived[name]["QT"][::-1],
+#             z,
+#             name,
+#             colors[name],
+#             marker="o"
+#         )
 
-    ax.set_title(r"$q_t$")
-    ax.grid(alpha=0.3)
+#     ax.set_title(r"$q_t$")
+#     ax.grid(alpha=0.3)
 
-    # QL
-    ax = axs[2]
+#     # QL
+#     ax = axs[2]
 
-    for name in runs:
+#     for name in runs:
 
-        profile(
-            ax,
-            profiles[name]["QL"][:, 0, 0][::-1],
-            z,
-            name,
-            colors[name],
-            marker="o"
-        )
+#         profile(
+#             ax,
+#             profiles[name]["QL"][:, 0, 0][::-1],
+#             z,
+#             name,
+#             colors[name],
+#             marker="o"
+#         )
 
-    ax.set_title("QL")
-    ax.grid(alpha=0.3)
+#     ax.set_title("QL")
+#     ax.grid(alpha=0.3)
 
-    # CLOUD
-    ax = axs[3]
+#     # CLOUD
+#     ax = axs[3]
 
-    for name in runs:
+#     for name in runs:
 
-        profile(
-            ax,
-            profiles[name]["CLOUD"][:, 0, 0][::-1],
-            z,
-            name,
-            colors[name],
-            marker="o"
-        )
+#         profile(
+#             ax,
+#             profiles[name]["CLOUD"][:, 0, 0][::-1],
+#             z,
+#             name,
+#             colors[name],
+#             marker="o"
+#         )
 
-    ax.set_title("Cloud Fraction")
-    ax.grid(alpha=0.3)
+#     ax.set_title("Cloud Fraction")
+#     ax.grid(alpha=0.3)
 
-    # LWC
-    ax = axs[4]
+#     # LWC
+#     ax = axs[4]
 
-    for name in runs:
+#     for name in runs:
 
-        profile(
-            ax,
-            derived[name]["LWC"][::-1],
-            z,
-            name,
-            colors[name],
-            marker="o"
-        )
+#         profile(
+#             ax,
+#             derived[name]["LWC"][::-1],
+#             z,
+#             name,
+#             colors[name],
+#             marker="o"
+#         )
 
-    ax.set_title("Grid-mean LWC")
-    ax.grid(alpha=0.3)
+#     ax.set_title("Grid-mean LWC")
+#     ax.grid(alpha=0.3)
 
-    # MU
-    ax = axs[5]
+#     # MU
+#     ax = axs[5]
 
-    for name in runs:
+#     for name in runs:
 
-        profile(
-            ax,
-            profiles[name]["MU"][:, 0, 0][::-1],
-            z,
-            name,
-            colors[name],
-            marker="o"
-        )
+#         profile(
+#             ax,
+#             profiles[name]["MU"][:, 0, 0][::-1],
+#             z,
+#             name,
+#             colors[name],
+#             marker="o"
+#         )
 
-    ax.set_title("Updraft Mass Flux")
-    ax.grid(alpha=0.3)
+#     ax.set_title("Updraft Mass Flux")
+#     ax.grid(alpha=0.3)
 
-    for ax in axs:
+#     for ax in axs:
 
-        ax.set_ylabel("Height (m)")
+#         ax.set_ylabel("Height (m)")
 
-        ax.tick_params(
-            axis='both',
-            labelsize=12
-        )
+#         ax.tick_params(
+#             axis='both',
+#             labelsize=12
+#         )
 
-    plt.tight_layout()
+#     plt.tight_layout()
 
-    plt.savefig(
-        f"/Users/kfandric/SMT-Nebulae/plotting_tools/scm_{exp}_profiles_gpu_{levs}.png",
-        dpi=300
-    )
+#     plt.savefig(
+#         f"/Users/kfandric/SMT-Nebulae/plotting_tools/scm_{param}_{exp}_profiles_gpu_{levs}.png",
+#         dpi=300
+#     )
 
-    plt.show()
+#     plt.show()
 
 
 # ===============================
@@ -307,7 +307,7 @@ if timeseries:
     axs[3].set_title("CLDLOW"); axs[3].legend(); axs[3].grid()
 
     plt.tight_layout()
-    plt.savefig(f"/Users/kfandric/SMT-Nebulae/plotting_tools/scm_{exp}_timeseries_gpu_"+levs+".png", dpi=300)
+    plt.savefig(f"/Users/kfandric/SMT-Nebulae/plotting_tools/scm_{param}_{exp}_timeseries_gpu_"+levs+".png", dpi=300)
     plt.show()
 
 # ===============================
@@ -330,7 +330,7 @@ if hovmoller and exp != "armtwp_ice":
     )
 
     # Label every other timestep
-    tick_positions = np.arange(0, len(time_hours_hov), 1)
+    tick_positions = np.arange(0, len(time_hours_hov)/2, 1)
     tick_labels = np.arange(1, len(time_hours_hov)/2 + 1, 1)
 
     for i, var in enumerate(variables):
@@ -436,7 +436,7 @@ if hovmoller and exp != "armtwp_ice":
     plt.tight_layout()
 
     plt.savefig(
-        f"/Users/kfandric/SMT-Nebulae/plotting_tools/scm_{exp}_hovmoller_gpu_{levs}.png",
+        f"/Users/kfandric/SMT-Nebulae/plotting_tools/scm_{param}_{exp}_hovmoller_gpu_{levs}.png",
         dpi=300
     )
 
@@ -539,7 +539,7 @@ if hovmoller and exp == "armtwp_ice":
     plt.tight_layout()
 
     plt.savefig(
-        f"/Users/kfandric/SMT-Nebulae/plotting_tools/scm_{exp}_hovmoller_gpu_{levs}.png",
+        f"/Users/kfandric/SMT-Nebulae/plotting_tools/scm_{param}_{exp}_hovmoller_gpu_{levs}.png",
         dpi=300
     )
 

@@ -75,4 +75,15 @@ Early scientific validation results using the SCM.
 
 
 ## Moist Physics
-[insert results here]
+#### `bomex` [6 hr, 72 levels]
+
+![Hovmoller](../img/scm_moist_bomex_hovmoller_gpu_72.png)
+
+#### `arm_97jun` [12 hr, 72 levels]
+![Hovmoller](../img/scm_moist_arm_97jun_hovmoller_gpu_72.png)
+
+#### `armtwp_ice` [6 days, 72 levels]
+
+![Timeseries](../img/scm_moist_armtwp_ice_timeseries_gpu_72.png)
+
+![Hovmoller](../img/scm_moist_armtwp_ice_hovmoller_gpu_72.png)
