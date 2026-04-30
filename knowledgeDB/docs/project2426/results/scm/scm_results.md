@@ -1,5 +1,5 @@
 # SCM results 
-##### Last updated: April 28th, 2026
+##### Last updated: April 29th, 2026
 
 
 Early scientific validation results using the SCM.
@@ -32,11 +32,15 @@ Early scientific validation results using the SCM.
 
 #### `armtwp_ice` [6 days, 72 levels]
 
-[insert results here]
+![Timeseries](../img/scm_GF_armtwp_ice_timeseries_gpu_72.png)
+
+![Hovmoller](../img/scm_GF_armtwp_ice_hovmoller_gpu_72.png)
 
 #### `armtwp_ice` [6 days, 181 levels]
 
-[insert results here]
+![Timeseries](../img/scm_GF_armtwp_ice_timeseries_gpu_181.png)
+
+![Hovmoller](../img/scm_GF_armtwp_ice_hovmoller_gpu_181.png)
 
 
 ## GFDL1M Microphysics
