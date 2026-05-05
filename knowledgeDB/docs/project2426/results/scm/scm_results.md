@@ -1,8 +1,11 @@
 # SCM results 
-##### Last updated: April 29th, 2026
+##### Last updated: May 1st, 2026
 
 
-Early scientific validation results using the SCM.
+Early scientific validation results running the SCM on Discover:
+
+ - NDSL 2026.03.00
+ - GEOS v11.8.1
 
 ## UW Shallow Convection
 
@@ -12,7 +15,7 @@ Early scientific validation results using the SCM.
 #### `bomex` [6 hr, 181 levels]
 ![Hovmoller](../img/scm_bomex_hovmoller_gpu_181.png)
 
-#### `arm_97jun` [12 hr, 72 levels]
+#### `arm_97jun` [14 hr, 72 levels]
 <!-- ![Profiles](../img/scm_arm_97jun_profiles_uw72.png) -->
 
 <!-- ![Timeseries](../img/scm_arm_97jun_timeseries_uw72.png) -->
@@ -20,7 +23,7 @@ Early scientific validation results using the SCM.
 ![Hovmoller](../img/scm_arm_97jun_hovmoller_gpu_72.png)
 
 
-#### `arm_97jun` [12 hr, 181 levels]
+#### `arm_97jun` [14 hr, 181 levels]
 <!-- ![Profiles](../img/scm_arm_97jun_profiles_uw181.png) -->
 
 <!-- ![Timeseries](../img/scm_arm_97jun_timeseries_uw181.png) -->
@@ -79,11 +82,21 @@ Early scientific validation results using the SCM.
 
 ![Hovmoller](../img/scm_moist_bomex_hovmoller_gpu_72.png)
 
-#### `arm_97jun` [12 hr, 72 levels]
+#### `bomex` [6 hr, 181 levels]
+
+![Hovmoller](../img/scm_moist_bomex_hovmoller_gpu_181.png)
+
+#### `arm_97jun` [14 hr, 72 levels]
 ![Hovmoller](../img/scm_moist_arm_97jun_hovmoller_gpu_72.png)
+
+#### `arm_97jun` [14 hr, 181 levels]
+
+![Hovmoller](../img/scm_moist_arm_97jun_hovmoller_gpu_181.png)
 
 #### `armtwp_ice` [6 days, 72 levels]
 
 ![Timeseries](../img/scm_moist_armtwp_ice_timeseries_gpu_72.png)
 
 ![Hovmoller](../img/scm_moist_armtwp_ice_hovmoller_gpu_72.png)
+
+#### `armtwp_ice` [6 days, 181 levels]

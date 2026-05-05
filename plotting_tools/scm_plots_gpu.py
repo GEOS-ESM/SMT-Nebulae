@@ -19,8 +19,8 @@ plt_profiles = True
 timeseries = True
 hovmoller = True
 
-exp = "arm_97jun"
-levs = "72"
+exp = "armtwp_ice"
+levs = "181"
 param = "moist"
 
 GPU_PATH = "/Users/kfandric/data/scm/discover/" + exp + "_dsl_" + levs
@@ -330,8 +330,11 @@ if hovmoller and exp != "armtwp_ice":
     )
 
     # Label every other timestep
-    tick_positions = np.arange(0, len(time_hours_hov)/2, 1)
-    tick_labels = np.arange(1, len(time_hours_hov)/2 + 1, 1)
+
+    tick_positions = np.arange(0, len(time_hours_hov), 2)
+    tick_labels = np.arange(1, len(time_hours_hov)/2+1, 1)
+
+
 
     for i, var in enumerate(variables):
 
@@ -449,11 +452,12 @@ if hovmoller and exp == "armtwp_ice":
 
     variables = ["QV", "CLOUD", "QL", "T"]
 
+
     # Reverse pressure levels
     z_plot = f90["lev"].values[::-1]
 
     # Time coordinate
-    time = f90["time"].values
+    time = f90["time"].values[0:46]
 
     nvar = len(variables)
 
@@ -471,6 +475,9 @@ if hovmoller and exp == "armtwp_ice":
         f90_data = runs["Fortran"][var][:, :, 0, 0].values[:, ::-1]
         cpu_data = runs["CPU"][var][:, :, 0, 0].values[:, ::-1]
         gpu_data = runs["GPU"][var][:, :, 0, 0].values[:, ::-1]
+        # f90_data = runs["Fortran"][var][:, :, 0, 0].values[0:46, ::-1]
+        # cpu_data = runs["CPU"][var][:, :, 0, 0].values[:, ::-1]
+        # gpu_data = runs["GPU"][var][:, :, 0, 0].values[0:46, ::-1]
 
         # Differences
         diff_cpu = cpu_data - f90_data
