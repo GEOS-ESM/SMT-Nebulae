@@ -5,8 +5,8 @@ source ./basics.sh
 echo " === Installing DSLSW Software Stack v${DSLSW_VERSION} === "
 
 
-MINICONDA_INSTALL_DIR = $HOME/miniconda3
-ENV_NAME = DSLSW_v${DSLSW_VERSION}
+MINICONDA_INSTALL_DIR=$HOME/miniconda3
+ENV_NAME=DSLSW_v${DSLSW_VERSION}
 
 # Install miniconda3
 if [ ! -x "$MINICONDA_INSTALL_DIR/bin/conda" ]; then
