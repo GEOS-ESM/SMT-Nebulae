@@ -1,6 +1,6 @@
 import os
 import subprocess
-from unittest import runner
+import sys
 from run_helpers.template import PipelineStep
 
 
@@ -20,7 +20,18 @@ class ExecuteGCM(PipelineStep):
         elif runner.args.execute_on == "local":
             log_path = os.path.join(runner.exp_dir, "output.log")
             with open(log_path, "w") as log_file:
-                subprocess.run(["./gcm_run.j"], cwd=runner.exp_dir, env=runner.env, check=True, stdout=log_file, stderr=subprocess.STDOUT)
+                # Use Popen to capture the output stream in real-time
+                process = subprocess.Popen(["./gcm_run.j"], cwd=runner.exp_dir, env=runner.env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, bufsize=1)
+
+                # send output to both the terminal and the log file in real time
+                for line in process.stdout:
+                    sys.stdout.write(line)  # print to terminal
+                    sys.stdout.flush()  # ensure it prints immediately
+                    log_file.write(line)  # write to log file
+                process.wait()
+                # replicate the check=True behavior from subprocess.run
+                if process.returncode != 0:
+                    raise subprocess.CalledProcessError(process.returncode, process.args)
         elif runner.args.execute_on == "none":
             print("[GEOS PYTHON WRAPPER] Completed setup. Exiting without execution.")
         return runner
