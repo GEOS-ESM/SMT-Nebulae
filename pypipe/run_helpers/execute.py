@@ -1,5 +1,6 @@
 import os
 import subprocess
+from unittest import runner
 from run_helpers.template import PipelineStep
 
 
@@ -17,7 +18,9 @@ class ExecuteGCM(PipelineStep):
         if runner.args.execute_on == "compute":
             subprocess.run(["sbatch", "./gcm_run.j"], cwd=runner.exp_dir, env=runner.env, check=True)
         elif runner.args.execute_on == "local":
-            subprocess.run(["./gcm_run.j"], cwd=runner.exp_dir, env=runner.env, check=True)
+            log_path = os.path.join(runner.exp_dir, "output.log")
+            with open(log_path, "w") as log_file:
+                subprocess.run(["./gcm_run.j"], cwd=runner.exp_dir, env=runner.env, check=True, stdout=log_file, stderr=subprocess.STDOUT)
         elif runner.args.execute_on == "none":
             print("[GEOS PYTHON WRAPPER] Completed setup. Exiting without execution.")
         return runner
