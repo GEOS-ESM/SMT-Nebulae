@@ -112,7 +112,7 @@ def common_paths(f):
         cls=GroupedOption,
         help_group=grp,
         show_default=True,
-        default="experiments",
+        default="./experiments",
         help="Location under which experiment directory will be generated (relative to current directory)",
     )(f)
     f = click.option(
@@ -146,7 +146,7 @@ def common_python(f):
         cls=GroupedOption,
         help_group=grp,
         show_default=True,
-        default="orch:dace:gpu:KJI",
+        default="orch:dace:cpu:KJI",
         help="DSL backend string (considered only if pymodules are specified)",
     )(f)
     return f
@@ -194,7 +194,7 @@ def common_config(f):
     )(f)
     f = click.option("--oserver", cls=GroupedOption, help_group=grp, show_default=True, is_flag=True, default=False, help="Enable the IO server")(f)
     f = click.option("--nonhydro/--hydro", cls=GroupedOption, help_group=grp, show_default=True, default=True, help="Enable/disable nonhydrostatic dynamics")(f)
-    f = click.option("--data_atmo/--no_data_atmo", cls=GroupedOption, help_group=grp, show_default=True, default=True, help="Use data atmosphere")(f)
+    f = click.option("--data_atmo/--no_data_atmo", cls=GroupedOption, help_group=grp, show_default=True, default=False, help="Use data atmosphere")(f)
     f = click.option(
         "--land_bcs",
         cls=GroupedOption,
