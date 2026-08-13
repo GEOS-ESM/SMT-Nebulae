@@ -161,8 +161,8 @@ def common_config(f):
         cls=GroupedOption,
         help_group=grp,
         show_default=True,
-        type=click.Choice(["BACK_1M", "GFDL_1M", "MGB2_2M"], case_sensitive=False),
-        default="GFDL_1M",
+        type=click.Choice(["BACK1M", "GFDL1M", "MGB22M"], case_sensitive=False),
+        default="GFDL1M",
         help="Sets the microphysics scheme used in moist physics",
     )(f)
     f = click.option(
@@ -247,7 +247,14 @@ def common_timing(f):
     f = click.option(
         "--job_segment", cls=GroupedOption, help_group=grp, default=None, help="JOB_SGMT length in YYYYMMDDHHMMSS format (default 00000010000000, i.e. 10 days)"
     )(f)
-    f = click.option("--job_time", cls=GroupedOption, help_group=grp, default=None, help="Wall time limit for each sbatch submission")(f)
+    f = click.option(
+        "--job_time",
+        cls=GroupedOption,
+        help_group=grp,
+        type=str,
+        default="01:00:00",
+        help="Wall time limit for each sbatch submission. Can be up to 12 hours. Format: HH:MM:SS",
+    )(f)
     f = click.option("--num_segment", cls=GroupedOption, help_group=grp, default=None, type=int, help="Number of --job_segment periods to run per sbatch submission")(f)
     f = click.option(
         "--duration", cls=GroupedOption, help_group=grp, type=int, help="Number of --duration_unit units to run (integer > 0). Mutually exclusive with --end_date"

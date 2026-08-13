@@ -16,9 +16,10 @@ class SetupDirectory(PipelineStep):
             shutil.rmtree(runner.exp_dir)
         os.makedirs(runner.exp_dir, exist_ok=True)
 
-        microphysics = {"GFDL_1M": "GFDL", "BACM_1M": "BACM", "MGB2_2M": "MGB2"}.get(runner.args.microphysics, runner.args.microphysics)
+        microphysics = {"GFDL1M": "GFDL", "BACM1M": "BACM", "MGB22M": "MGB2"}.get(runner.args.microphysics, runner.args.microphysics)
 
         print("[GEOS PYTHON WRAPPER] Initializing experiment directory...")
+        print(f"[GEOS PYTHON WRAPPER] MOIST MICROPHYSICS: {microphysics}")
         subprocess.run(
             [
                 "/home/mathomp4/bin/create_expt.py",

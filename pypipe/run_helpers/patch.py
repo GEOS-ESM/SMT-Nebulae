@@ -292,9 +292,7 @@ class PatchGCMRUNJ(PipelineStep):
         tasks_per_node, required_nodes, process_per_gpu = self._compute_grid_decomposition(runner, oserver_nodes)
 
         job_name = os.path.basename(runner.exp_dir)
-        if runner.args.job_time is None:
-            job_time = "01:00:00"
-        sbatch_block = self._build_sbatch_block(runner, job_name, required_nodes, tasks_per_node, job_time)
+        sbatch_block = self._build_sbatch_block(runner, job_name, required_nodes, tasks_per_node, runner.args.job_time)
         gh200_block, dsl_block = self._build_dsl_blocks(runner, process_per_gpu)
 
         with open(self.gcm_run_j_path, "r") as f:
