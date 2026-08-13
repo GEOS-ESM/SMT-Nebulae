@@ -12,7 +12,6 @@ class RunnerArgs:
 
     def __init__(self, **kwargs):
         for key, value in kwargs.items():
-            print(f"[GEOS PYTHON WRAPPER] Setting argument {key} = {value}, of type {type(value).__name__}")
             setattr(self, key, value)
 
 
