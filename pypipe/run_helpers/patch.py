@@ -273,7 +273,7 @@ class PatchGCMRUNJ(PipelineStep):
             f"   setenv NDSL_LAYOUT {layout}\n"
             f"   setenv NDSL_LITERAL_PRECISION {precision}\n"
             f"   setenv GEOS_DSL_PYFV3_BACKEND {(runner.args.backend or '')[:-3]}IJK\n"
-            "   setenv NDSL_LOGLEVEL DEBUG\n"
+            "   setenv NDSL_LOGLEVEL INFO\n"
         )
 
         if runner.backend_arch == "GPU":
