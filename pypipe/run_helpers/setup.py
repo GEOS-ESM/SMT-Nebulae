@@ -19,7 +19,6 @@ class SetupDirectory(PipelineStep):
         microphysics = {"GFDL1M": "GFDL", "BACM1M": "BACM", "MGB22M": "MGB2"}.get(runner.args.microphysics, runner.args.microphysics)
 
         print("[GEOS PYTHON WRAPPER] Initializing experiment directory...")
-        print(f"[GEOS PYTHON WRAPPER] MOIST MICROPHYSICS: {microphysics}")
         subprocess.run(
             [
                 "/home/mathomp4/bin/create_expt.py",
