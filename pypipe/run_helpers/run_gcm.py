@@ -15,7 +15,7 @@ class GCMRunner(BaseRunner):
         # setup standard variables
         self.backend_arch = (self._derive_backend_arch() if len(getattr(self.args, "pymodules", [])) > 0 else "CPU").upper()
         self.exp_name = self._build_experiment_name()
-        self.exp_dir_root = os.path.join(self.rundir, self.args.exp_dir)
+        self.exp_dir_root = os.path.join(self.rundir, self.args.top_exp_dir)
         self.exp_dir = os.path.join(self.exp_dir_root, self.exp_name)
         self.cache_dir = os.path.abspath(os.path.join(self.exp_dir, ".DSL_CACHE"))
 
