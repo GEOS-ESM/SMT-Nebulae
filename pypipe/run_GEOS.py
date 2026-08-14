@@ -104,16 +104,21 @@ class AllErrorsCommand(click.Command):
 def common_paths(f):
     """Path Arguments: Point to GEOS bin, set exp dir, control execution location"""
     grp = "Path Configuration"
-    f = click.option("--geos_dir", cls=GroupedOption, help_group=grp, show_default=True, default="../model/install-release/bin", help="Location of desired GEOS install")(
-        f
-    )
     f = click.option(
-        "--exp_dir",
+        "--geos_dir",
+        cls=GroupedOption,
+        help_group=grp,
+        show_default=True,
+        default="../model/install-release/bin",
+        help="Location of desired GEOS install bin (relative to current directory)",
+    )(f)
+    f = click.option(
+        "--top_exp_dir",
         cls=GroupedOption,
         help_group=grp,
         show_default=True,
         default="./experiments",
-        help="Location under which experiment directory will be generated (relative to current directory)",
+        help="Top level experiments directory (relative to current directory). A dynamically named directory for this experiment will be generated under this directory",
     )(f)
     f = click.option(
         "--execute_on",
@@ -122,7 +127,8 @@ def common_paths(f):
         show_default=True,
         type=click.Choice(["compute", "local", "none"], case_sensitive=False),
         default="compute",
-        help="Choose where to execute the model",
+        help="Choose where to execute the model. 'compute' submits the job via sbatch, 'local' runs the model in the current terminal (ensure you are not on the head "
+        "node before using this option), and 'none' sets up the experiment but does not execute",
     )(f)
     return f
 
@@ -147,7 +153,7 @@ def common_python(f):
         help_group=grp,
         show_default=True,
         default="orch:dace:cpu:KJI",
-        help="DSL backend string (considered only if pymodules are specified)",
+        help="DSL backend string (considered only if pymodules are specified). Common options: orch:dace:cpu:KJI, orch:dace:gpu:KJI, st:dace:cpu:KJI, st:dace:gpu:KJI",
     )(f)
     return f
 
@@ -257,7 +263,12 @@ def common_timing(f):
     )(f)
     f = click.option("--num_segment", cls=GroupedOption, help_group=grp, default=None, type=int, help="Number of --job_segment periods to run per sbatch submission")(f)
     f = click.option(
-        "--duration", cls=GroupedOption, help_group=grp, type=int, help="Number of --duration_unit units to run (integer > 0). Mutually exclusive with --end_date"
+        "--duration",
+        cls=GroupedOption,
+        help_group=grp,
+        default=None,
+        type=int,
+        help="Number of --duration_unit units to run (integer > 0). Mutually exclusive with --end_date",
     )(f)
     f = click.option(
         "--duration_unit",
