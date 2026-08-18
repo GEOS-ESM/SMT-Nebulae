@@ -258,16 +258,14 @@ class PatchGCMRUNJ(PipelineStep):
             "#######################################################################\n\n"
             "if ( $?USE_DSL ) then\n"
             "   if ( $?PYTHONPATH ) then\n"
-            "      setenv PYTHONPATH       ${PYTHONPATH}:${GEOSDIR}/lib/Python/\n"
+            "      setenv PYTHONPATH       $PYTHONPATH:$GEOSDIR/lib/Python/\n"
             "   else\n"
-            "      setenv PYTHONPATH       ${GEOSDIR}/lib/Python/\n"
+            "      setenv PYTHONPATH       $GEOSDIR/lib/Python/\n"
             "   endif\n\n"
-            "   setenv PYTHONPATH ${GEOSDIR}/../src/Components/@GEOSgcm_GridComp/GEOSagcm_GridComp/GEOSphysics_GridComp/GEOSmoist_GridComp/pyMoist:${PYTHONPATH}\n"
-            "   setenv PYTHONPATH ${GEOSDIR}/../src/Components/@GEOSgcm_GridComp/GEOSagcm_GridComp/GEOSsuperdyn_GridComp/@FVdycoreCubed_GridComp/python/interface:${PYTHONPATH}\n\n"
             '   setenv PYTHONWARNINGS "ignore"\n'
             "   setenv FV3_DACEMODE BuildAndRun\n"
             f"   setenv GEOS_DSL_BACKEND {runner.args.backend or ''}\n"
-            f"   setenv GT_CACHE_ROOT {runner.cache_dir}\n"
+            "   setenv GT_CACHE_ROOT $EXPDIR/.DSL_CACHE\n"
             f"   setenv GT4PY_COMPILE_OPT_LEVEL {opt_level}\n"
             "   setenv NDSL_CONSTANTS GEOS\n"
             f"   setenv NDSL_LAYOUT {layout}\n"
@@ -278,7 +276,7 @@ class PatchGCMRUNJ(PipelineStep):
 
         if runner.backend_arch == "GPU":
             dsl_block += (
-                f"   setenv CUPY_CACHE_DIR {runner.exp_dir}/.CUPY_CACHE\n"
+                f"   setenv CUPY_CACHE_DIR $EXPDIR/.CUPY_CACHE\n"
                 "   setenv MPS_ON             1\n"
                 f"   setenv PER_DEVICE_PROCESS {str(math.ceil(process_per_gpu))}\n"
                 f"   setenv GPU_LAUNCHER_SH {gpu_mps_launcher_path}\n"
@@ -333,6 +331,9 @@ class PatchGCMRUNJ(PipelineStep):
         )
         content = dsl_pattern.sub(gh200_block + dsl_block, content)
         content = content.replace('setenv RUN_CMD "$GEOSBIN/esma_mpirun -np "', 'setenv RUN_CMD "mpirun -np "')
+
+        # turn off TSE_TMPDIR
+        content = content.replace("set USE_TSE_TMPDIR = TRUE", "set USE_TSE_TMPDIR = FALSE")
 
         if runner.backend_arch == "GPU":
             content = content.replace(
