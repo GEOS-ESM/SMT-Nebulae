@@ -199,7 +199,7 @@ def common_config(f):
         help="GOCART emissions choice",
     )(f)
     f = click.option("--oserver", cls=GroupedOption, help_group=grp, show_default=True, is_flag=True, default=False, help="Enable the IO server")(f)
-    f = click.option("--nonhydro/--hydro", cls=GroupedOption, help_group=grp, show_default=True, default=True, help="Enable/disable nonhydrostatic dynamics")(f)
+    f = click.option("--nonhydro/--hydro", cls=GroupedOption, help_group=grp, show_default=True, default=False, help="Enable/disable nonhydrostatic dynamics")(f)
     f = click.option("--data_atmo/--no_data_atmo", cls=GroupedOption, help_group=grp, show_default=True, default=False, help="Use data atmosphere")(f)
     f = click.option(
         "--land_bcs",
