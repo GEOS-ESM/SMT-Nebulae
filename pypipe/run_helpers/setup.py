@@ -19,9 +19,17 @@ class SetupDirectory(PipelineStep):
         microphysics = {"GFDL1M": "GFDL", "BACM1M": "BACM", "MGB22M": "MGB2"}.get(runner.args.microphysics, runner.args.microphysics)
 
         print("[GEOS PYTHON WRAPPER] Initializing experiment directory...")
+
+        if MACHINE == "DISCOVER":
+            setup_script_location = "/home/mathomp4/bin/create_expt.py"
+        elif MACHINE == "PRISM":
+            raise NotImplementedError("[GEOS PYTHON WRAPPER] NEED TO POINT TO MATT'S SETUP SCRIPT ON PRISM")
+        elif MACHINE == "LOCAL":
+            setup_script_location = input("[GEOS PYTHON WRAPPER] Enter the full path of create_expt.py (including the python script itself): ")
+            runner.args.processor = "not applicable"
         subprocess.run(
             [
-                "/home/mathomp4/bin/create_expt.py",
+                setup_script_location,
                 runner.exp_name,
                 "--expdir",
                 runner.exp_dir_root,
@@ -89,18 +97,33 @@ class CopyRestarts(PipelineStep):
             self.restart_src = f"/explore/nobackup/projects/geos-gpu/data/HugeBCs-GitV10/rs/nc4/{ocean_name}/c{runner.args.horz}-L{runner.args.vert}-NL3"
         elif MACHINE == "DISCOVER":
             self.restart_src = f"/discover/nobackup/mathomp4/Restarts-GitV12/nc4/{ocean_name}/c{runner.args.horz}-L{runner.args.vert}-NL3"
+        elif MACHINE == "LOCAL":
+            self.restart_src = input("[GEOS PYTHON WRAPPER] Enter the path to the TinyBC restarts (up to - but not including - the nc4 directory):")
+            self.restart_src += f"/nc4/{ocean_name}/c{runner.args.horz}-L{runner.args.vert}-{runner.args.land_bcs}"
 
         path = pathlib.Path(self.restart_src)
-        if not path.exists():
-            current = pathlib.Path(path.anchor)
-            for part in path.parts[1:]:
-                next_path = current / part
-                if not next_path.exists():
-                    raise FileNotFoundError(f"[GEOS PYTHON WRAPPER] Restart path breaks at: '{next_path}'\n" f"Directory '{current}' exists, but '{part}' is missing.")
-                current = next_path
+
+        # if path exists, all is good
+        if path.exists():
+            return
+
+        # if path does not exist, find the problem
+        current = pathlib.Path(path.anchor)  # root directory (e.g., '/')
+        for part in path.parts[1:]:  # iterate through levels
+            next_path = current / part
+            if not next_path.exists():
+                raise FileNotFoundError(
+                    f"\n[GEOS PYTHON WRAPPER] Source path for restart data does not exist!\n"
+                    f"[GEOS PYTHON WRAPPER]   Full path requested: {self.restart_src}\n"
+                    f"[GEOS PYTHON WRAPPER]   Path breaks at: '{next_path}'\n"
+                    f"[GEOS PYTHON WRAPPER]   The directory '{current}' exists, but '{part}' is missing inside it.\n"
+                    f"[GEOS PYTHON WRAPPER]   Please choose another ocean/resolution combination, or enable custom restarts and provide them manually."
+                )
+            current = next_path
 
     def operate(self, runner):
         if not runner.args.custom_restart:
+            print(f"[GEOS PYTHON WRAPPER] Copying restart files from: {self.restart_src}")
             for fname in os.listdir(self.restart_src):
                 shutil.copy2(os.path.join(self.restart_src, fname), runner.exp_dir)
         return runner

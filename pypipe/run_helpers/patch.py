@@ -181,6 +181,11 @@ class PatchGCMRUNJ(PipelineStep):
             tasks_per_node = 46
             required_nodes = math.ceil(int(runner.args.nx) * int(runner.args.ny * 6) / tasks_per_node + oserver_nodes)
             process_per_gpu = tasks_per_node / 4
+        elif MACHINE == "LOCAL":
+            # numbers don't matter for local runs, so just set everything to 1
+            tasks_per_node = 1
+            required_nodes = 1
+            process_per_gpu = 1
         else:
             sys.exit(f"Error: unhandled combination MACHINE={MACHINE!r}, backend={runner.backend_arch!r}")
         return tasks_per_node, required_nodes, process_per_gpu
@@ -229,6 +234,20 @@ class PatchGCMRUNJ(PipelineStep):
                     "#SBATCH --output output.log",
                 ]
             )
+        elif MACHINE == "LOCAL":
+            # operate functions needs some sort of string for sbatch block
+            # return "LOCAL BUILD - no SBATCH block needed"
+            return "\n".join(
+                [
+                    f"#SBATCH --job-name={job_name}",
+                    f"#SBATCH --account={runner.args.account}",
+                    f"#SBATCH --time={time}",
+                    f"#SBATCH --nodes={required_nodes}",
+                    f"#SBATCH --ntasks-per-node={tasks_per_node}",
+                    "#SBATCH --exclusive",
+                    "#SBATCH --output output.log",
+                ]
+            )
         sys.exit(f"[GEOS PYTHON WRAPPER] Error: unhandled combination MACHINE={MACHINE!r}, backend={runner.backend_arch!r}")
 
     def _build_dsl_blocks(self, runner, process_per_gpu: float) -> tuple[str, str]:
@@ -258,9 +277,9 @@ class PatchGCMRUNJ(PipelineStep):
             "#######################################################################\n\n"
             "if ( $?USE_DSL ) then\n"
             "   if ( $?PYTHONPATH ) then\n"
-            "      setenv PYTHONPATH       $PYTHONPATH:$GEOSDIR/lib/Python/\n"
+            "      setenv PYTHONPATH       ${PYTHONPATH}:${GEOSDIR}/lib/Python/\n"
             "   else\n"
-            "      setenv PYTHONPATH       $GEOSDIR/lib/Python/\n"
+            "      setenv PYTHONPATH       ${GEOSDIR}/lib/Python/\n"
             "   endif\n\n"
             '   setenv PYTHONWARNINGS "ignore"\n'
             "   setenv FV3_DACEMODE BuildAndRun\n"
@@ -276,7 +295,7 @@ class PatchGCMRUNJ(PipelineStep):
 
         if runner.backend_arch == "GPU":
             dsl_block += (
-                f"   setenv CUPY_CACHE_DIR $EXPDIR/.CUPY_CACHE\n"
+                "   setenv CUPY_CACHE_DIR ${EXPDIR}/.CUPY_CACHE\n"
                 "   setenv MPS_ON             1\n"
                 f"   setenv PER_DEVICE_PROCESS {str(math.ceil(process_per_gpu))}\n"
                 f"   setenv GPU_LAUNCHER_SH {gpu_mps_launcher_path}\n"
