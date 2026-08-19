@@ -1,0 +1,35 @@
+[project]
+name = "smt-nebulae"
+version = "0.1.0"
+description = "Development setup of the Software Modernization Team (SMT)."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    # knowledgeDB
+    "mkdocs-drawio",
+    "mkdocs-material",
+
+    # workspace
+    "dace",
+    "gt4py",
+    "ndsl",
+    "pyfv3",
+]
+
+[project.optional-dependencies]
+mpi = [
+    "openmpi>=5.0.10",
+]
+
+[build-system]
+requires = ["uv_build>=0.12.4,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv]
+package = false # make SMT Nebulae "virtual" in `uv` lingo, i.e. it's not a package itself
+
+[tool.uv.sources]
+dace = { path = "workspace/dace", editable = true }
+gt4py = { path = "workspace/gt4py", editable = true }
+ndsl = { path = "workspace/NDSL", editable = true }
+pyfv3 = { path = "workspace/pyFV3", editable = true }

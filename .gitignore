@@ -5,30 +5,39 @@
 *#
 .#*
 **/CVS/
-.vscode
-.venv
-venv
 __pycache__
 *.egg-info
-build/
-tmp/
 git-token
 
-# Temporary directories for WIP
-tmp_*/
+# don't sync VSCode configuration
+.vscode
+
+# common names for virtual environments
+.venv
+venv
 
 # gt4py/dace caches
 .gt_cache_*
 .dacecache*
 .gt4py_cache/
 
-# docs
-knowledgeDB/site
-
-# benchmarker
-benchmarker/.config.yaml
-benchmarker/.local.env
-
 # Fortran-ism
 *.mod
 .vtune_results/
+
+# local dev setup: do NOT sync
+#
+# 1. the status of the workspace
+workspace/
+# 2. the uv.lock file (differs per local install e.g. when work is done on dependencies)
+uv.lock
+
+# docs: build directory
+knowledgeDB/site
+
+# Temporary directories for WIP
+tmp/
+tmp_*/
+
+# Test python files for WIP
+test_*.py
