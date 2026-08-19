@@ -94,9 +94,11 @@ class CopyRestarts(PipelineStep):
         ocean_name = ocean_map.get(runner.args.ocean)
 
         if MACHINE == "PRISM":
-            self.restart_src = f"/explore/nobackup/projects/geos-gpu/data/HugeBCs-GitV10/rs/nc4/{ocean_name}/c{runner.args.horz}-L{runner.args.vert}-NL3"
+            self.restart_src = (
+                f"/explore/nobackup/projects/geos-gpu/data/HugeBCs-GitV10/rs/nc4/{ocean_name}/c{runner.args.horz}-L{runner.args.vert}-{runner.args.land_bcs}"
+            )
         elif MACHINE == "DISCOVER":
-            self.restart_src = f"/discover/nobackup/mathomp4/Restarts-GitV12/nc4/{ocean_name}/c{runner.args.horz}-L{runner.args.vert}-NL3"
+            self.restart_src = f"/discover/nobackup/mathomp4/Restarts-GitV12/nc4/{ocean_name}/c{runner.args.horz}-L{runner.args.vert}-{runner.args.land_bcs}"
         elif MACHINE == "LOCAL":
             self.restart_src = input("[GEOS PYTHON WRAPPER] Enter the path to the TinyBC restarts (up to - but not including - the nc4 directory):")
             self.restart_src += f"/nc4/{ocean_name}/c{runner.args.horz}-L{runner.args.vert}-{runner.args.land_bcs}"
