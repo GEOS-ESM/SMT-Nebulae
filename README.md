@@ -64,6 +64,23 @@ $ source .venv/bin/activate
 (.venv) $
 ```
 
+### Help, my imports are not resolved anymore
+
+After following the guide above on how to patch the (`uv`-managed) virtual environments in various repositories, you might notice that imports aren't resolved anymore in your editor. In VSCode (pylance), this can be remedied by [configuring `python.analysis.extraPaths` in `.vscode/settings.json`](https://github.com/microsoft/pylance-release/blob/main/docs/settings/python_analysis_extraPaths.md).
+
+Example: in `NDSL/.vscode/settings.json`, you would add
+
+```json
+{
+    "python.analysis.extraPaths": [
+        "../dace",
+        "../gt4py",
+    ]
+}
+```
+
+to be able to right-click on `gt4py` and `dace` imports again. You might need to restart VSCode for changes to take effect.
+
 ## To sort
 
 - `dsl_patterns` should end up in the manual of NDSL
