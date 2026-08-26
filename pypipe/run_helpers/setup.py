@@ -21,15 +21,15 @@ class SetupDirectory(PipelineStep):
         print("[GEOS PYTHON WRAPPER] Initializing experiment directory...")
 
         if MACHINE == "DISCOVER":
-            setup_script_location = "/home/mathomp4/bin/create_expt.py"
+            setup_script_location = "/home/mathomp4/bin"
         elif MACHINE == "PRISM":
             raise NotImplementedError("[GEOS PYTHON WRAPPER] NEED TO POINT TO MATT'S SETUP SCRIPT ON PRISM")
         elif MACHINE == "LOCAL":
-            setup_script_location = input("[GEOS PYTHON WRAPPER] Enter the full path of create_expt.py (including the python script itself): ")
+            setup_script_location = input("[GEOS PYTHON WRAPPER] Enter the path to TBC scripts directory:")
             runner.args.processor = "not applicable"
         subprocess.run(
             [
-                setup_script_location,
+                setup_script_location + "/create_expt.py",
                 runner.exp_name,
                 "--expdir",
                 runner.exp_dir_root,
@@ -60,6 +60,18 @@ class SetupDirectory(PipelineStep):
             env=runner.env,
             check=True,
         )
+        if MACHINE == "LOCAL":
+            subprocess.run(
+                [
+                    setup_script_location + "/makeoneday.bash",
+                    "noext",
+                    "noresto",
+                    "gitv12",
+                ],
+                cwd=runner.exp_dir,
+                env=runner.env,
+                check=True,
+            )
         return runner
 
     def validate_outputs(self, runner):
@@ -100,8 +112,8 @@ class CopyRestarts(PipelineStep):
         elif MACHINE == "DISCOVER":
             self.restart_src = f"/discover/nobackup/mathomp4/Restarts-GitV12/nc4/{ocean_name}/c{runner.args.horz}-L{runner.args.vert}-{runner.args.land_bcs}"
         elif MACHINE == "LOCAL":
-            self.restart_src = input("[GEOS PYTHON WRAPPER] Enter the path to the TinyBC restarts (up to - but not including - the nc4 directory):")
-            self.restart_src += f"/nc4/{ocean_name}/c{runner.args.horz}-L{runner.args.vert}-{runner.args.land_bcs}"
+            self.restart_src = print("[GEOS PYTHON WRAPPER] Restart copying has already been handled by Tiny/HugeBC makeoneday scripts")
+            return
 
         path = pathlib.Path(self.restart_src)
 
@@ -124,6 +136,8 @@ class CopyRestarts(PipelineStep):
             current = next_path
 
     def operate(self, runner):
+        if MACHINE == "LOCAL":
+            return runner  # no copying needed for local machine, handled by makeoneday script
         if not runner.args.custom_restart:
             print(f"[GEOS PYTHON WRAPPER] Copying restart files from: {self.restart_src}")
             for fname in os.listdir(self.restart_src):
