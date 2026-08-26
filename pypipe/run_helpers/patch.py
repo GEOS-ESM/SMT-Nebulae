@@ -126,10 +126,9 @@ class PatchAGCMRC(PipelineStep):
         content = re.sub(r"NY:\s*\d+", f"NY: {runner.args.ny*6}", content)
 
         flags_map = {"uw": "USE_PYMOIST_UW", "gfdl1m": "USE_PYMOIST_GFDL1M", "gf2020": "USE_PYMOIST_GF2020", "fv3": "USE_PYFV3"}
-        flags_to_add = [f"{flags_map[m]}: .TRUE." for m in runner.args.pymodules if m in flags_map]
-
-        if flags_to_add:
-            content = "\n".join(flags_to_add) + "\n" + content
+        for m in runner.args.pymodules:
+            if m in flags_map:
+                content = re.sub(rf"{flags_map[m]}:\s*\.FALSE\.", f"{flags_map[m]}: .TRUE.", content)
 
         with open(self.agcm_rc_path, "w") as f:
             f.write(content)
