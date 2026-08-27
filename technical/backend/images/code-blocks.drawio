@@ -1,0 +1,81 @@
+<mxfile scale="1" border="0" host="app.diagrams.net" agent="Mozilla/5.0 (X11; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0" version="26.1.0">
+  <diagram name="Seite-1" id="uBIzncXjYzNze9gtcR0E">
+    <mxGraphModel dx="2586" dy="1349" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-39" value="" style="shape=ext;double=1;rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="50" y="750" width="720" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-35" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="619" y="495" width="176" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-29" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="352" y="115" width="176" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-1" value="&lt;div style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;statement0&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;statement1&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;if condition:&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&amp;nbsp; statement2&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&amp;nbsp; statement3&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&amp;nbsp; while condition2:&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; statement4&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp; statement5&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&amp;nbsp; statement6&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&amp;nbsp; statement7&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;statement8&lt;/font&gt;&lt;font style=&quot;font-size: 20px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/font&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;fontFamily=Courier Prime;fontSource=https%3A%2F%2Ffonts.googleapis.com%2Fcss%3Ffamily%3DCourier%2BPrime;align=left;verticalAlign=top;fillColor=#dae8fc;strokeColor=#6c8ebf;opacity=80;" parent="1" vertex="1">
+          <mxGeometry x="250" y="331" width="369" height="369" as="geometry" />
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-5" value="" style="whiteSpace=wrap;html=1;aspect=fixed;fillColor=#d5e8d4;strokeColor=#82b366;opacity=50;" parent="1" vertex="1">
+          <mxGeometry x="270" y="430" width="230" height="230" as="geometry" />
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-7" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;opacity=70;" parent="1" vertex="1">
+          <mxGeometry x="296" y="525" width="240" height="65" as="geometry" />
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-13" value="" style="shape=crossbar;whiteSpace=wrap;html=1;rounded=1;direction=south;" parent="1" vertex="1">
+          <mxGeometry x="90" y="331" width="20" height="369" as="geometry" />
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-16" value="" style="shape=crossbar;whiteSpace=wrap;html=1;rounded=1;direction=south;" parent="1" vertex="1">
+          <mxGeometry x="125" y="410" width="20" height="250" as="geometry" />
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-17" value="" style="shape=crossbar;whiteSpace=wrap;html=1;rounded=1;direction=south;" parent="1" vertex="1">
+          <mxGeometry x="150" y="517.5" width="20" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-19" value="HorizontalExecution" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="140" y="331" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-20" value="&lt;div&gt;Condition&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="145" y="410" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-23" value="&lt;div&gt;Loop&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="170" y="517.5" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-24" value="&lt;font style=&quot;font-size: 24px;&quot; data-font-src=&quot;https://fonts.googleapis.com/css?family=Caveat&quot; face=&quot;Caveat&quot;&gt;statements are evaluated in a Tasklet&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="380" y="130" width="120" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-28" value="" style="curved=1;endArrow=classic;html=1;rounded=0;" parent="1" source="k6TCTClMSMkHMvDiaAWe-29" target="k6TCTClMSMkHMvDiaAWe-1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="310" y="190" as="sourcePoint" />
+            <mxPoint x="330" y="180" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="330" y="230" />
+              <mxPoint x="270" y="300" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-31" value="" style="ellipse;shape=cloud;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="540" y="130" width="230" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-32" value="&lt;font data-font-src=&quot;https://fonts.googleapis.com/css?family=Caveat&quot; face=&quot;Caveat&quot; style=&quot;font-size: 24px;&quot;&gt;nested code blocks in conditions and while loops&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="598" y="155" width="120" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-33" value="" style="curved=1;endArrow=classic;html=1;rounded=0;exitX=0.55;exitY=0.95;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.488;entryY=0.241;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="k6TCTClMSMkHMvDiaAWe-31" target="k6TCTClMSMkHMvDiaAWe-1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="680" y="430" as="sourcePoint" />
+            <mxPoint x="730" y="380" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="580" y="370" />
+              <mxPoint x="440" y="380" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-34" value="&lt;font style=&quot;font-size: 24px;&quot; data-font-src=&quot;https://fonts.googleapis.com/css?family=Caveat&quot; face=&quot;Caveat&quot;&gt;each color denotes one &lt;/font&gt;&lt;font style=&quot;font-size: 18px;&quot; face=&quot;Courier Prime&quot; data-font-src=&quot;https://fonts.googleapis.com/css?family=Courier+Prime&quot;&gt;CodeBlock&lt;/font&gt;&lt;font style=&quot;font-size: 24px;&quot; data-font-src=&quot;https://fonts.googleapis.com/css?family=Caveat&quot; face=&quot;Caveat&quot;&gt;&lt;br&gt;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="650" y="510" width="120" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="k6TCTClMSMkHMvDiaAWe-36" value="&lt;div align=&quot;left&quot;&gt;&lt;font style=&quot;font-size: 14px; background-color: transparent;&quot; data-font-src=&quot;https://fonts.googleapis.com/css?family=Courier+Prime&quot; face=&quot;Courier Prime&quot;&gt;oir.CodeBlock&lt;/font&gt;&lt;span style=&quot;font-size: 14px; background-color: transparent;&quot;&gt; allows to use visitor pattern in daceir_builder. unused in other backends&lt;/span&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;font data-font-src=&quot;https://fonts.googleapis.com/css?family=Courier+Prime&quot; face=&quot;Courier Prime&quot;&gt;dcir.Condition&lt;/font&gt; state transitions for conditions (the body is a CodeBlock)&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;font data-font-src=&quot;https://fonts.googleapis.com/css?family=Courier+Prime&quot; face=&quot;Courier Prime&quot;&gt;dcir.WhileLoop&lt;/font&gt; state transitions for while loops (the body is a CodeBlock)&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div align=&quot;left&quot;&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font style=&quot;font-size: 14px;&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font size=&quot;3&quot;&gt;visit_CodeBlock(node: oir.CodeBlock, ...):&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp; - separates statements from potential nested CodeBlocks&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp; - visit statements and potential nested CodeBlocks&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp; - wires output from statements to nested CodeBlocks&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font size=&quot;3&quot;&gt;&amp;nbsp; - wires output form nested CodeBlocks to statements at the end of the CodeBlock&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;font size=&quot;3&quot;&gt;&lt;br&gt;&lt;/font&gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="text;html=1;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="80" y="760" width="680" height="260" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
