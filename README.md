@@ -22,8 +22,9 @@ We'll start in the `dace/` directory and install `dace` editable
 
 ```shell
 $ cd dace/
-$ pip install -e .[linting,testing]
+$ python -m venv .venv
 $ source .venv/bin/activate
+(.venv) $ pip install -e .[linting,testing]
 (.venv) $
 ```
 
@@ -56,11 +57,12 @@ and `pyFV3/` we are back to traditional `pip` (for now).
 
 ```shell
 $ cd pyFV3/
-$ pip install --editable .[dev]
-$ pip install ../NDSL
-$ pip install ../gt4py
-$ pip install ../dace
-$ source .venv/bin/activate
+$ python -m venv .venv
+(.venv) $ source .venv/bin/activate
+(.venv) $ pip install --editable .[dev]
+(.venv) $ pip install ../NDSL
+(.venv) $ pip install ../gt4py
+(.venv) $ pip install ../dace
 (.venv) $
 ```
 
