@@ -24,7 +24,7 @@ We'll start in the `dace/` directory and install `dace` editable
 $ cd dace/
 $ python -m venv .venv
 $ source .venv/bin/activate
-(.venv) $ pip install -e .[linting,testing]
+(.venv) $ pip install --editable .[linting,testing]
 (.venv) $
 ```
 
@@ -33,7 +33,7 @@ Then, let's move on to `gt4py`
 ```shell
 $ cd gt4py/
 $ uv sync
-$ uv pip install -e ../dace
+$ uv pip install --editable ../dace
 $ source .venv/bin/activate
 (gt4py) $
 ```
@@ -47,8 +47,8 @@ Do the same in `NDSL/`
 ```shell
 $ cd NDSL/
 $ uv sync
-$ uv pip install ../gt4py
-$ uv pip install ../dace
+$ uv pip install --editable ../gt4py
+$ uv pip install --editable ../dace
 $ source .venv/bin/activate
 (ndsl) $
 ```
@@ -60,9 +60,9 @@ $ cd pyFV3/
 $ python -m venv .venv
 (.venv) $ source .venv/bin/activate
 (.venv) $ pip install --editable .[dev]
-(.venv) $ pip install ../NDSL
-(.venv) $ pip install ../gt4py
-(.venv) $ pip install ../dace
+(.venv) $ pip install --editable ../NDSL
+(.venv) $ pip install --editable ../gt4py
+(.venv) $ pip install --editable ../dace
 (.venv) $
 ```
 
