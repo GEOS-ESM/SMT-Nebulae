@@ -5,11 +5,16 @@ from run_helpers.run_gcm import GCMRunner
 from run_helpers.run_emip import EMIPRunner
 from run_helpers.run_scm import SCMRunner
 
+VALID_MODULES = ["gfdl1m", "uw", "gf2020", "fv3"]
+
 
 def split_csv(ctx, param, value):
     result = []
     for v in value:
-        result.extend(v.split(","))
+        result.extend([item.strip() for item in v.split(",") if item.strip()])
+    for item in result:
+        if item.lower() not in VALID_MODULES:
+            raise click.BadParameter(f"'{item}' is not one of {', '.join(VALID_MODULES)}")
     return tuple(result)
 
 
@@ -141,7 +146,6 @@ def common_python(f):
         cls=GroupedOption,
         help_group=grp,
         show_default=True,
-        type=click.Choice(["gfdl1m", "uw", "gf2020", "fv3"], case_sensitive=False),
         multiple=True,
         default=[],
         callback=split_csv,
