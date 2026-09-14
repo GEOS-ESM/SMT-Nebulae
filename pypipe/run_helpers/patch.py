@@ -280,6 +280,15 @@ class PatchGCMRUNJ(PipelineStep):
         elif MACHINE == "PRISM":
             gpu_mps_launcher_path = "/explore/nobackup/people/fgdeconi/work/git/geos_v11/experiments/gpu_mps_launcher.sh"
 
+        pymodules = getattr(runner.args, "pymodules", [])
+        pyhtonpath_with_fv3_source = ""
+        if "fv3" in pymodules:
+            # not 100% which level is correct, so just throw everything in
+            pyhtonpath_with_fv3_source = (
+                "${GEOSDIR}/../src/Components/@GEOSgcm_GridComp/GEOSagcm_GridComp/GEOSsuperdyn_GridComp/@FVdycoreCubed_GridComp/python/interface:"
+                "${GEOSDIR}/../src/Components/@GEOSgcm_GridComp/GEOSagcm_GridComp/GEOSsuperdyn_GridComp/@FVdycoreCubed_GridComp/python/@pyFV3:"
+            )
+
         dsl_block = (
             "#######################################################################\n"
             "#                          DSL configuration\n"
@@ -290,6 +299,8 @@ class PatchGCMRUNJ(PipelineStep):
             "   else\n"
             "      setenv PYTHONPATH       ${GEOSDIR}/lib/Python/\n"
             "   endif\n\n"
+            "   # TEMPORARY SOLUTION - ONLY HERE UNTIL FV3 SOURCE IS PROPERLY COPIED INTO INSTALL\n"
+            f"   setenv PYTHONPATH       {pyhtonpath_with_fv3_source}${{PYTHONPATH}}\n\n"
             '   setenv PYTHONWARNINGS "ignore"\n'
             "   setenv FV3_DACEMODE BuildAndRun\n"
             f"   setenv GEOS_DSL_BACKEND {runner.args.backend or ''}\n"
@@ -298,7 +309,7 @@ class PatchGCMRUNJ(PipelineStep):
             "   setenv NDSL_CONSTANTS GEOS\n"
             f"   setenv NDSL_LAYOUT {layout}\n"
             f"   setenv NDSL_LITERAL_PRECISION {precision}\n"
-            f"   setenv GEOS_DSL_PYFV3_BACKEND {(runner.args.backend or '')[:-3]}IJK\n"
+            f"   setenv GEOS_DSL_PYFV3_BACKEND {runner.args.backend or ''}\n"
             "   setenv NDSL_LOGLEVEL INFO\n"
         )
 
