@@ -171,7 +171,7 @@ def common_config(f):
         cls=GroupedOption,
         help_group=grp,
         show_default=True,
-        type=click.Choice(["BACK1M", "GFDL1M", "MGB22M"], case_sensitive=False),
+        type=click.Choice(["BACM1M", "GFDL1M", "MGB22M"], case_sensitive=False),
         default="GFDL1M",
         help="Sets the microphysics scheme used in moist physics",
     )(f)
