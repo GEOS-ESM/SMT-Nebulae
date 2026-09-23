@@ -212,6 +212,7 @@ class PatchGCMRUNJ(PipelineStep):
                     "#SBATCH --gpus-per-node=1",
                     "#SBATCH --exclusive",
                     "#SBATCH --output output.log",
+                    "#SBATCH --no-requeue",
                 ]
             )
         elif MACHINE == "DISCOVER" and runner.backend_arch == "CPU":
@@ -225,6 +226,7 @@ class PatchGCMRUNJ(PipelineStep):
                     f"#SBATCH --constraint={runner.args.processor}",
                     "#SBATCH --exclusive",
                     "#SBATCH --output output.log",
+                    "#SBATCH --no-requeue",
                 ]
             )
         elif MACHINE == "DISCOVER" and runner.backend_arch == "GPU":
@@ -241,6 +243,7 @@ class PatchGCMRUNJ(PipelineStep):
                     "#SBATCH --mem-per-gpu=40G",
                     "#SBATCH --exclusive",
                     "#SBATCH --output output.log",
+                    "#SBATCH --no-requeue",
                 ]
             )
         elif MACHINE == "LOCAL":
@@ -304,7 +307,7 @@ class PatchGCMRUNJ(PipelineStep):
             '   setenv PYTHONWARNINGS "ignore"\n'
             "   setenv FV3_DACEMODE BuildAndRun\n"
             f"   setenv GEOS_DSL_BACKEND {runner.args.backend or ''}\n"
-            "   setenv GT_CACHE_ROOT $EXPDIR/.DSL_CACHE\n"
+            f"   setenv GT_CACHE_ROOT ${{GEOSDIR}}/.DSL_CACHE/{runner.args.backend.replace(":", "_")}\n"
             f"   setenv GT4PY_COMPILE_OPT_LEVEL {opt_level}\n"
             "   setenv NDSL_CONSTANTS GEOS\n"
             f"   setenv NDSL_LAYOUT {layout}\n"
