@@ -8,6 +8,65 @@ from run_helpers.setup import SetupDirectory
 from run_helpers.patch import PatchAGCMRC, PatchGCMRUNJ
 
 
+class EMIPPatchCAPRC(PipelineStep):
+    def validate_inputs(self, runner: GCMRunner):
+        self.cap_rc_path = os.path.join(runner.exp_dir, "CAP.rc")
+        self.cap_restart_path = os.path.join(runner.exp_dir, "cap_restart")
+
+        if not os.path.exists(self.cap_rc_path):
+            raise FileNotFoundError(f"[GEOS PYTHON WRAPPER] {self.cap_rc_path} not found.")
+
+    def operate(self, runner: GCMRunner):
+        self.computed_end_date = None
+
+        job_segment = getattr(runner.args, "job_segment", None)
+        num_segment = getattr(runner.args, "num_segment", None)
+
+        if job_segment is None and num_segment is None:
+            print("[GEOS PYTHON WRAPPER] job_segment and num_segment are unspecified; CAP.rc will remain unchanged.")
+            return runner
+
+        with open(self.cap_rc_path, "r") as f:
+            content = f.read()
+
+        if job_segment is not None:
+            job_segment_str = str(job_segment)
+            job_sgmt_formatted = f"{job_segment_str[:8]} {job_segment_str[8:]}"
+            content = re.sub(r"JOB_SGMT:\s+\d+\s+\d+", f"JOB_SGMT:     {job_sgmt_formatted}", content)
+
+        if num_segment is not None:
+            content = re.sub(r"NUM_SGMT:\s+\d+", f"NUM_SGMT:     {num_segment}", content)
+
+        with open(self.cap_rc_path, "w") as f:
+            f.write(content)
+
+        return runner
+
+    def validate_outputs(self, runner: GCMRunner):
+        job_segment = getattr(runner.args, "job_segment", None)
+        num_segment = getattr(runner.args, "num_segment", None)
+
+        # if no modifications were requested, we don't need to validate anything
+        if job_segment is None and num_segment is None:
+            return
+
+        with open(self.cap_rc_path, "r") as f:
+            content = f.read()
+
+        missing_items = []
+        if job_segment is not None:
+            job_sgmt_formatted = f"{job_segment[:8]} {job_segment[8:]}"
+            if not re.search(rf"JOB_SGMT:\s+{job_sgmt_formatted}", content):
+                missing_items.append("JOB_SGMT")
+
+        if num_segment is not None:
+            if not re.search(rf"NUM_SGMT:\s+{num_segment}", content):
+                missing_items.append("NUM_SGMT")
+
+        if missing_items:
+            raise RuntimeError(f"[GEOS PYTHON WRAPPER] CAP.rc validation failed! Missing expected values for: {', '.join(missing_items)}.")
+
+
 class EMIPPatchGCMRunJ(PipelineStep):
     def validate_inputs(self, runner: GCMRunner):
         self.gcm_run_j_path = os.path.join(runner.exp_dir, "gcm_run.j")
@@ -115,6 +174,7 @@ class EMIPRunner(GCMRunner):
     def run(self) -> None:
         """Compose and execute the EMIP-specific pipeline."""
         SetupDirectory()(self)
+        EMIPPatchCAPRC()(self)
         PatchAGCMRC()(self)
         PatchGCMRUNJ()(self)
         EMIPPatchGCMRunJ()(self)
