@@ -386,16 +386,14 @@ def scm(**kwargs):
     "--job_segment",
     cls=GroupedOption,
     help_group="Execution & Timing",
-    default="00000010000000",
-    help="JOB_SGMT length in YYYYMMDDHHMMSS format (default 00000010000000, i.e. 10 days)",
+    help="JOB_SGMT length in YYYYMMDDHHMMSS format (uses GEOS default)",
 )
 @click.option(
     "--num_segment",
     cls=GroupedOption,
     help_group="Execution & Timing",
     type=int,
-    default=1,
-    help="Number of --job_segment periods to run per sbatch submission",
+    help="Number of --job_segment periods to run per sbatch submission (uses GEOS default)",
 )
 def emip(**kwargs):
     """Set up and submit an entire EMIP experiment suite."""
