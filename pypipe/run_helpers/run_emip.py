@@ -107,9 +107,9 @@ class EMIPPatchSetup(PipelineStep):
                 content = content.replace(base_line, f"#{base_line}")
 
         if runner.args.season == "DJF":
-            content = content.replace("set SEASON = 'DJF'", "#set SEASON = 'DJF'")
-        elif runner.args.season == "JJA":
             content = content.replace("set SEASON = 'JJA'", "#set SEASON = 'JJA'")
+        elif runner.args.season == "JJA":
+            content = content.replace("set SEASON = 'DJF'", "#set SEASON = 'DJF'")
 
         with open(self.setup_path, "w") as f:
             f.write(content)
