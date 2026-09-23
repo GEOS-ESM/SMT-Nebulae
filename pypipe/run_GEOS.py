@@ -356,6 +356,14 @@ def scm(**kwargs):
 @common_python
 @common_config
 @click.option(
+    "--job_time",
+    cls=GroupedOption,
+    help_group="EMIP Specific Options",
+    type=str,
+    default="01:00:00",
+    help="Wall time limit for each sbatch submission. Can be up to 12 hours. Format: HH:MM:SS",
+)
+@click.option(
     "--start_year",
     cls=GroupedOption,
     help_group="EMIP Specific Options",
@@ -374,8 +382,21 @@ def scm(**kwargs):
     type=click.Choice(["DJF", "JJA"], case_sensitive=False),
     help="Choose the starting season for the ensemble. DJF (Nov) or JJA (May).",
 )
-@click.option("--job_segment", cls=GroupedOption, help_group="Execution & Timing", help="JOB_SGMT length in YYYYMMDDHHMMSS format (default 00000010000000, i.e. 10 days)")
-@click.option("--num_segment", cls=GroupedOption, help_group="Execution & Timing", type=int, help="Number of --job_segment periods to run per sbatch submission")
+@click.option(
+    "--job_segment",
+    cls=GroupedOption,
+    help_group="Execution & Timing",
+    default="00000010000000",
+    help="JOB_SGMT length in YYYYMMDDHHMMSS format (default 00000010000000, i.e. 10 days)",
+)
+@click.option(
+    "--num_segment",
+    cls=GroupedOption,
+    help_group="Execution & Timing",
+    type=int,
+    default=1,
+    help="Number of --job_segment periods to run per sbatch submission",
+)
 def emip(**kwargs):
     """Set up and submit an entire EMIP experiment suite."""
     kwargs["mode"] = "EMIP"

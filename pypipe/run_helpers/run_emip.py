@@ -5,9 +5,10 @@ import re
 from run_helpers.template import PipelineStep
 from run_helpers.run_gcm import GCMRunner
 from run_helpers.setup import SetupDirectory
+from run_helpers.patch import PatchAGCMRC, PatchGCMRUNJ
 
 
-class EMIPPatchGCMRunJStep(PipelineStep):
+class EMIPPatchGCMRunJ(PipelineStep):
     def validate_inputs(self, runner: GCMRunner):
         self.gcm_run_j_path = os.path.join(runner.exp_dir, "gcm_run.j")
         if not os.path.exists(self.gcm_run_j_path):
@@ -27,7 +28,7 @@ class EMIPPatchGCMRunJStep(PipelineStep):
                 raise RuntimeError("[GEOS PYTHON WRAPPER] Failed to patch EMIP loop count in gcm_run.j.")
 
 
-class EMIPPatchSetupStep(PipelineStep):
+class EMIPPatchSetup(PipelineStep):
     def validate_inputs(self, runner: GCMRunner):
         self.setup_path = os.path.join(runner.exp_dir, "gcm_emip.setup")
         if not os.path.exists(self.setup_path):
@@ -109,11 +110,13 @@ class EMIPRunner(GCMRunner):
 
         # Additional EMIP validation
         if self.args.execute_on == "local":
-            sys.exit("[GEOS PYTHON WRAPPER] EMIP runs require execution on a compute node. Rerun with --execute_on compute")
+            sys.exit("[GEOS PYTHON WRAPPER] EMIP runs require execution on a compute node. Rerun with --execute_on compute, or --execute_on none and submit manually.")
 
     def run(self) -> None:
         """Compose and execute the EMIP-specific pipeline."""
         SetupDirectory()(self)
-        EMIPPatchGCMRunJStep()(self)
-        EMIPPatchSetupStep()(self)
+        PatchAGCMRC()(self)
+        PatchGCMRUNJ()(self)
+        EMIPPatchGCMRunJ()(self)
+        EMIPPatchSetup()(self)
         EMIPExecuteStep()(self)
