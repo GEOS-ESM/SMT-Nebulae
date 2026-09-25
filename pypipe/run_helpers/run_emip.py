@@ -139,8 +139,9 @@ class EMIPExecuteStep(PipelineStep):
             filepath = os.path.join(runner.exp_dir, filename)
             with open(filepath, "r") as f:
                 content = f.read()
-            _, _, date_suffix = filename.partition("gcm_run.j")
-            content = content.replace("#SBATCH --output output.log", f"#SBATCH --output output{date_suffix}.log")
+            _, _, date_string = filename.partition("gcm_run.j")
+            content = content.replace("#SBATCH --job-name=EMIP_C180_L72_NX20_NY20", f"#SBATCH --job-name={date_string}_EMIP_C180_L72_NX20_NY20")
+            content = content.replace("#SBATCH --output output.log", f"#SBATCH --output output_{date_string}.log")
             content = content.replace("set USE_TSE_TMPDIR = TRUE", "set USE_TSE_TMPDIR = FALSE")
             with open(filepath, "w") as f:
                 f.write(content)
