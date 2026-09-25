@@ -1,6 +1,7 @@
 import os
 import shutil
 import subprocess
+import sys
 import pathlib
 from run_helpers.config import MACHINE
 from run_helpers.template import PipelineStep
@@ -27,51 +28,68 @@ class SetupDirectory(PipelineStep):
         elif MACHINE == "LOCAL":
             setup_script_location = input("[GEOS PYTHON WRAPPER] Enter the path to TBC scripts directory:")
             runner.args.processor = "not applicable"
-        subprocess.run(
-            [
-                setup_script_location + "/create_expt.py",
-                runner.exp_name,
-                "--expdir",
-                runner.exp_dir_root,
-                "--account",
-                runner.args.account,
-                "--horz",
-                f"c{runner.args.horz}",
-                "--vert",
-                str(runner.args.vert),
-                "--gocart",
-                runner.args.aerosols,
-                "--moist",
-                microphysics,
-                "--ocean",
-                runner.args.ocean,
-                "--landbcs",
-                runner.args.land_bcs,
-                "--landsurf",
-                str(runner.args.land_surf),
-                "--model",
-                runner.args.processor,
-                *(["--oserver"] if runner.args.oserver else ["--nooserver"]),
-                *(["--nonhydro"] if runner.args.nonhydro else ["--hydro"]),
-                *(["--dataatm"] if runner.args.data_atmo else []),
-                *(["--heartbeat", str(runner.args.heartbeat)] if runner.args.heartbeat else []),
-            ],
-            cwd=runner.args.geos_dir,
-            env=runner.env,
-            check=True,
-        )
-        if MACHINE == "LOCAL":
+        try:
+            print(f"selected ocean: {runner.args.ocean}")
             subprocess.run(
                 [
-                    setup_script_location + "/makeoneday.bash",
-                    "noext",
-                    "noresto",
-                    "gitv12",
+                    setup_script_location + "/create_expt.py",
+                    runner.exp_name,
+                    "--expdir",
+                    runner.exp_dir_root,
+                    "--account",
+                    runner.args.account,
+                    "--horz",
+                    f"c{runner.args.horz}",
+                    "--vert",
+                    str(runner.args.vert),
+                    "--gocart",
+                    runner.args.aerosols,
+                    "--moist",
+                    microphysics,
+                    "--ocean",
+                    runner.args.ocean,
+                    "--landbcs",
+                    runner.args.land_bcs,
+                    "--landsurf",
+                    str(runner.args.land_surf),
+                    "--model",
+                    runner.args.processor,
+                    *(["--oserver"] if runner.args.oserver else ["--nooserver"]),
+                    *(["--hydro"] if runner.args.hydro else ["--nonhydro"]),
+                    *(["--dataatm"] if runner.args.data_atmo else []),
+                    *(["--heartbeat", str(runner.args.heartbeat)] if runner.args.heartbeat else []),
                 ],
-                cwd=runner.exp_dir,
+                cwd=runner.args.geos_dir,
                 env=runner.env,
                 check=True,
             )
+        except subprocess.CalledProcessError as e:
+            err = (e.stderr or "").strip()
+            last_line = err.splitlines()[-1] if err else "(no stderr output)"
+            print(err, file=sys.stderr)  # full child traceback, in one block
+            raise SystemExit(
+                f"\n[GEOS PYTHON WRAPPER] create_expt.py failed (exit {e.returncode}): {last_line}\n" f"[GEOS PYTHON WRAPPER]   cwd: {runner.args.geos_dir}"
+            ) from None
+        if MACHINE == "LOCAL":
+            try:
+                subprocess.run(
+                    [
+                        setup_script_location + "/makeoneday.bash",
+                        "noext",
+                        "noresto",
+                        "gitv12",
+                    ],
+                    cwd=runner.exp_dir,
+                    env=runner.env,
+                    check=True,
+                )
+            except subprocess.CalledProcessError as e:
+                err = (e.stderr or "").strip()
+                last_line = err.splitlines()[-1] if err else "(no stderr output)"
+                print(err, file=sys.stderr)  # full child traceback, in one block
+                raise SystemExit(
+                    f"\n[GEOS PYTHON WRAPPER] makeoneday.bash failed (exit {e.returncode}): {last_line}\n" f"[GEOS PYTHON WRAPPER]   cwd: {runner.args.geos_dir}"
+                ) from None
         return runner
 
     def validate_outputs(self, runner):
@@ -112,7 +130,7 @@ class CopyRestarts(PipelineStep):
         elif MACHINE == "DISCOVER":
             self.restart_src = f"/discover/nobackup/mathomp4/Restarts-GitV12/nc4/{ocean_name}/c{runner.args.horz}-L{runner.args.vert}-{runner.args.land_bcs}"
         elif MACHINE == "LOCAL":
-            self.restart_src = print("[GEOS PYTHON WRAPPER] Restart copying has already been handled by Tiny/HugeBC makeoneday scripts")
+            print("[GEOS PYTHON WRAPPER] Restart copying has already been handled by Tiny/HugeBC makeoneday scripts")
             return
 
         path = pathlib.Path(self.restart_src)
