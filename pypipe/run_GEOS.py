@@ -193,15 +193,16 @@ def common_config(f):
         default="C",
         help="Sets the aerosol scheme used by GOCART",
     )(f)
-    f = click.option(
-        "--emissions",
-        cls=GroupedOption,
-        help_group=grp,
-        show_default=True,
-        type=click.Choice(["AMIP", "OPS"], case_sensitive=False),
-        default="AMIP",
-        help="GOCART emissions choice",
-    )(f)
+    # --emissions option currently disabled, need ot figure out how to handle the added complexity in create_expt.py
+    # f = click.option(
+    #     "--emissions",
+    #     cls=GroupedOption,
+    #     help_group=grp,
+    #     show_default=True,
+    #     type=click.Choice(["AMIP", "OPS"], case_sensitive=False),
+    #     default="AMIP",
+    #     help="GOCART emissions choice",
+    # )(f)
     f = click.option("--oserver/--nooserver", cls=GroupedOption, help_group=grp, show_default=True, default=True, help="Enable the IO server")(f)
     f = click.option("--hydro/--nonhydro", cls=GroupedOption, help_group=grp, show_default=True, default=True, help="Enable/disable hydrostatic dynamics")(f)
     f = click.option("--data_atmo/--no_data_atmo", cls=GroupedOption, help_group=grp, show_default=True, default=False, help="Use data atmosphere")(f)
@@ -248,14 +249,15 @@ def common_grid(f):
     return f
 
 
-def common_timing(f):
-    """Timing Control for GCM"""
-    grp = "Execution & Timing"
+def common_timing(f, help_group="Execution & Timing"):
+    """Shared job timing controls for GCM and EMIP."""
+    grp = help_group
     f = click.option(
-        "--end_date", cls=GroupedOption, help_group=grp, default=None, help="End date of model run in YYYYMMDDHHMMSS format. Mutually exclusive with --duration"
-    )(f)
-    f = click.option(
-        "--job_segment", cls=GroupedOption, help_group=grp, default=None, help="JOB_SGMT length in YYYYMMDDHHMMSS format (default 00000010000000, i.e. 10 days)"
+        "--job_segment",
+        cls=GroupedOption,
+        help_group=grp,
+        default=None,
+        help="JOB_SGMT length in YYYYMMDDHHMMSS format (uses GEOS default)",
     )(f)
     f = click.option(
         "--job_time",
@@ -265,7 +267,28 @@ def common_timing(f):
         default="01:00:00",
         help="Wall time limit for each sbatch submission. Can be up to 12 hours. Format: HH:MM:SS",
     )(f)
-    f = click.option("--num_segment", cls=GroupedOption, help_group=grp, default=None, type=int, help="Number of --job_segment periods to run per sbatch submission")(f)
+    f = click.option(
+        "--num_segment",
+        cls=GroupedOption,
+        help_group=grp,
+        default=None,
+        type=int,
+        help="Number of --job_segment periods to run per sbatch submission (uses GEOS default)",
+    )(f)
+    return f
+
+
+def gcm_timing(f):
+    """Timing Control for GCM"""
+    grp = "Execution & Timing"
+    f = common_timing(f, help_group=grp)
+    f = click.option(
+        "--end_date",
+        cls=GroupedOption,
+        help_group=grp,
+        default=None,
+        help="End date of model run in YYYYMMDDHHMMSS format. Mutually exclusive with --duration",
+    )(f)
     f = click.option(
         "--duration",
         cls=GroupedOption,
@@ -281,7 +304,24 @@ def common_timing(f):
         show_default=True,
         type=click.Choice(["days", "months", "years"], case_sensitive=False),
         default="days",
-        help="Unit for --duration",
+        help="Unit for --duration. Only considered when `--duration` is supplied.",
+    )(f)
+    return f
+
+
+def emip_timing(f):
+    """Timing Control for EMIP"""
+    grp = "EMIP Timing"
+    f = common_timing(f, help_group=grp)
+    f = click.option(
+        "--duration",
+        cls=GroupedOption,
+        help_group=grp,
+        show_default=True,
+        required=True,
+        type=int,
+        default=3,
+        help="Number of months to run each member.",
     )(f)
     return f
 
@@ -305,7 +345,7 @@ def run_GEOS():
 
 @run_GEOS.command(cls=AllErrorsCommand)
 @common_grid
-@common_timing
+@gcm_timing
 @common_paths
 @common_python
 @common_config
@@ -316,7 +356,7 @@ def run_GEOS():
     show_default=True,
     is_flag=True,
     default=False,
-    help="Use custom restarts instead of copying from HUGEBCs. System stops after setup so files can be copied manually.",
+    help="Use custom restarts instead of copying system-provided restarts. System stops after setup so files can be copied manually.",
 )
 def gcm(**kwargs):
     """Set up and submit a single GCM experiment."""
@@ -330,7 +370,7 @@ def gcm(**kwargs):
 @common_paths
 @common_python
 @click.option("--case", cls=GroupedOption, help_group="SCM Specific Options", required=True, help="SCM case/experiment name.")
-@click.option("--duration", cls=GroupedOption, help_group="Execution & Timing", type=int, help="Number of --duration_unit units to run (integer > 0)")
+@click.option("--duration", cls=GroupedOption, help_group="Execution & Timing", type=int, help="Number of --duration_unit units to run (integer > 0).")
 @click.option(
     "--duration_unit",
     cls=GroupedOption,
@@ -338,7 +378,7 @@ def gcm(**kwargs):
     show_default=True,
     type=click.Choice(["days", "months", "years"], case_sensitive=False),
     default="days",
-    help="Unit for --duration",
+    help="Unit for --duration. Only considered when `--duration` is supplied.",
 )
 def scm(**kwargs):
     """XXXXX WORK IN PROGRESS - DOES NOT CURRENTLY WORK XXXXX
@@ -352,17 +392,10 @@ def scm(**kwargs):
 
 @run_GEOS.command(cls=AllErrorsCommand)
 @common_grid
+@emip_timing
 @common_paths
 @common_python
 @common_config
-@click.option(
-    "--job_time",
-    cls=GroupedOption,
-    help_group="EMIP Specific Options",
-    type=str,
-    default="01:00:00",
-    help="Wall time limit for each sbatch submission. Can be up to 12 hours. Format: HH:MM:SS",
-)
 @click.option(
     "--start_year",
     cls=GroupedOption,
@@ -372,28 +405,12 @@ def scm(**kwargs):
     help="Choose the set of 10 years for the ensemble, starting at the given year.",
 )
 @click.option(
-    "--duration", cls=GroupedOption, help_group="Execution & Timing", show_default=True, required=True, type=int, default=3, help="Number of months to run each member."
-)
-@click.option(
     "--season",
     cls=GroupedOption,
     help_group="EMIP Specific Options",
     required=True,
     type=click.Choice(["DJF", "JJA"], case_sensitive=False),
     help="Choose the starting season for the ensemble. DJF (Nov) or JJA (May).",
-)
-@click.option(
-    "--job_segment",
-    cls=GroupedOption,
-    help_group="Execution & Timing",
-    help="JOB_SGMT length in YYYYMMDDHHMMSS format (uses GEOS default)",
-)
-@click.option(
-    "--num_segment",
-    cls=GroupedOption,
-    help_group="Execution & Timing",
-    type=int,
-    help="Number of --job_segment periods to run per sbatch submission (uses GEOS default)",
 )
 def emip(**kwargs):
     """Set up and submit an entire EMIP experiment suite."""
