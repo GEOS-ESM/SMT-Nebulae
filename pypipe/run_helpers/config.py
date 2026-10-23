@@ -1,7 +1,7 @@
 import calendar
 from datetime import datetime, timedelta
 
-MACHINE = "LOCAL"
+MACHINE = "NONHPC"
 
 DURATION_UNIT_FIELD_MAX = {
     "days": 99,

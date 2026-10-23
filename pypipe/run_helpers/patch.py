@@ -190,8 +190,8 @@ class PatchGCMRUNJ(PipelineStep):
             tasks_per_node = 46
             required_nodes = math.ceil(int(runner.args.nx) * int(runner.args.ny * 6) / tasks_per_node + oserver_nodes)
             process_per_gpu = tasks_per_node / 4
-        elif MACHINE == "LOCAL":
-            # numbers don't matter for local runs, so just set everything to 1
+        elif MACHINE == "NONHPC":
+            # numbers don't matter for non-HPC runs, so just set everything to 1
             tasks_per_node = 1
             required_nodes = 1
             process_per_gpu = 1
@@ -246,9 +246,8 @@ class PatchGCMRUNJ(PipelineStep):
                     "#SBATCH --no-requeue",
                 ]
             )
-        elif MACHINE == "LOCAL":
+        elif MACHINE == "NONHPC":
             # operate functions needs some sort of string for sbatch block
-            # return "LOCAL BUILD - no SBATCH block needed"
             return "\n".join(
                 [
                     f"#SBATCH --job-name={job_name}",

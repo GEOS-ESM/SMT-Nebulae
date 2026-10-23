@@ -25,7 +25,7 @@ class SetupDirectory(PipelineStep):
             setup_script_location = "/home/mathomp4/bin"
         elif MACHINE == "PRISM":
             raise NotImplementedError("[GEOS PYTHON WRAPPER] NEED TO POINT TO MATT'S SETUP SCRIPT ON PRISM")
-        elif MACHINE == "LOCAL":
+        elif MACHINE == "NONHPC":
             setup_script_location = input("[GEOS PYTHON WRAPPER] Enter the path to TBC scripts directory:")
             runner.args.processor = "not applicable"
         try:
@@ -129,7 +129,7 @@ class CopyRestarts(PipelineStep):
             )
         elif MACHINE == "DISCOVER":
             self.restart_src = f"/discover/nobackup/mathomp4/Restarts-GitV12/nc4/{ocean_name}/c{runner.args.horz}-L{runner.args.vert}-{runner.args.land_bcs}"
-        elif MACHINE == "LOCAL":
+        elif MACHINE == "NONHPC":
             print("[GEOS PYTHON WRAPPER] Restart copying has already been handled by Tiny/HugeBC makeoneday scripts")
             return
 
@@ -154,8 +154,8 @@ class CopyRestarts(PipelineStep):
             current = next_path
 
     def operate(self, runner):
-        if MACHINE == "LOCAL":
-            return runner  # no copying needed for local machine, handled by makeoneday script
+        if MACHINE == "NONHPC":
+            return runner  # no copying needed for non-HPC machine, handled by makeoneday script
         if not runner.args.custom_restart:
             print(f"[GEOS PYTHON WRAPPER] Copying restart files from: {self.restart_src}")
             for fname in os.listdir(self.restart_src):
