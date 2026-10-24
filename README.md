@@ -1,48 +1,93 @@
+# SMT Nebulae
 
-# Software Modernization Team: The Code Nebulae
+Welcome to SMT Nebulae, the sandbox of the Software Modernization Team (SMT).
 
-This is the team sandbox repository, storing early PoC, relevant benchmark data, staging `ci` workflows, etc.
-Shortname for the package is `tcn`.
+## Dev setup guide
 
-🚧 This is a staging/PoC area for code, inherently every code here is unstable. 🚧
+The teams actively works in a couple of repositories at the same time, sometimes making changes across repositories. This guide explains how to setup multiple repositories in editable mode to ease such workflows.
 
-Below is a quick summary of the tools/packages present in code. More information is package-level READMEs.
+For this guide, we will assume the following layout:
 
-## Knowledge Base
+```none
+workspace/
+├── dace
+├── gt4py
+├── NDSL
+└── pyFV3
+```
 
-SMT documentation is sourced from the [Knowledge Base](./knowledgeDB/README.md) folder and made available on [Github Pages](https://geos-esm.github.io/SMT-Nebulae).
+We will show how to install `dace`, `gt4py`, `NDSL` and `pyFV3` editable such that running translate tests in `pyFV3/` take changes in all other repositories into account.
 
-## `ci`
+We'll start in the `dace/` directory and install `dace` editable
 
-On-premise CI for the GPU ports of GEOS. Includes validation & benchmark workflows.
+```shell
+$ cd dace/
+$ python -m venv .venv
+$ source .venv/bin/activate
+(.venv) $ pip install --editable .[linting,testing]
+(.venv) $
+```
 
-Heartbeat insure the workflow to reach Discover is working.
-Validation capacities in the case of GEOS is strictly building & running the GPU-enabled version.
-Validation capacities for physics compares OACC and original Fortran on.
+Then, let's move on to `gt4py`
 
-| Validation                    | Status    |
-| ------------------------------------------ | --------- |
-| NCCS Discover Heartbeat                    | [![💓](https://github.com/GEOS-ESM/SMT-Nebulae/actions/workflows/discover_heartbeat_nightly.yml/badge.svg)](https://github.com/GEOS-ESM/SMT-Nebulae/actions/workflows/discover_heartbeat_nightly.yml) |
-| NCCS Discover GEOS Held-Suarez Validation  | Deactivated |
-| NCCS Discover Physics Standalone           | Deactivated |
-| NCCS Discover GEOS Aquaplanet Validation   | Deactivated |
+```shell
+$ cd gt4py/
+$ uv sync
+$ uv pip install --editable ../dace
+$ source .venv/bin/activate
+(gt4py) $
+```
 
-## `hws`
+`uv sync` automatically installs `gt4py` editable. Then, use `uv pip` to install your local `dace` into the `uv`-managed virtual environment. The way to work with this "patched" virtual environment is by sourcing the `.venv/` and working in there. This is gives you editor support and all the things you know and love (e.g. installed pre-commit hooks keep working).
 
-Hardware Sampler - software file socket based package to instrument CPU/GPU usage, memory and TPU.
+NOTE: any call to `uv sync` or `uv run` will re-sync the `uv`-managed virtual environment, removing your local dace installation. So don't use `uv run` and re-install `dace` after every `uv sync` (only necessary when dependencies change).
 
-## `benchmark`
+Do the same in `NDSL/`
 
-Collection of scripts to mine GEOS log for relevant timing information for DSL and Fortran runs.
+```shell
+$ cd NDSL/
+$ uv sync
+$ uv pip install --editable ../gt4py
+$ uv pip install --editable ../dace
+$ source .venv/bin/activate
+(ndsl) $
+```
 
-## `py_ftn_interface`
+and `pyFV3/` we are back to traditional `pip` (for now).
 
-Generator of Python <> Interface based on CFFI as used in GEOS integration of the DSL. To be used as a starting point.
+```shell
+$ cd pyFV3/
+$ python -m venv .venv
+(.venv) $ source .venv/bin/activate
+(.venv) $ pip install --editable .[dev]
+(.venv) $ pip install --editable ../NDSL
+(.venv) $ pip install --editable ../gt4py
+(.venv) $ pip install --editable ../dace
+(.venv) $
+```
 
-## `plots`
+### Help, my imports are not resolved anymore
 
-Collection of scripts to plot various outputs of GEOS and DSL.
+After following the guide above on how to patch the (`uv`-managed) virtual environments in various repositories, you might notice that imports aren't resolved anymore in your editor. In VSCode (pylance), this can be remedied by [configuring `python.analysis.extraPaths` in `.vscode/settings.json`](https://github.com/microsoft/pylance-release/blob/main/docs/settings/python_analysis_extraPaths.md).
 
-## Software stack builder (`sw_stack`)
+Example: in `NDSL/.vscode/settings.json`, you would add
 
-Scripts to download and build the software stack used for the GEOS port.
+```json
+{
+    "python.analysis.extraPaths": [
+        "../dace",
+        "../gt4py",
+    ]
+}
+```
+
+to be able to right-click on `gt4py` and `dace` imports again. You might need to restart VSCode for changes to take effect.
+
+## To sort
+
+- `dsl_patterns` should end up in the manual of NDSL
+- `hardware_tests` should be completed and end up in some pipeline for GEOS and HPC
+
+## Questions
+
+Reach out to Florian Deconinck: florian.deconinck -at- ssaihq.com
