@@ -16,7 +16,9 @@ class DurationHelper:
     @staticmethod
     def build_duration_string(value: int, unit: str, time_str: str = "000000") -> str:
         if unit not in DURATION_UNIT_FIELD_MAX:
-            raise ValueError(f"Unknown duration unit '{unit}'. Valid: {', '.join(DURATION_UNIT_FIELD_MAX)}")
+            raise ValueError(
+                f"Unknown duration unit '{unit}'. Valid: {', '.join(DURATION_UNIT_FIELD_MAX)}"
+            )
         if value > DURATION_UNIT_FIELD_MAX[unit]:
             raise ValueError(f"Duration value {value} exceeds field limit for {unit}")
 

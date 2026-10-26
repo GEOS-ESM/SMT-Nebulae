@@ -6,7 +6,9 @@ class SCMRunner(BaseRunner):
 
     def validate_inputs(self):
         if not getattr(self.args, "case", None):
-            raise ValueError("[GEOS PYTHON WRAPPER] SCM runs require a --case to be specified.")
+            raise ValueError(
+                "[GEOS PYTHON WRAPPER] SCM runs require a --case to be specified."
+            )
 
     def run(self) -> None:
         print(f"Setting up SCM experiment for case: {self.args.case}")

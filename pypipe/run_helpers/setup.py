@@ -1,8 +1,9 @@
 import os
+import pathlib
 import shutil
 import subprocess
 import sys
-import pathlib
+
 from run_helpers.config import MACHINE
 from run_helpers.template import PipelineStep
 
@@ -17,16 +18,22 @@ class SetupDirectory(PipelineStep):
             shutil.rmtree(runner.exp_dir)
         os.makedirs(runner.exp_dir, exist_ok=True)
 
-        microphysics = {"GFDL1M": "GFDL", "BACM1M": "BACM", "MGB22M": "MGB2"}.get(runner.args.microphysics, runner.args.microphysics)
+        microphysics = {"GFDL1M": "GFDL", "BACM1M": "BACM", "MGB22M": "MGB2"}.get(
+            runner.args.microphysics, runner.args.microphysics
+        )
 
         print("[GEOS PYTHON WRAPPER] Initializing experiment directory...")
 
         if MACHINE == "DISCOVER":
             setup_script_location = "/home/mathomp4/bin"
         elif MACHINE == "PRISM":
-            raise NotImplementedError("[GEOS PYTHON WRAPPER] NEED TO POINT TO MATT'S SETUP SCRIPT ON PRISM")
+            raise NotImplementedError(
+                "[GEOS PYTHON WRAPPER] NEED TO POINT TO MATT'S SETUP SCRIPT ON PRISM"
+            )
         elif MACHINE == "NONHPC":
-            setup_script_location = input("[GEOS PYTHON WRAPPER] Enter the path to TBC scripts directory:")
+            setup_script_location = input(
+                "[GEOS PYTHON WRAPPER] Enter the path to TBC scripts directory:"
+            )
             runner.args.processor = "not applicable"
         try:
             print(f"selected ocean: {runner.args.ocean}")
@@ -57,7 +64,11 @@ class SetupDirectory(PipelineStep):
                     *(["--oserver"] if runner.args.oserver else ["--nooserver"]),
                     *(["--hydro"] if runner.args.hydro else ["--nonhydro"]),
                     *(["--dataatm"] if runner.args.data_atmo else []),
-                    *(["--heartbeat", str(runner.args.heartbeat)] if runner.args.heartbeat else []),
+                    *(
+                        ["--heartbeat", str(runner.args.heartbeat)]
+                        if runner.args.heartbeat
+                        else []
+                    ),
                 ],
                 cwd=runner.args.geos_dir,
                 env=runner.env,
@@ -68,7 +79,8 @@ class SetupDirectory(PipelineStep):
             last_line = err.splitlines()[-1] if err else "(no stderr output)"
             print(err, file=sys.stderr)  # full child traceback, in one block
             raise SystemExit(
-                f"\n[GEOS PYTHON WRAPPER] create_expt.py failed (exit {e.returncode}): {last_line}\n" f"[GEOS PYTHON WRAPPER]   cwd: {runner.args.geos_dir}"
+                f"\n[GEOS PYTHON WRAPPER] create_expt.py failed (exit {e.returncode}): {last_line}\n"
+                f"[GEOS PYTHON WRAPPER]   cwd: {runner.args.geos_dir}"
             ) from None
         if MACHINE == "LOCAL":
             try:
@@ -88,7 +100,8 @@ class SetupDirectory(PipelineStep):
                 last_line = err.splitlines()[-1] if err else "(no stderr output)"
                 print(err, file=sys.stderr)  # full child traceback, in one block
                 raise SystemExit(
-                    f"\n[GEOS PYTHON WRAPPER] makeoneday.bash failed (exit {e.returncode}): {last_line}\n" f"[GEOS PYTHON WRAPPER]   cwd: {runner.args.geos_dir}"
+                    f"\n[GEOS PYTHON WRAPPER] makeoneday.bash failed (exit {e.returncode}): {last_line}\n"
+                    f"[GEOS PYTHON WRAPPER]   cwd: {runner.args.geos_dir}"
                 ) from None
         return runner
 
@@ -110,9 +123,15 @@ class SetupDirectory(PipelineStep):
             "RC",
             "regress",
         ]
-        missing = [item for item in base_items if not os.path.exists(os.path.join(runner.exp_dir, item))]
+        missing = [
+            item
+            for item in base_items
+            if not os.path.exists(os.path.join(runner.exp_dir, item))
+        ]
         if missing:
-            raise FileNotFoundError(f"[GEOS PYTHON WRAPPER] Experiment directory setup failed. Missing required items: {', '.join(missing)}")
+            raise FileNotFoundError(
+                f"[GEOS PYTHON WRAPPER] Experiment directory setup failed. Missing required items: {', '.join(missing)}"
+            )
 
 
 class CopyRestarts(PipelineStep):
@@ -120,17 +139,25 @@ class CopyRestarts(PipelineStep):
         if runner.args.custom_restart:
             return
 
-        ocean_map = {"o1": "Reynolds", "o2": "MERRA-2", "o3": "Ostia", "CS": "Ostia-CS", "MOM5": "MOM5", "MOM6": "MOM6", "MIT": "MIT"}
+        ocean_map = {
+            "o1": "Reynolds",
+            "o2": "MERRA-2",
+            "o3": "Ostia",
+            "CS": "Ostia-CS",
+            "MOM5": "MOM5",
+            "MOM6": "MOM6",
+            "MIT": "MIT",
+        }
         ocean_name = ocean_map.get(runner.args.ocean)
 
         if MACHINE == "PRISM":
-            self.restart_src = (
-                f"/explore/nobackup/projects/geos-gpu/data/HugeBCs-GitV10/rs/nc4/{ocean_name}/c{runner.args.horz}-L{runner.args.vert}-{runner.args.land_bcs}"
-            )
+            self.restart_src = f"/explore/nobackup/projects/geos-gpu/data/HugeBCs-GitV10/rs/nc4/{ocean_name}/c{runner.args.horz}-L{runner.args.vert}-{runner.args.land_bcs}"
         elif MACHINE == "DISCOVER":
             self.restart_src = f"/discover/nobackup/mathomp4/Restarts-GitV12/nc4/{ocean_name}/c{runner.args.horz}-L{runner.args.vert}-{runner.args.land_bcs}"
         elif MACHINE == "NONHPC":
-            print("[GEOS PYTHON WRAPPER] Restart copying has already been handled by Tiny/HugeBC makeoneday scripts")
+            print(
+                "[GEOS PYTHON WRAPPER] Restart copying has already been handled by Tiny/HugeBC makeoneday scripts"
+            )
             return
 
         path = pathlib.Path(self.restart_src)
@@ -157,7 +184,9 @@ class CopyRestarts(PipelineStep):
         if MACHINE == "NONHPC":
             return runner  # no copying needed for non-HPC machine, handled by makeoneday script
         if not runner.args.custom_restart:
-            print(f"[GEOS PYTHON WRAPPER] Copying restart files from: {self.restart_src}")
+            print(
+                f"[GEOS PYTHON WRAPPER] Copying restart files from: {self.restart_src}"
+            )
             for fname in os.listdir(self.restart_src):
                 shutil.copy2(os.path.join(self.restart_src, fname), runner.exp_dir)
         return runner
@@ -178,6 +207,12 @@ class CopyRestarts(PipelineStep):
             "pchem_internal_rst",
             "seaicethermo_internal_rst",
         ]
-        missing = [item for item in restart_items if not os.path.exists(os.path.join(runner.exp_dir, item))]
+        missing = [
+            item
+            for item in restart_items
+            if not os.path.exists(os.path.join(runner.exp_dir, item))
+        ]
         if missing:
-            raise FileNotFoundError(f"[GEOS PYTHON WRAPPER] Validation failed! Missing restarts: {', '.join(missing)}")
+            raise FileNotFoundError(
+                f"[GEOS PYTHON WRAPPER] Validation failed! Missing restarts: {', '.join(missing)}"
+            )

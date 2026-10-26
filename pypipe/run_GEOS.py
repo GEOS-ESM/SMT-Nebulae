@@ -1,8 +1,9 @@
 """Set up, prep, and submit a single GCM or SCM experiment, or an EMIP suite."""
 
 import click
-from run_helpers.run_gcm import GCMRunner
+
 from run_helpers.run_emip import EMIPRunner
+from run_helpers.run_gcm import GCMRunner
 from run_helpers.run_scm import SCMRunner
 
 VALID_MODULES = ["gfdl1m", "uw", "gf2020", "fv3"]
@@ -14,7 +15,9 @@ def split_csv(ctx, param, value):
         result.extend([item.strip() for item in v.split(",") if item.strip()])
     for item in result:
         if item.lower() not in VALID_MODULES:
-            raise click.BadParameter(f"'{item}' is not one of {', '.join(VALID_MODULES)}")
+            raise click.BadParameter(
+                f"'{item}' is not one of {', '.join(VALID_MODULES)}"
+            )
     return tuple(result)
 
 
@@ -59,7 +62,9 @@ class AllErrorsCommand(click.Command):
         opts, args, param_order = parser.parse_args(args=args)
 
         errors = []
-        for param in click.core.iter_params_for_processing(param_order, self.get_params(ctx)):
+        for param in click.core.iter_params_for_processing(
+            param_order, self.get_params(ctx)
+        ):
             try:
                 value, args = param.handle_parse_result(ctx, opts, args)
             except click.exceptions.MissingParameter:
@@ -71,7 +76,9 @@ class AllErrorsCommand(click.Command):
             ctx.fail("\n".join(errors))
 
         if args and not ctx.allow_extra_args and not ctx.resilient_parsing:
-            ctx.fail(f"Got unexpected extra argument{'s' if len(args) != 1 else ''} ({' '.join(map(str, args))})")
+            ctx.fail(
+                f"Got unexpected extra argument{'s' if len(args) != 1 else ''} ({' '.join(map(str, args))})"
+            )
 
         ctx.args = args
         return args
@@ -165,7 +172,13 @@ def common_python(f):
 def common_config(f):
     """Model Configuration Arguments"""
     grp = "Model Physics & Settings"
-    f = click.option("--account", cls=GroupedOption, help_group=grp, default=None, help="Charge account to use when submitting jobs with SBATCH")(f)
+    f = click.option(
+        "--account",
+        cls=GroupedOption,
+        help_group=grp,
+        default=None,
+        help="Charge account to use when submitting jobs with SBATCH",
+    )(f)
     f = click.option(
         "--microphysics",
         cls=GroupedOption,
@@ -180,7 +193,9 @@ def common_config(f):
         cls=GroupedOption,
         help_group=grp,
         show_default=True,
-        type=click.Choice(["o1", "o2", "o3", "MOM5", "MOM6", "MIT"], case_sensitive=False),
+        type=click.Choice(
+            ["o1", "o2", "o3", "MOM5", "MOM6", "MIT"], case_sensitive=False
+        ),
         default="o2",
         help="Sets the ocean model",
     )(f)
@@ -203,9 +218,30 @@ def common_config(f):
     #     default="AMIP",
     #     help="GOCART emissions choice",
     # )(f)
-    f = click.option("--oserver/--nooserver", cls=GroupedOption, help_group=grp, show_default=True, default=True, help="Enable the IO server")(f)
-    f = click.option("--hydro/--nonhydro", cls=GroupedOption, help_group=grp, show_default=True, default=True, help="Enable/disable hydrostatic dynamics")(f)
-    f = click.option("--data_atmo/--no_data_atmo", cls=GroupedOption, help_group=grp, show_default=True, default=False, help="Use data atmosphere")(f)
+    f = click.option(
+        "--oserver/--nooserver",
+        cls=GroupedOption,
+        help_group=grp,
+        show_default=True,
+        default=True,
+        help="Enable the IO server",
+    )(f)
+    f = click.option(
+        "--hydro/--nonhydro",
+        cls=GroupedOption,
+        help_group=grp,
+        show_default=True,
+        default=True,
+        help="Enable/disable hydrostatic dynamics",
+    )(f)
+    f = click.option(
+        "--data_atmo/--no_data_atmo",
+        cls=GroupedOption,
+        help_group=grp,
+        show_default=True,
+        default=False,
+        help="Use data atmosphere",
+    )(f)
     f = click.option(
         "--land_bcs",
         cls=GroupedOption,
@@ -225,7 +261,11 @@ def common_config(f):
         help="Land Surface Model: Catchment (1) or CatchmentCN-CLM4.0 (2)",
     )(f)
     f = click.option(
-        "--heartbeat", cls=GroupedOption, help_group=grp, default=None, help="Seconds to set heartbeat to (default: 450s for BACM, resolution-dependent otherwise)"
+        "--heartbeat",
+        cls=GroupedOption,
+        help_group=grp,
+        default=None,
+        help="Seconds to set heartbeat to (default: 450s for BACM, resolution-dependent otherwise)",
     )(f)
     f = click.option(
         "--processor",
@@ -242,10 +282,36 @@ def common_config(f):
 def common_grid(f):
     """Grid Control: Resolution and grid decomposition"""
     grp = "Grid Resolution"
-    f = click.option("--horz", cls=GroupedOption, help_group=grp, required=True, help="Horizontal resolution (e.g. 48, 180, 360, 720)")(f)
-    f = click.option("--vert", cls=GroupedOption, help_group=grp, required=True, help="Vertical resolution (e.g. 72, 131, 137, 181)")(f)
-    f = click.option("--nx", cls=GroupedOption, help_group=grp, required=True, type=int, help="Number of MPI ranks in X")(f)
-    f = click.option("--ny", cls=GroupedOption, help_group=grp, required=True, type=int, help="Number of MPI ranks in Y (will be multiplied by face count later)")(f)
+    f = click.option(
+        "--horz",
+        cls=GroupedOption,
+        help_group=grp,
+        required=True,
+        help="Horizontal resolution (e.g. 48, 180, 360, 720)",
+    )(f)
+    f = click.option(
+        "--vert",
+        cls=GroupedOption,
+        help_group=grp,
+        required=True,
+        help="Vertical resolution (e.g. 72, 131, 137, 181)",
+    )(f)
+    f = click.option(
+        "--nx",
+        cls=GroupedOption,
+        help_group=grp,
+        required=True,
+        type=int,
+        help="Number of MPI ranks in X",
+    )(f)
+    f = click.option(
+        "--ny",
+        cls=GroupedOption,
+        help_group=grp,
+        required=True,
+        type=int,
+        help="Number of MPI ranks in Y (will be multiplied by face count later)",
+    )(f)
     return f
 
 
@@ -340,7 +406,6 @@ def run_GEOS():
     This replaces run_GEOS.py and dynamically manages single GCM/SCM experiments
     or EMIP experiment suites.
     """
-    pass
 
 
 @run_GEOS.command(cls=AllErrorsCommand)
@@ -369,8 +434,20 @@ def gcm(**kwargs):
 @run_GEOS.command(cls=AllErrorsCommand)
 @common_paths
 @common_python
-@click.option("--case", cls=GroupedOption, help_group="SCM Specific Options", required=True, help="SCM case/experiment name.")
-@click.option("--duration", cls=GroupedOption, help_group="Execution & Timing", type=int, help="Number of --duration_unit units to run (integer > 0).")
+@click.option(
+    "--case",
+    cls=GroupedOption,
+    help_group="SCM Specific Options",
+    required=True,
+    help="SCM case/experiment name.",
+)
+@click.option(
+    "--duration",
+    cls=GroupedOption,
+    help_group="Execution & Timing",
+    type=int,
+    help="Number of --duration_unit units to run (integer > 0).",
+)
 @click.option(
     "--duration_unit",
     cls=GroupedOption,
