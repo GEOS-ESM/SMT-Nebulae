@@ -308,10 +308,13 @@ class PatchGCMRUNJ(PipelineStep):
             f"   setenv GEOS_DSL_BACKEND {runner.args.backend or ''}\n"
             f"   setenv GT_CACHE_ROOT ${{GEOSDIR}}/.DSL_CACHE/{runner.args.backend.replace(":", "_")}\n"
             f"   setenv GT4PY_COMPILE_OPT_LEVEL {opt_level}\n"
+            f"{   'setenv NDSL_UNSAFE_MODE True\n' if opt_level == '3' else ''}"
             "   setenv NDSL_CONSTANTS GEOS\n"
             f"   setenv NDSL_LAYOUT {layout}\n"
             f"   setenv NDSL_LITERAL_PRECISION {precision}\n"
             f"   setenv GEOS_DSL_PYFV3_BACKEND {runner.args.backend or ''}\n"
+            "   setenv I_MPI_OFFLOAD 1"
+            "   setenv I_MPI_OFFLOAD_MODE cuda"
             "   setenv NDSL_LOGLEVEL INFO\n"
         )
 
