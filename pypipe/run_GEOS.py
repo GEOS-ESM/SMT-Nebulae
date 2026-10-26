@@ -66,7 +66,7 @@ class AllErrorsCommand(click.Command):
             param_order, self.get_params(ctx)
         ):
             try:
-                value, args = param.handle_parse_result(ctx, opts, args)
+                _value, args = param.handle_parse_result(ctx, opts, args)
             except click.exceptions.MissingParameter:
                 errors.append(self._format_missing(param, ctx))
             except click.exceptions.UsageError as e:
@@ -396,7 +396,7 @@ def emip_timing(f):
 # CLI Entry Points
 # ==============================================================================
 
-CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
+CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 
 
 @click.group(cls=CaseInsensitiveGroup, context_settings=CONTEXT_SETTINGS)

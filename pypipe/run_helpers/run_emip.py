@@ -68,9 +68,10 @@ class EMIPPatchCAPRC(PipelineStep):
             if not re.search(rf"JOB_SGMT:\s+{job_sgmt_formatted}", content):
                 missing_items.append("JOB_SGMT")
 
-        if num_segment is not None:
-            if not re.search(rf"NUM_SGMT:\s+{num_segment}", content):
-                missing_items.append("NUM_SGMT")
+        if num_segment is not None and not re.search(
+            rf"NUM_SGMT:\s+{num_segment}", content
+        ):
+            missing_items.append("NUM_SGMT")
 
         if missing_items:
             raise RuntimeError(

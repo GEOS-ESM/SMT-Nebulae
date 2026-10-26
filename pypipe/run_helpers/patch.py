@@ -29,13 +29,16 @@ class PatchCAPRC(PipelineStep):
 
         # We only strictly need cap_restart if we are 1. computing durations or checking bounds and 2. not using a custom restart.
         if (
-            getattr(runner.args, "duration", None)
-            or getattr(runner.args, "end_date", None)
-        ) and not runner.args.custom_restart:
-            if not os.path.exists(self.cap_restart_path):
-                raise FileNotFoundError(
-                    f"[GEOS PYTHON WRAPPER] {self.cap_restart_path} not found. Required for duration/end_date validation."
-                )
+            (
+                getattr(runner.args, "duration", None)
+                or getattr(runner.args, "end_date", None)
+            )
+            and not runner.args.custom_restart
+            and not os.path.exists(self.cap_restart_path)
+        ):
+            raise FileNotFoundError(
+                f"[GEOS PYTHON WRAPPER] {self.cap_restart_path} not found. Required for duration/end_date validation."
+            )
 
     def operate(self, runner: GCMRunner):
         self.computed_end_date = None
@@ -132,9 +135,10 @@ class PatchCAPRC(PipelineStep):
             if not re.search(rf"JOB_SGMT:\s+{job_sgmt_formatted}", content):
                 missing_items.append("JOB_SGMT")
 
-        if num_segment is not None:
-            if not re.search(rf"NUM_SGMT:\s+{num_segment}", content):
-                missing_items.append("NUM_SGMT")
+        if num_segment is not None and not re.search(
+            rf"NUM_SGMT:\s+{num_segment}", content
+        ):
+            missing_items.append("NUM_SGMT")
 
         if duration is not None or end_date is not None:
             if self.computed_end_date is None:
@@ -506,9 +510,8 @@ class PatchGCMRUNJ(PipelineStep):
         if not re.search(r'setenv RUN_CMD "mpirun -np "', content):
             missing_items.append("RUN_CMD")
 
-        if runner.backend_arch == "GPU":
-            if "$GPU_LAUNCHER_SH" not in content:
-                missing_items.append("GPU_LAUNCHER_SH")
+        if runner.backend_arch == "GPU" and "$GPU_LAUNCHER_SH" not in content:
+            missing_items.append("GPU_LAUNCHER_SH")
 
         if missing_items:
             raise RuntimeError(

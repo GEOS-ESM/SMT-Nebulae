@@ -10,11 +10,11 @@ class ExecuteGCM(PipelineStep):
         if (
             runner.args.execute_on in ["compute", "local"]
             and not runner.args.custom_restart
+            and not os.path.exists(os.path.join(runner.exp_dir, "gcm_run.j"))
         ):
-            if not os.path.exists(os.path.join(runner.exp_dir, "gcm_run.j")):
-                raise FileNotFoundError(
-                    "[GEOS PYTHON WRAPPER] gcm_run.j missing before execution. This file existed during previous patching step, but is now missing."
-                )
+            raise FileNotFoundError(
+                "[GEOS PYTHON WRAPPER] gcm_run.j missing before execution. This file existed during previous patching step, but is now missing."
+            )
 
     def operate(self, runner):
         if runner.args.custom_restart:
