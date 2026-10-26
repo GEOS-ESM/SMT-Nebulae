@@ -7,7 +7,8 @@ import sys
 from datetime import datetime
 from typing import TYPE_CHECKING
 
-from run_helpers.config import MACHINE, DurationHelper
+from run_helpers import config
+from run_helpers.config import DurationHelper
 from run_helpers.template import PipelineStep
 
 # only executes when linter is doing typechecking, avoids circular import error
@@ -248,42 +249,42 @@ class PatchGCMRUNJ(PipelineStep):
     def _compute_grid_decomposition(
         self, runner, oserver_nodes: int
     ) -> tuple[int, int, float]:
-        if MACHINE == "PRISM":
+        if config.MACHINE == "PRISM":
             tasks_per_node = 60
             required_nodes = math.ceil(
                 int(runner.args.nx) * int(runner.args.ny * 6) / tasks_per_node
                 + oserver_nodes
             )
             process_per_gpu = tasks_per_node
-        elif MACHINE == "DISCOVER" and runner.backend_arch == "CPU":
+        elif config.MACHINE == "DISCOVER" and runner.backend_arch == "CPU":
             tasks_per_node = 46 if runner.args.processor == "cas" else 126
             required_nodes = math.ceil(
                 int(runner.args.nx) * int(runner.args.ny * 6) / tasks_per_node
                 + oserver_nodes
             )
             process_per_gpu = tasks_per_node / 4
-        elif MACHINE == "DISCOVER":
+        elif config.MACHINE == "DISCOVER":
             tasks_per_node = 46
             required_nodes = math.ceil(
                 int(runner.args.nx) * int(runner.args.ny * 6) / tasks_per_node
                 + oserver_nodes
             )
             process_per_gpu = tasks_per_node / 4
-        elif MACHINE == "NONHPC":
+        elif config.MACHINE == "NONHPC":
             # numbers don't matter for non-HPC runs, so just set everything to 1
             tasks_per_node = 1
             required_nodes = 1
             process_per_gpu = 1
         else:
             sys.exit(
-                f"Error: unhandled combination MACHINE={MACHINE!r}, backend={runner.backend_arch!r}"
+                f"Error: unhandled combination MACHINE={config.MACHINE!r}, backend={runner.backend_arch!r}"
             )
         return tasks_per_node, required_nodes, process_per_gpu
 
     def _build_sbatch_block(
         self, runner, job_name: str, required_nodes: int, tasks_per_node: int, time: str
     ) -> str:
-        if MACHINE == "PRISM":
+        if config.MACHINE == "PRISM":
             return "\n".join(
                 [
                     f"#SBATCH --job-name={job_name}",
@@ -298,7 +299,7 @@ class PatchGCMRUNJ(PipelineStep):
                     "#SBATCH --no-requeue",
                 ]
             )
-        elif MACHINE == "DISCOVER" and runner.backend_arch == "CPU":
+        elif config.MACHINE == "DISCOVER" and runner.backend_arch == "CPU":
             return "\n".join(
                 [
                     f"#SBATCH --job-name={job_name}",
@@ -312,7 +313,7 @@ class PatchGCMRUNJ(PipelineStep):
                     "#SBATCH --no-requeue",
                 ]
             )
-        elif MACHINE == "DISCOVER" and runner.backend_arch == "GPU":
+        elif config.MACHINE == "DISCOVER" and runner.backend_arch == "GPU":
             return "\n".join(
                 [
                     f"#SBATCH --job-name={job_name}",
@@ -329,7 +330,7 @@ class PatchGCMRUNJ(PipelineStep):
                     "#SBATCH --no-requeue",
                 ]
             )
-        elif MACHINE == "NONHPC":
+        elif config.MACHINE == "NONHPC":
             # operate functions needs some sort of string for sbatch block
             return "\n".join(
                 [
@@ -343,7 +344,7 @@ class PatchGCMRUNJ(PipelineStep):
                 ]
             )
         sys.exit(
-            f"[GEOS PYTHON WRAPPER] Error: unhandled combination MACHINE={MACHINE!r}, backend={runner.backend_arch!r}"
+            f"[GEOS PYTHON WRAPPER] Error: unhandled combination MACHINE={config.MACHINE!r}, backend={runner.backend_arch!r}"
         )
 
     def _build_dsl_blocks(self, runner, process_per_gpu: float) -> tuple[str, str]:
@@ -356,7 +357,7 @@ class PatchGCMRUNJ(PipelineStep):
         precision = "32"
 
         gh200_block = ""
-        if MACHINE == "PRISM":
+        if config.MACHINE == "PRISM":
             gh200_block = (
                 "#######################################################################\n"
                 "#                          GH200 MPI configuration\n"
@@ -366,11 +367,11 @@ class PatchGCMRUNJ(PipelineStep):
             )
 
         gpu_mps_launcher_path = ""
-        if MACHINE == "DISCOVER":
+        if config.MACHINE == "DISCOVER":
             gpu_mps_launcher_path = (
                 "/discover/nobackup/projects/geosongpu/gpu_helpers/gpu_mps_launcher.sh"
             )
-        elif MACHINE == "PRISM":
+        elif config.MACHINE == "PRISM":
             gpu_mps_launcher_path = "/explore/nobackup/people/fgdeconi/work/git/geos_v11/experiments/gpu_mps_launcher.sh"
 
         pymodules = getattr(runner.args, "pymodules", [])

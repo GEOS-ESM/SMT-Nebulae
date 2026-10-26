@@ -1,0 +1,64 @@
+shared:
+  machine: &machine
+    machine:
+      type: string
+      enum: [DISCOVER, NONHPC, PRISM]
+      description: Machine profile used to configure setup and scheduler behavior.
+  paths: &paths
+    geos_dir: {type: string, description: GEOS installation bin directory.}
+    top_exp_dir: {type: string, description: Parent directory for generated experiments.}
+    execute_on: {type: string, description: Execution target.}
+  dsl: &dsl
+    pymodules:
+      type: array
+      items: string
+      description: DSL modules to enable.
+    backend: {type: string, description: DSL backend string.}
+  physics: &physics
+    account: {type: [string, "null"], description: Scheduler account.}
+    microphysics: {type: string, description: Microphysics scheme.}
+    ocean: {type: string, description: Ocean model.}
+    aerosols: {type: string, description: GOCART aerosol scheme.}
+    oserver: {type: boolean, description: Enable the IO server.}
+    hydro: {type: boolean, description: Enable hydrostatic dynamics.}
+    data_atmo: {type: boolean, description: Use a data atmosphere.}
+    land_bcs: {type: string, description: Land boundary condition version.}
+    land_surf:
+      type: string
+      enum: ["1", "2"]
+      description: Land surface model number.
+    heartbeat: {type: [string, integer, "null"], description: Heartbeat interval in seconds.}
+    processor: {type: string, description: Processor target.}
+  grid: &grid
+    horz: {type: string, description: Horizontal resolution.}
+    vert: {type: string, description: Vertical levels.}
+    nx: {type: integer, description: MPI ranks in X.}
+    ny: {type: integer, description: MPI ranks in Y per cube face.}
+  batch_timing: &batch_timing
+    job_segment: {type: [string, "null"], description: JOB_SGMT length in YYYYMMDDHHMMSS format.}
+    job_time: {type: string, description: Wall time limit in HH:MM:SS format.}
+    num_segment: {type: [integer, "null"], description: Number of job segment periods per submission.}
+
+commands:
+  gcm:
+    properties:
+      <<: [*machine, *paths, *dsl, *physics, *grid, *batch_timing]
+      end_date: {type: [string, "null"], description: Run end date in YYYYMMDDHHMMSS format.}
+      duration: {type: [integer, "null"], description: Run duration; mutually exclusive with end_date.}
+      duration_unit: {type: string, description: Duration unit.}
+      custom_restart: {type: boolean, description: Use manually supplied restarts.}
+  emip:
+    properties:
+      <<: [*machine, *paths, *dsl, *physics, *grid, *batch_timing]
+      duration: {type: integer, description: Number of months to run each member.}
+      start_year:
+        type: string
+        enum: ["1985", "1995", "2005"]
+        description: Start year for the selected 10-year ensemble.
+      season: {type: string, description: Starting season, DJF or JJA.}
+  scm:
+    properties:
+      <<: [*machine, *paths, *dsl]
+      case: {type: string, description: SCM case or experiment name.}
+      duration: {type: integer, description: Run duration.}
+      duration_unit: {type: string, description: Duration unit.}

@@ -4,7 +4,7 @@ import shutil
 import subprocess
 import sys
 
-from run_helpers.config import MACHINE
+from run_helpers import config
 from run_helpers.template import PipelineStep
 
 
@@ -24,13 +24,13 @@ class SetupDirectory(PipelineStep):
 
         print("[GEOS PYTHON WRAPPER] Initializing experiment directory...")
 
-        if MACHINE == "DISCOVER":
+        if config.MACHINE == "DISCOVER":
             setup_script_location = "/home/mathomp4/bin"
-        elif MACHINE == "PRISM":
+        elif config.MACHINE == "PRISM":
             raise NotImplementedError(
                 "[GEOS PYTHON WRAPPER] NEED TO POINT TO MATT'S SETUP SCRIPT ON PRISM"
             )
-        elif MACHINE == "NONHPC":
+        elif config.MACHINE == "NONHPC":
             setup_script_location = input(
                 "[GEOS PYTHON WRAPPER] Enter the path to TBC scripts directory:"
             )
@@ -82,7 +82,7 @@ class SetupDirectory(PipelineStep):
                 f"\n[GEOS PYTHON WRAPPER] create_expt.py failed (exit {e.returncode}): {last_line}\n"
                 f"[GEOS PYTHON WRAPPER]   cwd: {runner.args.geos_dir}"
             ) from None
-        if MACHINE == "LOCAL":
+        if config.MACHINE == "LOCAL":
             try:
                 subprocess.run(
                     [
@@ -150,11 +150,11 @@ class CopyRestarts(PipelineStep):
         }
         ocean_name = ocean_map.get(runner.args.ocean)
 
-        if MACHINE == "PRISM":
+        if config.MACHINE == "PRISM":
             self.restart_src = f"/explore/nobackup/projects/geos-gpu/data/HugeBCs-GitV10/rs/nc4/{ocean_name}/c{runner.args.horz}-L{runner.args.vert}-{runner.args.land_bcs}"
-        elif MACHINE == "DISCOVER":
+        elif config.MACHINE == "DISCOVER":
             self.restart_src = f"/discover/nobackup/mathomp4/Restarts-GitV12/nc4/{ocean_name}/c{runner.args.horz}-L{runner.args.vert}-{runner.args.land_bcs}"
-        elif MACHINE == "NONHPC":
+        elif config.MACHINE == "NONHPC":
             print(
                 "[GEOS PYTHON WRAPPER] Restart copying has already been handled by Tiny/HugeBC makeoneday scripts"
             )
@@ -181,7 +181,7 @@ class CopyRestarts(PipelineStep):
             current = next_path
 
     def operate(self, runner):
-        if MACHINE == "NONHPC":
+        if config.MACHINE == "NONHPC":
             return runner  # no copying needed for non-HPC machine, handled by makeoneday script
         if not runner.args.custom_restart:
             print(
