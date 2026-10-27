@@ -17,6 +17,9 @@ dependencies = [
 	"schema>=0.7.7",
 ]
 
+[project.scripts]
+pypipe_geos_exp = "run_GEOS:run_GEOS"
+
 [tool.setuptools]
 py-modules = ["run_GEOS"]
 
