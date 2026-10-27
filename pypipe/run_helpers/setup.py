@@ -37,6 +37,7 @@ class SetupDirectory(PipelineStep):
             runner.args.processor = "not applicable"
         try:
             print(f"selected ocean: {runner.args.ocean}")
+            print(f"Setups scripts at: {setup_script_location}")
             subprocess.run(
                 [
                     setup_script_location + "/create_expt.py",

@@ -30,8 +30,8 @@ shared:
     heartbeat: {type: [string, integer, "null"], description: Heartbeat interval in seconds.}
     processor: {type: string, description: Processor target.}
   grid: &grid
-    horz: {type: string, description: Horizontal resolution.}
-    vert: {type: string, description: Vertical levels.}
+    horz: {type: integer, description: Horizontal resolution.}
+    vert: {type: integer, description: Vertical levels.}
     nx: {type: integer, description: MPI ranks in X.}
     ny: {type: integer, description: MPI ranks in Y per cube face.}
   batch_timing: &batch_timing

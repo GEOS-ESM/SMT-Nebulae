@@ -50,8 +50,8 @@ SCM support is in process. More information for launching a SCM run will be incl
 Pass `--config` after the selected command to provide defaults from a YAML file:
 
 ```yaml
-horz: "180"
-vert: "72"
+horz: 180
+vert: 72
 nx: 20
 ny: 20
 duration: 1
@@ -67,7 +67,7 @@ backend: orch:dace:gpu:KJI
 python pypipe/run_GEOS.py gcm --config gcm.yaml --nx 24
 ```
 
-The document must be a flat mapping of option names to values for the selected command. Keys match the option names shown in the CLI (without `--`); values use the normal CLI types, including YAML booleans for paired flags and a YAML sequence for `pymodules`. Quote choice values that are numeric-looking strings, such as `horz`, `vert`, and `start_year`. Options not provided in YAML use their CLI defaults. A command-line option always overrides the corresponding YAML value. Unknown keys and keys unsupported by the selected command are errors.
+The document must be a flat mapping of option names to values for the selected command. Keys match the option names shown in the CLI (without `--`); values use the normal CLI types, including YAML booleans for paired flags and a YAML sequence for `pymodules`. Quote choice values that are numeric-looking strings, such as `start_year`. `horz` and `vert` are integers. Options not provided in YAML use their CLI defaults. A command-line option always overrides the corresponding YAML value. Unknown keys and keys unsupported by the selected command are errors.
 
 Use the optional `machine` key to select the machine profile used by setup and scheduler generation. Accepted values are `DISCOVER`, `PRISM`, and `NONHPC`; when omitted, the default is `NONHPC`.
 

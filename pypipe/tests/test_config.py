@@ -36,8 +36,8 @@ class ConfigTests(unittest.TestCase):
     def test_config_supplies_required_values_and_cli_overrides(self):
         result, runner_class = self.invoke_gcm(
             """
-horz: "180"
-vert: "72"
+horz: 180
+vert: 72
 nx: 10
 ny: 12
 duration: 1
@@ -80,7 +80,7 @@ execute_on: none
 
     def test_invalid_typed_value_is_reported(self):
         result, _ = self.invoke_gcm(
-            'horz: "180"\nvert: "72"\nnx: many\nny: 12\nduration: 1\n'
+            "horz: 180\nvert: 72\nnx: many\nny: 12\nduration: 1\n"
         )
 
         self.assertEqual(result.exit_code, 2)
@@ -94,7 +94,7 @@ execute_on: none
 
     def test_machine_config_sets_global_and_is_not_passed_to_runner(self):
         result, runner_class = self.invoke_gcm(
-            'machine: DISCOVER\nhorz: "180"\nvert: "72"\nnx: 10\nny: 12\nduration: 1\nexecute_on: none\n'
+            "machine: DISCOVER\nhorz: 180\nvert: 72\nnx: 10\nny: 12\nduration: 1\nexecute_on: none\n"
         )
 
         self.assertEqual(result.exit_code, 0, result.output)
@@ -102,13 +102,13 @@ execute_on: none
         self.assertNotIn("machine", runner_class.call_args.kwargs)
 
         self.invoke_gcm(
-            'horz: "180"\nvert: "72"\nnx: 10\nny: 12\nduration: 1\nexecute_on: none\n'
+            "horz: 180\nvert: 72\nnx: 10\nny: 12\nduration: 1\nexecute_on: none\n"
         )
         self.assertEqual(runtime_config.MACHINE, DEFAULT_MACHINE)
 
     def test_machine_cli_option_overrides_config(self):
         result, _ = self.invoke_gcm(
-            'machine: NONHPC\nhorz: "180"\nvert: "72"\nnx: 10\nny: 12\nduration: 1\nexecute_on: none\n',
+            "machine: NONHPC\nhorz: 180\nvert: 72\nnx: 10\nny: 12\nduration: 1\nexecute_on: none\n",
             "--machine",
             "DISCOVER",
         )
