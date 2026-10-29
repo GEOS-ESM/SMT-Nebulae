@@ -7,26 +7,26 @@ This guide is for you if you are crazy enough to try and run GEOS locally on you
 This guide uses [`spack`](https://spack.io/) to create an environment in which we will compile and run GEOS. We will assume a a fresh install of GEOS.
 
 - make sure you have [`rust`](https://rust-lang.org/) installed on your system
-  - if not present, `spack`  will try to build it from source which is absolute overkill and takes forever
+    - if not present, `spack`  will try to build it from source which is absolute overkill and takes forever
 - make sure you have `(t)csh` installed on your system
-  - you'll need `/bin/csh` to be there, otherwise `./gcm_run.j` and other csh files won't work
-  - if you see `bash: ./gcm_run.j: cannot execute: required file not found`, that can be a sign of a missing `csh` shell
+    - you'll need `/bin/csh` to be there, otherwise `./gcm_run.j` and other csh files won't work
+    - if you see `bash: ./gcm_run.j: cannot execute: required file not found`, that can be a sign of a missing `csh` shell
 - get `spack`
-  - check [their docs](https://spack.readthedocs.io/en/latest/) for guidance
-  - register system compilers: `spack compiler find`
-  - install other build tools as externals: `spack externals find`
-  - make sure you have a version of `rust` found as external
+    - check [their docs](https://spack.readthedocs.io/en/latest/) for guidance
+    - register system compilers: `spack compiler find`
+    - install other build tools as externals: `spack externals find`
+    - make sure you have a version of `rust` found as external
 - make a spack environment (based on [this `spack.yaml`](./geos_local/spack.yaml)
-  - `spack env create geos`
-  - "spack install from yaml" (there must be a way for this)
-  - if you don't have a GPU, don't build `openmpi` with `cuda` support
-  - if you have a GPU and cuda opens an xterm window and complains about `--tmpdir`
-    - fall back to `spack` version 1.1.1
-    - see https://github.com/spack/spack/issues/52521 for details
-  - if `cmake` complains about system `curl` (include dir not found)
-    - you might need to install `curl` or ssl development packages
-    - ubuntu: https://github.com/rapidsai/node/issues/124
-    - opensuse: https://forums.opensuse.org/t/packages-wont-install-on-opensuse-leap-15/175115
+    - `spack env create geos`
+    - "spack install from yaml" (there must be a way for this)
+    - if you don't have a GPU, don't build `openmpi` with `cuda` support
+    - if you have a GPU and cuda opens an xterm window and complains about `--tmpdir`
+        - fall back to `spack` version 1.1.1
+        - see https://github.com/spack/spack/issues/52521 for details
+    - if `cmake` complains about system `curl` (include dir not found)
+        - you might need to install `curl` or ssl development packages
+        - ubuntu: https://github.com/rapidsai/node/issues/124
+        - opensuse: https://forums.opensuse.org/t/packages-wont-install-on-opensuse-leap-15/175115
 
 ## Compile GEOS
 
@@ -34,28 +34,26 @@ With the above `spack` environment, you should have everything to compile and ru
 
 - activate the `spack` environment: `spack env activate -p geos`
 - setup [mepo](https://github.com/GEOS-ESM/mepo/) for blobless clones [1]
-  - `mepo config set clone.partial blobless`
-  - note: `mepo` is contained in the spack environment
-  - see https://github.com/GEOS-ESM/GEOSgcm#setting-up-mepo-to-use-blobless-clones for details
+    - `mepo config set clone.partial blobless`
+    - note: `mepo` is contained in the spack environment
+    - see https://github.com/GEOS-ESM/GEOSgcm#setting-up-mepo-to-use-blobless-clones for details
 - pull [geos](https://github.com/GEOS-ESM/GEOSgcm) (use a version tag, e.g. below we pull `v11.11.0`)
-  - `git clone -b v11.11.0 git@github.com:GEOS-ESM/GEOSgcm.git geos`
+    - `git clone -b v11.11.0 git@github.com:GEOS-ESM/GEOSgcm.git geos`
 - mepo clone things (inside `geos/`)
-  - `cd geos`
-  - `mepo clone --partial blobless`
+    - `cd geos`
+    - `mepo clone --partial blobless`
 - take [this cmake.sh](./geos_local/cmake.sh) and run it from inside `geos/`, e.g. `$ ./cmake.sh debug .`
-  - "debug" | "release" based on preference/needs
-  - build a `release` version if you run with more than 72 (vertical) levels
+    - "debug" | "release" based on preference/needs
+    - build a `release` version if you run with more than 72 (vertical) levels
 - take [this `make.sh`](./geos_local/make.sh) and run it from inside `geos/`, e.g. `$ ./make.sh debug .`
-  - "debug" | "release" based on preference/needs
-  - `-j 11` is the number of parallel build tasks. you might want to adapt that to your system's capabilities
+    - "debug" | "release" based on preference/needs
+    - `-j 11` is the number of parallel build tasks. you might want to adapt that to your system's capabilities
 
 ## Restart data
 
 To be able to run GEOS, you'll need so called "restart data". You can get that from [here](https://portal.nccs.nasa.gov/datashare/astg/smt/geos-fp/restarts/).
 
-The folder name of restarts, e.g. `TinyBCs-GitV12`, _cannot_ be changed. They are hard-coded / constructed from options in e.g. the `makeoneday.bash` script (see below).
-
-To be able to run from multiple restarts, we suggest to use a folder structure similar to this:
+The folder name of restarts, e.g. `TinyBCs-GitV12`, _cannot_ be changed. They are hard-coded / constructed from options in e.g. the `makeoneday.bash` script (see below). To be able to run from multiple restarts, we suggest to use a folder structure similar to this:
 
 ```none
 .
@@ -181,21 +179,21 @@ USE_PYFV3: .True.
 Then, drop the following in `gcm_run.j` to "activate" running with NDSL. There's a section "DSL configuration". Put it after the `PYTHONPATH` adjustment.
 
 ```bash
-   # TEMPORARY SOLUTION - ONLY HERE UNTIL FV3 SOURCE IS PROPERLY COPIED INTO INSTALL
-   setenv PYTHONPATH       ${GEOSDIR}/../src/Components/@GEOSgcm_GridComp/GEOSagcm_GridComp/GEOSsuperdyn_GridComp/@FVdycoreCubed_GridComp/python/interface:${GEOSDIR}/../src/Components/@GEOSgcm_GridComp/GEOSagcm_GridComp/GEOSsuperdyn_GridComp/@FVdycoreCubed_GridComp/python/@pyFV3:${PYTHONPATH}
+# TEMPORARY SOLUTION - ONLY HERE UNTIL FV3 SOURCE IS PROPERLY COPIED INTO INSTALL
+setenv PYTHONPATH       ${GEOSDIR}/../src/Components/@GEOSgcm_GridComp/GEOSagcm_GridComp/GEOSsuperdyn_GridComp/@FVdycoreCubed_GridComp/python/interface:${GEOSDIR}/../src/Components/@GEOSgcm_GridComp/GEOSagcm_GridComp/GEOSsuperdyn_GridComp/@FVdycoreCubed_GridComp/python/@pyFV3:${PYTHONPATH}
 
-   setenv PYTHONWARNINGS         "ignore"
-   setenv FV3_DACEMODE           BuildAndRun
-   setenv GEOS_DSL_BACKEND       orch:dace:cpu:KJI
-   setenv GT_CACHE_ROOT          $EXPDIR/.DSL_CACHE
-   setenv GT4PY_COMPILE_OPT_LEVEL 3
-   setenv NDSL_CONSTANTS         GEOS
-   setenv NDSL_LAYOUT            KJI
-   setenv NDSL_LITERAL_PRECISION 32
-   setenv GEOS_DSL_PYFV3_BACKEND orch:dace:cpu:KJI
-   setenv NDSL_LOGLEVEL          Debug
-   setenv PYFV3_TIME_CORE        True
-   setenv NDSL_UNSAFE_MODE       True
+setenv PYTHONWARNINGS         "ignore"
+setenv FV3_DACEMODE           BuildAndRun
+setenv GEOS_DSL_BACKEND       orch:dace:cpu:KJI
+setenv GT_CACHE_ROOT          $EXPDIR/.DSL_CACHE
+setenv GT4PY_COMPILE_OPT_LEVEL 3
+setenv NDSL_CONSTANTS         GEOS
+setenv NDSL_LAYOUT            KJI
+setenv NDSL_LITERAL_PRECISION 32
+setenv GEOS_DSL_PYFV3_BACKEND orch:dace:cpu:KJI
+setenv NDSL_LOGLEVEL          Debug
+setenv PYFV3_TIME_CORE        True
+setenv NDSL_UNSAFE_MODE       True
 ```
 
 Then, call `gcm_run.j` with `USE_DSL` enabled, e.g.
