@@ -42,12 +42,12 @@ With the above `spack` environment, you should have everything to compile and ru
 - mepo clone things (inside `geos/`)
   - `cd geos`
   - `mepo clone --partial blobless`
-- take [this cmake.sh](./geos_local/cmake.sh) and run it from inside `geos/`, e.g. `$ ./cmake.sh debug .` ("debug" | "release" depending on preference)
+- take [this cmake.sh](./geos_local/cmake.sh) and run it from inside `geos/`, e.g. `$ ./cmake.sh debug .`
+  - "debug" | "release" based on preference/needs
+  - build a `release` version if you run with more than 72 (vertical) levels
 - take [this `make.sh`](./geos_local/make.sh) and run it from inside `geos/`, e.g. `$ ./make.sh debug .`
-
-Notes
-
-- build a `release` version if you run with more than 72 (vertical) levels
+  - "debug" | "release" based on preference/needs
+  - `-j 11` is the number of parallel build tasks. you might want to adapt that to your system's capabilities
 
 ## Restart data
 
