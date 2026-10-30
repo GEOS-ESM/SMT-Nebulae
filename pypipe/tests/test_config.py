@@ -164,9 +164,10 @@ execute_on: none
             ):
                 SetupDirectory().operate(runner)
 
-        self.assertIn(
-            f"{setup_scripts}/create_expt.py", run.call_args_list[0].args[0]
-        )
+        create_expt_args = run.call_args_list[0].args[0]
+        self.assertIn(f"{setup_scripts}/create_expt.py", create_expt_args)
+        self.assertNotIn(None, create_expt_args)
+        self.assertNotIn("--account", create_expt_args)
         self.assertEqual(
             run.call_args_list[1].args[0][0], f"{setup_scripts}/makeoneday.bash"
         )

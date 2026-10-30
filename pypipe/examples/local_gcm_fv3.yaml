@@ -1,7 +1,8 @@
 machine: NONHPC
 geos_dir: /YOUR/MODEL/PATH/TO/install/bin
 top_exp_dir: /YOUR/MODEL/PATH/TO/EXP/DIR
-execute_on: local
+restart_setup_scripts_dir: /YOUR/RESTART/TBC_or_HBC/FOR/LOCAL/EXP/scripts
+execute_on: none
 
 horz: 24
 vert: 72

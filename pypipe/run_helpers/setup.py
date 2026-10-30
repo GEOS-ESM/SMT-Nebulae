@@ -43,8 +43,11 @@ class SetupDirectory(PipelineStep):
                     runner.exp_name,
                     "--expdir",
                     runner.exp_dir_root,
-                    "--account",
-                    runner.args.account,
+                    *(
+                        ["--account", runner.args.account]
+                        if runner.args.account is not None
+                        else []
+                    ),
                     "--horz",
                     f"c{runner.args.horz}",
                     "--vert",
