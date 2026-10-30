@@ -1,6 +1,7 @@
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from click.testing import CliRunner
@@ -15,6 +16,7 @@ from cli_options.config import (
 )
 from cli_options.machine import DEFAULT_MACHINE as CLI_DEFAULT_MACHINE
 from run_helpers import config as runtime_config
+from run_helpers.setup import SetupDirectory
 
 
 class ConfigTests(unittest.TestCase):
@@ -115,6 +117,60 @@ execute_on: none
 
         self.assertEqual(result.exit_code, 0, result.output)
         self.assertEqual(runtime_config.MACHINE, "DISCOVER")
+
+    def test_restart_tbc_is_passed_from_config_to_runner(self):
+        result, runner_class = self.invoke_gcm(
+            "restart_setup_scripts_dir: /path/to/TBC/scripts\nhorz: 180\nvert: 72\nnx: 10\nny: 12\nduration: 1\nexecute_on: none\n"
+        )
+
+        self.assertEqual(result.exit_code, 0, result.output)
+        self.assertEqual(
+            runner_class.call_args.kwargs["restart_setup_scripts_dir"],
+            "/path/to/TBC/scripts",
+        )
+
+    def test_restart_tbc_config_supplies_nonhpc_setup_scripts(self):
+        with TemporaryDirectory() as directory:
+            setup_scripts = str(Path(directory) / "TBC" / "scripts")
+            experiment_dir = str(Path(directory) / "experiment")
+            runner = SimpleNamespace(
+                args=SimpleNamespace(
+                    restart_setup_scripts_dir=setup_scripts,
+                    geos_dir=directory,
+                    microphysics="GFDL1M",
+                    ocean="o2",
+                    horz=24,
+                    vert=72,
+                    account=None,
+                    aerosols="C",
+                    land_bcs="v12",
+                    land_surf="1",
+                    processor="mil",
+                    oserver=True,
+                    hydro=True,
+                    data_atmo=False,
+                    heartbeat=None,
+                ),
+                exp_dir=experiment_dir,
+                exp_dir_root=directory,
+                exp_name="experiment",
+                env={},
+            )
+
+            with (
+                patch.object(runtime_config, "MACHINE", "NONHPC"),
+                patch("run_helpers.setup.subprocess.run") as run,
+                patch("builtins.input") as prompt,
+            ):
+                SetupDirectory().operate(runner)
+
+        self.assertIn(
+            f"{setup_scripts}/create_expt.py", run.call_args_list[0].args[0]
+        )
+        self.assertEqual(
+            run.call_args_list[1].args[0][0], f"{setup_scripts}/makeoneday.bash"
+        )
+        prompt.assert_not_called()
 
     def test_help_and_registry_cover_each_command(self):
         for command_name in ("gcm", "emip", "scm"):

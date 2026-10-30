@@ -23,6 +23,14 @@ def common_paths(function):
         help="Top level experiments directory (relative to current directory). A dynamically named directory for this experiment will be generated under this directory",
     )(function)
     function = click.option(
+        "--restart_setup_scripts_dir",
+        "restart_setup_scripts_dir",
+        cls=GroupedOption,
+        help_group=group,
+        default=None,
+        help="Optional path to the NONHPC TBC scripts directory; prompts when omitted",
+    )(function)
+    function = click.option(
         "--execute_on",
         cls=GroupedOption,
         help_group=group,

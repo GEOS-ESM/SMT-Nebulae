@@ -31,15 +31,14 @@ class SetupDirectory(PipelineStep):
                 "[GEOS PYTHON WRAPPER] NEED TO POINT TO MATT'S SETUP SCRIPT ON PRISM"
             )
         elif config.MACHINE == "NONHPC":
-            setup_script_location = input(
+            setup_script_location = runner.args.restart_setup_scripts_dir or input(
                 "[GEOS PYTHON WRAPPER] Enter the path to TBC scripts directory:"
             )
             runner.args.processor = "not applicable"
         try:
             print(f"selected ocean: {runner.args.ocean}")
             print(f"Setups scripts at: {setup_script_location}")
-            subprocess.run(
-                [
+            args = [
                     setup_script_location + "/create_expt.py",
                     runner.exp_name,
                     "--expdir",
@@ -70,7 +69,9 @@ class SetupDirectory(PipelineStep):
                         if runner.args.heartbeat
                         else []
                     ),
-                ],
+                ]
+            subprocess.run(
+                args,
                 cwd=runner.args.geos_dir,
                 env=runner.env,
                 check=True,

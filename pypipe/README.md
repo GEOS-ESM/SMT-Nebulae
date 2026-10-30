@@ -65,6 +65,7 @@ pymodules:
   - uw
   - gfdl1m
 backend: orch:dace:gpu:KJI
+restart_setup_scripts_dir: /path/to/TBC/scripts
 ```
 
 ```sh
@@ -87,6 +88,7 @@ The following options are shared between GCM, EMIP, and SCM modes:
 | --- | --- | --- |
 | `--geos_dir PATH` | `../model/install-release/bin` | GEOS install `bin` directory. Must exist. |
 | `--top_exp_dir PATH` | `./experiments` | Parent directory for generated experiments. |
+| `--restart_setup_scripts_dir PATH` | unset | Optional NONHPC TBC scripts directory, used instead of the interactive prompt. |
 | `--execute_on {compute,local,none}` | `compute` | Submit with `sbatch`, run in the current terminal, or set up without launching. |
 | `--machine {DISCOVER,NONHPC,PRISM}` | `NONHPC` | Machine profile for setup and scheduler behavior. |
 | `--pymodules MODULES` | none | Optional DSL modules: `gfdl1m`, `uw`, `gf2020`, `fv3`. Accepts comma-separated values or repeated flags. Use lowercase names. |

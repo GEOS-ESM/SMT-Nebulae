@@ -7,6 +7,7 @@ shared:
   paths: &paths
     geos_dir: {type: string, description: GEOS installation bin directory.}
     top_exp_dir: {type: string, description: Parent directory for generated experiments.}
+    restart_setup_scripts_dir: {type: [string, "null"], description: Optional NONHPC TBC scripts directory.}
     execute_on: {type: string, description: Execution target.}
   dsl: &dsl
     pymodules:
