@@ -1,0 +1,20 @@
+machine: NONHPC
+geos_dir: /YOUR/MODEL/PATH/TO/install/bin
+top_exp_dir: /YOUR/MODEL/PATH/TO/EXP/DIR
+restart_setup_scripts_dir: /YOUR/RESTART/TBC_or_HBC/FOR/LOCAL/EXP/scripts
+execute_on: none
+
+horz: 24
+vert: 72
+nx: 1
+ny: 1
+
+pymodules:
+  - fv3
+backend: orch:dace:cpu:KJI
+
+oserver: false
+hydro: false
+
+duration: 1
+duration_unit: days

@@ -49,6 +49,37 @@ SCM support is in process. More information for launching a SCM run will be incl
 
 ## pypipe Configuration Options
 
+### YAML config files
+
+Pass `--config` after the selected command to provide defaults from a YAML file:
+
+```yaml
+horz: 180
+vert: 72
+nx: 20
+ny: 20
+duration: 1
+duration_unit: days
+execute_on: none
+pymodules:
+  - uw
+  - gfdl1m
+backend: orch:dace:gpu:KJI
+restart_setup_scripts_dir: /path/to/TBC/scripts
+```
+
+```sh
+python pypipe/run_GEOS.py gcm --config gcm.yaml --nx 24
+```
+
+The document must be a flat mapping of option names to values for the selected command. Keys match the option names shown in the CLI (without `--`); values use the normal CLI types, including YAML booleans for paired flags and a YAML sequence for `pymodules`. Quote choice values that are numeric-looking strings, such as `start_year`. `horz` and `vert` are integers. Options not provided in YAML use their CLI defaults. A command-line option always overrides the corresponding YAML value. Unknown keys and keys unsupported by the selected command are errors.
+
+Use the optional `machine` key to select the machine profile used by setup and scheduler generation. Accepted values are `DISCOVER`, `PRISM`, and `NONHPC`; when omitted, the default is `NONHPC`.
+
+The same setting is available as `--machine {DISCOVER,NONHPC,PRISM}`. When both are supplied, the command-line value takes precedence.
+
+The packaged YAML schema is [`cli_options/config.schema.yaml`](cli_options/config.schema.yaml). Its `commands.gcm`, `commands.emip`, and `commands.scm` definitions validate the config shape and value types at runtime using the Python `schema` library; Click validates command-line choices. Click option declarations are grouped by semantic type in `pypipe/cli_options/`.
+
 ### Paths, Execution, and DSL
 
 The following options are shared between GCM, EMIP, and SCM modes:
@@ -57,7 +88,9 @@ The following options are shared between GCM, EMIP, and SCM modes:
 | --- | --- | --- |
 | `--geos_dir PATH` | `../model/install-release/bin` | GEOS install `bin` directory. Must exist. |
 | `--top_exp_dir PATH` | `./experiments` | Parent directory for generated experiments. |
+| `--restart_setup_scripts_dir PATH` | unset | Optional NONHPC TBC scripts directory, used instead of the interactive prompt. |
 | `--execute_on {compute,local,none}` | `compute` | Submit with `sbatch`, run in the current terminal, or set up without launching. |
+| `--machine {DISCOVER,NONHPC,PRISM}` | `NONHPC` | Machine profile for setup and scheduler behavior. |
 | `--pymodules MODULES` | none | Optional DSL modules: `gfdl1m`, `uw`, `gf2020`, `fv3`. Accepts comma-separated values or repeated flags. Use lowercase names. |
 | `--backend STRING` | `orch:dace:cpu:KJI` | Backend string, used when DSL modules are enabled. Common forms include `orch:dace:cpu:KJI`, `orch:dace:gpu:KJI`, `st:dace:cpu:KJI`, and `st:dace:gpu:KJI`. |
 
@@ -183,7 +216,7 @@ python pypipe/run_GEOS.py scm \
 ## Troubleshooting and implementation references
 
 - Run `python pypipe/run_GEOS.py <gcm|emip|scm> --help` for the options accepted by each command.
-- The CLI and option declarations are in [`run_GEOS.py`](run_GEOS.py).
+- Command wiring is in [`run_GEOS.py`](run_GEOS.py); option groups and the YAML config registry are in [`cli_options/`](cli_options/).
 - The GCM orchestration is in [`run_helpers/run_gcm.py`](run_helpers/run_gcm.py); setup and restart handling are in [`run_helpers/setup.py`](run_helpers/setup.py); patching is handled by [`run_helpers/patch.py`](run_helpers/patch.py); and execution is handled by [`run_helpers/execute.py`](run_helpers/execute.py).
 - EMIP orchestration and template edits are in [`run_helpers/run_emip.py`](run_helpers/run_emip.py).
 - SCM's current placeholder is in [`run_helpers/run_scm.py`](run_helpers/run_scm.py).
