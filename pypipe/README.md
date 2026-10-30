@@ -2,7 +2,9 @@
 
 `pypipe` is a Python/Click command-line wrapper for preparing and launching GEOS GCM experiments, preparing EMIP ensembles, and (eventually) setting up SCM cases. It is a script-based workflow, not a separately installed `pypipe` command. The entry point is [`run_GEOS.py`](run_GEOS.py); its GCM, EMIP, and SCM pipelines are implemented in [`run_helpers/`](run_helpers/). The system orchestrates the setup and execution of GEOS, but does *not* load HPC modules or install GEOS. It expects a version of GEOS has already been installed, and relies on external templates (from the GEOS installation) and setup script (both from GEOS and from the SI team). Future versions of `pypipe` will take over more of the setup process directly, and a sister system (`pycompile`) will handle the installation process.
 
-`pypipe` currently supports execution on Discover, PRISM, and "local" (non-HPC) machines; "local" can also be used for unsupported HPC machines.
+`pypipe` currently supports execution on Discover, PRISM, and non-HPC machines.
+
+`pypipe` supports three modes: GCM, EMIP, or SCM; all names are case-insensitive. 
 
 > **Status:** GCM and EMIP have setup/launch implementations, but depend on external GEOS setup scripts, generated GEOS templates, machine-specific data, and the current shell environment. SCM is a work in progress and does not create or run an experiment. Review the operational caveats below before launching jobs.
 
@@ -15,9 +17,7 @@ python pypipe/run_GEOS.py --help
 python pypipe/run_GEOS.py GCM --help
 ```
 
-`pypipe` supports three modes: GCM, EMIP, or SCM; all names are case-insensitive. Run it from the directory you want to use as the base for relative paths. By default, `--geos_dir` and `--top_exp_dir` are interpreted relative to the current working directory, though an absolute path can be specified to change this behavior.
-
-A GCM setup-only example (replace paths and settings for your installation):
+A GCM setup-only example (replace settings and paths for your installation):
 
 ```sh
 python pypipe/run_GEOS.py gcm \
@@ -28,7 +28,11 @@ python pypipe/run_GEOS.py gcm \
   --execute_on none --account YOUR_ACCOUNT
 ```
 
-This creates and patches files in the experiment directory to your desired configuration, but will not execute the experiment; `none` means do not execute/submit the GCM run. Check the generated files before changing to `--execute_on compute` (submit a slurm job) or `local` (run directory in the current terminal). Note that rerunning the same command will wipe the directory, so any manual changes made between `pypipe` runs will be lost.
+Run it from the directory you want to use as the base for relative paths. By default, `--geos_dir` and `--top_exp_dir` are interpreted relative to the current working directory, though an absolute path can be specified to change this behavior.
+
+This creates and patches files in the experiment directory to your desired configuration, but will not execute the experiment; specifying `--execute_on none` tell the system to generate the experiment without launching the model. Check the generated files before changing to `--execute_on compute` (submit a slurm job) or `local` (run directory in the current terminal, generally not recommended on HPC). Note that rerunning the same command subsequent times will wipe the directory, so any manual changes made between `pypipe` runs will be lost.
+
+Each mode has slightly different CLI. Be sure to check the options for a mode before attempting to create an experiment.
 
 ## How The System Works
 
@@ -39,7 +43,7 @@ For a GCM run, `pypipe` performs the following tasks:
 3. Patches generated files such as `CAP.rc`, `AGCM.rc`, and `gcm_run.j` using the selected duration, grid, physics, and DSL options.
 4. Launches `gcm_run.j`, if desired.
 
-An EMIP suite uses the same experiment setup and common configuration, applies additional edits to `gcm_emip.setup` and `gcm_run.j`, and runs the EMIP setup script. That script generates batch commands; `compute` submits them, while `none` prepares the batch files without submitting them. `local` execution is not supported in this mode, as an ensemble cannot be run on a single node.
+An EMIP suite follows the same steps, with a few changes: additional patches are made to `gcm_emip.setup` and `gcm_run.j`; gcm_emip.setup is executed; a separate gcm_run.j (with file name format gcm_run.jYYYYMM) is executed for each year instead of the standard gcm_run.j.
 
 SCM support is in process. More information for launching a SCM run will be included in future versions.
 

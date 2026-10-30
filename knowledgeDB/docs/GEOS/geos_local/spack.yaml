@@ -1,0 +1,94 @@
+# This is a Spack Environment file.
+#
+# It describes a set of packages to be installed, along with
+# configuration settings.
+spack:
+  # add package specs to the `specs` list
+  specs:
+  - python@3.13
+  - openmpi@5+cuda
+  - py-numpy@2
+  - py-mpi4py
+  - py-pyyaml
+  - py-cffi
+  - py-uv
+  - esmf %c,cxx=gcc
+  - fargparse
+  - zlib
+  - mepo
+  - udunits
+  - blas
+  - lapack
+  - pflogger+mpi
+  - cmake
+  - fms@2024.03+deprecated_io~gfs_phys+openmp+pic constants=GEOS precision=32,64 %c=gcc
+  - hdf5+fortran+hl+mpi+threadsafe
+  - py-click
+  - bc
+  - colordiff
+  view: true
+  concretizer:
+    unify: true
+  packages:
+    openssl:
+      externals:
+      - spec: openssl@3.6.1
+        prefix: /home/romanc/spack/var/spack/environments/geos2/.spack-env/view
+    diffutils:
+      externals: []
+    git:
+      externals: []
+    findutils:
+      externals: []
+    perl:
+      externals: []
+    m4:
+      externals:
+      - spec: m4@1.4.21
+        prefix: /home/romanc/spack/var/spack/environments/geos2/.spack-env/view
+    cmake:
+      externals:
+      - spec: cmake@3.31.11
+        prefix: /home/romanc/spack/var/spack/environments/geos/.spack-env/view
+    pkgconf:
+      externals: []
+    groff:
+      externals: []
+    automake:
+      externals: []
+    zlib:
+      externals: []
+    tar:
+      externals: []
+    gawk:
+      externals: []
+    sed:
+      externals: []
+    rust:
+      externals: []
+    ninja:
+      externals: []
+    python:
+      externals:
+      - spec: python@3.13.13+bz2+ctypes+dbm~freethreading+lzma+pyexpat+pythoncmd+readline+sqlite3+ssl~tkinter+uuid+zlib
+        prefix: /home/romanc/spack/var/spack/environments/geos2/.spack-env/view
+    openssh:
+      externals: []
+    gettext:
+      externals:
+      - spec: gettext@1.0
+        prefix: /home/romanc/spack/var/spack/environments/geos2/.spack-env/view
+    coreutils:
+      externals: []
+    gmake:
+      externals: []
+    autoconf:
+      externals: []
+    curl:
+      externals:
+      - spec: curl@8.20.0+nghttp2
+        prefix: /home/romanc/spack/var/spack/environments/geos2/.spack-env/view
+    gcc:
+      externals: []
+    llvm:
+      externals: []

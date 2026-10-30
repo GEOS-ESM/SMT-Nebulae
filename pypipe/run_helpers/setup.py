@@ -83,7 +83,7 @@ class SetupDirectory(PipelineStep):
                 f"\n[GEOS PYTHON WRAPPER] create_expt.py failed (exit {e.returncode}): {last_line}\n"
                 f"[GEOS PYTHON WRAPPER]   cwd: {runner.args.geos_dir}"
             ) from None
-        if config.MACHINE == "LOCAL":
+        if config.MACHINE == "NONHPC":
             try:
                 subprocess.run(
                     [
