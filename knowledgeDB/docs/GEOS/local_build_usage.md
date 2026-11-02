@@ -126,6 +126,19 @@ By default, scripts setup an experiment that runs on 96 (MPI) ranks. To run on o
 
 `AGCM.rc` is in your experiment folder, e.g. it should be in `geos/build-experiments/experiment_one/AGCM.rc`.
 
+#### Running one timestep instead of one day
+
+By default, `makeoneday.bash` generates a configuration where GEOS runs for a day. You can change that by editing `CAP.rc`. Set `JOB_SGMT` to one second longer than `HARDBEAT_DT`, e.g.
+
+```diff
+-JOB_SGMT:     00000001 000000
++JOB_SGMT:     00000000 002001
+NUM_SGMT:     1
+HEARTBEAT_DT:       1200
+```
+
+The format of `JOB_SGMT` is `YYYYMMDD HHMMSS` and `HEARTBEAT_DT` is in seconds.
+
 #### Running non-hydrostatic
 
 Apparently, the `--nonhydro` flag isn't respected in `create_expt.py`. You'll have to change `hydrostatic` to `.false.` in `fvcore_layout.rc`, e.g.
