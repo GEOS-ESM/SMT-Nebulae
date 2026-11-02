@@ -61,3 +61,15 @@ With the `spack` environment and serialbox, you now have everything to compile G
     - call `ndsl-serialbox_to_netcdf [flags] path/to/experiment/scratch/serialized_data [output_dir]`
     - assuming a c24 run with `NX=1` and `NY=6`, pass the following flags `--npx 25 --npy 25 --layout 1 1 --grid-type 0`
     - the output directory `[output_dir]` doesn't need to exist yet
+    - for the translate test system, store an `input.nml` with grid type and layout in `[output_dir]` (see below)
+
+Assuming a C24 / L181 run with `NX=1` / `NY=6`, the `input.nml` to be stored with your serialized data looks like this:
+
+```nml
+&fv_core_nml
+ grid_type = 0
+ layout = (1, 1)
+ npx = 25
+ npy = 25
+ npz = 181
+```
