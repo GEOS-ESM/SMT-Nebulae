@@ -46,9 +46,13 @@ class PatchGCMRUNJTests(unittest.TestCase):
             updated = self.patcher._patch_dsl_block(DSL_TEMPLATE, runner, 11.5)
 
         self.assertIn("# ensure Python path is correct", updated)
-        self.assertIn("# PYFV3 cannot currently support KJI backends, so force IJK", updated)
+        self.assertIn(
+            "# PYFV3 cannot currently support KJI backends, so force IJK", updated
+        )
         self.assertIn("setenv GEOS_DSL_BACKEND orch:dace:cpu:KJI", updated)
-        self.assertIn("setenv GT_CACHE_ROOT ${GEOSDIR}/.DSL_CACHE/orch_dace_cpu_KJI", updated)
+        self.assertIn(
+            "setenv GT_CACHE_ROOT ${GEOSDIR}/.DSL_CACHE/orch_dace_cpu_KJI", updated
+        )
         self.assertNotIn("NDSL_LAYOUT", updated)
         self.assertNotIn("@pyFV3", updated)
         self.assertNotIn("I_MPI_OFFLOAD", updated)

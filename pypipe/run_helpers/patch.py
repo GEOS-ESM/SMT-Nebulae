@@ -24,15 +24,22 @@ class PatchCAPRC(PipelineStep):
         self.cap_restart_path = os.path.join(runner.exp_dir, "cap_restart")
 
         if not os.path.exists(self.cap_rc_path):
-            raise FileNotFoundError(f"[GEOS PYTHON WRAPPER] {self.cap_rc_path} not found.")
+            raise FileNotFoundError(
+                f"[GEOS PYTHON WRAPPER] {self.cap_rc_path} not found."
+            )
 
         # We only strictly need cap_restart if we are 1. computing durations or checking bounds and 2. not using a custom restart.
         if (
-            (getattr(runner.args, "duration", None) or getattr(runner.args, "end_date", None))
+            (
+                getattr(runner.args, "duration", None)
+                or getattr(runner.args, "end_date", None)
+            )
             and not runner.args.custom_restart
             and not os.path.exists(self.cap_restart_path)
         ):
-            raise FileNotFoundError(f"[GEOS PYTHON WRAPPER] {self.cap_restart_path} not found. Required for duration/end_date validation.")
+            raise FileNotFoundError(
+                f"[GEOS PYTHON WRAPPER] {self.cap_restart_path} not found. Required for duration/end_date validation."
+            )
 
     def operate(self, runner: GCMRunner):
         self.computed_end_date = None
@@ -43,8 +50,15 @@ class PatchCAPRC(PipelineStep):
         duration_unit = getattr(runner.args, "duration_unit", None)
         end_date = getattr(runner.args, "end_date", None)
 
-        if job_segment is None and num_segment is None and duration is None and end_date is None:
-            print("[GEOS PYTHON WRAPPER] All timing options are unspecified; CAP.rc will remain unchanged.")
+        if (
+            job_segment is None
+            and num_segment is None
+            and duration is None
+            and end_date is None
+        ):
+            print(
+                "[GEOS PYTHON WRAPPER] All timing options are unspecified; CAP.rc will remain unchanged."
+            )
             return runner
 
         with open(self.cap_rc_path, "r") as f:
@@ -53,10 +67,14 @@ class PatchCAPRC(PipelineStep):
         if job_segment is not None:
             job_segment_str = str(job_segment)
             job_sgmt_formatted = f"{job_segment_str[:8]} {job_segment_str[8:]}"
-            content = re.sub(r"JOB_SGMT:\s+\d+\s+\d+", f"JOB_SGMT:     {job_sgmt_formatted}", content)
+            content = re.sub(
+                r"JOB_SGMT:\s+\d+\s+\d+", f"JOB_SGMT:     {job_sgmt_formatted}", content
+            )
 
         if num_segment is not None:
-            content = re.sub(r"NUM_SGMT:\s+\d+", f"NUM_SGMT:     {num_segment}", content)
+            content = re.sub(
+                r"NUM_SGMT:\s+\d+", f"NUM_SGMT:     {num_segment}", content
+            )
 
         if end_date:
             end_date_formatted = f"{end_date[:8]} {end_date[8:]}"
@@ -66,7 +84,9 @@ class PatchCAPRC(PipelineStep):
                 cap_dt = datetime.strptime(raw, "%Y%m%d %H%M%S")
                 end_dt = datetime.strptime(end_date_formatted, "%Y%m%d %H%M%S")
                 if end_dt <= cap_dt:
-                    raise ValueError(f"[GEOS PYTHON WRAPPER] --end_date ({end_date_formatted}) must be after the cap_restart date ({raw}).")
+                    raise ValueError(
+                        f"[GEOS PYTHON WRAPPER] --end_date ({end_date_formatted}) must be after the cap_restart date ({raw})."
+                    )
 
             content = re.sub(
                 r"END_DATE:\s+\d{8}\s+\d{6}",
@@ -99,7 +119,12 @@ class PatchCAPRC(PipelineStep):
         end_date = getattr(runner.args, "end_date", None)
 
         # if no modifications were requested, we don't need to validate anything
-        if job_segment is None and num_segment is None and duration is None and end_date is None:
+        if (
+            job_segment is None
+            and num_segment is None
+            and duration is None
+            and end_date is None
+        ):
             return
 
         with open(self.cap_rc_path, "r") as f:
@@ -111,24 +136,34 @@ class PatchCAPRC(PipelineStep):
             if not re.search(rf"JOB_SGMT:\s+{job_sgmt_formatted}", content):
                 missing_items.append("JOB_SGMT")
 
-        if num_segment is not None and not re.search(rf"NUM_SGMT:\s+{num_segment}", content):
+        if num_segment is not None and not re.search(
+            rf"NUM_SGMT:\s+{num_segment}", content
+        ):
             missing_items.append("NUM_SGMT")
 
         if duration is not None or end_date is not None:
             if self.computed_end_date is None:
-                raise ValueError("[GEOS PYTHON WRAPPER] Validation failed: expected_end_date was returned as None.")
-            if not re.search(rf"END_DATE:\s+{re.escape(self.computed_end_date)}", content):
+                raise ValueError(
+                    "[GEOS PYTHON WRAPPER] Validation failed: expected_end_date was returned as None."
+                )
+            if not re.search(
+                rf"END_DATE:\s+{re.escape(self.computed_end_date)}", content
+            ):
                 missing_items.append("END_DATE")
 
         if missing_items:
-            raise RuntimeError(f"[GEOS PYTHON WRAPPER] CAP.rc validation failed! Missing expected values for: {', '.join(missing_items)}.")
+            raise RuntimeError(
+                f"[GEOS PYTHON WRAPPER] CAP.rc validation failed! Missing expected values for: {', '.join(missing_items)}."
+            )
 
 
 class PatchAGCMRC(PipelineStep):
     def validate_inputs(self, runner: GCMRunner):
         self.agcm_rc_path = os.path.join(runner.exp_dir, "AGCM.rc")
         if not os.path.exists(self.agcm_rc_path):
-            raise FileNotFoundError(f"[GEOS PYTHON WRAPPER] {self.agcm_rc_path} not found.")
+            raise FileNotFoundError(
+                f"[GEOS PYTHON WRAPPER] {self.agcm_rc_path} not found."
+            )
 
     def operate(self, runner: GCMRunner):
         with open(self.agcm_rc_path, "r") as f:
@@ -179,11 +214,15 @@ class PatchAGCMRC(PipelineStep):
             "fv3": "USE_PYFV3",
         }
         for m in runner.args.pymodules:
-            if m in flags_map and not re.search(rf"{flags_map[m]}:\s*\.TRUE\.", content):
+            if m in flags_map and not re.search(
+                rf"{flags_map[m]}:\s*\.TRUE\.", content
+            ):
                 missing_items.append(flags_map[m])
 
         if missing_items:
-            raise RuntimeError(f"[GEOS PYTHON WRAPPER] AGCM.rc validation failed! Missing expected values for: {', '.join(missing_items)}.")
+            raise RuntimeError(
+                f"[GEOS PYTHON WRAPPER] AGCM.rc validation failed! Missing expected values for: {', '.join(missing_items)}."
+            )
 
 
 class PatchGCMRUNJ(PipelineStep):
@@ -191,26 +230,45 @@ class PatchGCMRUNJ(PipelineStep):
         self.gcm_run_j_path = os.path.join(runner.exp_dir, "gcm_run.j")
         self.agcm_rc_path = os.path.join(runner.exp_dir, "AGCM.rc")
         if not os.path.exists(self.gcm_run_j_path):
-            raise FileNotFoundError(f"[GEOS PYTHON WRAPPER] {self.gcm_run_j_path} not found.")
+            raise FileNotFoundError(
+                f"[GEOS PYTHON WRAPPER] {self.gcm_run_j_path} not found."
+            )
         if not os.path.exists(self.agcm_rc_path):
-            raise FileNotFoundError(f"[GEOS PYTHON WRAPPER] {self.agcm_rc_path} not found.")
+            raise FileNotFoundError(
+                f"[GEOS PYTHON WRAPPER] {self.agcm_rc_path} not found."
+            )
 
     def _get_observer_nodes(self) -> int:
         with open(self.agcm_rc_path, "r") as f:
-            return int(re.search(r"^\s*IOSERVER_NODES:\s*(\d+)", f.read(), re.MULTILINE).group(1))
+            return int(
+                re.search(r"^\s*IOSERVER_NODES:\s*(\d+)", f.read(), re.MULTILINE).group(
+                    1
+                )
+            )
 
-    def _compute_grid_decomposition(self, runner, oserver_nodes: int) -> tuple[int, int, float]:
+    def _compute_grid_decomposition(
+        self, runner, oserver_nodes: int
+    ) -> tuple[int, int, float]:
         if config.MACHINE == "PRISM":
             tasks_per_node = 60
-            required_nodes = math.ceil(int(runner.args.nx) * int(runner.args.ny * 6) / tasks_per_node + oserver_nodes)
+            required_nodes = math.ceil(
+                int(runner.args.nx) * int(runner.args.ny * 6) / tasks_per_node
+                + oserver_nodes
+            )
             process_per_gpu = tasks_per_node
         elif config.MACHINE == "DISCOVER" and runner.backend_arch == "CPU":
             tasks_per_node = 46 if runner.args.processor == "cas" else 126
-            required_nodes = math.ceil(int(runner.args.nx) * int(runner.args.ny * 6) / tasks_per_node + oserver_nodes)
+            required_nodes = math.ceil(
+                int(runner.args.nx) * int(runner.args.ny * 6) / tasks_per_node
+                + oserver_nodes
+            )
             process_per_gpu = tasks_per_node / 4
         elif config.MACHINE == "DISCOVER":
             tasks_per_node = 46
-            required_nodes = math.ceil(int(runner.args.nx) * int(runner.args.ny * 6) / tasks_per_node + oserver_nodes)
+            required_nodes = math.ceil(
+                int(runner.args.nx) * int(runner.args.ny * 6) / tasks_per_node
+                + oserver_nodes
+            )
             process_per_gpu = tasks_per_node / 4
         elif config.MACHINE == "NONHPC":
             # numbers don't matter for non-HPC runs, so just set everything to 1
@@ -218,10 +276,14 @@ class PatchGCMRUNJ(PipelineStep):
             required_nodes = 1
             process_per_gpu = 1
         else:
-            sys.exit(f"Error: unhandled combination MACHINE={config.MACHINE!r}, backend={runner.backend_arch!r}")
+            sys.exit(
+                f"Error: unhandled combination MACHINE={config.MACHINE!r}, backend={runner.backend_arch!r}"
+            )
         return tasks_per_node, required_nodes, process_per_gpu
 
-    def _build_sbatch_block(self, runner, job_name: str, required_nodes: int, tasks_per_node: int, time: str) -> str:
+    def _build_sbatch_block(
+        self, runner, job_name: str, required_nodes: int, tasks_per_node: int, time: str
+    ) -> str:
         if config.MACHINE == "PRISM":
             return "\n".join(
                 [
@@ -281,13 +343,21 @@ class PatchGCMRUNJ(PipelineStep):
                     "#SBATCH --output output.log",
                 ]
             )
-        sys.exit(f"[GEOS PYTHON WRAPPER] Error: unhandled combination MACHINE={config.MACHINE!r}, backend={runner.backend_arch!r}")
+        sys.exit(
+            f"[GEOS PYTHON WRAPPER] Error: unhandled combination MACHINE={config.MACHINE!r}, backend={runner.backend_arch!r}"
+        )
 
     @staticmethod
-    def _set_dsl_environment(block: str, name: str, value: str, additions: list[str]) -> str:
+    def _set_dsl_environment(
+        block: str, name: str, value: str, additions: list[str]
+    ) -> str:
         """Update a template assignment, or queue a missing setting for the end."""
-        pattern = re.compile(rf"^([ \t]*)setenv[ \t]+{re.escape(name)}\b[^\n]*$", re.MULTILINE)
-        block, replacements = pattern.subn(lambda match: f"{match.group(1)}setenv {name} {value}", block)
+        pattern = re.compile(
+            rf"^([ \t]*)setenv[ \t]+{re.escape(name)}\b[^\n]*$", re.MULTILINE
+        )
+        block, replacements = pattern.subn(
+            lambda match: f"{match.group(1)}setenv {name} {value}", block
+        )
         if replacements:
             return block
 
@@ -303,10 +373,14 @@ class PatchGCMRUNJ(PipelineStep):
             flags=re.MULTILINE,
         )
 
-    def _patch_dsl_block(self, block: str, runner: GCMRunner, process_per_gpu: float) -> str:
+    def _patch_dsl_block(
+        self, block: str, runner: GCMRunner, process_per_gpu: float
+    ) -> str:
         gpu_mps_launcher_path = ""
         if config.MACHINE == "DISCOVER":
-            gpu_mps_launcher_path = "/discover/nobackup/projects/geosongpu/gpu_helpers/gpu_mps_launcher.sh"
+            gpu_mps_launcher_path = (
+                "/discover/nobackup/projects/geosongpu/gpu_helpers/gpu_mps_launcher.sh"
+            )
         elif config.MACHINE == "PRISM":
             gpu_mps_launcher_path = "/explore/nobackup/people/fgdeconi/work/git/geos_v11/experiments/gpu_mps_launcher.sh"
 
@@ -322,7 +396,9 @@ class PatchGCMRUNJ(PipelineStep):
                 r"^([ \t]*)setenv[ \t]+PYTHONPATH[ \t]+[^\n]*@pyFV3:[^\n]*\$\{PYTHONPATH\}[^\n]*$",
                 re.MULTILINE,
             )
-            fv3_pythonpath_assignment = f"setenv PYTHONPATH       {fv3_pythonpath}${{PYTHONPATH}}"
+            fv3_pythonpath_assignment = (
+                f"setenv PYTHONPATH       {fv3_pythonpath}${{PYTHONPATH}}"
+            )
             if fv3_pythonpath_pattern.search(block):
                 block = fv3_pythonpath_pattern.sub(
                     lambda match: f"{match.group(1)}{fv3_pythonpath_assignment}",
@@ -377,7 +453,9 @@ class PatchGCMRUNJ(PipelineStep):
 
         if config.MACHINE == "DISCOVER" and runner.backend_arch == "GPU":
             block = self._set_dsl_environment(block, "I_MPI_OFFLOAD", "1", additions)
-            block = self._set_dsl_environment(block, "I_MPI_OFFLOAD_MODE", "cuda", additions)
+            block = self._set_dsl_environment(
+                block, "I_MPI_OFFLOAD_MODE", "cuda", additions
+            )
         else:
             block = self._remove_dsl_environment(block, "I_MPI_OFFLOAD")
             block = self._remove_dsl_environment(block, "I_MPI_OFFLOAD_MODE")
@@ -385,7 +463,9 @@ class PatchGCMRUNJ(PipelineStep):
         if additions:
             final_endif = list(re.finditer(r"^[ \t]*endif[ \t]*$", block, re.MULTILINE))
             if not final_endif:
-                raise RuntimeError("[GEOS PYTHON WRAPPER] Could not find the end of the DSL configuration block.")
+                raise RuntimeError(
+                    "[GEOS PYTHON WRAPPER] Could not find the end of the DSL configuration block."
+                )
             insert_at = final_endif[-1].start()
             custom_arguments = "   # Custom arguments\n" + "\n".join(additions) + "\n"
             block = f"{block[:insert_at]}{custom_arguments}{block[insert_at:]}"
@@ -394,10 +474,14 @@ class PatchGCMRUNJ(PipelineStep):
 
     def operate(self, runner: GCMRunner):
         oserver_nodes = self._get_observer_nodes()
-        tasks_per_node, required_nodes, process_per_gpu = self._compute_grid_decomposition(runner, oserver_nodes)
+        tasks_per_node, required_nodes, process_per_gpu = (
+            self._compute_grid_decomposition(runner, oserver_nodes)
+        )
 
         job_name = os.path.basename(runner.exp_dir)
-        sbatch_block = self._build_sbatch_block(runner, job_name, required_nodes, tasks_per_node, runner.args.job_time)
+        sbatch_block = self._build_sbatch_block(
+            runner, job_name, required_nodes, tasks_per_node, runner.args.job_time
+        )
 
         with open(self.gcm_run_j_path, "r") as f:
             content = f.read()
@@ -410,7 +494,9 @@ class PatchGCMRUNJ(PipelineStep):
         )
 
         if batch_pattern.search(content):
-            content = batch_pattern.sub(r"\g<1>\n" + sbatch_block + r"\n\n\g<2>", content)
+            content = batch_pattern.sub(
+                r"\g<1>\n" + sbatch_block + r"\n\n\g<2>", content
+            )
         else:
             full_batch_block = (
                 "#######################################################################\n"
@@ -420,7 +506,12 @@ class PatchGCMRUNJ(PipelineStep):
             )
             if content.startswith("#!"):
                 shebang_end = content.find("\n") + 1
-                content = content[:shebang_end] + "\n" + full_batch_block + content[shebang_end:]
+                content = (
+                    content[:shebang_end]
+                    + "\n"
+                    + full_batch_block
+                    + content[shebang_end:]
+                )
             else:
                 content = full_batch_block + "\n" + content
 
@@ -442,8 +533,12 @@ class PatchGCMRUNJ(PipelineStep):
                     "[GEOS PYTHON WRAPPER] Could not find the DSL configuration section in gcm_run.j. You are likely running a version of GEOS that was released before the DSL was introduced."
                 )
 
-            dsl_block = self._patch_dsl_block(dsl_match.group(), runner, process_per_gpu)
-            content = content[: dsl_match.start()] + dsl_block + content[dsl_match.end() :]
+            dsl_block = self._patch_dsl_block(
+                dsl_match.group(), runner, process_per_gpu
+            )
+            content = (
+                content[: dsl_match.start()] + dsl_block + content[dsl_match.end() :]
+            )
 
             if config.MACHINE == "PRISM" and "GH200 MPI configuration" not in content:
                 gh200_block = (
@@ -457,10 +552,14 @@ class PatchGCMRUNJ(PipelineStep):
                 if current_dsl_match is not None:
                     insert_at = current_dsl_match.start()
                     content = content[:insert_at] + gh200_block + content[insert_at:]
-        content = content.replace('setenv RUN_CMD "$GEOSBIN/esma_mpirun -np "', 'setenv RUN_CMD "mpirun -np "')
+        content = content.replace(
+            'setenv RUN_CMD "$GEOSBIN/esma_mpirun -np "', 'setenv RUN_CMD "mpirun -np "'
+        )
 
         # turn off TSE_TMPDIR
-        content = content.replace("set USE_TSE_TMPDIR = TRUE", "set USE_TSE_TMPDIR = FALSE")
+        content = content.replace(
+            "set USE_TSE_TMPDIR = TRUE", "set USE_TSE_TMPDIR = FALSE"
+        )
 
         if runner.backend_arch == "GPU":
             content = content.replace(
@@ -491,4 +590,6 @@ class PatchGCMRUNJ(PipelineStep):
             missing_items.append("GPU_LAUNCHER_SH")
 
         if missing_items:
-            raise RuntimeError(f"[GEOS PYTHON WRAPPER] gcm_run.j validation failed! Missing values for: {', '.join(missing_items)}.")
+            raise RuntimeError(
+                f"[GEOS PYTHON WRAPPER] gcm_run.j validation failed! Missing values for: {', '.join(missing_items)}."
+            )
