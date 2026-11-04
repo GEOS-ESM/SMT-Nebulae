@@ -39,40 +39,40 @@ class SetupDirectory(PipelineStep):
             print(f"selected ocean: {runner.args.ocean}")
             print(f"Setups scripts at: {setup_script_location}")
             args = [
-                    setup_script_location + "/create_expt.py",
-                    runner.exp_name,
-                    "--expdir",
-                    runner.exp_dir_root,
-                    *(
-                        ["--account", runner.args.account]
-                        if runner.args.account is not None
-                        else []
-                    ),
-                    "--horz",
-                    f"c{runner.args.horz}",
-                    "--vert",
-                    str(runner.args.vert),
-                    "--gocart",
-                    runner.args.aerosols,
-                    "--moist",
-                    microphysics,
-                    "--ocean",
-                    runner.args.ocean,
-                    "--landbcs",
-                    runner.args.land_bcs,
-                    "--landsurf",
-                    str(runner.args.land_surf),
-                    "--model",
-                    runner.args.processor,
-                    *(["--oserver"] if runner.args.oserver else ["--nooserver"]),
-                    *(["--hydro"] if runner.args.hydro else ["--nonhydro"]),
-                    *(["--dataatm"] if runner.args.data_atmo else []),
-                    *(
-                        ["--heartbeat", str(runner.args.heartbeat)]
-                        if runner.args.heartbeat
-                        else []
-                    ),
-                ]
+                setup_script_location + "/create_expt.py",
+                runner.exp_name,
+                "--expdir",
+                runner.exp_dir_root,
+                *(
+                    ["--account", runner.args.account]
+                    if runner.args.account is not None
+                    else []
+                ),
+                "--horz",
+                f"c{runner.args.horz}",
+                "--vert",
+                str(runner.args.vert),
+                "--gocart",
+                runner.args.aerosols,
+                "--moist",
+                microphysics,
+                "--ocean",
+                runner.args.ocean,
+                "--landbcs",
+                runner.args.land_bcs,
+                "--landsurf",
+                str(runner.args.land_surf),
+                "--model",
+                runner.args.processor,
+                *(["--oserver"] if runner.args.oserver else ["--nooserver"]),
+                *(["--hydro"] if runner.args.hydro else ["--nonhydro"]),
+                *(["--dataatm"] if runner.args.data_atmo else []),
+                *(
+                    ["--heartbeat", str(runner.args.heartbeat)]
+                    if runner.args.heartbeat
+                    else []
+                ),
+            ]
             subprocess.run(
                 args,
                 cwd=runner.args.geos_dir,
