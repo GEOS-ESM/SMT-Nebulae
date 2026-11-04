@@ -18,6 +18,24 @@ CONFIG_OPTIONS = {
 DEFAULT_MACHINE = runtime_config.MACHINE
 
 
+def read_config_values(config_path, param):
+    """Load a flat YAML option mapping and report config-file errors via Click."""
+    try:
+        config_values = yaml.safe_load(Path(config_path).read_text(encoding="utf-8"))
+    except OSError as error:
+        raise click.BadParameter(f"cannot read config file: {error}", param=param)
+    except yaml.YAMLError as error:
+        raise click.BadParameter(f"invalid YAML: {error}", param=param)
+
+    if config_values is None:
+        config_values = {}
+    if not isinstance(config_values, dict):
+        raise click.BadParameter("the YAML document must be a mapping", param=param)
+    if any(not isinstance(key, str) for key in config_values):
+        raise click.BadParameter("all YAML option names must be strings", param=param)
+    return config_values
+
+
 def _type_schema(type_name):
     if isinstance(type_name, list):
         return Or(*(_type_schema(item) for item in type_name))
@@ -59,21 +77,15 @@ def load_config(ctx, param, config_path):
         runtime_config.MACHINE = runtime_config.DEFAULT_MACHINE
         return None
 
-    try:
-        config_values = yaml.safe_load(Path(config_path).read_text(encoding="utf-8"))
-    except OSError as error:
-        raise click.BadParameter(f"cannot read config file: {error}", param=param)
-    except yaml.YAMLError as error:
-        raise click.BadParameter(f"invalid YAML: {error}", param=param)
-
-    if config_values is None:
-        config_values = {}
-    if not isinstance(config_values, dict):
-        raise click.BadParameter("the YAML document must be a mapping", param=param)
-    if any(not isinstance(key, str) for key in config_values):
-        raise click.BadParameter("all YAML option names must be strings", param=param)
+    config_values = read_config_values(config_path, param)
 
     command_name = ctx.command.name.lower()
+    declared_mode = config_values.pop("mode", None)
+    if declared_mode is not None and declared_mode != command_name.upper():
+        raise click.BadParameter(
+            f"mode {declared_mode!r} does not match the selected {command_name.upper()} command",
+            param=param,
+        )
     allowed_options = CONFIG_OPTIONS[command_name]
     command_options = {
         option.name for option in ctx.command.params if option.name != "config_path"

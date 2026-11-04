@@ -72,6 +72,53 @@ execute_on: none
         self.assertEqual(result.exit_code, 0, result.output)
         self.assertFalse(runner_class.call_args.kwargs["link"])
 
+    def test_config_mode_dispatches_without_subcommand_and_cli_overrides_link(self):
+        with TemporaryDirectory() as directory:
+            config_path = Path(directory) / "emip.yaml"
+            config_path.write_text(
+                """mode: EMIP
+execute_on: none
+horz: 180
+vert: 72
+nx: 20
+ny: 20
+start_year: "2005"
+season: DJF
+duration: 12
+link: false
+""",
+                encoding="utf-8",
+            )
+            with patch.object(run_GEOS, "EMIPRunner") as runner_class:
+                result = self.runner.invoke(
+                    run_GEOS.run_GEOS,
+                    ["--config", str(config_path), "--link"],
+                )
+
+        self.assertEqual(result.exit_code, 0, result.output)
+        self.assertEqual(runner_class.call_args.kwargs["mode"], "EMIP")
+        self.assertTrue(runner_class.call_args.kwargs["link"])
+        runner_class.return_value.run.assert_called_once_with()
+
+    def test_config_mode_must_match_explicit_subcommand(self):
+        result, _ = self.invoke_gcm(
+            "mode: EMIP\nhorz: 180\nvert: 72\nnx: 10\nny: 12\nduration: 1\n"
+        )
+
+        self.assertEqual(result.exit_code, 2)
+        self.assertIn("does not match the selected GCM command", result.output)
+
+    def test_config_without_command_requires_mode(self):
+        with TemporaryDirectory() as directory:
+            config_path = Path(directory) / "settings.yaml"
+            config_path.write_text("execute_on: none\n", encoding="utf-8")
+            result = self.runner.invoke(
+                run_GEOS.run_GEOS, ["--config", str(config_path)]
+            )
+
+        self.assertEqual(result.exit_code, 2)
+        self.assertIn("top-level mode: GCM, EMIP, or SCM is required", result.output)
+
     def test_unknown_option_is_rejected_before_required_option_checks(self):
         result, _ = self.invoke_gcm("typo: value\n")
 

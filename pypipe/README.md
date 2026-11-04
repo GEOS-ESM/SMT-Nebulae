@@ -22,9 +22,9 @@ pypipe_geos_exp SCM --help
 
 If the console command is unavailable, direct source invocation is a valid fallback from the repository root: use `python pypipe/run_GEOS.py ...` (or `python run_GEOS.py ...` from the `pypipe` directory). Use uppercase mode names with this entry point too.
 
-**Current CLI limitation:** each mode invocation currently needs `--config` to avoid a config-loader error, even if all settings are supplied as command-line options. A valid empty YAML mapping (`{}`) is sufficient when using only CLI options. Help commands do not need a config file. This is a workaround for the current implementation.
+Mode-specific commands still accept options in the usual way, for example `pypipe_geos_exp EMIP --config emip.yaml --link`. Alternatively, put a top-level `mode: EMIP` in the YAML file and omit the mode command: `pypipe_geos_exp --config emip.yaml --link`. In this form, put mode-specific settings in YAML; root-level CLI overrides such as `--link` are supported and take precedence over YAML. The explicit `GCM`, `EMIP`, or `SCM` command form remains available, and a `mode` key in that config must match the command.
 
-Save `{}` in `gcm.yaml`, then run a GCM setup-only example (replace settings and paths for your installation):
+Run a GCM setup-only example (replace settings and paths for your installation):
 
 ```sh
 pypipe_geos_exp GCM \
@@ -63,6 +63,7 @@ SCM support is in process. More information for launching a SCM run will be incl
 Pass `--config` after the selected command to provide defaults from a YAML file:
 
 ```yaml
+mode: GCM # Required only when omitting the GCM/EMIP/SCM command.
 horz: 180
 vert: 72
 nx: 20
@@ -81,7 +82,7 @@ restart_setup_scripts_dir: /path/to/TBC/scripts
 pypipe_geos_exp GCM --config gcm.yaml --nx 24
 ```
 
-The document must be a flat mapping of option names to values for the selected command. Keys match the option names shown in the CLI (without `--`); values use the normal CLI types, including YAML booleans for paired flags and a YAML sequence for `pymodules`. Quote choice values that are numeric-looking strings, such as `start_year`. `horz` and `vert` must be integers in YAML (the CLI accepts them as text). Options not provided in YAML use their CLI defaults. A command-line option always overrides the corresponding YAML value. Unknown keys and keys unsupported by the selected command are errors. An empty mapping (`{}`) is valid when all options are supplied on the command line.
+The document must be a flat mapping of option names to values for the selected command. Keys match the option names shown in the CLI (without `--`); values use the normal CLI types, including YAML booleans for paired flags and a YAML sequence for `pymodules`. Quote choice values that are numeric-looking strings, such as `start_year`. `horz` and `vert` must be integers in YAML (the CLI accepts them as text). Options not provided in YAML use their CLI defaults. A command-line option always overrides the corresponding YAML value. Add a top-level `mode` value (`GCM`, `EMIP`, or `SCM`) to choose the mode without a command line argument. Unlike other fields, the system will raise an error when mode is supplied at the command line and in the yaml, and the two mismatch.  Unknown keys and keys unsupported by the selected command are errors. An empty mapping (`{}`) is valid when all options are supplied on the command line alongside an explicit mode command.
 
 Use the optional `machine` key to select the machine profile used by setup and scheduler generation. Accepted values are `DISCOVER`, `PRISM`, and `NONHPC`; when omitted, the default is `NONHPC`. `PRISM` setup is currently unimplemented; `DISCOVER` relies on hard-coded site paths, so confirm those paths are valid for your account.
 

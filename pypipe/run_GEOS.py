@@ -1,9 +1,11 @@
 """Set up, prep, and submit a single GCM or SCM experiment, or an EMIP suite."""
 
+from pathlib import Path
+
 import click
 
 from cli_options.click_support import AllErrorsCommand
-from cli_options.config import config_option
+from cli_options.config import config_option, read_config_values
 from cli_options.dsl import common_python
 from cli_options.emip import emip_options
 from cli_options.gcm import gcm_options
@@ -24,13 +26,55 @@ from run_helpers.run_scm import SCMRunner
 CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 
 
-@click.group(context_settings=CONTEXT_SETTINGS)
-def run_GEOS():
+@click.group(context_settings=CONTEXT_SETTINGS, invoke_without_command=True)
+@click.option(
+    "--config",
+    "config_path",
+    type=click.Path(exists=True, dir_okay=False, readable=True, path_type=Path),
+    help="YAML config containing a top-level mode (GCM, EMIP, or SCM).",
+)
+@click.option(
+    "--link/--no_link",
+    default=None,
+    help="Override the config's executable link setting.",
+)
+@click.pass_context
+def run_GEOS(ctx, config_path, link):
     """Set up and submit GEOS experiments.
 
     This replaces run_GEOS.py and dynamically manages single GCM/SCM experiments
     or EMIP experiment suites.
     """
+    if ctx.invoked_subcommand is not None:
+        if config_path is not None or link is not None:
+            raise click.UsageError(
+                "When specifying a mode command, put --config and --link after the command."
+            )
+        return
+
+    if config_path is None:
+        click.echo(ctx.get_help())
+        return
+
+    config_values = read_config_values(config_path, "config")
+    mode = config_values.get("mode")
+    if not isinstance(mode, str) or mode not in ("GCM", "EMIP", "SCM"):
+        raise click.BadParameter(
+            "a top-level mode: GCM, EMIP, or SCM is required when no command is given",
+            param_hint="--config",
+        )
+
+    command = ctx.command.get_command(ctx, mode)
+    child_args = ["--config", str(config_path)]
+    if link is True:
+        child_args.append("--link")
+    elif link is False:
+        child_args.append("--no_link")
+    return command.main(
+        args=child_args,
+        prog_name=f"{ctx.command_path} {mode}",
+        standalone_mode=False,
+    )
 
 
 @run_GEOS.command("GCM", cls=AllErrorsCommand)
