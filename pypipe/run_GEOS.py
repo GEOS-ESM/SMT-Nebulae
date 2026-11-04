@@ -2,7 +2,7 @@
 
 import click
 
-from cli_options.click_support import AllErrorsCommand, CaseInsensitiveGroup
+from cli_options.click_support import AllErrorsCommand
 from cli_options.config import config_option
 from cli_options.dsl import common_python
 from cli_options.emip import emip_options
@@ -24,7 +24,7 @@ from run_helpers.run_scm import SCMRunner
 CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 
 
-@click.group(cls=CaseInsensitiveGroup, context_settings=CONTEXT_SETTINGS)
+@click.group(context_settings=CONTEXT_SETTINGS)
 def run_GEOS():
     """Set up and submit GEOS experiments.
 
@@ -33,7 +33,7 @@ def run_GEOS():
     """
 
 
-@run_GEOS.command(cls=AllErrorsCommand)
+@run_GEOS.command("GCM", cls=AllErrorsCommand)
 @common_grid
 @gcm_timing
 @common_experiment_setup
@@ -50,7 +50,7 @@ def gcm(**kwargs):
     runner.run()
 
 
-@run_GEOS.command(cls=AllErrorsCommand)
+@run_GEOS.command("SCM", cls=AllErrorsCommand)
 @common_experiment_setup
 @common_machine
 @common_python
@@ -66,7 +66,7 @@ def scm(**kwargs):
     runner.run()
 
 
-@run_GEOS.command(cls=AllErrorsCommand)
+@run_GEOS.command("EMIP", cls=AllErrorsCommand)
 @common_grid
 @emip_timing
 @common_experiment_setup

@@ -31,7 +31,7 @@ class ConfigTests(unittest.TestCase):
             with patch.object(run_GEOS, "GCMRunner") as runner_class:
                 result = self.runner.invoke(
                     run_GEOS.run_GEOS,
-                    ["gcm", "--config", str(config_path), *arguments],
+                    ["GCM", "--config", str(config_path), *arguments],
                 )
         return result, runner_class
 
@@ -91,9 +91,7 @@ execute_on: none
         self.assertIn("document must be a mapping", result.output)
 
     def test_invalid_typed_value_is_reported(self):
-        result, _ = self.invoke_gcm(
-            "horz: 180\nvert: 72\nnx: many\nny: 12\nduration: 1\n"
-        )
+        result, _ = self.invoke_gcm("horz: 180\nvert: 72\nnx: many\nny: 12\nduration: 1\n")
 
         self.assertEqual(result.exit_code, 2)
         self.assertIn("invalid gcm config", result.output)
@@ -105,17 +103,13 @@ execute_on: none
             COMMAND_VALIDATORS["gcm"].validate({"nx": "20"})
 
     def test_machine_config_sets_global_and_is_not_passed_to_runner(self):
-        result, runner_class = self.invoke_gcm(
-            "machine: DISCOVER\nhorz: 180\nvert: 72\nnx: 10\nny: 12\nduration: 1\nexecute_on: none\n"
-        )
+        result, runner_class = self.invoke_gcm("machine: DISCOVER\nhorz: 180\nvert: 72\nnx: 10\nny: 12\nduration: 1\nexecute_on: none\n")
 
         self.assertEqual(result.exit_code, 0, result.output)
         self.assertEqual(runtime_config.MACHINE, "DISCOVER")
         self.assertNotIn("machine", runner_class.call_args.kwargs)
 
-        self.invoke_gcm(
-            "horz: 180\nvert: 72\nnx: 10\nny: 12\nduration: 1\nexecute_on: none\n"
-        )
+        self.invoke_gcm("horz: 180\nvert: 72\nnx: 10\nny: 12\nduration: 1\nexecute_on: none\n")
         self.assertEqual(runtime_config.MACHINE, DEFAULT_MACHINE)
 
     def test_machine_cli_option_overrides_config(self):
@@ -129,9 +123,7 @@ execute_on: none
         self.assertEqual(runtime_config.MACHINE, "DISCOVER")
 
     def test_restart_tbc_is_passed_from_config_to_runner(self):
-        result, runner_class = self.invoke_gcm(
-            "restart_setup_scripts_dir: /path/to/TBC/scripts\nhorz: 180\nvert: 72\nnx: 10\nny: 12\nduration: 1\nexecute_on: none\n"
-        )
+        result, runner_class = self.invoke_gcm("restart_setup_scripts_dir: /path/to/TBC/scripts\nhorz: 180\nvert: 72\nnx: 10\nny: 12\nduration: 1\nexecute_on: none\n")
 
         self.assertEqual(result.exit_code, 0, result.output)
         self.assertEqual(
@@ -183,28 +175,27 @@ execute_on: none
         self.assertNotIn(None, create_expt_args)
         self.assertNotIn("--account", create_expt_args)
         self.assertIn("--link", create_expt_args)
-        self.assertEqual(
-            run.call_args_list[1].args[0][0], f"{setup_scripts}/makeoneday.bash"
-        )
+        self.assertEqual(run.call_args_list[1].args[0][0], f"{setup_scripts}/makeoneday.bash")
         prompt.assert_not_called()
 
     def test_help_and_registry_cover_each_command(self):
-        for command_name in ("gcm", "emip", "scm"):
+        for command_name in ("GCM", "EMIP", "SCM"):
             with self.subTest(command=command_name):
-                result = self.runner.invoke(
-                    run_GEOS.run_GEOS, [command_name.upper(), "--help"]
-                )
+                result = self.runner.invoke(run_GEOS.run_GEOS, [command_name, "--help"])
                 command = run_GEOS.run_GEOS.get_command(None, command_name)
-                parameter_names = {
-                    parameter.name
-                    for parameter in command.params
-                    if parameter.name != "config_path"
-                }
+                parameter_names = {parameter.name for parameter in command.params if parameter.name != "config_path"}
 
                 self.assertEqual(result.exit_code, 0, result.output)
                 self.assertIn("--config FILE", result.output)
                 self.assertIn("--machine", result.output)
-                self.assertEqual(CONFIG_OPTIONS[command_name], parameter_names)
+                self.assertEqual(CONFIG_OPTIONS[command_name.lower()], parameter_names)
+
+    def test_mode_names_require_uppercase(self):
+        for command_name in ("gcm", "emip", "scm"):
+            with self.subTest(command=command_name):
+                result = self.runner.invoke(run_GEOS.run_GEOS, [command_name, "--help"])
+                self.assertEqual(result.exit_code, 2)
+                self.assertIn("No such command", result.output)
 
 
 if __name__ == "__main__":

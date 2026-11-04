@@ -4,7 +4,7 @@
 
 Machine profiles are selected explicitly; the wrapper does not detect the host. `NONHPC` and `DISCOVER` have setup paths with machine-specific prerequisites. `PRISM` is a recognized option but setup currently stops with `NotImplementedError`.
 
-`pypipe` supports three modes: GCM, EMIP, or SCM; all names are case-insensitive. 
+`pypipe` supports three modes: `GCM`, `EMIP`, and `SCM`. Mode names are case-sensitive and must be uppercase.
 
 > **Status:** GCM and EMIP have setup/launch implementations, but depend on external GEOS setup scripts, generated GEOS templates, machine-specific data, and the current shell environment. SCM is a work in progress and does not create or run an experiment. Review the operational caveats below before launching jobs.
 
@@ -15,19 +15,19 @@ From the repository root, install the package into the Python 3.12+ environment 
 ```sh
 python -m pip install ./pypipe
 pypipe_geos_exp --help
-pypipe_geos_exp gcm --help
-pypipe_geos_exp emip --help
-pypipe_geos_exp scm --help
+pypipe_geos_exp GCM --help
+pypipe_geos_exp EMIP --help
+pypipe_geos_exp SCM --help
 ```
 
-If the console command is unavailable, direct source invocation is a valid fallback from the repository root: use `python pypipe/run_GEOS.py ...` (or `python run_GEOS.py ...` from the `pypipe` directory).
+If the console command is unavailable, direct source invocation is a valid fallback from the repository root: use `python pypipe/run_GEOS.py ...` (or `python run_GEOS.py ...` from the `pypipe` directory). Use uppercase mode names with this entry point too.
 
 **Current CLI limitation:** each mode invocation currently needs `--config` to avoid a config-loader error, even if all settings are supplied as command-line options. A valid empty YAML mapping (`{}`) is sufficient when using only CLI options. Help commands do not need a config file. This is a workaround for the current implementation.
 
-Save `{}` in a config file (for example `gcm.yaml`; use a corresponding filename for EMIP or SCM), then run a GCM setup-only example (replace settings and paths for your installation):
+Save `{}` in `gcm.yaml`, then run a GCM setup-only example (replace settings and paths for your installation):
 
 ```sh
-pypipe_geos_exp gcm \
+pypipe_geos_exp GCM \
   --config gcm.yaml \
   --horz 180 --vert 72 --nx 20 --ny 20 \
   --duration 1 --duration_unit days \
@@ -78,7 +78,7 @@ restart_setup_scripts_dir: /path/to/TBC/scripts
 ```
 
 ```sh
-pypipe_geos_exp gcm --config gcm.yaml --nx 24
+pypipe_geos_exp GCM --config gcm.yaml --nx 24
 ```
 
 The document must be a flat mapping of option names to values for the selected command. Keys match the option names shown in the CLI (without `--`); values use the normal CLI types, including YAML booleans for paired flags and a YAML sequence for `pymodules`. Quote choice values that are numeric-looking strings, such as `start_year`. `horz` and `vert` must be integers in YAML (the CLI accepts them as text). Options not provided in YAML use their CLI defaults. A command-line option always overrides the corresponding YAML value. Unknown keys and keys unsupported by the selected command are errors. An empty mapping (`{}`) is valid when all options are supplied on the command line.
@@ -144,7 +144,7 @@ GCM and EMIP require all four grid arguments:
 GCM creates one experiment and optionally runs it.
 
 ```sh
-pypipe_geos_exp gcm \
+pypipe_geos_exp GCM \
   --config gcm.yaml \
   --horz 180 --vert 72 --nx 20 --ny 20 \
   --duration 1 --duration_unit days \
@@ -168,7 +168,7 @@ Provide exactly one of `--duration` or `--end_date`:
 Example with an explicit end date:
 
 ```sh
-pypipe_geos_exp gcm \
+pypipe_geos_exp GCM \
   --config gcm.yaml \
   --horz 180 --vert 72 --nx 20 --ny 20 \
   --end_date 20260120000000 \
@@ -195,7 +195,7 @@ EMIP prepares an ensemble using the generated `gcm_emip.setup` configuration and
 Example to prepare the ensemble without submitting jobs:
 
 ```sh
-pypipe_geos_exp emip \
+pypipe_geos_exp EMIP \
   --config emip.yaml \
   --horz 180 --vert 72 --nx 20 --ny 20 \
   --start_year 2005 --season DJF --duration 3 \
@@ -205,7 +205,7 @@ pypipe_geos_exp emip \
 For a NONHPC setup, the example config [`examples/nonhpc_emip.yaml`](examples/nonhpc_emip.yaml) includes the machine profile, paths, grid, and EMIP settings. Replace its placeholder paths, then run from the `pypipe` directory (or adjust the config path if running elsewhere):
 
 ```sh
-pypipe_geos_exp emip --config examples/nonhpc_emip.yaml
+pypipe_geos_exp EMIP --config examples/nonhpc_emip.yaml
 ```
 
 EMIP does not support `--execute_on local`; it exits with an error. With `--execute_on none`, including for the NONHPC example above, the wrapper still creates and patches the experiment and runs `gcm_emip.setup` to generate batch files, but does not submit the `sbatch` commands. Review those files before submitting them manually.
@@ -217,7 +217,7 @@ EMIP does not support `--execute_on local`; it exits with an error. With `--exec
 SCM accepts `--case`, `--duration`, and `--duration_unit`, as well as the shared path, execution, and DSL options:
 
 ```sh
-pypipe_geos_exp scm \
+pypipe_geos_exp SCM \
   --config scm.yaml \
   --case CASE_NAME --duration 1 --duration_unit days \
   --execute_on none
@@ -236,7 +236,7 @@ pypipe_geos_exp scm \
 
 ## Troubleshooting and implementation references
 
-- Run `pypipe_geos_exp <gcm|emip|scm> --help` for the options accepted by each command. Directly invoking `run_GEOS.py` is a supported source fallback, but the installed command is the intended interface.
+- Run `pypipe_geos_exp <GCM|EMIP|SCM> --help` for the options accepted by each command. Directly invoking `run_GEOS.py` is a supported source fallback, but the installed command is the intended interface.
 - Command wiring is in [`run_GEOS.py`](run_GEOS.py); option groups and the YAML config registry are in [`cli_options/`](cli_options/).
 - The GCM orchestration is in [`run_helpers/run_gcm.py`](run_helpers/run_gcm.py); setup and restart handling are in [`run_helpers/setup.py`](run_helpers/setup.py); patching is handled by [`run_helpers/patch.py`](run_helpers/patch.py); and execution is handled by [`run_helpers/execute.py`](run_helpers/execute.py).
 - EMIP orchestration and template edits are in [`run_helpers/run_emip.py`](run_helpers/run_emip.py).
