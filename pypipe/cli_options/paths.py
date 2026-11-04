@@ -24,7 +24,6 @@ def common_paths(function):
     )(function)
     function = click.option(
         "--restart_setup_scripts_dir",
-        "restart_setup_scripts_dir",
         cls=GroupedOption,
         help_group=group,
         default=None,
