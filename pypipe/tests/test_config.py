@@ -60,7 +60,17 @@ execute_on: none
         self.assertEqual(arguments["backend"], "orch:dace:cpu:KJI")
         self.assertEqual(arguments["pymodules"], ("uw", "gfdl1m"))
         self.assertEqual(arguments["duration_unit"], "days")
+        self.assertTrue(arguments["link"])
         runner_class.return_value.run.assert_called_once_with()
+
+    def test_link_can_be_disabled_from_cli(self):
+        result, runner_class = self.invoke_gcm(
+            "horz: 180\nvert: 72\nnx: 10\nny: 12\nduration: 1\nexecute_on: none\n",
+            "--no_link",
+        )
+
+        self.assertEqual(result.exit_code, 0, result.output)
+        self.assertFalse(runner_class.call_args.kwargs["link"])
 
     def test_unknown_option_is_rejected_before_required_option_checks(self):
         result, _ = self.invoke_gcm("typo: value\n")
@@ -163,11 +173,16 @@ execute_on: none
                 patch("builtins.input") as prompt,
             ):
                 SetupDirectory().operate(runner)
+                self.assertIn("--link", run.call_args_list[0].args[0])
+                runner.args.link = False
+                SetupDirectory().operate(runner)
+                self.assertNotIn("--link", run.call_args_list[2].args[0])
 
         create_expt_args = run.call_args_list[0].args[0]
         self.assertIn(f"{setup_scripts}/create_expt.py", create_expt_args)
         self.assertNotIn(None, create_expt_args)
         self.assertNotIn("--account", create_expt_args)
+        self.assertIn("--link", create_expt_args)
         self.assertEqual(
             run.call_args_list[1].args[0][0], f"{setup_scripts}/makeoneday.bash"
         )

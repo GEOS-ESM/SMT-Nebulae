@@ -9,7 +9,7 @@ from cli_options.emip import emip_options
 from cli_options.gcm import gcm_options
 from cli_options.grid import common_grid
 from cli_options.machine import common_machine
-from cli_options.paths import common_paths
+from cli_options.paths import common_experiment_setup
 from cli_options.physics import common_config
 from cli_options.scm import scm_options
 from cli_options.timing import emip_timing, gcm_timing
@@ -36,7 +36,7 @@ def run_GEOS():
 @run_GEOS.command(cls=AllErrorsCommand)
 @common_grid
 @gcm_timing
-@common_paths
+@common_experiment_setup
 @common_machine
 @common_python
 @common_config
@@ -51,7 +51,7 @@ def gcm(**kwargs):
 
 
 @run_GEOS.command(cls=AllErrorsCommand)
-@common_paths
+@common_experiment_setup
 @common_machine
 @common_python
 @scm_options
@@ -69,7 +69,7 @@ def scm(**kwargs):
 @run_GEOS.command(cls=AllErrorsCommand)
 @common_grid
 @emip_timing
-@common_paths
+@common_experiment_setup
 @common_machine
 @common_python
 @common_config

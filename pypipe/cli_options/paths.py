@@ -4,8 +4,8 @@ from .click_support import GroupedOption
 
 
 def common_paths(function):
-    """Options for GEOS paths and execution location."""
-    group = "Path Configuration"
+    """Options for GEOS filesystem paths."""
+    group = "Experiment Setup"
     function = click.option(
         "--geos_dir",
         cls=GroupedOption,
@@ -30,13 +30,26 @@ def common_paths(function):
         default=None,
         help="Optional path to the NONHPC TBC scripts directory; prompts when omitted",
     )(function)
+    return function
+
+
+def common_experiment_setup(function):
+    """Options controlling experiment setup and execution."""
+    function = click.option(
+        "--link/--no_link",
+        cls=GroupedOption,
+        help_group="Experiment Setup",
+        show_default=True,
+        default=True,
+        help="Create a link to the GEOS executable in the experiment directory.",
+    )(function)
     function = click.option(
         "--execute_on",
         cls=GroupedOption,
-        help_group=group,
+        help_group="Experiment Setup",
         show_default=True,
         type=click.Choice(["compute", "local", "none"], case_sensitive=False),
         default="compute",
         help="Choose where to execute the model. 'compute' submits the job via sbatch, 'local' runs the model in the current terminal (ensure you are not on the head node before using this option), and 'none' sets up the experiment but does not execute",
     )(function)
-    return function
+    return common_paths(function)

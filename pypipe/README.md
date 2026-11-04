@@ -89,7 +89,7 @@ The same setting is available as `--machine {DISCOVER,NONHPC,PRISM}`. When both 
 
 The packaged YAML schema is [`cli_options/config.schema.yaml`](cli_options/config.schema.yaml). Its `commands.gcm`, `commands.emip`, and `commands.scm` definitions validate the config shape and value types at runtime using the Python `schema` library; Click validates command-line choices. Click option declarations are grouped by semantic type in `pypipe/cli_options/`.
 
-### Paths, Execution, and DSL
+### Paths, Execution, and DSL Modules
 
 The following options are shared between GCM, EMIP, and SCM modes:
 
@@ -99,6 +99,7 @@ The following options are shared between GCM, EMIP, and SCM modes:
 | `--top_exp_dir PATH` | `./experiments` | Parent directory for generated experiments. |
 | `--restart_setup_scripts_dir PATH` | unset | NONHPC TBC scripts directory; if omitted, setup prompts for it. |
 | `--execute_on {compute,local,none}` | `compute` | Submit with `sbatch`, run in the current terminal, or set up without launching. |
+| `--link / --no_link` | enabled | Request that `create_expt.py` link `GEOSgcm.x` into the experiment directory; `--no_link` or YAML `link: false` disables it. |
 | `--machine {DISCOVER,NONHPC,PRISM}` | `NONHPC` | Machine profile for setup and scheduler behavior. |
 | `--pymodules MODULES` | none | Optional DSL modules: `gfdl1m`, `uw`, `gf2020`, `fv3`. Accepts comma-separated values or repeated flags. Use lowercase names. |
 | `--backend STRING` | `orch:dace:cpu:KJI` | Backend string, used when DSL modules are enabled. Common forms include `orch:dace:cpu:KJI`, `orch:dace:gpu:KJI`, `st:dace:cpu:KJI`, and `st:dace:gpu:KJI`. |

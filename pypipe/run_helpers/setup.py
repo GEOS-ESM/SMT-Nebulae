@@ -56,6 +56,7 @@ class SetupDirectory(PipelineStep):
                 runner.args.aerosols,
                 "--moist",
                 microphysics,
+                *(["--link"] if getattr(runner.args, "link", True) else []),
                 "--ocean",
                 runner.args.ocean,
                 "--landbcs",

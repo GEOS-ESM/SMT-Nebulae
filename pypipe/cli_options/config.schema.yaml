@@ -8,7 +8,10 @@ shared:
     geos_dir: {type: string, description: GEOS installation bin directory.}
     top_exp_dir: {type: string, description: Parent directory for generated experiments.}
     restart_setup_scripts_dir: {type: [string, "null"], description: Optional NONHPC TBC scripts directory.}
+  experiment_setup: &experiment_setup
+    <<: *paths
     execute_on: {type: string, description: Execution target.}
+    link: {type: boolean, description: Create a link to the GEOS executable in the experiment directory.}
   dsl: &dsl
     pymodules:
       type: array
@@ -39,18 +42,17 @@ shared:
     job_segment: {type: [string, "null"], description: JOB_SGMT length in YYYYMMDDHHMMSS format.}
     job_time: {type: string, description: Wall time limit in HH:MM:SS format.}
     num_segment: {type: [integer, "null"], description: Number of job segment periods per submission.}
-
 commands:
   gcm:
     properties:
-      <<: [*machine, *paths, *dsl, *physics, *grid, *batch_timing]
+      <<: [*machine, *experiment_setup, *dsl, *physics, *grid, *batch_timing]
       end_date: {type: [string, "null"], description: Run end date in YYYYMMDDHHMMSS format.}
       duration: {type: [integer, "null"], description: Run duration; mutually exclusive with end_date.}
       duration_unit: {type: string, description: Duration unit.}
       custom_restart: {type: boolean, description: Use manually supplied restarts.}
   emip:
     properties:
-      <<: [*machine, *paths, *dsl, *physics, *grid, *batch_timing]
+      <<: [*machine, *experiment_setup, *dsl, *physics, *grid, *batch_timing]
       duration: {type: integer, description: Number of months to run each member.}
       start_year:
         type: string
@@ -59,7 +61,7 @@ commands:
       season: {type: string, description: Starting season, DJF or JJA.}
   scm:
     properties:
-      <<: [*machine, *paths, *dsl]
+      <<: [*machine, *experiment_setup, *dsl]
       case: {type: string, description: SCM case or experiment name.}
       duration: {type: integer, description: Run duration.}
       duration_unit: {type: string, description: Duration unit.}
