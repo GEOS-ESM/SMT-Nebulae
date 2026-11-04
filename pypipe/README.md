@@ -101,7 +101,7 @@ The following options are shared between GCM, EMIP, and SCM modes:
 | `--execute_on {compute,local,none}` | `compute` | Submit with `sbatch`, run in the current terminal, or set up without launching. |
 | `--link / --no_link` | enabled | Request that `create_expt.py` link `GEOSgcm.x` into the experiment directory; `--no_link` or YAML `link: false` disables it. |
 | `--machine {DISCOVER,NONHPC,PRISM}` | `NONHPC` | Machine profile for setup and scheduler behavior. |
-| `--pymodules MODULES` | none | Optional DSL modules: `gfdl1m`, `uw`, `gf2020`, `fv3`. Accepts comma-separated values or repeated flags. Use lowercase names. |
+| `--pymodules MODULES` | none | Optional Python modules: `gfdl1m`, `uw`, `gf2020`, `fv3`, `shoc`. Accepts comma-separated values or repeated flags. Use lowercase names. `shoc` enables `USE_PYTURB_SHOC` in `AGCM.rc`. |
 | `--backend STRING` | `orch:dace:cpu:KJI` | Backend string, used when DSL modules are enabled. Common forms include `orch:dace:cpu:KJI`, `orch:dace:gpu:KJI`, `st:dace:cpu:KJI`, and `st:dace:gpu:KJI`. |
 
 Example for enabling two python modules:

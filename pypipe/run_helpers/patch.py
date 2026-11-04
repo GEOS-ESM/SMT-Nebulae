@@ -16,6 +16,15 @@ if TYPE_CHECKING:
     from run_helpers.run_gcm import GCMRunner
 
 
+PYMODULE_FLAGS = {
+    "uw": "USE_PYMOIST_UW",
+    "gfdl1m": "USE_PYMOIST_GFDL1M",
+    "gf2020": "USE_PYMOIST_GF2020",
+    "fv3": "USE_PYFV3",
+    "shoc": "USE_PYTURB_SHOC",
+}
+
+
 class PatchCAPRC(PipelineStep):
     """Patches CAP.rc parameters adjusting segments, durations, and hard end dates."""
 
@@ -172,17 +181,10 @@ class PatchAGCMRC(PipelineStep):
         content = re.sub(r"NX:\s*\d+", f"NX: {runner.args.nx}", content)
         content = re.sub(r"NY:\s*\d+", f"NY: {runner.args.ny * 6}", content)
 
-        flags_map = {
-            "uw": "USE_PYMOIST_UW",
-            "gfdl1m": "USE_PYMOIST_GFDL1M",
-            "gf2020": "USE_PYMOIST_GF2020",
-            "fv3": "USE_PYFV3",
-        }
-
         flags_to_add = []
         for m in runner.args.pymodules:
-            if m in flags_map:
-                flag_name = flags_map[m]
+            if m in PYMODULE_FLAGS:
+                flag_name = PYMODULE_FLAGS[m]
                 pattern = rf"{flag_name}:\s*\.(?:TRUE|FALSE)\."
                 if re.search(pattern, content):
                     content = re.sub(pattern, f"{flag_name}: .TRUE.", content)
@@ -207,17 +209,11 @@ class PatchAGCMRC(PipelineStep):
         if not re.search(rf"NY:\s*{runner.args.ny * 6}", content):
             missing_items.append("NY")
 
-        flags_map = {
-            "uw": "USE_PYMOIST_UW",
-            "gfdl1m": "USE_PYMOIST_GFDL1M",
-            "gf2020": "USE_PYMOIST_GF2020",
-            "fv3": "USE_PYFV3",
-        }
         for m in runner.args.pymodules:
-            if m in flags_map and not re.search(
-                rf"{flags_map[m]}:\s*\.TRUE\.", content
+            if m in PYMODULE_FLAGS and not re.search(
+                rf"{PYMODULE_FLAGS[m]}:\s*\.TRUE\.", content
             ):
-                missing_items.append(flags_map[m])
+                missing_items.append(PYMODULE_FLAGS[m])
 
         if missing_items:
             raise RuntimeError(

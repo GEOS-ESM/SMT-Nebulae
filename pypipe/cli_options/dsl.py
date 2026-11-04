@@ -2,7 +2,7 @@ import click
 
 from .click_support import GroupedOption
 
-VALID_MODULES = ["gfdl1m", "uw", "gf2020", "fv3"]
+VALID_MODULES = ["gfdl1m", "uw", "gf2020", "fv3", "shoc"]
 
 
 def split_csv(ctx, param, value):

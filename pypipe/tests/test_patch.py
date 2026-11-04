@@ -1,8 +1,10 @@
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from types import SimpleNamespace
 from unittest.mock import patch
 
-from run_helpers.patch import PatchGCMRUNJ
+from run_helpers.patch import PatchAGCMRC, PatchGCMRUNJ
 
 DSL_TEMPLATE = """#######################################################################
 #                          DSL configuration
@@ -83,6 +85,24 @@ class PatchGCMRUNJTests(unittest.TestCase):
 
         self.assertNotIn("I_MPI_OFFLOAD", updated)
         self.assertIn("setenv MPS_ON 1", updated)
+
+
+class PatchAGCMRCTests(unittest.TestCase):
+    def test_shoc_module_enables_and_validates_agcm_flag(self):
+        with TemporaryDirectory() as directory:
+            agcm_rc = Path(directory) / "AGCM.rc"
+            agcm_rc.write_text("NX: 2\nNY: 6\nUSE_PYTURB_SHOC: .FALSE.\n")
+            runner = SimpleNamespace(
+                exp_dir=directory,
+                args=SimpleNamespace(nx=2, ny=1, pymodules=["shoc"]),
+            )
+            patcher = PatchAGCMRC()
+            patcher.agcm_rc_path = str(agcm_rc)
+
+            patcher.operate(runner)
+            patcher.validate_outputs(runner)
+
+            self.assertIn("USE_PYTURB_SHOC: .TRUE.", agcm_rc.read_text())
 
 
 if __name__ == "__main__":
