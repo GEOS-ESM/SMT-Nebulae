@@ -1,16 +1,10 @@
-# pypipe: GEOS experiment setup and launch
+# pypipe: GEOS experiment setup
 
-`pypipe` is a Python/Click command-line wrapper for preparing and launching GEOS GCM experiments, preparing EMIP ensembles, and (eventually) setting up SCM cases. The intended interface is the installed `pypipe_geos_exp` command (there is no command named `pypipe`). Running [`run_GEOS.py`](run_GEOS.py) directly from source is a valid fallback, but is not the intended way to use the package. The GCM, EMIP, and SCM pipelines are implemented in [`run_helpers/`](run_helpers/). The system orchestrates GEOS setup and execution, but does *not* load HPC modules or install GEOS. It requires Python 3.12 or newer and the project dependencies (Click, PyYAML, and schema), plus an existing GEOS installation and its external setup scripts/templates.
+`pypipe` prepares and launches GEOS GCM experiments and EMIP ensembles. Future versions will also support SCM experiments. The wrapper relies on an existing GEOS installation and its setup scripts; it does not install GEOS or load HPC modules.
 
-Machine profiles are selected explicitly; the wrapper does not detect the host. `NONHPC` and `DISCOVER` have setup paths with machine-specific prerequisites. `PRISM` is a recognized option but setup currently stops with `NotImplementedError`.
+## Install and get help
 
-`pypipe` supports three modes: `GCM`, `EMIP`, and `SCM`. Mode names are case-sensitive and must be uppercase.
-
-> **Status:** GCM and EMIP have setup/launch implementations, but depend on external GEOS setup scripts, generated GEOS templates, machine-specific data, and the current shell environment. SCM is a work in progress and does not create or run an experiment. Review the operational caveats below before launching jobs.
-
-## Quickstart
-
-From the repository root, install the package into the Python 3.12+ environment you intend to use. This installs the required Python dependencies and registers the `pypipe_geos_exp` command in that environment:
+Use Python 3.12 or newer. From the repository root, install `pypipe` in the environment you plan to use:
 
 ```sh
 python -m pip install ./pypipe
@@ -20,225 +14,82 @@ pypipe_geos_exp EMIP --help
 pypipe_geos_exp SCM --help
 ```
 
-If the console command is unavailable, direct source invocation is a valid fallback from the repository root: use `python pypipe/run_GEOS.py ...` (or `python run_GEOS.py ...` from the `pypipe` directory). Use uppercase mode names with this entry point too.
+`GCM`, `EMIP`, and `SCM` are case-sensitive and must be uppercase. If the installed command is unavailable, direct source invocation is supported as a fallback: `python pypipe/run_GEOS.py ...` from the repository root.
 
-Mode-specific commands still accept options in the usual way, for example `pypipe_geos_exp EMIP --config emip.yaml --link`. Alternatively, put a top-level `mode: EMIP` in the YAML file and omit the mode command: `pypipe_geos_exp --config emip.yaml --link`. In this form, put mode-specific settings in YAML; root-level CLI overrides such as `--link` are supported and take precedence over YAML. The explicit `GCM`, `EMIP`, or `SCM` command form remains available, and a `mode` key in that config must match the command.
+## Choose a mode and run it
 
-Run a GCM setup-only example (replace settings and paths for your installation):
+The usual form puts the mode before its options:
 
 ```sh
-pypipe_geos_exp GCM \
-  --config gcm.yaml \
-  --horz 180 --vert 72 --nx 20 --ny 20 \
-  --duration 1 --duration_unit days \
-  --geos_dir ../model/install-release/bin \
-  --top_exp_dir ./experiments \
-  --restart_setup_scripts_dir /path/to/TBC/scripts \
-  --execute_on none --account YOUR_ACCOUNT
+pypipe_geos_exp GCM --config gcm.yaml --execute_on none
+pypipe_geos_exp EMIP --config emip.yaml --execute_on none
 ```
 
-Run commands from the directory you want to use as the base for relative paths. By default, `--geos_dir`, `--top_exp_dir`, and the config-file path are interpreted relative to the current working directory; absolute paths also work.
+Alternatively, put `mode: GCM`, `mode: EMIP`, or `mode: SCM` at the top level of the YAML file and omit the mode argument:
 
-This creates and patches files in the experiment directory but does not execute the model. `--execute_on none` is not a dry run: setup scripts still run. Inspect the generated files before changing to `--execute_on compute` (submit with `sbatch`) or `local` (run in the current terminal; generally not recommended on HPC). Rerunning the same command may delete and recreate its generated experiment directory, losing manual changes.
+```sh
+pypipe_geos_exp --config emip.yaml --link
+```
 
-Each mode has slightly different CLI. Be sure to check the options for a mode before attempting to create an experiment.
+In this form, put mode-specific settings in YAML. Root-level options such as `--link` can override YAML values. If an explicit mode command and a YAML `mode` are both supplied, they must match.
 
-## How The System Works
-
-For a GCM run, `pypipe` performs the following tasks:
-
-1. Creates a named experiment directory by calling the external `create_expt.py` script. With `--machine NONHPC`, it prompts for the Tiny/HugeBC scripts directory unless `--restart_setup_scripts_dir` is supplied, then calls `makeoneday.bash`.
-2. Prepares restarts when applicable. `NONHPC` delegates restart preparation to `makeoneday.bash`; `DISCOVER` uses configured system paths. `PRISM` setup is not implemented.
-3. Patches generated files such as `CAP.rc`, `AGCM.rc`, and `gcm_run.j` using the selected duration, grid, physics, and DSL options.
-4. Launches `gcm_run.j`, if desired.
-
-An EMIP suite follows the setup and patching steps with additional edits to `gcm_emip.setup` and `gcm_run.j`. It runs `gcm_emip.setup`, which generates batch scripts and `sbatch` commands. With `--execute_on compute`, those jobs are submitted; with `--execute_on none`, setup still runs but the jobs are not submitted.
-
-SCM support is in process. More information for launching a SCM run will be included in future versions.
-
-## pypipe Configuration Options
-
-### YAML config files
-
-Pass `--config` after the selected command to provide defaults from a YAML file:
+Example GCM configuration (`gcm.yaml`):
 
 ```yaml
-mode: GCM # Required only when omitting the GCM/EMIP/SCM command.
+mode: GCM # Can be omitted only when using an explicit GCM command.
+machine: NONHPC
+geos_dir: /path/to/GEOS/install/bin
+top_exp_dir: /path/to/experiments
+restart_setup_scripts_dir: /path/to/TBC/scripts
+execute_on: none
+link: true
 horz: 180
 vert: 72
 nx: 20
 ny: 20
 duration: 1
 duration_unit: days
-execute_on: none
-pymodules:
-  - uw
-  - gfdl1m
-backend: orch:dace:gpu:KJI
+```
+
+Run the config-driven form with `pypipe_geos_exp --config gcm.yaml`, or use an explicit mode and override settings on the command line, for example `pypipe_geos_exp GCM --config gcm.yaml --nx 24`.
+
+Example EMIP configuration (`emip.yaml`):
+
+```yaml
+mode: EMIP
+machine: NONHPC
+geos_dir: /path/to/GEOS/install/bin
+top_exp_dir: /path/to/experiments
 restart_setup_scripts_dir: /path/to/TBC/scripts
+execute_on: none
+horz: 180
+vert: 72
+nx: 20
+ny: 20
+start_year: "2005"
+season: DJF
+duration: 3
 ```
 
-```sh
-pypipe_geos_exp GCM --config gcm.yaml --nx 24
-```
+Run it with `pypipe_geos_exp --config emip.yaml` or `pypipe_geos_exp EMIP --config emip.yaml`. EMIP does not support `execute_on: local`; use `none` to prepare files without submitting generated jobs, or `compute` to submit them.
 
-The document must be a flat mapping of option names to values for the selected command. Keys match the option names shown in the CLI (without `--`); values use the normal CLI types, including YAML booleans for paired flags and a YAML sequence for `pymodules`. Quote choice values that are numeric-looking strings, such as `start_year`. `horz` and `vert` must be integers in YAML (the CLI accepts them as text). Options not provided in YAML use their CLI defaults. A command-line option always overrides the corresponding YAML value. Add a top-level `mode` value (`GCM`, `EMIP`, or `SCM`) to choose the mode without a command line argument. Unlike other fields, the system will raise an error when mode is supplied at the command line and in the yaml, and the two mismatch.  Unknown keys and keys unsupported by the selected command are errors. An empty mapping (`{}`) is valid when all options are supplied on the command line alongside an explicit mode command.
+## Common settings
 
-Use the optional `machine` key to select the machine profile used by setup and scheduler generation. Accepted values are `DISCOVER`, `PRISM`, and `NONHPC`; when omitted, the default is `NONHPC`. `PRISM` setup is currently unimplemented; `DISCOVER` relies on hard-coded site paths, so confirm those paths are valid for your account.
+- `machine`: `NONHPC` (default), `DISCOVER`, or `PRISM`. Machine selection is explicit; there is no host auto-detection. PRISM support is in progress and not currently supported.
+- `execute_on`: `compute` submits jobs, `local` runs in the current terminal, and `none` prepares the experiment without running/submitting it. `none` is not a dry run: setup scripts still execute.
+- `link`: Determines whether the GEOSgcm.x executable is explicitly copied from or symlinked to the install directory. defaults to `true`; set `link: false` or pass `--no_link` to copy instead of linking.
+- `restart_setup_scripts_dir`: for NONHPC, points to the Tiny/HugeBC scripts. If omitted, setup prompts for the directory.
+- Paths such as `geos_dir`, `top_exp_dir`, and `--config` are relative to the current working directory unless absolute paths are used.
+- GCM requires `horz`, `vert`, `nx`, `ny`, and exactly one of `duration` or `end_date`. EMIP requires the grid values, `start_year` (`1985`, `1995`, or `2005`), and `season` (`DJF` or `JJA`); duration defaults to 3 months.
+- `--pymodules` accepts `gfdl1m`, `uw`, `gf2020`, `fv3`, and `shoc` (comma-separated or repeated). Use lowercase names. `shoc` enables `USE_PYTURB_SHOC` in `AGCM.rc`.
 
-The same setting is available as `--machine {DISCOVER,NONHPC,PRISM}`. When both are supplied, the command-line value takes precedence.
+YAML files are flat mappings of option names to values. CLI options override YAML values. Quote choice values that look numeric, such as `start_year`. See [`cli_options/config.schema.yaml`](cli_options/config.schema.yaml) and per-mode `--help` for the supported settings.
 
-The packaged YAML schema is [`cli_options/config.schema.yaml`](cli_options/config.schema.yaml). Its `commands.gcm`, `commands.emip`, and `commands.scm` definitions validate the config shape and value types at runtime using the Python `schema` library; Click validates command-line choices. Click option declarations are grouped by semantic type in `pypipe/cli_options/`.
+## Before running
 
-### Paths, Execution, and DSL Modules
+- `--execute_on none` still creates and modifies experiment files and runs external setup scripts.
+- Setup deletes an existing experiment directory if its generated name collides. Back up anything you need first.
+- Confirm GEOS, `create_expt.py`, restart data, Tiny/HugeBC scripts where required, and scheduler commands are configured and available.
+- Review generated files and check job status yourself; successful setup or submission does not confirm the model completed successfully.
 
-The following options are shared between GCM, EMIP, and SCM modes:
-
-| Option | Default | Description |
-| --- | --- | --- |
-| `--geos_dir PATH` | `../model/install-release/bin` | GEOS install `bin` directory. Must exist. |
-| `--top_exp_dir PATH` | `./experiments` | Parent directory for generated experiments. |
-| `--restart_setup_scripts_dir PATH` | unset | NONHPC TBC scripts directory; if omitted, setup prompts for it. |
-| `--execute_on {compute,local,none}` | `compute` | Submit with `sbatch`, run in the current terminal, or set up without launching. |
-| `--link / --no_link` | enabled | Request that `create_expt.py` link `GEOSgcm.x` into the experiment directory; `--no_link` or YAML `link: false` disables it. |
-| `--machine {DISCOVER,NONHPC,PRISM}` | `NONHPC` | Machine profile for setup and scheduler behavior. |
-| `--pymodules MODULES` | none | Optional Python modules: `gfdl1m`, `uw`, `gf2020`, `fv3`, `shoc`. Accepts comma-separated values or repeated flags. Use lowercase names. `shoc` enables `USE_PYTURB_SHOC` in `AGCM.rc`. |
-| `--backend STRING` | `orch:dace:cpu:KJI` | Backend string, used when DSL modules are enabled. Common forms include `orch:dace:cpu:KJI`, `orch:dace:gpu:KJI`, `st:dace:cpu:KJI`, and `st:dace:gpu:KJI`. |
-
-Example for enabling two python modules:
-
-```sh
---pymodules gfdl1m,uw --backend orch:dace:gpu:KJI
-```
-
-### Model physics and settings
-
-These options are shared by GCM and EMIP modes, and are used to configure the experiment.
-
-| Option | Default | Accepted values / meaning |
-| --- | --- | --- |
-| `--account TEXT` | unset | Account passed to the GEOS setup script; required for GCM and EMIP `compute` runs. |
-| `--microphysics SCHEME` | `GFDL1M` | `BACM1M`, `GFDL1M`, or `MGB22M`. |
-| `--ocean MODEL` | `o2` | `o1`, `o2`, `o3`, `MOM5`, `MOM6`, or `MIT`. |
-| `--aerosols {A,C}` | `C` | GOCART aerosol scheme. |
-| `--oserver / --nooserver` | enabled | Enable or disable the IO server. |
-| `--hydro / --nonhydro` | enabled | Enable or disable hydrostatic dynamics. |
-| `--data_atmo / --no_data_atmo` | disabled | Use a data atmosphere. |
-| `--land_bcs VERSION` | `v12` | `ICA`, `NL3`, `v12`, or `v14`. |
-| `--land_surf {1,2}` | `1` | `1` = Catchment; `2` = CatchmentCN-CLM4.0. |
-| `--heartbeat SECONDS` | unset | Optional heartbeat interval. |
-| `--processor {mil,cas}` | `mil` | Milan or Cascade Lake target. The local setup path overrides this with `not applicable`. |
-
-### Grid and decomposition
-
-GCM and EMIP require all four grid arguments:
-
-| Option | Description |
-| --- | --- |
-| `--horz RESOLUTION` | Numeric horizontal resolution, for example `48`, `180`, `360`, or `720`. |
-| `--vert LEVELS` | Numeric vertical-level count, for example `72`, `131`, `137`, or `181`. |
-| `--nx RANKS` | MPI ranks in X. |
-| `--ny RANKS` | MPI ranks in Y per cube face; the AGCM patcher writes `NY = ny × 6`. |
-
-## GCM guide
-
-GCM creates one experiment and optionally runs it.
-
-```sh
-pypipe_geos_exp GCM \
-  --config gcm.yaml \
-  --horz 180 --vert 72 --nx 20 --ny 20 \
-  --duration 1 --duration_unit days \
-  [shared options]
-```
-
-GCM
-
-Provide exactly one of `--duration` or `--end_date`:
-
-| Option | Default | Description |
-| --- | --- | --- |
-| `--duration INTEGER` | none | Number of --duration_unit units to run; use a positive integer. Mutually exclusive with --end_date. |
-| `--duration_unit {days,months,years}` | `days` | Unit for `--duration`. Only considered when `--duration` is supplied. |
-| `--end_date YYYYMMDDHHMMSS` | none | Explicit end date. Must be a valid date/time in this format. Mutually exclusive with `--duration`. |
-| `--job_time HH:MM:SS` | `01:00:00` | Wall time requested for each sbatch submission. The wrapper passes this value to the generated job script. |
-| `--job_segment YYYYMMDDHHMMSS` | none | Explicit `JOB_SGMT` length. If omitted with `--duration`, the wrapper derives it from the duration; with `--end_date`, GEOS uses its template default. |
-| `--num_segment INTEGER` | none, GEOS default if omitted | Number of `--job_segment` periods to run per sbatch submission. |
-| `--custom_restart` | off | Skip automatic restart copying and stop after setup/patching so you can place custom restarts manually. Requires `--end_date`; it cannot be combined with `--duration`, as duration uses restart files to compute an end date. |
-
-Example with an explicit end date:
-
-```sh
-pypipe_geos_exp GCM \
-  --config gcm.yaml \
-  --horz 180 --vert 72 --nx 20 --ny 20 \
-  --end_date 20260120000000 \
-  --execute_on none --account YOUR_ACCOUNT
-```
-
-The generated experiment name is based on mode, resolution, and decomposition, with a DSL suffix when applicable. **If that experiment directory already exists, setup removes it before recreating it.** Back up any files you need before recreating an existing experiment.
-
-When `--custom_restart` is specified, setup exits before execution (even with `--execute_on compute/local`). Add the necessary restart files to the generated experiment directory and manually submit/run.
-
-## EMIP guide
-
-EMIP prepares an ensemble using the generated `gcm_emip.setup` configuration and scripts. Its additional options are:
-
-| Option | Default | Description |
-| --- | --- | --- |
-| `--start_year {1985,1995,2005}` | required | Selects the 10-year set containing the requested starting year. |
-| `--season {DJF,JJA}` | required | Starting season. |
-| `--duration INTEGER` | `3` | Number of months for each member, used to adjust the generated run loop; use a positive integer. |
-| `--job_time HH:MM:SS` | `01:00:00` | Wall time limit for each sbatch submission. Can be up to 12 hours. |
-| `--job_segment YYYYMMDDHHMMSS` | none, GEOS default if omitted | Explicit `JOB_SGMT` length. |
-| `--num_segment INTEGER` | none, GEOS default if omitted | Number of `--job_segment` periods to run per sbatch submission. |
-
-Example to prepare the ensemble without submitting jobs:
-
-```sh
-pypipe_geos_exp EMIP \
-  --config emip.yaml \
-  --horz 180 --vert 72 --nx 20 --ny 20 \
-  --start_year 2005 --season DJF --duration 3 \
-  --execute_on none --account YOUR_ACCOUNT
-```
-
-For a NONHPC setup, the example config [`examples/nonhpc_emip.yaml`](examples/nonhpc_emip.yaml) includes the machine profile, paths, grid, and EMIP settings. Replace its placeholder paths, then run from the `pypipe` directory (or adjust the config path if running elsewhere):
-
-```sh
-pypipe_geos_exp EMIP --config examples/nonhpc_emip.yaml
-```
-
-EMIP does not support `--execute_on local`; it exits with an error. With `--execute_on none`, including for the NONHPC example above, the wrapper still creates and patches the experiment and runs `gcm_emip.setup` to generate batch files, but does not submit the `sbatch` commands. Review those files before submitting them manually.
-
-**Template sensitivity:** EMIP patching expects specific text in the generated templates (e.g. `while( $count < 4 )` in `gcm_emip.setup`). Changes to GEOS templates can make this step fail.
-
-## SCM guide
-
-SCM accepts `--case`, `--duration`, and `--duration_unit`, as well as the shared path, execution, and DSL options:
-
-```sh
-pypipe_geos_exp SCM \
-  --config scm.yaml \
-  --case CASE_NAME --duration 1 --duration_unit days \
-  --execute_on none
-```
-
-**SCM is not implemented.** The current runner only checks that `--case` was supplied and prints a setup message. It does not create an experiment, use the duration, patch GEOS files, or execute a model. Do not use this command for production runs.
-
-## Operational caveats
-
-- **Select the machine profile explicitly.** The default is `NONHPC`; use `--machine` or the YAML `machine` key as appropriate. `NONHPC` requires the Tiny/HugeBC scripts (provided with `--restart_setup_scripts_dir` or requested interactively). `DISCOVER` uses hard-coded setup and restart paths. `PRISM` is listed as a choice but setup raises `NotImplementedError`.
-- **Pass `--config` to every mode command.** The current config callback fails when no config file is supplied. A valid empty YAML mapping (`{}`) works when all settings are passed on the CLI.
-- **Use `--execute_on none` to inspect setup output first.** It is not a dry-run: it still creates/patches the experiment and invokes setup scripts (and EMIP's setup script).
-- **Experiment directories are destructive on name collision.** Setup deletes an existing directory with the generated experiment name before recreating it.
-- **Validate generated files and job status yourself.** The wrapper does not verify that submitted jobs complete successfully. A successful setup or `sbatch` submission is not evidence that the model run completed.
-- **Confirm external prerequisites.** The GEOS executable, `create_expt.py`, restart files, appropriate scheduler commands, environment modulefiles, and (if required) Tiny/HugeBC, must be configured before running `pypipe`. The system does not verify external requirements.
-
-## Troubleshooting and implementation references
-
-- Run `pypipe_geos_exp <GCM|EMIP|SCM> --help` for the options accepted by each command. Directly invoking `run_GEOS.py` is a supported source fallback, but the installed command is the intended interface.
-- Command wiring is in [`run_GEOS.py`](run_GEOS.py); option groups and the YAML config registry are in [`cli_options/`](cli_options/).
-- The GCM orchestration is in [`run_helpers/run_gcm.py`](run_helpers/run_gcm.py); setup and restart handling are in [`run_helpers/setup.py`](run_helpers/setup.py); patching is handled by [`run_helpers/patch.py`](run_helpers/patch.py); and execution is handled by [`run_helpers/execute.py`](run_helpers/execute.py).
-- EMIP orchestration and template edits are in [`run_helpers/run_emip.py`](run_helpers/run_emip.py).
-- SCM's current placeholder is in [`run_helpers/run_scm.py`](run_helpers/run_scm.py).
+SCM currently only prints a setup message. It does not create, patch, or run an experiment.
