@@ -38,8 +38,8 @@ class GCMRunner(BaseRunner):
 
         # timing validation
         has_duration = getattr(self.args, "duration", None) is not None
-        has_end_date = getattr(self.args, "end_date", None) is not None
         if validate_timing:
+            has_end_date = getattr(self.args, "end_date", None) is not None
             if not has_duration and not has_end_date:
                 raise ArgumentValidationError(
                     "[GEOS PYTHON WRAPPER] Either --duration or --end_date must be specified."
