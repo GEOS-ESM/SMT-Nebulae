@@ -5,7 +5,7 @@ shared:
       enum: [DISCOVER, NONHPC, PRISM]
       description: Machine profile used to configure setup and scheduler behavior.
   paths: &paths
-    geos_dir: {type: string, description: GEOS installation bin directory.}
+    geos_dir: {type: string, description: GEOS installation root containing bin/.}
     top_exp_dir: {type: string, description: Parent directory for generated experiments.}
     restart_setup_scripts_dir: {type: [string, "null"], description: Optional NONHPC TBC scripts directory.}
   experiment_setup: &experiment_setup

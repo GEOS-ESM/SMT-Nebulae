@@ -10,10 +10,14 @@ from run_helpers.template import PipelineStep
 
 class SetupDirectory(PipelineStep):
     def validate_inputs(self, runner):
-        if not os.path.isdir(runner.args.geos_dir):
-            raise FileNotFoundError(f"GEOS dir {runner.args.geos_dir} not found.")
+        geos_bin_dir = os.path.join(runner.args.geos_dir, "bin")
+        if not os.path.isdir(geos_bin_dir):
+            raise FileNotFoundError(
+                f"GEOS bin directory {geos_bin_dir} not found (from install root {runner.args.geos_dir})."
+            )
 
     def operate(self, runner):
+        geos_bin_dir = os.path.join(runner.args.geos_dir, "bin")
         if os.path.isdir(runner.exp_dir):
             shutil.rmtree(runner.exp_dir)
         os.makedirs(runner.exp_dir, exist_ok=True)
@@ -76,7 +80,7 @@ class SetupDirectory(PipelineStep):
             ]
             subprocess.run(
                 args,
-                cwd=runner.args.geos_dir,
+                cwd=geos_bin_dir,
                 env=runner.env,
                 check=True,
             )
@@ -86,7 +90,7 @@ class SetupDirectory(PipelineStep):
             print(err, file=sys.stderr)  # full child traceback, in one block
             raise SystemExit(
                 f"\n[GEOS PYTHON WRAPPER] create_expt.py failed (exit {e.returncode}): {last_line}\n"
-                f"[GEOS PYTHON WRAPPER]   cwd: {runner.args.geos_dir}"
+                f"[GEOS PYTHON WRAPPER]   cwd: {geos_bin_dir}"
             ) from None
         if config.MACHINE == "NONHPC":
             try:

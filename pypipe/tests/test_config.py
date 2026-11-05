@@ -190,10 +190,12 @@ link: false
         with TemporaryDirectory() as directory:
             setup_scripts = str(Path(directory) / "TBC" / "scripts")
             experiment_dir = str(Path(directory) / "experiment")
+            geos_bin_dir = Path(directory) / "bin"
+            geos_bin_dir.mkdir()
             runner = SimpleNamespace(
                 args=SimpleNamespace(
                     restart_setup_scripts_dir=setup_scripts,
-                    geos_dir=directory,
+                    geos_dir=str(Path(directory)),
                     microphysics="GFDL1M",
                     ocean="o2",
                     horz=24,
@@ -227,6 +229,7 @@ link: false
 
         create_expt_args = run.call_args_list[0].args[0]
         self.assertIn(f"{setup_scripts}/create_expt.py", create_expt_args)
+        self.assertEqual(run.call_args_list[0].kwargs["cwd"], str(geos_bin_dir))
         self.assertNotIn(None, create_expt_args)
         self.assertNotIn("--account", create_expt_args)
         self.assertIn("--link", create_expt_args)

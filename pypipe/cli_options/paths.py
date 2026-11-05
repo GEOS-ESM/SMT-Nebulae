@@ -11,8 +11,8 @@ def common_paths(function):
         cls=GroupedOption,
         help_group=group,
         show_default=True,
-        default="../model/install-release/bin",
-        help="Location of desired GEOS install bin (relative to current directory)",
+        default="../model/install-release",
+        help="GEOS installation root containing the bin directory (relative to current directory)",
     )(function)
     function = click.option(
         "--top_exp_dir",

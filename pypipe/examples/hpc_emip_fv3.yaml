@@ -1,5 +1,5 @@
 machine: DISCOVER
-geos_dir: /YOUR/MODEL/PATH/TO/install/bin
+geos_dir: /YOUR/MODEL/PATH/TO/install
 top_exp_dir: /YOUR/MODEL/PATH/TO/EXP/DIR
 execute_on: none
 

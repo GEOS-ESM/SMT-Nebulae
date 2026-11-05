@@ -38,7 +38,7 @@ Example GCM configuration (`gcm.yaml`):
 ```yaml
 mode: GCM # Can be omitted only when using an explicit GCM command.
 machine: NONHPC
-geos_dir: /path/to/GEOS/install/bin
+geos_dir: /path/to/GEOS/install
 top_exp_dir: /path/to/experiments
 restart_setup_scripts_dir: /path/to/TBC/scripts
 execute_on: none
@@ -58,7 +58,7 @@ Example EMIP configuration (`emip.yaml`):
 ```yaml
 mode: EMIP
 machine: NONHPC
-geos_dir: /path/to/GEOS/install/bin
+geos_dir: /path/to/GEOS/install
 top_exp_dir: /path/to/experiments
 restart_setup_scripts_dir: /path/to/TBC/scripts
 execute_on: none
@@ -79,7 +79,7 @@ Run it with `pypipe_geos_exp --config emip.yaml` or `pypipe_geos_exp EMIP --conf
 - `execute_on`: `compute` submits jobs, `local` runs in the current terminal, and `none` prepares the experiment without running/submitting it. `none` is not a dry run: setup scripts still execute.
 - `link`: Determines whether the GEOSgcm.x executable is explicitly copied from or symlinked to the install directory. defaults to `true`; set `link: false` or pass `--no_link` to copy instead of linking.
 - `restart_setup_scripts_dir`: for NONHPC, points to the Tiny/HugeBC scripts. If omitted, setup prompts for the directory.
-- Paths such as `geos_dir`, `top_exp_dir`, and `--config` are relative to the current working directory unless absolute paths are used.
+- `geos_dir` is the GEOS installation root (for example, `.../model/install`); pypipe uses its `bin/` subdirectory when running `create_expt.py`. Paths such as `geos_dir`, `top_exp_dir`, and `--config` are relative to the current working directory unless absolute paths are used.
 - GCM requires `horz`, `vert`, `nx`, `ny`, and exactly one of `duration` or `end_date`. EMIP requires the grid values, `start_year` (`1985`, `1995`, or `2005`), and `season` (`DJF` or `JJA`); duration defaults to 3 months.
 - `--pymodules` accepts `gfdl1m`, `uw`, `gf2020`, `fv3`, and `shoc` (comma-separated or repeated). Use lowercase names. `shoc` enables `USE_PYTURB_SHOC` in `AGCM.rc`.
 
