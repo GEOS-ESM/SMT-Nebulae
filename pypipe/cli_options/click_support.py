@@ -9,19 +9,6 @@ class GroupedOption(click.Option):
         super().__init__(*args, **kwargs)
 
 
-class CaseInsensitiveGroup(click.Group):
-    """Allow command names to be typed in any case."""
-
-    def get_command(self, ctx, cmd_name):
-        command = click.Group.get_command(self, ctx, cmd_name)
-        if command is not None:
-            return command
-        for name in self.list_commands(ctx):
-            if name.lower() == cmd_name.lower():
-                return click.Group.get_command(self, ctx, name)
-        return None
-
-
 class AllErrorsCommand(click.Command):
     """Report all missing and invalid options in one pass."""
 
