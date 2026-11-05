@@ -1,0 +1,17 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.2
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+        files: ^pypipe/.*\.pyi?$
+      - id: ruff-format
+        files: ^pypipe/.*\.pyi?$
+  - repo: local
+    hooks:
+      - id: pypipe-config-schema-cli-options
+        name: Check pypipe config schema matches CLI options
+        entry: env PYTHONPATH=pypipe .venv/bin/python -m unittest discover -s pypipe/tests -p test_config.py
+        language: system
+        pass_filenames: false
+        always_run: true

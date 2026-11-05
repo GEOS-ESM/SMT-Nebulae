@@ -1,0 +1,17 @@
+machine: DISCOVER
+geos_dir: /YOUR/MODEL/PATH/TO/install
+top_exp_dir: /YOUR/MODEL/PATH/TO/EXP/DIR
+execute_on: none
+
+horz: 180
+vert: 72
+nx: 20
+ny: 20
+
+pymodules:
+  - fv3
+backend: orch:dace:cpu:KJI
+
+start_year: "2005"
+season: DJF
+duration: 12
