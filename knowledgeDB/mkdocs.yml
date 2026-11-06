@@ -91,11 +91,6 @@ nav:
     - Model Development with NDSL:
       - Model Development with NDSL: tutorials/developing_with_ndsl/index.md
     - FAQ: tutorials/faq.md
-
-  - The Code Nebula:
-    - Overview: tcn/index.md
-    - Packages: tcn/packages.md
-    - Results: tcn/results.md
   - Satellite work:
     - Pace: satellite-work/pace.md
 markdown_extensions:
