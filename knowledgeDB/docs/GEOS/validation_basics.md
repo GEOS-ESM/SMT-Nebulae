@@ -69,10 +69,16 @@ It's easier to keep a `*.F90.ser` version of the file with serialization, becaus
 Turn the annotated code to proper fortran using
 
 ```bash
-python /PATH_TO_SERIALBOX/src/serialbox-python/pp_ser/pp_ser.py ./microphysics.F90.ser >| ./microphysics.F90
+python /PATH_TO_SERIALBOX/src/serialbox-python/pp_ser/pp_ser.py ./microphysics.F90.ser --output ./microphysics.F90
 ```
 
-This will dump two `netcdf` when running a simulation:
+This will generate raw serialbox data when running a simulation. Use `ndsl-serialbox_to_netcdf` (part of NDSL)
+
+```bash
+ndsl-serialbox_to_netcdf [flags] path/to/experiment/scratch/serialized_data [output_dir]
+```
+
+to generate two `netcdf` files:
 
 - FILLQZERO-In.nc4
 - FILLQZERO-Out.nc4
