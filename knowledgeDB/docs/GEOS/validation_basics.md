@@ -85,10 +85,6 @@ to generate two `netcdf` files:
 
 For the translate test the naming convention is that the `-In` and `-Out` exists, and the string before will be the name of the test.
 
-2. Turn the raw Fortran to NETCDF
-
-[A script existing](https://github.com/ai2cm/fv3gfs-fortran/blob/master/tests/serialized_test_data_generation/serialbox_to_netcdf.py) in the original [fv3gfs-fortran](https://github.com/ai2cm/fv3gfs-fortran) source used for the original port.
-
 #### Testing the ported code
 
 In `ndsl` we structure the code using classes that wraps all relevant stencils and in-between code from a scientific standpoint. `FillQZero` would be part of the `microphysics` code, for simplicity we will write it as a standalone class.
@@ -193,35 +189,3 @@ pytest \
 ## Scientific Validation: plotting
 
 The diagnostics output of GEOS is driven by the `HISTORY.rc` files. The output is a well formed Netcdf4 file with relevant comments and units. Those are the basis for the large GEOS products.
-
-### `tcn` package
-
-#### `tcb.plots`
-
-Automatic plotting system with default to match GEOS needs. See `tcn-plots` command.
-
-### Discover Jupyter and `tcn` package
-
-In order to quickly check results we have developed a `tcn.plots` and made it available as part of a Jupyter notebook on Discover. That way, plotting results can be done on the HPC directly, removing the need for downloading the data.
-
-**Basic howto**
-
-- Get IT access (talk to Florian)
-- On the Hub use the `smt-tcn` conda kernel
-- Code:
-
-```python
-import plotly.io as pio
-pio.renderers.default = 'iframe' #required for display
-
-from tcn.plots.geos.plot_via_plotly import plot
-import xarray as xr
-
-d = xr.open_mfdataset("/path/to/dump.nc4")
-var = "U"
-
-f = plot(dataset=d, variable=var, write=False)
-f.show()
-```
-
-As of 24.01 the `tcn` package version is the unreleased develop version of `fdeconinck`
