@@ -39,8 +39,7 @@ class ModeGroup(click.Group):
         if commands:
             limit = formatter.width - 6 - max(len(name) for name, _ in commands)
             rows = [
-                (name, command.get_short_help_str(limit))
-                for name, command in commands
+                (name, command.get_short_help_str(limit)) for name, command in commands
             ]
             with formatter.section("Modes"):
                 formatter.write_dl(rows)
