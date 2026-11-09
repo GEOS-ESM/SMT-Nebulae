@@ -26,7 +26,31 @@ from run_helpers.run_scm import SCMRunner
 CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
 
 
-@click.group(context_settings=CONTEXT_SETTINGS, invoke_without_command=True)
+class ModeGroup(click.Group):
+    """A Click group that labels its subcommands as experiment modes."""
+
+    def format_commands(self, ctx, formatter):
+        commands = []
+        for subcommand in self.list_commands(ctx):
+            command = self.get_command(ctx, subcommand)
+            if command is not None and not command.hidden:
+                commands.append((subcommand, command))
+
+        if commands:
+            limit = formatter.width - 6 - max(len(name) for name, _ in commands)
+            rows = [
+                (name, command.get_short_help_str(limit))
+                for name, command in commands
+            ]
+            with formatter.section("Modes"):
+                formatter.write_dl(rows)
+
+
+@click.group(
+    cls=ModeGroup,
+    context_settings=CONTEXT_SETTINGS,
+    invoke_without_command=True,
+)
 @click.option(
     "--config",
     "config_path",
@@ -37,6 +61,7 @@ CONTEXT_SETTINGS = {"help_option_names": ["-h", "--help"]}
     "--link/--no_link",
     default=None,
     help="Override the config's executable link setting.",
+    hidden=True,
 )
 @click.pass_context
 def run_GEOS(ctx, config_path, link):
