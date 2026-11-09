@@ -1,3 +1,4 @@
+mode: EMIP
 machine: DISCOVER
 geos_dir: /YOUR/MODEL/PATH/TO/install
 top_exp_dir: /YOUR/MODEL/PATH/TO/EXP/DIR
