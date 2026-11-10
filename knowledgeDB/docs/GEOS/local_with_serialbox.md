@@ -40,7 +40,7 @@ With the `spack` environment and serialbox, you now have everything to compile G
 - after `mepo clone`, switch to development branches used for serialization (e.g. with `*.SER` files under version control)
 - then, run `pp_ser` to generate annotated `*.F90` files from `*.SER` files
     - as explained in [the validation guide](./validation_basics.md#generate-data-using-serialbox)
-    - `python /PATH_TO_SERIALBOX/src/serialbox-python/pp_ser/pp_ser.py ./microphysics.F90.ser >| ./microphysics.F90`
+    - `python /PATH_TO_SERIALBOX/src/serialbox-python/pp_ser/pp_ser.py ./microphysics.F90.ser -o ./microphysics.F90`
 - and take [this cmake_serialbox.sh](./geos_local/cmake_serialbox.sh)
     - compared to the ["standard cmake"](./geos_local/cmake.sh), we add `-DBUILD_SERIALBOX_SER=ON` and set `SERIALBOX_ROOT`
     - make sure to configure `/path/to/your/serialbox/install` to where you installed serialbox
@@ -68,8 +68,9 @@ Assuming a C24 / L181 run with `NX=1` / `NY=6`, the `input.nml` to be stored wit
 ```nml
 &fv_core_nml
  grid_type = 0
- layout = (1, 1)
+ layout = 1, 1
  npx = 25
  npy = 25
  npz = 181
+/
 ```

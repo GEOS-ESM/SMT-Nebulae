@@ -59,4 +59,4 @@ This section is to outline code changes in the diffs above (click on the `=>` to
   - `d_ext` isn't a flag anymore, but a K-array
   - bunch of little? changes in that part of the code (see diff)
   - call to `d_sw()`: now gets `d4dmp(k)` instead of `flagstruct%d4_bg,`
-
+- `deln_flux()` gets no `fx_tmp` and `fy_tmp` anymore
