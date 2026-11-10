@@ -162,6 +162,17 @@ While GEOS has logging, the entire commandline output is not saved by default. T
 
 `gcm_run.j` is in your experiment folder, e.g. it should be in `geos/build-experiments/experiment_one/gcm_run.j`. This will save `output.log` in your experiment folder (i.e. one folder above the `scratch/` directory).
 
+#### Not enough MPI slots / processors
+
+MPI will complain if you don't have enough processors, i.e. if the output of `nproc` is smaller than `NX * NY`. You can pretend to have more processors by "oversubscription". To oversubscribe MPI processes, add
+
+```diff
+- $RUN_CMD $TOTAL_PES $GEOSEXE $IOSERVER_OPTIONS $IOSERVER_EXTRA --logging_config 'logging.yaml'
++ $RUN_CMD $TOTAL_PES --map-by :OVERSUBSCRIBE $GEOSEXE $IOSERVER_OPTIONS $IOSERVER_EXTRA --logging_config 'logging.yaml'
+```
+
+ in `gcm_run.j`.
+
 ### Running with NDSL
 
 We don't have deep integration at the moment. This mean, you'll have to do a lot of work yourself to get started.
