@@ -27,9 +27,7 @@ def common_config(function):
         cls=GroupedOption,
         help_group=group,
         show_default=True,
-        type=click.Choice(
-            ["o1", "o2", "o3", "MOM5", "MOM6", "MIT"], case_sensitive=False
-        ),
+        type=click.Choice(["o1", "o2", "o3", "MOM5", "MOM6", "MIT"], case_sensitive=False),
         default="o2",
         help="Sets the ocean model",
     )(function)
@@ -72,8 +70,8 @@ def common_config(function):
         help_group=group,
         show_default=True,
         type=click.Choice(["ICA", "NL3", "v12", "v14"], case_sensitive=False),
-        default="v12",
-        help="Land Surface BCs: Icarus (ICA), Icarus-NLv3 (NL3), or v12",
+        default="v14",
+        help="Land Surface BCs: Icarus (ICA), Icarus-NLv3 (NL3), v12, or v14",
     )(function)
     function = click.option(
         "--land_surf",
