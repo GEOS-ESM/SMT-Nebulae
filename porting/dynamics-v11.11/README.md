@@ -45,6 +45,10 @@ We want to go (more or less see disclaimer above) from [v2.10.0](https://github.
 
 This section is to outline code changes in the diffs above (click on the `=>` to see them). The "map of code changes" will serve as basis for what we need to do and how we can split the work required in `pyFV3`.
 
+### @FVDycore_GridComp
+
+- `subroutine fv_dynamics()` now gets "Rayleigh Friction Tendencies `dudt_rf, dvdt_rf, dwdt_rf, dtdt_rf` as additional parameters (in/out)
+
 ### @fvcore
 
 #### `model/dyn_core.F90`
