@@ -177,10 +177,10 @@ def run_gcm_setup(runner, prompt_timeout=30, completion_timeout=180):
         required.add("ocean_model")
     else:
         required.add("data_ocean")
-    if not runner.args.data_atmo:
-        required.update({"land_bcs", "land_model", "aerosols"})
-    else:
+    if runner.args.data_atmo:
         required.add("data_atmos")
+    else:
+        required.update({"land_bcs", "land_model", "aerosols"})
     if runner.args.heartbeat is not None:
         required.add("heartbeat")
 
