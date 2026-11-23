@@ -18,13 +18,17 @@ shared:
       items: string
       description: DSL modules to enable.
     backend: {type: string, description: DSL backend string.}
+    dace_mode:
+      type: string
+      enum: [Build, BuildAndRun, Run]
+      description: FV3 DaCe execution mode in the generated run script.
   physics: &physics
     account: {type: [string, "null"], description: Scheduler account.}
-    microphysics: {type: string, description: Microphysics scheme.}
+    microphysics: {type: [string, "null"], description: Microphysics scheme; null uses the GEOS gcm_setup default.}
     ocean: {type: string, description: Ocean model.}
-    aerosols: {type: string, description: GOCART aerosol scheme.}
-    oserver: {type: boolean, description: Enable the IO server.}
-    hydro: {type: boolean, description: Enable hydrostatic dynamics.}
+    aerosols: {type: [string, "null"], description: GOCART aerosol scheme; null uses the GEOS gcm_setup default.}
+    oserver: {type: [boolean, "null"], description: Enable the IO server; null uses the GEOS gcm_setup default.}
+    hydro: {type: [boolean, "null"], description: Enable hydrostatic dynamics; null uses the GEOS gcm_setup default.}
     data_atmo: {type: boolean, description: Use a data atmosphere.}
     land_bcs: {type: string, description: Land boundary condition version.}
     land_surf:
@@ -32,7 +36,7 @@ shared:
       enum: ["1", "2"]
       description: Land surface model number.
     heartbeat: {type: [string, integer, "null"], description: Heartbeat interval in seconds.}
-    processor: {type: string, description: Processor target.}
+    processor: {type: [string, "null"], description: Processor target; null uses the GEOS gcm_setup default.}
   grid: &grid
     horz: {type: integer, description: Horizontal resolution.}
     vert: {type: integer, description: Vertical levels.}
@@ -50,6 +54,7 @@ commands:
       duration: {type: [integer, "null"], description: Run duration; mutually exclusive with end_date.}
       duration_unit: {type: string, description: Duration unit.}
       custom_restart: {type: boolean, description: Use manually supplied restarts.}
+      keep_original_restarts: {type: boolean, description: "Exit after the model run status before restart and other post-processing."}
   emip:
     properties:
       <<: [*machine, *experiment_setup, *dsl, *physics, *grid, *batch_timing]

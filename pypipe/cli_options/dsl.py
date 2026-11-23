@@ -21,6 +21,15 @@ def common_python(function):
     """Options for enabling and configuring DSL modules."""
     group = "DSL Architecture"
     function = click.option(
+        "--dace_mode",
+        cls=GroupedOption,
+        help_group=group,
+        type=click.Choice(["Build", "BuildAndRun", "Run"]),
+        default="BuildAndRun",
+        show_default=True,
+        help="Set FV3_DACEMODE in the generated run script.",
+    )(function)
+    function = click.option(
         "--pymodules",
         cls=GroupedOption,
         help_group=group,

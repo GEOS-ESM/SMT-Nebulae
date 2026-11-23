@@ -18,6 +18,30 @@ CONFIG_OPTIONS = {
 DEFAULT_MACHINE = runtime_config.MACHINE
 
 
+def write_config(config_path, mode, values):
+    """Save resolved options in the same schema accepted by --config."""
+    properties = COMMAND_SCHEMAS[mode.lower()]["properties"]
+    config_values = {"mode": mode, "machine": runtime_config.MACHINE}
+    for name, value in values.items():
+        if name not in properties:
+            continue
+        # Match the YAML schema, not Click's or a runner's internal types.
+        if properties[name]["type"] == "string" and value is not None:
+            value = str(value)
+        elif properties[name]["type"] == "integer" and value is not None:
+            value = int(value)
+        elif isinstance(value, tuple):
+            value = list(value)
+        config_values[name] = value
+    Path(config_path).write_text(
+        "# These options were used to generate this experiment.\n"
+        "# Some values were taken from pypipe defaults rather than explicitly specified.\n"
+        "# All resolved options are saved so changes to pypipe defaults do not affect reuse.\n"
+        + yaml.safe_dump(config_values, sort_keys=False),
+        encoding="utf-8",
+    )
+
+
 def read_config_values(config_path, param):
     """Load a flat YAML option mapping and report config-file errors via Click."""
     try:
@@ -74,7 +98,7 @@ COMMAND_VALIDATORS = {
 
 def load_config(ctx, param, config_path):
     if config_path is None:
-        runtime_config.MACHINE = runtime_config.DEFAULT_MACHINE
+        runtime_config.MACHINE = DEFAULT_MACHINE
         return None
 
     config_values = read_config_values(config_path, param)
@@ -113,7 +137,13 @@ def load_config(ctx, param, config_path):
         ) from error
 
     runtime_config.MACHINE = config_values.get("machine", DEFAULT_MACHINE)
-    ctx.default_map = {**(ctx.default_map or {}), **config_values}
+    # Older Click 8 versions treat a literal None as an absent default. A
+    # callable preserves an explicit YAML null even if the CLI default changes.
+    defaults = {
+        name: (lambda: None) if value is None else value
+        for name, value in config_values.items()
+    }
+    ctx.default_map = {**(ctx.default_map or {}), **defaults}
     return config_path
 
 

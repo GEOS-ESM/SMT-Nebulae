@@ -17,9 +17,8 @@ def common_config(function):
         "--microphysics",
         cls=GroupedOption,
         help_group=group,
-        show_default=True,
+        default=None,
         type=click.Choice(["BACM1M", "GFDL1M", "MGB22M"], case_sensitive=False),
-        default="GFDL1M",
         help="Sets the microphysics scheme used in moist physics",
     )(function)
     function = click.option(
@@ -27,7 +26,9 @@ def common_config(function):
         cls=GroupedOption,
         help_group=group,
         show_default=True,
-        type=click.Choice(["o1", "o2", "o3", "MOM5", "MOM6", "MIT"], case_sensitive=False),
+        type=click.Choice(
+            ["o1", "o2", "o3", "MOM5", "MOM6", "MIT"], case_sensitive=False
+        ),
         default="o2",
         help="Sets the ocean model",
     )(function)
@@ -35,25 +36,22 @@ def common_config(function):
         "--aerosols",
         cls=GroupedOption,
         help_group=group,
-        show_default=True,
+        default=None,
         type=click.Choice(["A", "C"], case_sensitive=False),
-        default="C",
         help="Sets the aerosol scheme used by GOCART",
     )(function)
     function = click.option(
         "--oserver/--nooserver",
         cls=GroupedOption,
         help_group=group,
-        show_default=True,
-        default=True,
+        default=None,
         help="Enable the IO server",
     )(function)
     function = click.option(
         "--hydro/--nonhydro",
         cls=GroupedOption,
         help_group=group,
-        show_default=True,
-        default=True,
+        default=None,
         help="Enable/disable hydrostatic dynamics",
     )(function)
     function = click.option(
@@ -93,9 +91,8 @@ def common_config(function):
         "--processor",
         cls=GroupedOption,
         help_group=group,
-        show_default=True,
+        default=None,
         type=click.Choice(["mil", "cas"], case_sensitive=False),
-        default="mil",
         help="Target processor architecture. Milan (mil), Cascade Lake (cas)",
     )(function)
     return function

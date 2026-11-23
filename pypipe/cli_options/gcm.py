@@ -5,6 +5,14 @@ from .click_support import GroupedOption
 
 def gcm_options(function):
     """GCM-specific options."""
+    function = click.option(
+        "--keep_original_restarts/--no_keep_original_restarts",
+        cls=GroupedOption,
+        help_group="GCM Specific Options",
+        show_default=True,
+        default=False,
+        help="Exit immediately after the model run status, skipping subsequent restart and other post-processing.",
+    )(function)
     return click.option(
         "--custom_restart",
         cls=GroupedOption,

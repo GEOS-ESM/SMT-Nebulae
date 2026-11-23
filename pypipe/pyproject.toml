@@ -13,6 +13,7 @@ maintainers = [
 ]
 dependencies = [
 	"click>=8.0",
+	"pexpect>=4.8",
 	"PyYAML>=6.0",
 	"schema>=0.7.7",
 ]

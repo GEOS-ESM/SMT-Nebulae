@@ -4,95 +4,42 @@ import shutil
 import subprocess
 import sys
 
+from cli_options.config import write_config
 from run_helpers import config
+from run_helpers.gcm_setup import prepare_gcm_setup, run_gcm_setup
 from run_helpers.template import PipelineStep
 
 
 class SetupDirectory(PipelineStep):
     def validate_inputs(self, runner):
-        geos_bin_dir = os.path.join(runner.args.geos_dir, "bin")
-        if not os.path.isdir(geos_bin_dir):
+        script = os.path.abspath(os.path.join(runner.args.geos_dir, "bin", "gcm_setup"))
+        if not os.path.isfile(script) or not os.access(script, os.X_OK):
             raise FileNotFoundError(
-                f"GEOS bin directory {geos_bin_dir} not found (from install root {runner.args.geos_dir})."
+                f"GEOS setup script {script} is missing or not executable."
             )
+        prepare_gcm_setup(runner)
 
     def operate(self, runner):
-        geos_bin_dir = os.path.join(runner.args.geos_dir, "bin")
+        # Recheck even when operate() is called directly, before removing anything.
+        self.validate_inputs(runner)
+        setup_script_location = None
+        if config.MACHINE == "NONHPC":
+            setup_script_location = os.path.abspath(
+                runner.args.restart_setup_scripts_dir
+                or input(
+                    "[GEOS PYTHON WRAPPER] Enter the path to TBC scripts directory:"
+                )
+            )
+            runner.args.restart_setup_scripts_dir = setup_script_location
+
         if os.path.isdir(runner.exp_dir):
             shutil.rmtree(runner.exp_dir)
         os.makedirs(runner.exp_dir, exist_ok=True)
 
-        microphysics = {"GFDL1M": "GFDL", "BACM1M": "BACM", "MGB22M": "MGB2"}.get(
-            runner.args.microphysics, runner.args.microphysics
-        )
-
         print("[GEOS PYTHON WRAPPER] Initializing experiment directory...")
-
-        if config.MACHINE == "DISCOVER":
-            setup_script_location = "/home/mathomp4/bin"
-        elif config.MACHINE == "PRISM":
-            raise NotImplementedError(
-                "[GEOS PYTHON WRAPPER] NEED TO POINT TO MATT'S SETUP SCRIPT ON PRISM"
-            )
-        elif config.MACHINE == "NONHPC":
-            setup_script_location = runner.args.restart_setup_scripts_dir or input(
-                "[GEOS PYTHON WRAPPER] Enter the path to TBC scripts directory:"
-            )
-            runner.args.processor = "not applicable"
-        try:
-            print(f"selected ocean: {runner.args.ocean}")
-            print(f"Setups scripts at: {setup_script_location}")
-            args = [
-                setup_script_location + "/create_expt.py",
-                runner.exp_name,
-                "--expdir",
-                runner.exp_dir_root,
-                *(
-                    ["--account", runner.args.account]
-                    if runner.args.account is not None
-                    else []
-                ),
-                "--horz",
-                f"c{runner.args.horz}",
-                "--vert",
-                str(runner.args.vert),
-                "--gocart",
-                runner.args.aerosols,
-                "--moist",
-                microphysics,
-                *(["--link"] if getattr(runner.args, "link", True) else []),
-                "--ocean",
-                runner.args.ocean,
-                "--landbcs",
-                runner.args.land_bcs,
-                "--landsurf",
-                str(runner.args.land_surf),
-                "--model",
-                runner.args.processor,
-                *(["--oserver"] if runner.args.oserver else ["--nooserver"]),
-                *(["--hydro"] if runner.args.hydro else ["--nonhydro"]),
-                *(["--dataatm"] if runner.args.data_atmo else []),
-                *(
-                    ["--heartbeat", str(runner.args.heartbeat)]
-                    if runner.args.heartbeat
-                    else []
-                ),
-            ]
-            subprocess.run(
-                args,
-                cwd=geos_bin_dir,
-                env=runner.env,
-                check=True,
-            )
-        except subprocess.CalledProcessError as e:
-            err = (e.stderr or "").strip()
-            last_line = err.splitlines()[-1] if err else "(no stderr output)"
-            print(err, file=sys.stderr)  # full child traceback, in one block
-            raise SystemExit(
-                f"\n[GEOS PYTHON WRAPPER] create_expt.py failed (exit {e.returncode}): {last_line}\n"
-                f"[GEOS PYTHON WRAPPER]   cwd: {geos_bin_dir}"
-            ) from None
+        run_gcm_setup(runner)
         if config.MACHINE == "NONHPC":
+            print("[GEOS PYTHON WRAPPER] Running makeoneday.bash...")
             try:
                 subprocess.run(
                     [
@@ -105,6 +52,7 @@ class SetupDirectory(PipelineStep):
                     env=runner.env,
                     check=True,
                 )
+                print("[GEOS PYTHON WRAPPER] makeoneday.bash completed successfully.")
             except subprocess.CalledProcessError as e:
                 err = (e.stderr or "").strip()
                 last_line = err.splitlines()[-1] if err else "(no stderr output)"
@@ -113,6 +61,11 @@ class SetupDirectory(PipelineStep):
                     f"\n[GEOS PYTHON WRAPPER] makeoneday.bash failed (exit {e.returncode}): {last_line}\n"
                     f"[GEOS PYTHON WRAPPER]   cwd: {runner.args.geos_dir}"
                 ) from None
+        write_config(
+            pathlib.Path(runner.exp_dir) / "pypipe.yaml",
+            runner.args.mode,
+            vars(runner.args),
+        )
         return runner
 
     def validate_outputs(self, runner):

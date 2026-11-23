@@ -106,6 +106,8 @@ class GCMRunner(BaseRunner):
             py_suffix += "_pyGF2020"
         if "uw" in pymodules:
             py_suffix += "_pyUW"
+        if "shoc" in pymodules:
+            py_suffix += "_pySHOC"
         if py_suffix and backend_safe:
             py_suffix = f"_{backend_safe.upper()}{py_suffix}"
 

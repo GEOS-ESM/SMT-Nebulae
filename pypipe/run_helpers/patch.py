@@ -222,6 +222,11 @@ class PatchAGCMRC(PipelineStep):
 
 
 class PatchGCMRUNJ(PipelineStep):
+    RUN_STATUS_PATTERN = re.compile(
+        r"^([ \t]*)echo[ \t]+GEOSgcm[ \t]+Run[ \t]+Status:[ \t]*\$rc[ \t]*$",
+        re.MULTILINE,
+    )
+
     def validate_inputs(self, runner: GCMRunner):
         self.gcm_run_j_path = os.path.join(runner.exp_dir, "gcm_run.j")
         self.agcm_rc_path = os.path.join(runner.exp_dir, "AGCM.rc")
@@ -253,7 +258,9 @@ class PatchGCMRUNJ(PipelineStep):
             )
             process_per_gpu = tasks_per_node
         elif config.MACHINE == "DISCOVER" and runner.backend_arch == "CPU":
-            tasks_per_node = 46 if runner.args.processor == "cas" else 126
+            # When gcm_setup selects the processor default, avoid assuming a
+            # larger Milan node; 46 tasks is safe for either supported target.
+            tasks_per_node = 46 if runner.args.processor in (None, "cas") else 126
             required_nodes = math.ceil(
                 int(runner.args.nx) * int(runner.args.ny * 6) / tasks_per_node
                 + oserver_nodes
@@ -296,19 +303,23 @@ class PatchGCMRUNJ(PipelineStep):
                 ]
             )
         elif config.MACHINE == "DISCOVER" and runner.backend_arch == "CPU":
-            return "\n".join(
+            lines = [
+                f"#SBATCH --job-name={job_name}",
+                f"#SBATCH --account={runner.args.account}",
+                f"#SBATCH --time={time}",
+                f"#SBATCH --nodes={required_nodes}",
+                f"#SBATCH --ntasks-per-node={tasks_per_node}",
+            ]
+            if runner.args.processor is not None:
+                lines.append(f"#SBATCH --constraint={runner.args.processor}")
+            lines.extend(
                 [
-                    f"#SBATCH --job-name={job_name}",
-                    f"#SBATCH --account={runner.args.account}",
-                    f"#SBATCH --time={time}",
-                    f"#SBATCH --nodes={required_nodes}",
-                    f"#SBATCH --ntasks-per-node={tasks_per_node}",
-                    f"#SBATCH --constraint={runner.args.processor}",
                     "#SBATCH --exclusive",
                     "#SBATCH --output output.log",
                     "#SBATCH --no-requeue",
                 ]
             )
+            return "\n".join(lines)
         elif config.MACHINE == "DISCOVER" and runner.backend_arch == "GPU":
             return "\n".join(
                 [
@@ -418,6 +429,7 @@ class PatchGCMRUNJ(PipelineStep):
 
         backend = runner.args.backend or ""
         environment = {
+            "FV3_DACEMODE": getattr(runner.args, "dace_mode", "BuildAndRun"),
             "GEOS_DSL_BACKEND": backend,
             "GT_CACHE_ROOT": f"${{GEOSDIR}}/.DSL_CACHE/{backend.replace(':', '_')}",
             "GT4PY_COMPILE_OPT_LEVEL": "3",
@@ -548,6 +560,18 @@ class PatchGCMRUNJ(PipelineStep):
                 if current_dsl_match is not None:
                     insert_at = current_dsl_match.start()
                     content = content[:insert_at] + gh200_block + content[insert_at:]
+        else:
+            dacemode = getattr(runner.args, "dace_mode", "BuildAndRun")
+            content, replacements = re.subn(
+                r"^([ \t]*)setenv[ \t]+FV3_DACEMODE\b[^\n]*$",
+                lambda match: f"{match.group(1)}setenv FV3_DACEMODE {dacemode}",
+                content,
+                flags=re.MULTILINE,
+            )
+            if not replacements and dacemode != "BuildAndRun":
+                raise RuntimeError(
+                    "[GEOS PYTHON WRAPPER] Could not find FV3_DACEMODE in gcm_run.j."
+                )
         content = content.replace(
             'setenv RUN_CMD "$GEOSBIN/esma_mpirun -np "', 'setenv RUN_CMD "mpirun -np "'
         )
@@ -564,6 +588,23 @@ class PatchGCMRUNJ(PipelineStep):
             )
 
         content = content.replace("exit $rc", " ")
+
+        if getattr(runner.args, "keep_original_restarts", False):
+            matches = list(self.RUN_STATUS_PATTERN.finditer(content))
+            if len(matches) != 1:
+                raise RuntimeError(
+                    "[GEOS PYTHON WRAPPER] Expected exactly one echo GEOSgcm Run Status: $rc line in gcm_run.j when keeping original restarts."
+                )
+            match = matches[0]
+            remaining = content[match.end() :]
+            if not re.match(r"\n[ \t]*exit[ \t]*(?:\n|$)", remaining):
+                content = (
+                    content[: match.end()]
+                    + "\n"
+                    + match.group(1)
+                    + "exit"
+                    + (remaining or "\n")
+                )
 
         with open(self.gcm_run_j_path, "w") as f:
             f.write(content)
@@ -584,6 +625,21 @@ class PatchGCMRUNJ(PipelineStep):
 
         if runner.backend_arch == "GPU" and "$GPU_LAUNCHER_SH" not in content:
             missing_items.append("GPU_LAUNCHER_SH")
+
+        dacemode = getattr(runner.args, "dace_mode", "BuildAndRun")
+        if (runner.args.pymodules or dacemode != "BuildAndRun") and not re.search(
+            rf"^[ \t]*setenv[ \t]+FV3_DACEMODE[ \t]+{re.escape(dacemode)}[ \t]*$",
+            content,
+            re.MULTILINE,
+        ):
+            missing_items.append("FV3_DACEMODE")
+
+        if getattr(runner.args, "keep_original_restarts", False) and not re.search(
+            self.RUN_STATUS_PATTERN.pattern + r"\n[ \t]*exit[ \t]*(?:\n|$)",
+            content,
+            re.MULTILINE,
+        ):
+            missing_items.append("exit after GEOSgcm Run Status")
 
         if missing_items:
             raise RuntimeError(
