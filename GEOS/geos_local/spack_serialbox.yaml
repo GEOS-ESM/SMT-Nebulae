@@ -1,0 +1,32 @@
+# This is a Spack Environment file.
+#
+# It describes a set of packages to be installed, along with
+# configuration settings.
+spack:
+  # add package specs to the `specs` list
+  specs:
+  - python@3.13
+  - openmpi@5+cuda
+  - py-numpy@2
+  - py-mpi4py
+  - py-pyyaml
+  - py-cffi
+  - py-uv
+  - esmf %c,cxx=gcc
+  - fargparse
+  - zlib
+  - mepo
+  - udunits
+  - blas
+  - lapack
+  - pflogger+mpi
+  - cmake
+  - fms@2024.03+deprecated_io~gfs_phys+openmp+pic constants=GEOS precision=32,64 %c=gcc
+  - hdf5+fortran+hl+mpi+threadsafe
+  - py-click
+  - bc
+  - colordiff
+  - boost
+  view: true
+  concretizer:
+    unify: true
